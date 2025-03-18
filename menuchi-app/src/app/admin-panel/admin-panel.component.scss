@@ -1,0 +1,129 @@
+.container {
+  display: flex;
+  background-color: #fafafa;
+  width: 100vw;
+
+  .sidenav {
+    width: 17vw;
+    height: 100vh;
+    background-color: #ffffff;
+    margin-right: 0;
+    padding-block: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+
+    .top {
+      p {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: rgba(84, 111, 255, 0.32);
+      }
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .menu-item {
+        padding-inline: 4rem;
+        padding-block: 0.5rem;
+        border-radius: 10px;
+
+        &.selected {
+          background-color: #546fff;
+
+          a,
+          a:hover,
+          a:visited {
+            text-decoration: none;
+            color: #ffffff;
+          }
+        }
+
+        a,
+        a:hover,
+        a:visited {
+          text-decoration: none;
+          color: rgba(84, 111, 255, 0.32);
+        }
+
+        a:hover {
+          cursor: pointer;
+          border-bottom: 1px solid rgba(84, 111, 255, 0.32);
+        }
+      }
+    }
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+
+    .toolbar {
+      //margin-top: 0;
+      margin-left: 0;
+      //margin-right: 17vw;
+      width: 83vw;
+      height: 11vh;
+      color: #141522;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      padding-right: 1.5rem;
+      padding-left: 2.5rem;
+      justify-content: space-between;
+      flex-direction: row;
+
+      div {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        color: #8e92bc;
+      }
+
+      p {
+        font-size: 1.8rem;
+        font-weight: bold;
+      }
+    }
+
+    .breadcrumb {
+      margin-inline: 1.5rem;
+      margin-block-start: 1.5rem;
+      margin-block-end: 0.5rem;
+      color: #aaaaaa;
+
+      .current {
+        color: #546fff;
+      }
+    }
+
+    //.content {
+    //  margin-inline: 1.5rem;
+    //  padding: 1.5rem;
+    //  background-color: #ffffff;
+    //  border-radius: 10px;
+    //}
+  }
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+    display: none !important;
+  }
+
+  &input {
+  }
+}
+
+.compact .mat-mdc-text-field {
+  --mdc-text-field-height: 40px;
+}
+
+.compact input {
+  height: 30px !important;
+  line-height: 30px !important;
+}

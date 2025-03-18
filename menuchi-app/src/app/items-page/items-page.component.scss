@@ -1,0 +1,48 @@
+.content {
+  margin-inline: 1.5rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+
+  .search-add-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+
+    .search {
+      border-radius: 50%;
+      width: 83% !important;
+    }
+
+    button {
+      width: 15% !important;
+    }
+  }
+
+  .tablee {
+    mat-paginator {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .items-table {
+    table {
+      width: 100%;
+    }
+
+    .mat-mdc-form-field {
+      font-size: 14px;
+      width: 100%;
+    }
+
+    td,
+    th {
+      width: 25%;
+    }
+  }
+}

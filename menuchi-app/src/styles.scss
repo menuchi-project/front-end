@@ -1,6 +1,28 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use "@angular/material" as mat;
+
+// Customize the button styles globally
+:root {
+  @include mat.button-overrides(
+    (
+      container-color: orange,
+      label-text-color: red,
+    )
+  );
+}
+.the-dense-zone {
+  @include mat.form-field-density(-10);
+}
+:root {
+  @include mat.table-overrides(
+    (
+      background-color: orange,
+      header-headline-color: red,
+    )
+  );
+}
+
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -13,8 +35,14 @@ $menuchi-app-theme: mat.define-theme(
   (
     color: (
       theme-type: light,
-      primary: mat.$azure-palette,
+      primary: mat.$blue-palette,
       tertiary: mat.$blue-palette,
+    ),
+    typography: (
+      plain-family: Peyda,
+      bold-weight: 900,
+      medium-weight: 500,
+      regular-weight: 300,
     ),
     density: (
       scale: 0,
@@ -37,12 +65,19 @@ $menuchi-app-theme: mat.define-theme(
 // @include mat.color-variants-backwards-compatibility($menuchi-app-theme);
 /* You can add global styles to this file, and also import other style files */
 
+@font-face {
+  font-family: "MyCustomFont";
+  src: url("/assets/fonts/Peyda-Regular.ttf") format("ttf");
+}
+
 html,
 body {
   height: 100%;
+  direction: rtl;
+  //text-align: right;
+  font-family: Peyda, Vazirmatn;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
