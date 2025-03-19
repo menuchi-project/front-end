@@ -11,9 +11,11 @@
     )
   );
 }
+
 .the-dense-zone {
   @include mat.form-field-density(-10);
 }
+
 :root {
   @include mat.table-overrides(
     (
@@ -70,12 +72,23 @@ $menuchi-app-theme: mat.define-theme(
   src: url("/assets/fonts/Peyda-Regular.ttf") format("ttf");
 }
 
+.dense-2 {
+  @include mat.all-component-densities(-4);
+}
+
 html,
 body {
   height: 100%;
   direction: rtl;
   //text-align: right;
-  font-family: Peyda, Vazirmatn;
+  font-family: Peyda, Vazirmatn, serif;
+  --mdc-filled-button-container-color: #546fff;
+  --mat-app-primary: #546fff;
+  --mdc-checkbox-selected-icon-color: #546fff;
+
+  .mat-mdc-text-field-wrapper {
+    //height: 2.5rem;
+  }
 }
 
 body {

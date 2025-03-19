@@ -3,6 +3,12 @@
   padding: 1.5rem;
   background-color: #ffffff;
   border-radius: 10px;
+  --mat-table-background-color: #fff;
+  --mat-paginator-container-background-color: #fff;
+  --mdc-filled-button-container-shape: 4px;
+  --mdc-outlined-text-field-outline-color: #e2e8f0;
+  --mdc-outlined-text-field-label-text-color: #aaaaaa;
+  --mat-app-elevation-shadow-level-8: 0;
 
   .search-add-box {
     display: flex;
@@ -12,12 +18,11 @@
     padding: 2rem 0;
 
     .search {
-      border-radius: 50%;
-      width: 83% !important;
+      width: 77% !important;
     }
 
     button {
-      width: 15% !important;
+      width: 22% !important;
     }
   }
 

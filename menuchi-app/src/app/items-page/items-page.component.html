@@ -1,17 +1,24 @@
 <div class="content">
   <div class="items-table">
     <div class="search-add-box">
-      <mat-form-field class="search">
-        <mat-label>جست و جو</mat-label>
+      <mat-form-field
+        appearance="outline"
+        class="search dense-2"
+        subscriptSizing="dynamic"
+      >
+        <mat-label>جست‌و‌جو کنید</mat-label>
         <input
           matInput
           (keyup)="applyFilter($event)"
-          placeholder="Ex. Mia"
+          placeholder="سلام"
           #input
         />
       </mat-form-field>
 
-      <button mat-flat-button>محصول جدید</button>
+      <button mat-flat-button>
+        <mat-icon>add</mat-icon>
+        <p>افزودن محصول جدید</p>
+      </button>
     </div>
 
     <div class="mat-elevation-z8 tablee">
