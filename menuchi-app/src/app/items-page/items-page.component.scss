@@ -1,6 +1,6 @@
 .content {
   margin-inline: 1.5rem;
-  padding: 1.5rem;
+  padding-inline: 4rem;
   background-color: #ffffff;
   border-radius: 10px;
   --mat-table-background-color: #fff;
@@ -8,7 +8,7 @@
   --mdc-filled-button-container-shape: 4px;
   --mdc-outlined-text-field-outline-color: #e2e8f0;
   --mdc-outlined-text-field-label-text-color: #aaaaaa;
-  --mat-app-elevation-shadow-level-8: 0;
+  //--mat-app-elevation-shadow-level-8: 0;
 
   .search-add-box {
     display: flex;
@@ -27,6 +27,26 @@
   }
 
   .tablee {
+    table {
+      a,
+      a:visited {
+        text-decoration: none;
+        color: #546fff;
+      }
+
+      a:hover {
+        color: #aaaaaa;
+      }
+      .mat-column-select,
+      .mat-column-edit {
+        width: 1rem;
+      }
+
+      .mat-column-image {
+        width: 3rem;
+      }
+    }
+
     mat-paginator {
       width: 100%;
       display: flex;

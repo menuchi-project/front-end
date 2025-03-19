@@ -120,7 +120,16 @@ const NAMES: string[] = [
   providers: [{ provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }],
 })
 export class ItemsPageComponent implements AfterViewInit {
-  displayedColumns: string[] = ['select', 'id', 'name', 'progress', 'fruit'];
+  displayedColumns: string[] = [
+    'select',
+    'name',
+    'price',
+    'category',
+    'ingredients',
+    'image',
+    'edit',
+    'delete',
+  ];
   dataSource: MatTableDataSource<UserData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;

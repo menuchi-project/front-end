@@ -68,11 +68,11 @@ $menuchi-app-theme: mat.define-theme(
 /* You can add global styles to this file, and also import other style files */
 
 @font-face {
-  font-family: "MyCustomFont";
-  src: url("/assets/fonts/Peyda-Regular.ttf") format("ttf");
+  font-family: "Peyda-Regular";
+  src: url("./assets/fonts/peyda/Peyda-Regular.ttf") format("ttf");
 }
 
-.dense-2 {
+.dense-4 {
   @include mat.all-component-densities(-4);
 }
 
@@ -81,7 +81,7 @@ body {
   height: 100%;
   direction: rtl;
   //text-align: right;
-  font-family: Peyda, Vazirmatn, serif;
+  font-family: "Peyda", Vazirmatn, serif;
   --mdc-filled-button-container-color: #546fff;
   --mat-app-primary: #546fff;
   --mdc-checkbox-selected-icon-color: #546fff;
