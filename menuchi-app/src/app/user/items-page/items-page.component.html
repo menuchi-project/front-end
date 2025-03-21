@@ -36,7 +36,21 @@
           <nz-breadcrumb-item>کاربر</nz-breadcrumb-item>
           <nz-breadcrumb-item>بیل</nz-breadcrumb-item>
         </nz-breadcrumb>
-        <div class="inner-content">بیل یک گربه است.</div>
+        <div class="inner-content">
+          <div class="search-add-item">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input type="text" nz-input placeholder="جست‌و‌جو کنید" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <nz-icon nzType="search" />
+            </ng-template>
+            <button nz-button nzType="primary">
+              <nz-icon nzType="plus" />
+              افزودن آیتم جدید
+            </button>
+          </div>
+          بیل یک گربه است.
+        </div>
       </nz-content>
       <nz-footer>اینجا فوتره</nz-footer>
     </nz-layout>
