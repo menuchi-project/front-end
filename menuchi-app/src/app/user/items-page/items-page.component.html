@@ -1,8 +1,16 @@
 <div class="container">
   <nz-layout>
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-      <div class="logo">لوگو اینجا</div>
+      <div class="logo">لوگو</div>
       <ul nz-menu nzMode="inline">
+        <li>
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="!isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            (click)="isCollapsed = !isCollapsed"
+          ></span>
+        </li>
         <li nz-submenu nzTitle="کاربرر" nzIcon="user">
           <ul>
             <li nz-menu-item>مورد اول</li>
@@ -24,12 +32,14 @@
     </nz-sider>
     <nz-layout>
       <nz-header>
-        <span
-          class="trigger"
-          nz-icon
-          [nzType]="!isCollapsed ? 'menu-unfold' : 'menu-fold'"
-          (click)="isCollapsed = !isCollapsed"
-        ></span>
+        <!--        <span-->
+        <!--          class="trigger"-->
+        <!--          nz-icon-->
+        <!--          [nzType]="!isCollapsed ? 'menu-unfold' : 'menu-fold'"-->
+        <!--          (click)="isCollapsed = !isCollapsed"-->
+        <!--        ></span>-->
+
+        <h1>آیتم‌های غذایی</h1>
       </nz-header>
       <nz-content>
         <nz-breadcrumb>

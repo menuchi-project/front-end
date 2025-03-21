@@ -54,6 +54,18 @@
     border-radius: 10px;
   }
 
+  nz-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-inline: 1.5rem;
+    padding-block: 3rem;
+
+    h1 {
+      margin-block: 0;
+    }
+  }
+
   nz-footer {
     text-align: center;
   }
