@@ -7,6 +7,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [ItemsPageComponent],
@@ -19,6 +20,7 @@ import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
     NzButtonComponent,
     NzInputGroupComponent,
     NzInputDirective,
+    SharedModule,
   ],
   exports: [ItemsPageComponent],
 })
