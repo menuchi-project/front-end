@@ -11,22 +11,26 @@
             (click)="isCollapsed = !isCollapsed"
           ></span>
         </li>
-        <li nz-submenu nzTitle="کاربرر" nzIcon="user">
+        <li nz-submenu nzTitle="داشبورد" nzIcon="user">
           <ul>
             <li nz-menu-item>مورد اول</li>
             <li nz-menu-item>مورد دوم</li>
             <li nz-menu-item>مورد سوم</li>
           </ul>
         </li>
-        <li nz-submenu nzTitle="تیمم" nzIcon="team">
+        <li nz-menu-item>
+          <nz-icon nzType="product" />
+          <span>مدیریت منو</span>
+        </li>
+        <li nz-submenu nzTitle="بک لاگ" nzIcon="project">
           <ul>
-            <li nz-menu-item>تیم 1</li>
-            <li nz-menu-item>تیم 2</li>
+            <li nz-menu-item>دسته بندی ها</li>
+            <li nz-menu-item>آیتم ها</li>
           </ul>
         </li>
         <li nz-menu-item>
-          <nz-icon nzType="file" />
-          <span>فایل</span>
+          <nz-icon nzType="logout" />
+          <span>خروج از حساب کاربری</span>
         </li>
       </ul>
 
@@ -45,7 +49,13 @@
         <!--          (click)="isCollapsed = !isCollapsed"-->
         <!--        ></span>-->
 
-        <h1>آیتم‌های غذایی</h1>
+        <div class="header">
+          <h1>آیتم‌های غذایی</h1>
+          <div class="header-icons">
+            <nz-icon nzType="bell" nzTheme="outline" />
+            <nz-icon nzType="user" nzTheme="outline" />
+          </div>
+        </div>
       </nz-header>
       <nz-content>
         <nz-breadcrumb>
