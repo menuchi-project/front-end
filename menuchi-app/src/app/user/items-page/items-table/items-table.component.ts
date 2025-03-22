@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { isFixedSize } from 'ng-zorro-antd/experimental/image';
 
 export interface Data {
   id: string;
@@ -9,13 +10,13 @@ export interface Data {
 }
 
 @Component({
-  selector: 'app-draggable-table',
+  selector: 'app-items-table',
   standalone: false,
-  templateUrl: './draggable-table.component.html',
-  styleUrl: './draggable-table.component.scss',
+  templateUrl: './items-table.component.html',
+  styleUrl: './items-table.component.scss',
 })
-export class DraggableTableComponent {
-  readonly listOfData: Data[] = [
+export class ItemsTableComponent implements OnInit {
+  listOfData: Data[] = [
     {
       id: '1',
       name: 'John Brown',
@@ -78,4 +79,44 @@ export class DraggableTableComponent {
         this.setOfCheckedId.has(item.id),
       ) && !this.checked;
   }
+
+  //
+  editCache: { [key: string]: { edit: boolean; data: Data } } = {};
+
+  startEdit(id: string): void {
+    this.editCache[id].edit = true;
+  }
+
+  cancelEdit(id: string): void {
+    const index = this.listOfData.findIndex((item) => item.id === id);
+    this.editCache[id] = {
+      data: { ...this.listOfData[index] },
+      edit: false,
+    };
+  }
+
+  saveEdit(id: string): void {
+    const index = this.listOfData.findIndex((item) => item.id === id);
+    Object.assign(this.listOfData[index], this.editCache[id].data);
+    this.editCache[id].edit = false;
+  }
+
+  updateEditCache(): void {
+    this.listOfData.forEach((item) => {
+      this.editCache[item.id] = {
+        edit: false,
+        data: { ...item },
+      };
+    });
+  }
+
+  deleteRow(id: string): void {
+    this.listOfData = this.listOfData.filter((d) => d.id !== id);
+  }
+
+  ngOnInit(): void {
+    this.updateEditCache();
+  }
+
+  protected readonly isFixedSize = isFixedSize;
 }

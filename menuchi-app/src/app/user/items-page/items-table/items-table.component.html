@@ -1,0 +1,114 @@
+<nz-table
+  (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+  [nzData]="listOfData"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false"
+  nzBordered
+  nzShowPagination
+>
+  <thead>
+    <tr>
+      <th
+        [(nzChecked)]="checked"
+        [nzIndeterminate]="indeterminate"
+        (nzCheckedChange)="onAllChecked($event)"
+      ></th>
+      <th>نام</th>
+      <th>دسته‌بندی</th>
+      <th>قیمت</th>
+      <th>مواد تشکیل دهنده</th>
+      <th>تصویر</th>
+      <th>ویرایش</th>
+    </tr>
+  </thead>
+  <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+    @for (data of listOfData; track data) {
+      <tr cdkDrag>
+        <td
+          [nzChecked]="setOfCheckedId.has(data.id)"
+          (nzCheckedChange)="onItemChecked(data.id, $event)"
+        ></td>
+        @if (!editCache[data.id].edit) {
+          <td>{{ data.name }}</td>
+          <td>{{ data.age }}</td>
+          <td>{{ data.address }}</td>
+          <td>{{ data.address }}</td>
+          <td type="flex" align="middle">
+            <nz-icon nzType="picture" nzTheme="outline" />
+          </td>
+          <td type="flex" align="middle">
+            <div class="edit-icons">
+              <nz-icon
+                (click)="startEdit(data.id)"
+                nzType="edit"
+                nzTheme="outline"
+                class="edit"
+              />
+              <nz-icon
+                nz-popconfirm
+                nzPopconfirmTitle="آیا شور هستی؟"
+                (nzOnConfirm)="deleteRow(data.id)"
+                nzType="delete"
+                nzTheme="outline"
+              />
+            </div>
+          </td>
+        } @else {
+          <td>
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="editCache[data.id].data.name"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="editCache[data.id].data.age"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="editCache[data.id].data.address"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="editCache[data.id].data.address"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              nz-input
+              [(ngModel)]="editCache[data.id].data.address"
+            />
+          </td>
+          <td>
+            <div class="edit-icons">
+              <nz-icon
+                class="small-icon"
+                (click)="saveEdit(data.id)"
+                nzType="check"
+                nzTheme="outline"
+              />
+              <nz-icon
+                nz-popconfirm
+                nzPopconfirmTitle="آیا شور هستی؟"
+                (nzOnConfirm)="cancelEdit(data.id)"
+                class="small-icon"
+                nzType="close"
+                nzTheme="outline"
+              />
+            </div>
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</nz-table>

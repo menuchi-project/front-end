@@ -33,9 +33,21 @@ nz-table {
     background-color: #fafafa;
   }
 
+  .edit-icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    .small-icon {
+      font-size: 1rem;
+    }
+  }
+
   nz-icon {
     color: #1c274c;
-    font-size: 1.3rem;
+    font-size: 1rem;
     cursor: pointer;
     border-radius: 1rem;
 
@@ -43,7 +55,7 @@ nz-table {
       color: #546fff;
     }
 
-    &.delete {
+    &.edit {
       font-size: 1rem;
     }
   }

@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DraggableTableComponent } from './draggable-table.component';
+import { ItemsTableComponent } from './items-table.component';
 
 describe('DraggableTableComponent', () => {
-  let component: DraggableTableComponent;
-  let fixture: ComponentFixture<DraggableTableComponent>;
+  let component: ItemsTableComponent;
+  let fixture: ComponentFixture<ItemsTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DraggableTableComponent]
-    })
-    .compileComponents();
+      declarations: [ItemsTableComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(DraggableTableComponent);
+    fixture = TestBed.createComponent(ItemsTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
