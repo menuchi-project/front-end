@@ -7,19 +7,19 @@
   nzShowPagination
 >
   <thead>
-    <tr>
-      <th
-        [(nzChecked)]="checked"
-        [nzIndeterminate]="indeterminate"
-        (nzCheckedChange)="onAllChecked($event)"
-      ></th>
-      <th>نام</th>
-      <th>دسته‌بندی</th>
-      <th>قیمت</th>
-      <th>مواد تشکیل دهنده</th>
-      <th>تصویر</th>
-      <th>ویرایش</th>
-    </tr>
+  <tr>
+    <th
+      [(nzChecked)]="checked"
+      [nzIndeterminate]="indeterminate"
+      (nzCheckedChange)="onAllChecked($event)"
+    ></th>
+    <th>نام</th>
+    <th>دسته‌بندی</th>
+    <th>قیمت</th>
+    <th>مواد تشکیل دهنده</th>
+    <th>تصویر</th>
+    <th>ویرایش</th>
+  </tr>
   </thead>
   <tbody cdkDropList (cdkDropListDropped)="drop($event)">
     @for (data of listOfData; track data) {
@@ -34,7 +34,7 @@
           <td>{{ data.address }}</td>
           <td>{{ data.address }}</td>
           <td type="flex" align="middle">
-            <nz-icon nzType="picture" nzTheme="outline" />
+            <nz-icon nzType="picture" nzTheme="outline"/>
           </td>
           <td type="flex" align="middle">
             <div class="edit-icons">
@@ -82,12 +82,8 @@
               [(ngModel)]="editCache[data.id].data.address"
             />
           </td>
-          <td>
-            <input
-              type="text"
-              nz-input
-              [(ngModel)]="editCache[data.id].data.address"
-            />
+          <td type="flex" align="middle">
+            <nz-icon nzType="picture" nzTheme="outline"/>
           </td>
           <td>
             <div class="edit-icons">
