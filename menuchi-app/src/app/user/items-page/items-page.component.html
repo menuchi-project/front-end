@@ -1,44 +1,43 @@
 <div class="container">
   <nz-layout>
     <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-      <div class="logo">لوگو</div>
-      <ul nz-menu nzMode="inline">
-        <li>
-          <span
-            class="trigger"
-            nz-icon
-            [nzType]="!isCollapsed ? 'menu-unfold' : 'menu-fold'"
-            (click)="isCollapsed = !isCollapsed"
-          ></span>
-        </li>
-        <li nz-submenu nzTitle="داشبورد" nzIcon="user">
-          <ul>
-            <li nz-menu-item>مورد اول</li>
-            <li nz-menu-item>مورد دوم</li>
-            <li nz-menu-item>مورد سوم</li>
+      <div class="side-menu">
+        <div>
+          <div class="logo">لوگو</div>
+          <ul nz-menu nzMode="inline">
+            <li nz-menu-item>
+              <nz-icon nzType="home"/>
+              <span>صفحه اصلی</span>
+            </li>
+            <li nz-submenu nzTitle="مدیریت منو" nzIcon="profile">
+              <ul>
+                <li nz-menu-item>ایجاد منوی جدید</li>
+                <li nz-menu-item>منوهای ساخته شده</li>
+              </ul>
+            </li>
+            <li nz-menu-item>
+              <nz-icon nzType="product"/>
+              <span>بک‌لاگ</span>
+            </li>
+            <li nz-menu-item>
+              <nz-icon nzType="setting"/>
+              <span>تنظیمات</span>
+            </li>
+            <li nz-menu-item>
+              <nz-icon nzType="logout"/>
+              <span>خروج</span>
+            </li>
           </ul>
-        </li>
-        <li nz-menu-item>
-          <nz-icon nzType="product" />
-          <span>مدیریت منو</span>
-        </li>
-        <li nz-submenu nzTitle="بک لاگ" nzIcon="project">
-          <ul>
-            <li nz-menu-item>دسته بندی ها</li>
-            <li nz-menu-item>آیتم ها</li>
-          </ul>
-        </li>
-        <li nz-menu-item>
-          <nz-icon nzType="logout" />
-          <span>خروج از حساب کاربری</span>
-        </li>
-      </ul>
-
-      <!--      <img-->
-      <!--        class="help-center"-->
-      <!--        src="/assets/images/HelpCenter.png"-->
-      <!--        alt="help center"-->
-      <!--      />-->
+        </div>
+        <div class="trigger" (click)="isCollapsed = !isCollapsed">
+          <span nz-icon
+                [nzType]="!isCollapsed ? 'double-right' : 'double-left'">
+          </span>
+          @if (!isCollapsed) {
+            <span>بستن سایدبار</span>
+          }
+        </div>
+      </div>
     </nz-sider>
     <nz-layout>
       <nz-header>
@@ -52,8 +51,8 @@
         <div class="header">
           <h1>آیتم‌های غذایی</h1>
           <div class="header-icons">
-            <nz-icon nzType="bell" nzTheme="outline" />
-            <nz-icon nzType="user" nzTheme="outline" />
+            <nz-icon nzType="bell" nzTheme="outline"/>
+            <nz-icon nzType="user" nzTheme="outline"/>
           </div>
         </div>
       </nz-header>
@@ -65,18 +64,23 @@
         <div class="inner-content">
           <div class="search-add-item">
             <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input type="text" nz-input placeholder="جست‌و‌جو کنید" />
+              <input type="text" nz-input placeholder="جست‌و‌جو کنید"/>
             </nz-input-group>
             <ng-template #suffixIconSearch>
-              <nz-icon nzType="search" />
+              <nz-icon nzType="search"/>
             </ng-template>
             <button nz-button nzType="primary">
-              <nz-icon nzType="plus" />
+              <nz-icon nzType="plus"/>
               افزودن آیتم جدید
             </button>
           </div>
-          بیل یک گربه است.
+
           <app-items-table></app-items-table>
+
+          <button nz-button nzType="primary" nzDanger>
+            <nz-icon nzType="delete"></nz-icon>
+            حذف موارد انتخاب شده
+          </button>
         </div>
       </nz-content>
       <nz-footer>اینجا فوتره</nz-footer>
