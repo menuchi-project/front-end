@@ -117,20 +117,19 @@
         flex-direction: row;
         gap: 0.6rem;
 
-        nz-icon {
+        img {
           cursor: pointer;
-          font-size: 1.2rem;
-          height: 2.2rem;
+          //font-size: 1.2rem;
+          //height: 2.2rem;
           color: #8c8c6e;
           border-radius: 50%;
-          padding-inline: 8px;
+          //padding-inline: 8px;
 
           //&:last-child {
           //  border: 1px solid #8c8c6e;
           //}
 
           &:hover {
-            color: #8c8c6e;
             background-color: rgba(140, 140, 110, 0.1);
           }
         }
