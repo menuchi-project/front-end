@@ -1,12 +1,7 @@
-.inner-content {
-  padding: 1.5rem 3rem;
-  background: #fff;
-  min-height: 360px;
-  border-radius: 10px;
+.container {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
   .search-add-item {
     display: flex;
     flex-direction: row;
