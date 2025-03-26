@@ -10,6 +10,10 @@
   nz-content {
     margin: 0 1rem;
 
+    nz-breadcrumb {
+      margin: 16px 0;
+    }
+
     .inner-content {
       padding: 1.5rem 3rem;
       background: #fff;
@@ -186,7 +190,7 @@
 //.ant-menu-submenu-inline,
 //.ant-menu-submenu-rtl,
 //.ant-menu-submenu-open,
-.hiii {
+.bg-color-prim {
   background-color: #1d385e !important;
 }
 
