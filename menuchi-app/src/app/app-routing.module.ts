@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'manage',
     component: ManagementPageComponent,
-    data: { breadcrumb: 'پنل مدیریت' },
+    data: { breadcrumb: 'صفحه اصلی' },
     children: [
       {
         path: '',
