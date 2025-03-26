@@ -13,9 +13,17 @@ import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule } from '@angular/forms';
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
+import { CategoriesPageComponent } from './categories-page/categories-page.component';
+import { ManagementPageComponent } from './management-page/management-page.component';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @NgModule({
-  declarations: [ItemsPageComponent, ItemsTableComponent],
+  declarations: [
+    ItemsPageComponent,
+    ItemsTableComponent,
+    CategoriesPageComponent,
+    ManagementPageComponent,
+  ],
   imports: [
     CommonModule,
     NzBreadCrumbModule,
@@ -34,7 +42,10 @@ import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
     FormsModule,
     NzInputDirective,
     NzPopconfirmDirective,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
   ],
-  exports: [ItemsPageComponent],
+  exports: [ItemsPageComponent, ManagementPageComponent],
 })
 export class UserModule {}

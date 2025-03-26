@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './items-page.component.html',
   styleUrl: './items-page.component.scss',
 })
-export class ItemsPageComponent {
-  isCollapsed = false;
-}
+export class ItemsPageComponent {}
