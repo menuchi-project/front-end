@@ -4,6 +4,7 @@ import { CategoriesPageComponent } from './user/categories-page/categories-page.
 import { ManagementPageComponent } from './user/management-page/management-page.component';
 import { AppComponent } from './app.component';
 import { ItemsPageComponent } from './user/items-page/items-page.component';
+import { BacklogPageComponent } from './user/backlog-page/backlog-page.component';
 
 const routes: Routes = [
   { path: 'home', component: AppComponent, data: { breadcrumb: 'خانه' } },
@@ -13,22 +14,29 @@ const routes: Routes = [
     data: { breadcrumb: 'صفحه اصلی' },
     children: [
       {
-        path: '',
+        path: 'items',
         component: ItemsPageComponent,
         data: { breadcrumb: 'داشبورد مدیریت' },
       },
       {
         path: 'cats',
-        component: CategoriesPageComponent,
+        component: BacklogPageComponent,
         data: { breadcrumb: 'بک لاگ' },
+        children: [
+          {
+            path: '',
+            component: CategoriesPageComponent,
+            data: { breadcrumb: '' },
+          },
+          {
+            path: 'items',
+            component: ItemsPageComponent,
+            data: { breadcrumb: 'آیتم غذایی' },
+          },
+        ],
       },
     ],
   },
-  // {
-  //   path: 'manage/cats',
-  //   component: CategoriesPageComponent,
-  //   data: { breadcrumb: 'بک لاگ' },
-  // },
 ];
 
 @NgModule({

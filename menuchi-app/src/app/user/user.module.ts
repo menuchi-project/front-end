@@ -16,6 +16,7 @@ import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 import { CategoriesPageComponent } from './categories-page/categories-page.component';
 import { ManagementPageComponent } from './management-page/management-page.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { BacklogPageComponent } from './backlog-page/backlog-page.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     ItemsTableComponent,
     CategoriesPageComponent,
     ManagementPageComponent,
+    BacklogPageComponent,
   ],
   imports: [
     CommonModule,
