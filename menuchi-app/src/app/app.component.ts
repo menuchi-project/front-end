@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BidiModule } from '@angular/cdk/bidi';
 
 @Component({
   selector: 'app-root',

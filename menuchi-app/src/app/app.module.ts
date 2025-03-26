@@ -10,6 +10,7 @@ import fa from '@angular/common/locales/fa';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
+import {UserModule} from "./user/user.module";
 
 registerLocaleData(fa);
 
@@ -17,11 +18,12 @@ registerLocaleData(fa);
   declarations: [
     AppComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        UserModule
+    ],
   providers: [
     provideNzI18n(fa_IR),
     provideAnimationsAsync(),
