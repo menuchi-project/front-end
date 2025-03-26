@@ -7,6 +7,16 @@
   flex-direction: column;
   gap: 2rem;
 
+  .search-add-item {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    > button {
+      width: 14rem;
+    }
+  }
+
   > button {
     align-self: end;
   }

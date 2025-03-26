@@ -2,16 +2,6 @@
   display: flex;
   height: 100vh;
 
-  .search-add-item {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-
-    > button {
-      width: 14rem;
-    }
-  }
-
   nz-layout,
   nz-footer {
     background-color: #f7f7f7 !important;
