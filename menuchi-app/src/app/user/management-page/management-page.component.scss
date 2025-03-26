@@ -154,16 +154,23 @@
 //}
 
 .ant-menu > .ant-menu-item-selected,
+.ant-menu > .ant-menu-item-selected nz-icon,
+.ant-menu > .ant-menu-item-selected span,
+.ant-menu > .ant-menu-submenu-selected {
+  color: #243e62;
+}
+
+.ant-menu > .ant-menu-item-selected,
 .ant-menu > .ant-menu-submenu-selected {
   background-color: #f1eae1;
+  border-radius: 4px;
 }
 
 .ant-menu-vertical .ant-menu-item::after,
 .ant-menu-vertical-left .ant-menu-item::after,
 .ant-menu-vertical-right .ant-menu-item::after,
 .ant-menu-inline .ant-menu-item::after {
-  border: none;
-  border-radius: 4px;
+  border-color: transparent;
 }
 
 //.ant-pro-sider-menu .ant-menu-item-selected, // modify the color of the selected menu item
@@ -193,13 +200,9 @@
   background-color: #1d385e !important;
 }
 
-.ant-menu::after {
-  //color: red;
-  display: none !important;
-}
-
 .button {
-  span {
+  span,
+  nz-icon {
     color: #f1eae1;
   }
 }
@@ -208,8 +211,9 @@
   background-color: #f1eae1;
   border-radius: 4px;
 
-  span {
-    color: #1c274c;
+  span,
+  nz-icon {
+    color: #243e62;
   }
 }
 
