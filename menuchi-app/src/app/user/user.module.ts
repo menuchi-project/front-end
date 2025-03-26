@@ -17,6 +17,11 @@ import { CategoriesPageComponent } from './categories-page/categories-page.compo
 import { ManagementPageComponent } from './management-page/management-page.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { BacklogPageComponent } from './backlog-page/backlog-page.component';
+import { CategoryComponent } from './categories-page/category/category.component';
+import { NzSwitchComponent } from 'ng-zorro-antd/switch';
+import { NzCardComponent, NzCardMetaComponent } from 'ng-zorro-antd/card';
+import { NzSkeletonComponent } from 'ng-zorro-antd/skeleton';
+import { NzAvatarComponent } from 'ng-zorro-antd/avatar';
 
 @NgModule({
   declarations: [
@@ -25,6 +30,7 @@ import { BacklogPageComponent } from './backlog-page/backlog-page.component';
     CategoriesPageComponent,
     ManagementPageComponent,
     BacklogPageComponent,
+    CategoryComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +53,11 @@ import { BacklogPageComponent } from './backlog-page/backlog-page.component';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
+    NzSwitchComponent,
+    NzCardMetaComponent,
+    NzCardComponent,
+    NzSkeletonComponent,
+    NzAvatarComponent,
   ],
   exports: [ItemsPageComponent, ManagementPageComponent],
 })
