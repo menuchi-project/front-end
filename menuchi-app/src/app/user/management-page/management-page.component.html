@@ -5,10 +5,10 @@
         <div>
           <div class="logo">
             <img
-              ngSrc="/assets/menuchi-logo-white.svg"
+              src="/assets/menuchi-logo-white.svg"
               alt="logo"
-              height="52"
-              width="70"
+              [height]="isCollapsed ? 37 : 52"
+              [width]="isCollapsed ? 50 : 70"
             />
           </div>
           <ul nz-menu nzMode="inline">
@@ -22,16 +22,15 @@
                 <li nz-menu-item>منوهای ساخته شده</li>
               </ul>
             </li>
-            <li nz-menu-item>
+            <li
+              nz-menu-item
+              class="button"
+              routerLink="/items"
+              routerLinkActive="activebutton"
+              ariaCurrentWhenActive="page"
+            >
               <nz-icon nzType="product" />
-              <a
-                class="button"
-                routerLink="/items"
-                routerLinkActive="activebutton"
-                ariaCurrentWhenActive="page"
-              >
-                بک‌لاگ
-              </a>
+              <span>بک‌لاگ</span>
             </li>
             <li nz-menu-item>
               <nz-icon nzType="setting" />

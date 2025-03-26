@@ -11,3 +11,11 @@ h1 {
   color: #1c375e;
   font-weight: bold;
 }
+
+.ant-menu::after {
+  display: none;
+}
+
+.ant-menu::before {
+  display: none;
+}

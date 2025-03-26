@@ -41,6 +41,7 @@
 
   nz-sider {
     font-weight: 500;
+    padding-inline: 1rem;
 
     .side-menu {
       .ant-menu-item,
@@ -144,15 +145,27 @@
 
 //.ant-menu > .ant-menu-item:hover,
 //.ant-menu > .ant-menu-submenu:hover,
-//.ant-menu > .ant-menu-item-active,
-//.ant-menu > .ant-menu-submenu-active,
 //.ant-menu > .ant-menu-item-open,
 //.ant-menu > .ant-menu-submenu-open,
-//.ant-menu > .ant-menu-item-selected,
-//.ant-menu > .ant-menu-submenu-selected {
+//.ant-menu > .ant-menu-item-active,
+//.ant-menu > .ant-menu-submenu-active {
 //  color: red;
+//  background-color: blueviolet;
 //}
-//
+
+.ant-menu > .ant-menu-item-selected,
+.ant-menu > .ant-menu-submenu-selected {
+  background-color: #f1eae1;
+}
+
+.ant-menu-vertical .ant-menu-item::after,
+.ant-menu-vertical-left .ant-menu-item::after,
+.ant-menu-vertical-right .ant-menu-item::after,
+.ant-menu-inline .ant-menu-item::after {
+  border: none;
+  border-radius: 4px;
+}
+
 //.ant-pro-sider-menu .ant-menu-item-selected, // modify the color of the selected menu item
 //.ant-pro-sider-menu .ant-menu-item:hover {
 //  // modify the color of the menu item on hover
@@ -183,4 +196,24 @@
 .ant-menu::after {
   //color: red;
   display: none !important;
+}
+
+.button {
+  span {
+    color: #f1eae1;
+  }
+}
+
+.activebutton {
+  background-color: #f1eae1;
+  border-radius: 4px;
+
+  span {
+    color: #1c274c;
+  }
+}
+
+.ant-menu-rtl.ant-menu-inline,
+.ant-menu-rtl.ant-menu-vertical {
+  border: none !important;
 }
