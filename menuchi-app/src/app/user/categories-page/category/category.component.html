@@ -23,21 +23,41 @@
       <!--        </nz-skeleton>-->
       <!--      </nz-card>-->
 
-      <nz-card
-        cdkDrag
-        style="width: 300px; margin-top: 16px"
-        [nzLoading]="loading"
-      >
+      <nz-card cdkDrag [nzLoading]="loading">
         <nz-card-meta
-          [nzAvatar]="avatarTemplate"
-          nzTitle="Card title"
-          nzDescription="This is the description"
+          [nzTitle]="cardTitle"
+          [nzDescription]="cardDesc"
         ></nz-card-meta>
+        <div *cdkDragPreview>
+          <!--          <nz-card>-->
+          <!--            <nz-card-meta [nzTitle]="cardTitle"></nz-card-meta>-->
+          <!--          </nz-card>-->
+          <!--          <h4>{{ data.name }}</h4>-->
+          <img [src]="'/assets/icons/User.svg'" [alt]="data.name" />
+        </div>
       </nz-card>
+      <ng-template #cardDesc>
+        <div class="item-content">
+          <div>
+            <div class="ingredients">
+              <h3>مواد اولیه:</h3>
+              <p>سبزی٫ لیمو امانی٫ لوبیا ٫ برنج ...</p>
+            </div>
+            <div class="price">۲۴۰,۰۰۰ هزارتومان</div>
+          </div>
+          <div class="item-image"></div>
+        </div>
+      </ng-template>
+      <ng-template #cardTitle>
+        <div class="header">
+          <h4>نام آیتم</h4>
+          <nz-icon nzType="more" />
+        </div>
+      </ng-template>
       <ng-template #avatarTemplate>
-        <nz-avatar
-          nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        ></nz-avatar>
+        <!--        <nz-avatar-->
+        <!--          nzSrc="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"-->
+        <!--        ></nz-avatar>-->
       </ng-template>
       <ng-template #actionSetting>
         <nz-icon nzType="setting" />

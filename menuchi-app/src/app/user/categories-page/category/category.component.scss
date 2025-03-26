@@ -33,12 +33,77 @@
   overflow-y: hidden;
 
   .drag-list {
-    border: 1px solid gray;
     height: 100%;
     overflow-y: scroll;
 
     nz-card {
-      margin-top: 0 !important;
+      width: 19rem;
+      border-color: #d0d3d7;
+      border-radius: 0;
+      cursor: grab;
+      //margin-top: 0 !important;
+
+      .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: start;
+
+        h4 {
+          color: #243e62;
+        }
+
+        nz-icon {
+          font-size: 1.2rem;
+          font-weight: bolder;
+          cursor: pointer;
+          padding: 1px;
+
+          &:hover {
+            border-radius: 50%;
+            background-color: rgba(28, 39, 76, 0.1);
+          }
+        }
+      }
+
+      .item-content {
+        //padding: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0.8rem;
+
+        div {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          .ingredients {
+            h3 {
+              color: #243e62;
+              font-size: 0.9rem;
+            }
+
+            p {
+              color: rgba(30, 41, 59, 0.5);
+              font-size: 0.8rem;
+            }
+          }
+
+          .price {
+            color: #1e293b;
+            font-weight: 420;
+            font-size: 0.9rem;
+          }
+        }
+
+        .item-image {
+          background-color: #aaaaaa;
+          border-radius: 4px;
+          height: 80px;
+          width: 80px;
+        }
+      }
     }
   }
 }

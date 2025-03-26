@@ -19,3 +19,8 @@ h1 {
 .ant-menu::before {
   display: none;
 }
+
+.ant-card-body {
+  padding-inline: 0.8rem !important;
+  padding-block: 0.8rem !important;
+}
