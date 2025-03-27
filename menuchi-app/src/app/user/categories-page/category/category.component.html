@@ -1,8 +1,16 @@
 <div class="container">
-  <h3>نام دسته‌بندی</h3>
   <!--  <nz-switch [(ngModel)]="loading"></nz-switch>-->
-  <div class="drag-list" cdkDropList (cdkDropListDropped)="drop($event)">
-    @for (data of listOfData; track data.id) {
+
+  <h3>{{ list.id }}</h3>
+  <div
+    class="drag-list"
+    cdkDropList
+    [id]="list.id"
+    [cdkDropListData]="list.items"
+    [cdkDropListConnectedTo]="connectedLists"
+    (cdkDropListDropped)="drop2($event)"
+  >
+    @for (data of list.items; track data) {
       <nz-card cdkDrag [nzLoading]="loading">
         <nz-card-meta
           [nzTitle]="cardTitle"
@@ -33,7 +41,7 @@
       </ng-template>
       <ng-template #cardTitle>
         <div class="header">
-          <h4>نام آیتم</h4>
+          <h4>{{ data.name }}</h4>
           <!--          <nz-icon-->
           <!--            nzType="more"-->
           <!--            nz-dropdown-->

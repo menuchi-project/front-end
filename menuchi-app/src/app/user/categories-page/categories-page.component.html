@@ -23,10 +23,11 @@
   </div>
 
   <div class="cats-container">
-    <app-category></app-category>
-    <app-category></app-category>
-    <app-category></app-category>
-    <app-category></app-category>
-    <app-category></app-category>
+    <app-category
+      *ngFor="let list of lists"
+      [list]="list"
+      [connectedLists]="allConnectedLists"
+      (itemDropped)="onItemDropped($event)"
+    ></app-category>
   </div>
 </div>
