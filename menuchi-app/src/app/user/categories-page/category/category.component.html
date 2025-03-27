@@ -31,7 +31,30 @@
       <ng-template #cardTitle>
         <div class="header">
           <h4>نام آیتم</h4>
-          <nz-icon nzType="more" />
+          <!--          <nz-icon-->
+          <!--            nzType="more"-->
+          <!--            nz-dropdown-->
+          <!--            [nzDropdownMenu]="menu1"-->
+          <!--            nzPlacement="bottomRight"-->
+          <!--          />-->
+          <button
+            nz-button
+            nz-dropdown
+            [nzDropdownMenu]="menu1"
+            nzPlacement="bottomRight"
+            nzTrigger="click"
+          >
+            <nz-icon nzType="more" />
+          </button>
+          <nz-dropdown-menu #menu1="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>ویرایش آیتم</li>
+              <li nz-menu-item>انتقال به دسته‌بندی</li>
+              <li nz-menu-item style="color: #f23939 !important">
+                حذف از دسته‌بندی
+              </li>
+            </ul>
+          </nz-dropdown-menu>
         </div>
       </ng-template>
     }

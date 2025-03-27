@@ -5,7 +5,10 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzButtonComponent } from 'ng-zorro-antd/button';
+import {
+  NzButtonComponent,
+  NzButtonGroupComponent,
+} from 'ng-zorro-antd/button';
 import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { SharedModule } from '../shared/shared.module';
 import { ItemsTableComponent } from './items-page/items-table/items-table.component';
@@ -22,6 +25,10 @@ import { NzSwitchComponent } from 'ng-zorro-antd/switch';
 import { NzCardComponent, NzCardMetaComponent } from 'ng-zorro-antd/card';
 import { NzSkeletonComponent } from 'ng-zorro-antd/skeleton';
 import { NzAvatarComponent } from 'ng-zorro-antd/avatar';
+import {
+  NzDropDownDirective,
+  NzDropdownMenuComponent,
+} from 'ng-zorro-antd/dropdown';
 
 @NgModule({
   declarations: [
@@ -59,6 +66,9 @@ import { NzAvatarComponent } from 'ng-zorro-antd/avatar';
     NzSkeletonComponent,
     NzAvatarComponent,
     CdkDragPreview,
+    NzButtonGroupComponent,
+    NzDropDownDirective,
+    NzDropdownMenuComponent,
   ],
   exports: [ItemsPageComponent, ManagementPageComponent],
 })
