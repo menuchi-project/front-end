@@ -35,6 +35,7 @@ import {
   NzDropdownMenuComponent,
 } from 'ng-zorro-antd/dropdown';
 import { CdkScrollable } from '@angular/cdk/overlay';
+import { NzEmptyComponent } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { CdkScrollable } from '@angular/cdk/overlay';
     NzDropdownMenuComponent,
     CdkDragHandle,
     CdkScrollable,
+    NzEmptyComponent,
   ],
   exports: [ItemsPageComponent, ManagementPageComponent],
 })

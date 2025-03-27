@@ -10,11 +10,11 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 export class CategoryComponent {
   loading: boolean = false;
 
-  @Input() list: any;
+  @Input() list!: { id: string; items: { name: string }[] };
   @Input() connectedLists: string[] = [];
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
 
-  drop2(event: CdkDragDrop<any[]>) {
+  drop2(event: any) {
     this.itemDropped.emit(event);
   }
 }

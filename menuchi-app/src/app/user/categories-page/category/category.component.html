@@ -15,7 +15,11 @@
     [cdkDropListConnectedTo]="connectedLists"
     (cdkDropListDropped)="drop2($event)"
   >
-    @for (data of list.items; track data) {
+    @if (list.items.length < 1) {
+      <!--      ee-->
+      <nz-empty nzNotFoundImage="simple"></nz-empty>
+    }
+    @for (item of list.items; track item) {
       <nz-card cdkDrag [nzLoading]="loading">
         <nz-card-meta
           [nzTitle]="cardTitle"
@@ -46,7 +50,7 @@
       </ng-template>
       <ng-template #cardTitle>
         <div class="header">
-          <h4>{{ data.name }}</h4>
+          <h4>{{ item.name }}</h4>
           <!--          <nz-icon-->
           <!--            nzType="more"-->
           <!--            nz-dropdown-->
