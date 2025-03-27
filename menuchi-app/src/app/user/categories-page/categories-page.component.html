@@ -25,6 +25,8 @@
   <div
     class="cats-container"
     cdkDropList
+    cdkScrollable
+    [cdkDropListAutoScrollStep]="25"
     cdkDropListOrientation="horizontal"
     [cdkDropListData]="lists"
     (cdkDropListDropped)="onListDropped($event)"

@@ -23,7 +23,14 @@ export class CategoriesPageComponent {
       ],
     },
     { id: 'B', items: [{ name: 'Item 3' }, { name: 'Item 4' }] },
+    { id: 'B', items: [{ name: 'Item 3' }, { name: 'Item 4' }] },
+    { id: 'B', items: [{ name: 'Item 3' }, { name: 'Item 4' }] },
     { id: 'C', items: [{ name: 'Item 5' }, { name: 'Item 6' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
     { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
   ];
 

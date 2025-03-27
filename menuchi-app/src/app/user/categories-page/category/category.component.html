@@ -6,6 +6,8 @@
     <nz-icon nzType="holder" nzTheme="outline" cdkDragHandle />
   </div>
   <div
+    cdkScrollable
+    [cdkDropListAutoScrollStep]="15"
     class="drag-list"
     cdkDropList
     [id]="list.id"
