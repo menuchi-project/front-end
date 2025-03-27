@@ -8,13 +8,16 @@
           [nzTitle]="cardTitle"
           [nzDescription]="cardDesc"
         ></nz-card-meta>
-        <div *cdkDragPreview>
-          <!--          <nz-card>-->
-          <!--            <nz-card-meta [nzTitle]="cardTitle"></nz-card-meta>-->
-          <!--          </nz-card>-->
-          <!--          <h4>{{ data.name }}</h4>-->
-          <img [src]="'/assets/icons/User.svg'" [alt]="data.name" />
-        </div>
+        <nz-card *cdkDragPreview>
+          <nz-card-meta [nzDescription]="cardDesc2"></nz-card-meta>
+        </nz-card>
+        <!--        <div>-->
+        <!--          <nz-card>-->
+        <!--            <nz-card-meta [nzTitle]="cardTitle"></nz-card-meta>-->
+        <!--          </nz-card>-->
+        <!--          <h4>{{ data.name }}</h4>-->
+        <!--          <img [src]="'/assets/icons/User.svg'" [alt]="data.name" />-->
+        <!--        </div>-->
       </nz-card>
       <ng-template #cardDesc>
         <div class="item-content">
@@ -56,6 +59,11 @@
             </ul>
           </nz-dropdown-menu>
         </div>
+      </ng-template>
+      <ng-template #cardDesc2>
+        <h4>نام آیتم</h4>
+        <img ngSrc="/assets/icons/User.svg" alt="" height="44" width="44" />
+        <div class="price">۲۴۰,۰۰۰ هزارتومان</div>
       </ng-template>
     }
 
