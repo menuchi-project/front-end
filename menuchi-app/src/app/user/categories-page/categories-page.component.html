@@ -22,12 +22,19 @@
     </button>
   </div>
 
-  <div class="cats-container">
-    <app-category
-      *ngFor="let list of lists"
-      [list]="list"
-      [connectedLists]="allConnectedLists"
-      (itemDropped)="onItemDropped($event)"
-    ></app-category>
+  <div
+    class="cats-container"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    [cdkDropListData]="lists"
+    (cdkDropListDropped)="onListDropped($event)"
+  >
+    <div *ngFor="let list of lists" cdkDrag class="cat-container">
+      <app-category
+        [list]="list"
+        [connectedLists]="allConnectedLists"
+        (itemDropped)="onItemDropped($event)"
+      ></app-category>
+    </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -54,5 +54,15 @@ export class CategoriesPageComponent {
 
     console.log(prevIndex, currIndex);
     console.log(this.lists);
+
+    this.cdr.detectChanges();
   }
+
+  onListDropped(event: CdkDragDrop<any[]>) {
+    moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
+
+    this.cdr.detectChanges();
+  }
+
+  constructor(private cdr: ChangeDetectorRef) {}
 }
