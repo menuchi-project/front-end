@@ -24,3 +24,33 @@ h1 {
   padding-inline: 0.8rem !important;
   padding-block: 0.8rem !important;
 }
+
+// scroll bar styling
+*::-webkit-scrollbar {
+  width: 0px;
+  height: 4px;
+}
+
+/* Handle portion of the scrollbar */
+*::-webkit-scrollbar-thumb {
+  background-color: #888;
+  //border: 2px solid var(--color-background-900);
+  border-radius: 10px;
+  //border: 10px solid transparent;
+  //background-clip: padding-box;
+}
+
+/* Track (the area on which the handle moves) */
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+*:hover::-webkit-scrollbar {
+  width: 5px;
+  height: 6px;
+}
