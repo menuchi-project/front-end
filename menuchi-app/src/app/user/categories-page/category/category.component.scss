@@ -40,6 +40,19 @@
   .drag-list {
     height: 100%;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+
+    .add-item-btn {
+      background-color: #aaaaaa;
+      border-color: #aaaaaa;
+      font-size: 0.9rem;
+      font-weight: 402;
+      width: 97%;
+      margin-block-start: 1rem;
+      margin-block-end: 3rem;
+      align-self: center;
+    }
 
     nz-card {
       width: 19rem;
