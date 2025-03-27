@@ -1,7 +1,10 @@
 <div class="container">
   <!--  <nz-switch [(ngModel)]="loading"></nz-switch>-->
 
-  <h3>{{ list.id }}</h3>
+  <div class="cat-header">
+    <h3>{{ list.id }}</h3>
+    <nz-icon nzType="holder" nzTheme="outline" cdkDragHandle />
+  </div>
   <div
     class="drag-list"
     cdkDropList

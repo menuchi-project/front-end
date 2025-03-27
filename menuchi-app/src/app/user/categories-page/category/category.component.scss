@@ -32,9 +32,21 @@
   height: 100%;
   overflow-y: hidden;
 
-  h3 {
-    color: #243e62;
-    font-size: 1.1rem;
+  .cat-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      color: #243e62;
+      font-size: 1.1rem;
+    }
+
+    nz-icon {
+      font-size: 1rem;
+      cursor: move;
+    }
   }
 
   .drag-list {

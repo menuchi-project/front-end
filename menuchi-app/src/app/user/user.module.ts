@@ -12,7 +12,12 @@ import {
 import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { SharedModule } from '../shared/shared.module';
 import { ItemsTableComponent } from './items-page/items-table/items-table.component';
-import { CdkDrag, CdkDragPreview, CdkDropList } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragHandle,
+  CdkDragPreview,
+  CdkDropList,
+} from '@angular/cdk/drag-drop';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule } from '@angular/forms';
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
@@ -69,6 +74,7 @@ import {
     NzButtonGroupComponent,
     NzDropDownDirective,
     NzDropdownMenuComponent,
+    CdkDragHandle,
   ],
   exports: [ItemsPageComponent, ManagementPageComponent],
 })
