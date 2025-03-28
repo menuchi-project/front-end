@@ -8,7 +8,7 @@ import { registerLocaleData } from '@angular/common';
 import fa from '@angular/common/locales/fa';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { UserModule } from './user/user.module';
 
 registerLocaleData(fa);
@@ -20,6 +20,7 @@ registerLocaleData(fa);
     provideNzI18n(fa_IR),
     provideAnimationsAsync(),
     provideHttpClient(),
+    provideHttpClient(withFetch()),
   ],
   bootstrap: [AppComponent],
 })
