@@ -7,7 +7,7 @@ import {
   NzSubMenuComponent,
 } from 'ng-zorro-antd/menu';
 import { NzSiderComponent } from 'ng-zorro-antd/layout';
-import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import {
   NzBreadCrumbComponent,
   NzBreadCrumbItemComponent,
