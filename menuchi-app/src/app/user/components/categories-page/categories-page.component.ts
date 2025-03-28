@@ -1,9 +1,11 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { ItemService } from '../../services/item/item.service';
+import { CategoryWithItemsResponse } from '../../models/Item';
 
 @Component({
   selector: 'app-categories-page',
@@ -11,7 +13,7 @@ import {
   templateUrl: './categories-page.component.html',
   styleUrl: './categories-page.component.scss',
 })
-export class CategoriesPageComponent {
+export class CategoriesPageComponent implements OnInit {
   lists = [
     {
       id: 'A',
@@ -33,8 +35,26 @@ export class CategoriesPageComponent {
     { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
     { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
   ];
-
   allConnectedLists = this.lists.map((l) => l.id);
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private itemService: ItemService,
+  ) {}
+
+  ngOnInit(): void {
+    this.itemService.categoriesData$.subscribe({
+      next: (response: CategoryWithItemsResponse) => {
+        this.lists = response.categories;
+        console.log(this.lists);
+      },
+      error: (error) => {
+        console.log('errrror', error);
+      },
+    });
+
+    this.itemService.getCategoriesWithItems();
+  }
 
   onItemDropped(event: CdkDragDrop<any[]>) {
     const prevIndex = this.lists.findIndex(
@@ -70,6 +90,4 @@ export class CategoriesPageComponent {
 
     this.cdr.detectChanges();
   }
-
-  constructor(private cdr: ChangeDetectorRef) {}
 }

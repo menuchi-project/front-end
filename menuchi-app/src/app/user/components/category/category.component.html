@@ -2,7 +2,7 @@
   <!--  <nz-switch [(ngModel)]="loading"></nz-switch>-->
 
   <div class="cat-header">
-    <h3>{{ list.id }}</h3>
+    <h3>{{ list.categoryName }}</h3>
     <nz-icon nzType="holder" nzTheme="outline" cdkDragHandle />
   </div>
   <div
@@ -24,24 +24,17 @@
         <nz-card *cdkDragPreview>
           <nz-card-meta [nzDescription]="cardDesc2"></nz-card-meta>
         </nz-card>
-        <!--        <div>-->
-        <!--          <nz-card>-->
-        <!--            <nz-card-meta [nzTitle]="cardTitle"></nz-card-meta>-->
-        <!--          </nz-card>-->
-        <!--          <h4>{{ data.name }}</h4>-->
-        <!--          <img [src]="'/assets/icons/User.svg'" [alt]="data.name" />-->
-        <!--        </div>-->
       </nz-card>
       <ng-template #cardDesc>
         <div class="item-content">
           <div>
             <div class="ingredients">
               <h3>مواد اولیه:</h3>
-              <p>سبزی٫ لیمو امانی٫ لوبیا ٫ برنج ...</p>
+              <p>{{ data.ingredients }}</p>
             </div>
-            <div class="price">۲۴۰,۰۰۰ هزارتومان</div>
+            <div class="price">{{ data.price }}</div>
           </div>
-          <div class="item-image"></div>
+          <div class="item-image">{{ data.picUrl }}</div>
         </div>
       </ng-template>
       <ng-template #cardTitle>
@@ -74,9 +67,9 @@
         </div>
       </ng-template>
       <ng-template #cardDesc2>
-        <h4>نام آیتم</h4>
+        <h4>khl</h4>
         <img ngSrc="/assets/icons/User.svg" alt="" height="44" width="44" />
-        <div class="price">۲۴۰,۰۰۰ هزارتومان</div>
+        <div class="price">{{ data.price }}</div>
       </ng-template>
     }
 
