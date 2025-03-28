@@ -1,0 +1,98 @@
+<div class="container">
+  <nz-layout>
+    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+      <div class="side-menu">
+        <div>
+          <div class="logo">
+            <img
+              src="/assets/menuchi-logo-white.svg"
+              alt="logo"
+              [height]="isCollapsed ? 37 : 52"
+              [width]="isCollapsed ? 50 : 70"
+            />
+          </div>
+          <ul nz-menu nzMode="inline">
+            <li nz-menu-item>
+              <nz-icon nzType="home" />
+              <span>صفحه اصلی</span>
+            </li>
+            <li
+              nz-submenu
+              nzTitle="مدیریت منو"
+              nzIcon="profile"
+              class="bg-color-prim"
+            >
+              <ul class="bg-color-prim">
+                <li nz-menu-item>ایجاد منوی جدید</li>
+                <li nz-menu-item>منوهای ساخته شده</li>
+              </ul>
+            </li>
+            <li
+              nz-menu-item
+              class="button"
+              routerLink="/manage/cats"
+              routerLinkActive="activebutton"
+              ariaCurrentWhenActive="page"
+            >
+              <nz-icon nzType="product" />
+              <span>بک‌لاگ</span>
+            </li>
+            <li nz-menu-item>
+              <nz-icon nzType="setting" />
+              <span>تنظیمات</span>
+            </li>
+            <li nz-menu-item>
+              <nz-icon nzType="logout" />
+              <span>خروج</span>
+            </li>
+          </ul>
+        </div>
+        <div class="trigger" (click)="isCollapsed = !isCollapsed">
+          <span
+            nz-icon
+            [nzType]="!isCollapsed ? 'double-right' : 'double-left'"
+          >
+          </span>
+          @if (!isCollapsed) {
+            <span>بستن سایدبار</span>
+          }
+        </div>
+      </div>
+    </nz-sider>
+    <nz-layout>
+      <nz-header>
+        <!--        <span-->
+        <!--          class="trigger"-->
+        <!--          nz-icon-->
+        <!--          [nzType]="!isCollapsed ? 'menu-unfold' : 'menu-fold'"-->
+        <!--          (click)="isCollapsed = !isCollapsed"-->
+        <!--        ></span>-->
+
+        <div class="header">
+          <h1>آیتم‌های غذایی</h1>
+          <div class="header-icons">
+            <img
+              ngSrc="/assets/icons/Notification.svg"
+              alt="notif"
+              height="44"
+              width="44"
+            />
+            <img
+              ngSrc="/assets/icons/User.svg"
+              alt="user"
+              height="44"
+              width="44"
+            />
+          </div>
+        </div>
+      </nz-header>
+      <nz-content>
+        <app-breadcrumb></app-breadcrumb>
+        <div class="inner-content">
+          <router-outlet />
+        </div>
+      </nz-content>
+      <!--      <nz-footer>اینجا فوتره</nz-footer>-->
+    </nz-layout>
+  </nz-layout>
+</div>
