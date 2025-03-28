@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CategoriesPageComponent } from './user/categories-page/categories-page.component';
-import { ManagementPageComponent } from './user/management-page/management-page.component';
+import { CategoriesPageComponent } from './user/components/categories-page/categories-page.component';
+import { ManagementPageComponent } from './user/components/management-page/management-page.component';
 import { AppComponent } from './app.component';
-import { ItemsPageComponent } from './user/items-page/items-page.component';
-import { BacklogPageComponent } from './user/backlog-page/backlog-page.component';
+import { ItemsPageComponent } from './user/components/items-page/items-page.component';
+import { BacklogPageComponent } from './user/components/backlog-page/backlog-page.component';
 
 const routes: Routes = [
   { path: 'home', component: AppComponent, data: { breadcrumb: 'خانه' } },
