@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { TitleService } from '../../../shared/services/title/title.service';
 
 @Component({
   selector: 'app-items-page',
@@ -6,4 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './items-page.component.html',
   styleUrl: './items-page.component.scss',
 })
-export class ItemsPageComponent {}
+export class ItemsPageComponent implements OnInit {
+  constructor(private titleService: TitleService) {}
+
+  ngOnInit(): void {
+    this.titleService.onPageChanged$.next('آیتم‌های غذایی');
+  }
+}

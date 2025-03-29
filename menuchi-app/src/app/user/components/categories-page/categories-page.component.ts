@@ -6,7 +6,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { ItemService } from '../../services/item/item.service';
 import { Category, CategoryWithItemsResponse } from '../../models/Item';
-import { log } from 'ng-zorro-antd/core/logger';
+import { TitleService } from '../../../shared/services/title/title.service';
 
 @Component({
   selector: 'app-categories-page',
@@ -21,6 +21,7 @@ export class CategoriesPageComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private itemService: ItemService,
+    private titleService: TitleService,
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +37,7 @@ export class CategoriesPageComponent implements OnInit {
     });
 
     this.itemService.getCategoriesWithItems();
+    this.titleService.onPageChanged$.next('بک‌لاگ');
   }
 
   onItemDropped(event: CdkDragDrop<any[]>) {

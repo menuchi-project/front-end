@@ -33,7 +33,6 @@ import {
 import { CdkScrollable } from '@angular/cdk/overlay';
 import { BacklogPageComponent } from './components/backlog-page/backlog-page.component';
 import { NzEmptyComponent } from 'ng-zorro-antd/empty';
-import { TestssComponent } from './components/items-table/testss/testss.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +42,6 @@ import { TestssComponent } from './components/items-table/testss/testss.componen
     ManagementPageComponent,
     BacklogPageComponent,
     CategoryComponent,
-    TestssComponent,
   ],
   imports: [
     CommonModule,
