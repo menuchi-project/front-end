@@ -35,6 +35,11 @@ export class ItemsTableComponent implements OnInit {
     this.updateEditCache();
   }
 
+  sortPrice = (a: Item, b: Item): number => a.price - b.price;
+  sortName = (a: Item, b: Item): number => a.name.localeCompare(b.name, 'fa');
+  sortCategory = (a: Item, b: Item): number =>
+    a.categoryName.localeCompare(b.categoryName, 'fa');
+
   drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.listOfData, event.previousIndex, event.currentIndex);
   }

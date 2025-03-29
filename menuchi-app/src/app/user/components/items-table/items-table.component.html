@@ -1,10 +1,9 @@
 <nz-table
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
   [nzData]="listOfData"
-  [nzFrontPagination]="false"
-  [nzShowPagination]="false"
+  [nzShowPagination]="true"
+  [nzFrontPagination]="true"
   nzBordered
-  nzShowPagination
 >
   <thead>
     <tr>
@@ -13,10 +12,10 @@
         [nzIndeterminate]="indeterminate"
         (nzCheckedChange)="onAllChecked($event)"
       ></th>
-      <th>نام</th>
-      <th>دسته‌بندی</th>
-      <th>قیمت</th>
-      <th>مواد تشکیل دهنده</th>
+      <th [nzSortFn]="sortName" nzShowSort>نام</th>
+      <th [nzSortFn]="sortCategory">دسته‌بندی</th>
+      <th [nzSortFn]="sortPrice">قیمت</th>
+      <th>مواد اولیه</th>
       <th>تصویر</th>
       <th>ویرایش</th>
     </tr>
