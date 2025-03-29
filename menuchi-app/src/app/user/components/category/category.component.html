@@ -24,6 +24,9 @@
     [cdkDropListConnectedTo]="connectedLists"
     (cdkDropListDropped)="drop2($event)"
   >
+    @if (list.items.length < 1) {
+      <nz-empty nzNotFoundImage="simple"></nz-empty>
+    }
     @for (data of list.items; track data) {
       <nz-card cdkDrag [nzLoading]="loading">
         <nz-card-meta
