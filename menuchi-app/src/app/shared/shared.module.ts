@@ -13,9 +13,10 @@ import {
   NzBreadCrumbItemComponent,
 } from 'ng-zorro-antd/breadcrumb';
 import { RouterLink } from '@angular/router';
+import { TruncatePipe } from './pipes/truncate/truncate.pipe';
 
 @NgModule({
-  declarations: [BreadcrumbComponent],
+  declarations: [BreadcrumbComponent, TruncatePipe],
   imports: [
     CommonModule,
     NzIconDirective,
@@ -27,6 +28,6 @@ import { RouterLink } from '@angular/router';
     NzBreadCrumbItemComponent,
     RouterLink,
   ],
-  exports: [BreadcrumbComponent],
+  exports: [BreadcrumbComponent, TruncatePipe],
 })
 export class SharedModule {}
