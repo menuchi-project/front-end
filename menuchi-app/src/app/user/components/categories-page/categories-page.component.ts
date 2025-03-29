@@ -6,6 +6,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { ItemService } from '../../services/item/item.service';
 import { Category, CategoryWithItemsResponse } from '../../models/Item';
+import { log } from 'ng-zorro-antd/core/logger';
 
 @Component({
   selector: 'app-categories-page',

@@ -24,7 +24,7 @@
     [cdkDropListConnectedTo]="connectedLists"
     (cdkDropListDropped)="drop2($event)"
   >
-    @if (list.items.count == 0) {
+    @if (list.items.length < 1) {
       <nz-empty nzNotFoundImage="simple"></nz-empty>
     }
     @for (data of list.items; track data) {
