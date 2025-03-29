@@ -32,6 +32,7 @@ import {
 } from 'ng-zorro-antd/dropdown';
 import { CdkScrollable } from '@angular/cdk/overlay';
 import { BacklogPageComponent } from './components/backlog-page/backlog-page.component';
+import { NzEmptyComponent } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { BacklogPageComponent } from './components/backlog-page/backlog-page.com
     NzDropdownMenuComponent,
     CdkDragHandle,
     CdkScrollable,
+    NzEmptyComponent,
   ],
   exports: [ItemsPageComponent, ManagementPageComponent],
 })
