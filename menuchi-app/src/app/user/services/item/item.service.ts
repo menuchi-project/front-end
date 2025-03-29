@@ -34,7 +34,7 @@ export class ItemService {
     return this.httpClient
       .get<CategoryWithItemsResponse>(this.apiUrl + '/items')
       .subscribe((cats) => {
-        console.log('hiiii', cats);
+        console.log('geAllItems', cats);
         this.categoriesData.next(cats);
       });
   }

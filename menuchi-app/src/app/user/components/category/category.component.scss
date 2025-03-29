@@ -47,9 +47,30 @@
       font-size: 1.1rem;
     }
 
-    nz-icon {
-      font-size: 1rem;
-      cursor: move;
+    .move-add-box {
+      display: flex;
+      flex-direction: row;
+      gap: 0.2rem;
+
+      nz-icon {
+        font-size: 1rem;
+        cursor: pointer;
+
+        &.move-icon {
+          cursor: move;
+        }
+
+        &.add-item-icon {
+          padding-inline: 4px;
+          padding-block: 4px;
+          border-radius: 50%;
+          transition: background-color 0.4s ease;
+
+          &:hover {
+            background-color: rgba(28, 39, 76, 0.1);
+          }
+        }
+      }
     }
   }
 
@@ -91,10 +112,12 @@
           font-size: 1.2rem;
           font-weight: bolder;
           cursor: pointer;
-          padding: 1px;
+          padding-inline: 2px;
+          padding-block: 1px;
+          border-radius: 50%;
+          transition: background-color 0.4s ease;
 
           &:hover {
-            border-radius: 50%;
             background-color: rgba(28, 39, 76, 0.1);
           }
         }

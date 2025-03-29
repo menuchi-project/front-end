@@ -3,8 +3,17 @@
 
   <div class="cat-header">
     <h3>{{ list.categoryName }}</h3>
-    <nz-icon nzType="holder" nzTheme="outline" cdkDragHandle />
+    <div class="move-add-box">
+      <nz-icon nzType="plus" nzTheme="outline" class="add-item-icon" />
+      <nz-icon
+        nzType="holder"
+        nzTheme="outline"
+        cdkDragHandle
+        class="move-icon"
+      />
+    </div>
   </div>
+
   <div
     cdkScrollable
     [cdkDropListAutoScrollStep]="15"
@@ -40,21 +49,13 @@
       <ng-template #cardTitle>
         <div class="header">
           <h4>{{ data.name }}</h4>
-          <!--          <nz-icon-->
-          <!--            nzType="more"-->
-          <!--            nz-dropdown-->
-          <!--            [nzDropdownMenu]="menu1"-->
-          <!--            nzPlacement="bottomRight"-->
-          <!--          />-->
-          <button
-            nz-button
+          <nz-icon
+            nzTrigger="click"
+            nzType="more"
             nz-dropdown
             [nzDropdownMenu]="menu1"
             nzPlacement="bottomRight"
-            nzTrigger="click"
-          >
-            <nz-icon nzType="more" />
-          </button>
+          />
           <nz-dropdown-menu #menu1="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item>ویرایش آیتم</li>
