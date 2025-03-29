@@ -5,10 +5,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import {
-  NzButtonComponent,
-  NzButtonGroupComponent,
-} from 'ng-zorro-antd/button';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { SharedModule } from '../shared/shared.module';
 import { ItemsTableComponent } from './components/items-table/items-table.component';
@@ -72,7 +69,6 @@ import { BacklogPageComponent } from './components/backlog-page/backlog-page.com
     NzSkeletonComponent,
     NzAvatarComponent,
     CdkDragPreview,
-    NzButtonGroupComponent,
     NzDropDownDirective,
     NzDropdownMenuComponent,
     CdkDragHandle,
