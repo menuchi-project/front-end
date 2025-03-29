@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { isFixedSize } from 'ng-zorro-antd/experimental/image';
-
-export interface Data {
-  id: string;
-  name: string;
-  age: number;
-  address: string;
-}
+import { Item } from '../../models/Item';
+import { ItemService } from '../../services/item/item.service';
 
 @Component({
   selector: 'app-items-table',
@@ -16,30 +10,30 @@ export interface Data {
   styleUrl: './items-table.component.scss',
 })
 export class ItemsTableComponent implements OnInit {
-  listOfData: Data[] = [
-    {
-      id: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      id: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      id: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-    },
-  ];
+  listOfData: Item[] = [];
   checked = false;
   indeterminate = false;
-  listOfCurrentPageData: readonly Data[] = [];
+  listOfCurrentPageData: readonly Item[] = [];
   setOfCheckedId = new Set<string>();
+  editCache: { [key: string]: { edit: boolean; data: Item } } = {};
+
+  constructor(private itemService: ItemService) {}
+
+  ngOnInit(): void {
+    this.itemService.itemsData$.subscribe({
+      next: (response: Item[]) => {
+        this.listOfData = response;
+        this.updateEditCache();
+        console.log('11', response);
+      },
+      error: (error) => {
+        console.log('errrror', error);
+      },
+    });
+
+    this.itemService.geAllItems();
+    this.updateEditCache();
+  }
 
   drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.listOfData, event.previousIndex, event.currentIndex);
@@ -65,7 +59,7 @@ export class ItemsTableComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
-  onCurrentPageDataChange($event: readonly Data[]): void {
+  onCurrentPageDataChange($event: readonly Item[]): void {
     this.listOfCurrentPageData = $event;
     this.refreshCheckedStatus();
   }
@@ -79,9 +73,6 @@ export class ItemsTableComponent implements OnInit {
         this.setOfCheckedId.has(item.id),
       ) && !this.checked;
   }
-
-  //
-  editCache: { [key: string]: { edit: boolean; data: Data } } = {};
 
   startEdit(id: string): void {
     this.editCache[id].edit = true;
@@ -113,10 +104,4 @@ export class ItemsTableComponent implements OnInit {
   deleteRow(id: string): void {
     this.listOfData = this.listOfData.filter((d) => d.id !== id);
   }
-
-  ngOnInit(): void {
-    this.updateEditCache();
-  }
-
-  protected readonly isFixedSize = isFixedSize;
 }

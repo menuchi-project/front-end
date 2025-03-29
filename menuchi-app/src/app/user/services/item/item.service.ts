@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import {
   CategoryWithItemsResponse,
   CreateItemRequest,
+  Item,
 } from '../../models/Item';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class ItemService {
     'http://localhost:8000' + '/backlog/60f51c22-80f7-4807-a5cf-68aca0d8a2be';
 
   private categoriesData = new Subject<CategoryWithItemsResponse>();
-  private itemsData = new Subject<CategoryWithItemsResponse>();
+  private itemsData = new Subject<Item[]>();
   categoriesData$ = this.categoriesData.asObservable();
   itemsData$ = this.itemsData.asObservable();
 
@@ -32,10 +33,9 @@ export class ItemService {
 
   geAllItems() {
     return this.httpClient
-      .get<CategoryWithItemsResponse>(this.apiUrl + '/items')
-      .subscribe((cats) => {
-        console.log('geAllItems', cats);
-        this.categoriesData.next(cats);
+      .get<Item[]>(this.apiUrl + '/items')
+      .subscribe((items) => {
+        this.itemsData.next(items);
       });
   }
 
