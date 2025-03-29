@@ -5,7 +5,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { ItemService } from '../../services/item/item.service';
-import { Category, CategoryWithItemsResponse } from '../../models/Item';
+import { CategoryWithItemsResponse } from '../../models/Item';
 
 @Component({
   selector: 'app-categories-page',
@@ -14,8 +14,28 @@ import { Category, CategoryWithItemsResponse } from '../../models/Item';
   styleUrl: './categories-page.component.scss',
 })
 export class CategoriesPageComponent implements OnInit {
-  lists: Category[] = [];
-  allConnectedLists: string[] = [];
+  lists = [
+    {
+      id: 'A',
+      items: [
+        { name: 'Item 1' },
+        { name: 'Item 2' },
+        { name: 'Item 1' },
+        { name: 'Item 2' },
+      ],
+    },
+    { id: 'B', items: [{ name: 'Item 3' }, { name: 'Item 4' }] },
+    { id: 'B', items: [{ name: 'Item 3' }, { name: 'Item 4' }] },
+    { id: 'B', items: [{ name: 'Item 3' }, { name: 'Item 4' }] },
+    { id: 'C', items: [{ name: 'Item 5' }, { name: 'Item 6' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+    { id: 'D', items: [{ name: 'Item 7' }, { name: 'Item 8' }] },
+  ];
+  allConnectedLists = this.lists.map((l) => l.id);
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -26,7 +46,6 @@ export class CategoriesPageComponent implements OnInit {
     this.itemService.categoriesData$.subscribe({
       next: (response: CategoryWithItemsResponse) => {
         this.lists = response.categories;
-        this.allConnectedLists = this.lists.map((l) => l.id);
         console.log(this.lists);
       },
       error: (error) => {
