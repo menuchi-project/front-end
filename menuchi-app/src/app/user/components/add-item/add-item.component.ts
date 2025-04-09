@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ModalService } from '../../services/modal/modal.service';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-item',
@@ -7,7 +9,7 @@ import { ModalService } from '../../services/modal/modal.service';
   templateUrl: './add-item.component.html',
   styleUrl: './add-item.component.scss',
 })
-export class AddItemComponent implements OnInit {
+export class AddItemComponent implements OnInit, OnDestroy {
   isOkLoading = false;
   isVisible!: boolean;
 
@@ -35,5 +37,36 @@ export class AddItemComponent implements OnInit {
 
   handleCancel(): void {
     this.modalService.closeModal();
+  }
+
+  // --
+  private fb = inject(NonNullableFormBuilder);
+  private destroy$ = new Subject<void>();
+  selectedValue: any;
+
+  validateForm = this.fb.group({
+    password: this.fb.control('', [Validators.required]),
+    nickname: this.fb.control('', [Validators.required]),
+    phoneNumber: this.fb.control('', [Validators.required]),
+    comment: this.fb.control('', [Validators.required]),
+  });
+  cats: string[] = ['nn', 'سلام'];
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  submitForm(): void {
+    if (this.validateForm.valid) {
+      console.log('submit', this.validateForm.value);
+    } else {
+      Object.values(this.validateForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
   }
 }

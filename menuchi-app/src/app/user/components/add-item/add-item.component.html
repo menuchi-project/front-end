@@ -1,9 +1,104 @@
 <nz-modal
+  nzWidth="22rem"
+  [nzStyle]="{ top: '3rem' }"
   [(nzVisible)]="isVisible"
-  nzTitle="Modal Title"
+  nzTitle="ایجاد آیتم جدید"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
+  [nzContent]="modalContent"
+  [nzFooter]="null"
 >
-  <p *nzModalContent>Modal Content</p>
+  <ng-template #modalContent>
+    <form
+      nz-form
+      [formGroup]="validateForm"
+      nzLayout="vertical"
+      (ngSubmit)="submitForm()"
+    >
+      <nz-form-item>
+        <nz-form-label nzFor="nickname" nzRequired>
+          <span>نام آیتم</span>
+        </nz-form-label>
+        <br />
+        <nz-form-control nzErrorTip="نام آیتم نمی‌تواند خالی باشد.">
+          <input
+            nz-input
+            id="nickname"
+            formControlName="nickname"
+            placeholder="مثال: قورمه سبزی"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="category" nzRequired>
+          <span>دسته بندی</span>
+        </nz-form-label>
+        <nz-select
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="یک دسته بندی انتخاب کنید"
+          [(ngModel)]="selectedValue"
+          style="width: 100%"
+        >
+          @for (cat of cats; track cat) {
+            <nz-option nzLabel="{{ cat }}" nzValue="{{ cat }}"></nz-option>
+          }
+        </nz-select>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="phoneNumber" nzRequired>
+          <span>قیمت</span>
+        </nz-form-label>
+        <nz-form-control
+          [nzValidateStatus]="validateForm.controls['phoneNumber']"
+          nzErrorTip="Please input your phone number!"
+        >
+          <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+            <input type="text" nz-input placeholder="مثال: ۲۷۶٫۰۰۰" />
+          </nz-input-group>
+          <ng-template #suffixButton>
+            <button
+              nz-button
+              nzType="primary"
+              nzSize="large"
+              style="border-top-right-radius: 0; border-bottom-right-radius: 0"
+            >
+              تومان
+            </button>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>
+          <span>مواد تشکیل دهنده</span>
+        </nz-form-label>
+        <nz-form-control
+          nzHasFeedback
+          nzErrorTip="لطفا مواد تشکیل دهنده را وارد کنید."
+        >
+          <nz-textarea-count [nzMaxCharacterCount]="200">
+            <textarea
+              formControlName="comment"
+              nz-input
+              rows="3"
+              placeholder="مثال: سبزی٫ لیمو امانی٫ لوبیا٫ برنج ..."
+              maxlength="200"
+            ></textarea>
+          </nz-textarea-count>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired>
+          <span>آپلود تصویر</span>
+        </nz-form-label>
+        <app-upload-box style="width: 100%"></app-upload-box>
+      </nz-form-item>
+      <nz-form-item nz-row class="register-area">
+        <nz-form-control>
+          <button nz-button nzType="primary" style="width: 100%">ایجاد</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-template>
 </nz-modal>

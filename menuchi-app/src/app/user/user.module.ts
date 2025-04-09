@@ -6,7 +6,11 @@ import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
-import { NzInputDirective, NzInputGroupComponent } from 'ng-zorro-antd/input';
+import {
+  NzInputDirective,
+  NzInputGroupComponent,
+  NzTextareaCountComponent,
+} from 'ng-zorro-antd/input';
 import { SharedModule } from '../shared/shared.module';
 import { ItemsTableComponent } from './components/items-table/items-table.component';
 import {
@@ -16,7 +20,7 @@ import {
   CdkDropList,
 } from '@angular/cdk/drag-drop';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 import { CategoriesPageComponent } from './components/categories-page/categories-page.component';
 import { ManagementPageComponent } from './components/management-page/management-page.component';
@@ -39,6 +43,15 @@ import {
   NzModalService,
 } from 'ng-zorro-antd/modal';
 import { AddItemComponent } from './components/add-item/add-item.component';
+import {
+  NzFormControlComponent,
+  NzFormDirective,
+  NzFormItemComponent,
+  NzFormLabelComponent,
+} from 'ng-zorro-antd/form';
+import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
+import { NzCheckboxComponent } from 'ng-zorro-antd/checkbox';
+import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -84,6 +97,17 @@ import { AddItemComponent } from './components/add-item/add-item.component';
     NzEmptyComponent,
     NzModalComponent,
     NzModalContentDirective,
+    NzFormDirective,
+    NzFormItemComponent,
+    NzFormLabelComponent,
+    NzColDirective,
+    ReactiveFormsModule,
+    NzFormControlComponent,
+    NzCheckboxComponent,
+    NzRowDirective,
+    NzSelectComponent,
+    NzOptionComponent,
+    NzTextareaCountComponent,
   ],
   providers: [NzModalService],
   exports: [ItemsPageComponent, ManagementPageComponent],
