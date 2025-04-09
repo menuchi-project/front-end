@@ -6,7 +6,7 @@
     <ng-template #suffixIconSearch>
       <nz-icon nzType="search" />
     </ng-template>
-    <button nz-button nzType="primary">
+    <button nz-button nzType="primary" (click)="showModal()">
       <nz-icon nzType="plus" />
       افزودن آیتم جدید
     </button>
@@ -18,4 +18,6 @@
     <nz-icon nzType="delete"></nz-icon>
     حذف موارد انتخاب شده
   </button>
+
+  <app-add-item></app-add-item>
 </div>

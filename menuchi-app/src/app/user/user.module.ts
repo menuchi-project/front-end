@@ -33,6 +33,12 @@ import {
 import { CdkScrollable } from '@angular/cdk/overlay';
 import { BacklogPageComponent } from './components/backlog-page/backlog-page.component';
 import { NzEmptyComponent } from 'ng-zorro-antd/empty';
+import {
+  NzModalComponent,
+  NzModalContentDirective,
+  NzModalService,
+} from 'ng-zorro-antd/modal';
+import { AddItemComponent } from './components/add-item/add-item.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +48,7 @@ import { NzEmptyComponent } from 'ng-zorro-antd/empty';
     ManagementPageComponent,
     BacklogPageComponent,
     CategoryComponent,
+    AddItemComponent,
   ],
   imports: [
     CommonModule,
@@ -75,7 +82,10 @@ import { NzEmptyComponent } from 'ng-zorro-antd/empty';
     CdkDragHandle,
     CdkScrollable,
     NzEmptyComponent,
+    NzModalComponent,
+    NzModalContentDirective,
   ],
+  providers: [NzModalService],
   exports: [ItemsPageComponent, ManagementPageComponent],
 })
 export class UserModule {}
