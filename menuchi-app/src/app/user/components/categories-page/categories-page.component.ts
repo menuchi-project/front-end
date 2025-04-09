@@ -7,6 +7,7 @@ import {
 import { ItemService } from '../../services/item/item.service';
 import { Category, CategoryWithItemsResponse } from '../../models/Item';
 import { TitleService } from '../../../shared/services/title/title.service';
+import { ModalService } from '../../services/modal/modal.service';
 
 @Component({
   selector: 'app-categories-page',
@@ -19,9 +20,10 @@ export class CategoriesPageComponent implements OnInit {
   allConnectedLists: string[] = [];
 
   constructor(
-    private cdr: ChangeDetectorRef,
-    private itemService: ItemService,
-    private titleService: TitleService,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly itemService: ItemService,
+    private readonly titleService: TitleService,
+    private readonly modalService: ModalService,
   ) {}
 
   ngOnInit(): void {
@@ -73,5 +75,9 @@ export class CategoriesPageComponent implements OnInit {
     moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
 
     this.cdr.detectChanges();
+  }
+
+  showModal(): void {
+    this.modalService.openModal();
   }
 }

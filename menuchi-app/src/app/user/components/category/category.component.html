@@ -4,7 +4,12 @@
   <div class="cat-header">
     <h3>{{ list.categoryName }}</h3>
     <div class="move-add-box">
-      <nz-icon nzType="plus" nzTheme="outline" class="add-item-icon" />
+      <nz-icon
+        nzType="plus"
+        nzTheme="outline"
+        class="add-item-icon"
+        (click)="showModal()"
+      />
       <nz-icon
         nzType="holder"
         nzTheme="outline"
@@ -81,7 +86,12 @@
       </ng-template>
     }
 
-    <button nz-button nzType="primary" class="add-item-btn">
+    <button
+      nz-button
+      nzType="primary"
+      class="add-item-btn"
+      (click)="showModal()"
+    >
       <nz-icon nzType="plus" />
       اضافه کردن آیتم جدید به دسته‌بندی
     </button>

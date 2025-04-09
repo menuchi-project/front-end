@@ -6,7 +6,12 @@
     <ng-template #suffixIconSearch>
       <nz-icon nzType="search" />
     </ng-template>
-    <button nz-button nzType="primary" class="add-item-btn">
+    <button
+      nz-button
+      nzType="primary"
+      class="add-item-btn"
+      (click)="showModal()"
+    >
       <nz-icon nzType="plus" />
       افزودن آیتم جدید
     </button>
@@ -39,4 +44,6 @@
       ></app-category>
     </div>
   </div>
+
+  <app-add-item></app-add-item>
 </div>
