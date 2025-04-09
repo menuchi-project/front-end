@@ -1,6 +1,6 @@
 <nz-modal
   nzWidth="22rem"
-  [nzStyle]="{ top: '3rem' }"
+  [nzStyle]="{ top: '2rem' }"
   [(nzVisible)]="isVisible"
   nzTitle="ایجاد آیتم جدید"
   (nzOnCancel)="handleCancel()"
@@ -52,6 +52,7 @@
         </nz-form-label>
         <nz-form-control
           [nzValidateStatus]="validateForm.controls['phoneNumber']"
+          nzHasFeedback
           nzErrorTip="Please input your phone number!"
         >
           <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
@@ -73,10 +74,7 @@
         <nz-form-label nzRequired>
           <span>مواد تشکیل دهنده</span>
         </nz-form-label>
-        <nz-form-control
-          nzHasFeedback
-          nzErrorTip="لطفا مواد تشکیل دهنده را وارد کنید."
-        >
+        <nz-form-control nzErrorTip="لطفا مواد تشکیل دهنده را وارد کنید.">
           <nz-textarea-count [nzMaxCharacterCount]="200">
             <textarea
               formControlName="comment"

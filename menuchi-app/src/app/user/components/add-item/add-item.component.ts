@@ -50,7 +50,24 @@ export class AddItemComponent implements OnInit, OnDestroy {
     phoneNumber: this.fb.control('', [Validators.required]),
     comment: this.fb.control('', [Validators.required]),
   });
-  cats: string[] = ['nn', 'سلام'];
+  cats: string[] = [
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+    'سلام',
+  ];
 
   ngOnDestroy(): void {
     this.destroy$.next();
