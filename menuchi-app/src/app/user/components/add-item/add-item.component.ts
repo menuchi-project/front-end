@@ -11,22 +11,33 @@ import { Subject } from 'rxjs';
 })
 export class AddItemComponent implements OnInit, OnDestroy {
   isOkLoading = false;
-  isVisible!: boolean;
+  isVisible = false;
+
   private fb = inject(NonNullableFormBuilder);
   private destroy$ = new Subject<void>();
+
+  categories: string[] = ['غذای سنتی', 'دسر', 'نوشیدنی'];
+
+  validateForm = this.fb.group({
+    itemName: this.fb.control('', Validators.required),
+    category: this.fb.control('', Validators.required),
+    price: this.fb.control('', Validators.required),
+    ingredients: this.fb.control('', Validators.required),
+    image: this.fb.control(null, Validators.required),
+  });
 
   constructor(private readonly modalService: ModalService) {}
 
   ngOnInit(): void {
     this.modalService.modalOpens$.subscribe({
-      next: (isOpen: boolean) => {
-        console.log('add item comp: line 19', isOpen);
-        this.isVisible = isOpen;
-      },
-      error: (error) => {
-        console.log('error in add item comp: line 23', error);
-      },
+      next: (isOpen) => (this.isVisible = isOpen),
+      error: (error) => console.error('Modal error:', error),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   handleOk(): void {
@@ -41,25 +52,9 @@ export class AddItemComponent implements OnInit, OnDestroy {
     this.modalService.closeModal();
   }
 
-  validateForm = this.fb.group({
-    nickname: this.fb.control('', Validators.required),
-    category: this.fb.control('', Validators.required),
-    phoneNumber: this.fb.control('', Validators.required),
-    comment: this.fb.control('', Validators.required),
-    itemImg: this.fb.control(null, Validators.required),
-    price: this.fb.control('', Validators.required),
-  });
-
-  cats: string[] = ['سلام2', 'سلام3'];
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
+      console.log('Form submitted:', this.validateForm.value);
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {

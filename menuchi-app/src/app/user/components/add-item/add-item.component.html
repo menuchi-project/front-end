@@ -16,57 +16,55 @@
       nzLayout="vertical"
       (ngSubmit)="submitForm()"
     >
+      <!-- نام آیتم -->
       <nz-form-item>
-        <nz-form-label nzFor="nickname" nzRequired>
-          <span>نام آیتم</span>
-        </nz-form-label>
-        <br />
+        <nz-form-label nzFor="itemName" nzRequired>نام آیتم</nz-form-label>
         <nz-form-control nzErrorTip="نام آیتم نمی‌تواند خالی باشد.">
           <input
+            id="itemName"
             nz-input
-            id="nickname"
-            formControlName="nickname"
+            formControlName="itemName"
             placeholder="مثال: قورمه سبزی"
           />
         </nz-form-control>
       </nz-form-item>
+
+      <!-- دسته بندی -->
       <nz-form-item>
-        <nz-form-label nzFor="category" nzRequired>
-          <span>دسته بندی</span>
-        </nz-form-label>
+        <nz-form-label nzFor="category" nzRequired>دسته‌بندی</nz-form-label>
         <nz-form-control
           [nzValidateStatus]="validateForm.controls['category']"
-          nzErrorTip="دسته بندی نمیتواند خالی باشد!"
+          nzErrorTip="دسته‌بندی نمی‌تواند خالی باشد."
         >
           <nz-select
-            nzId="category"
+            id="category"
+            formControlName="category"
             nzShowSearch
             nzAllowClear
-            nzPlaceHolder="یک دسته بندی انتخاب کنید"
-            formControlName="category"
+            nzPlaceHolder="یک دسته‌بندی انتخاب کنید"
             style="width: 100%"
           >
-            @for (cat of cats; track cat) {
+            @for (cat of categories; track cat) {
               <nz-option [nzLabel]="cat" [nzValue]="cat"></nz-option>
             }
           </nz-select>
         </nz-form-control>
       </nz-form-item>
+
+      <!-- قیمت -->
       <nz-form-item>
-        <nz-form-label nzRequired>
-          <span>قیمت</span>
-        </nz-form-label>
+        <nz-form-label nzFor="price" nzRequired>قیمت</nz-form-label>
         <nz-form-control
-          [nzValidateStatus]="validateForm.controls['phoneNumber']"
-          nzErrorTip="قیمت را به درستی وارد کنید."
+          [nzValidateStatus]="validateForm.controls['price']"
+          nzErrorTip="قیمت نمی‌تواند خالی باشد."
         >
           <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
             <input
+              id="price"
               type="text"
               nz-input
-              id="price"
               formControlName="price"
-              placeholder="مثال: ۲۷۶٫۰۰۰"
+              placeholder="مثال: ۲۷۶,۰۰۰"
             />
           </nz-input-group>
           <ng-template #suffixButton>
@@ -81,41 +79,43 @@
           </ng-template>
         </nz-form-control>
       </nz-form-item>
+
+      <!-- مواد تشکیل دهنده -->
       <nz-form-item>
-        <nz-form-label nzRequired>
-          <span>مواد تشکیل دهنده</span>
+        <nz-form-label nzFor="ingredients" nzRequired>
+          مواد تشکیل‌دهنده
         </nz-form-label>
-        <nz-form-control nzErrorTip="لطفا مواد تشکیل دهنده را وارد کنید.">
+        <nz-form-control nzErrorTip="لطفاً مواد را وارد کنید.">
           <nz-textarea-count [nzMaxCharacterCount]="200">
             <textarea
-              formControlName="comment"
+              id="ingredients"
+              formControlName="ingredients"
               nz-input
               rows="3"
-              placeholder="مثال: سبزی٫ لیمو امانی٫ لوبیا٫ برنج ..."
+              placeholder="مثال: سبزی، لوبیا، گوشت، لیمو امانی..."
               maxlength="200"
             ></textarea>
           </nz-textarea-count>
         </nz-form-control>
       </nz-form-item>
+
+      <!-- آپلود تصویر -->
       <nz-form-item>
-        <nz-form-label nzRequired>
-          <span>آپلود تصویر</span>
-        </nz-form-label>
+        <nz-form-label nzFor="image" nzRequired>تصویر آیتم</nz-form-label>
         <nz-form-control
-          [nzValidateStatus]="validateForm.controls['itemImg']"
-          nzErrorTip="آپلود تصویر الزامی است!"
+          [nzValidateStatus]="validateForm.controls['image']"
+          nzErrorTip="آپلود تصویر الزامی است."
         >
           <app-upload-box
-            formControlName="itemImg"
+            formControlName="image"
+            id="image"
             style="width: 100%"
           ></app-upload-box>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item
-        nz-row
-        class="register-area"
-        style="margin-block-start: 1rem"
-      >
+
+      <!-- دکمه ثبت -->
+      <nz-form-item nz-row style="margin-block-start: 1rem">
         <nz-form-control>
           <button nz-button nzType="primary" style="width: 100%">ایجاد</button>
         </nz-form-control>
