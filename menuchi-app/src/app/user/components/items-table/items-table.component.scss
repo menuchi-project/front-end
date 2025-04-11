@@ -52,7 +52,11 @@ nz-table {
     border-radius: 1rem;
 
     &:hover {
-      color: #546fff;
+      color: #69a1fb;
+    }
+
+    &.delete:hover {
+      color: #f54b4b;
     }
 
     &.edit {

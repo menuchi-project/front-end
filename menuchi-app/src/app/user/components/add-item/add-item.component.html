@@ -34,26 +34,32 @@
         <nz-form-label nzFor="category" nzRequired>
           <span>دسته بندی</span>
         </nz-form-label>
-        <nz-select
-          nzShowSearch
-          nzAllowClear
-          nzPlaceHolder="یک دسته بندی انتخاب کنید"
-          [(ngModel)]="selectedValue"
-          style="width: 100%"
+        <nz-form-control
+          [nzValidateStatus]="validateForm.controls['category']"
+          nzErrorTip="دسته بندی نمیتواند خالی باشد!"
         >
-          @for (cat of cats; track cat) {
-            <nz-option nzLabel="{{ cat }}" nzValue="{{ cat }}"></nz-option>
-          }
-        </nz-select>
+          <nz-select
+            nzId="category"
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="یک دسته بندی انتخاب کنید"
+            [(ngModel)]="selectedValue"
+            [ngModelOptions]="{ standalone: true }"
+            style="width: 100%"
+          >
+            @for (cat of cats; track cat) {
+              <nz-option nzLabel="{{ cat }}" nzValue="{{ cat }}"></nz-option>
+            }
+          </nz-select>
+        </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label nzFor="phoneNumber" nzRequired>
+        <nz-form-label nzRequired>
           <span>قیمت</span>
         </nz-form-label>
         <nz-form-control
           [nzValidateStatus]="validateForm.controls['phoneNumber']"
-          nzHasFeedback
-          nzErrorTip="Please input your phone number!"
+          nzErrorTip="قیمت را به درستی وارد کنید."
         >
           <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
             <input type="text" nz-input placeholder="مثال: ۲۷۶٫۰۰۰" />
@@ -92,7 +98,11 @@
         </nz-form-label>
         <app-upload-box style="width: 100%"></app-upload-box>
       </nz-form-item>
-      <nz-form-item nz-row class="register-area">
+      <nz-form-item
+        nz-row
+        class="register-area"
+        style="margin-block-start: 1rem"
+      >
         <nz-form-control>
           <button nz-button nzType="primary" style="width: 100%">ایجاد</button>
         </nz-form-control>

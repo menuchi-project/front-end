@@ -1,15 +1,31 @@
 <nz-upload
+  [(nzFileList)]="fileList"
+  [nzMultiple]="false"
+  [nzAction]="picUrl"
+  [nzBeforeUpload]="beforeUpload"
+  [nzPreview]="handlePreview"
+  nzListType="picture"
+  nzAccept="image/*"
+  [nzShowButton]="fileList.length < 1"
+  [nzShowUploadList]="fileList.length >= 1"
   nzType="drag"
-  [nzMultiple]="true"
-  nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-  (nzChange)="handleChange($event)"
 >
   <p class="ant-upload-drag-icon">
     <img src="/assets/icons/Upload.svg" alt="upload" />
   </p>
-  <!--  <p class="ant-upload-text">فایل را به اینجا بکشید یا اینجا کلیک کنید</p>-->
   <p class="ant-upload-hint">
     فایل را بکشید یا
     <span style="color: #243e62">اینجا کلیک کنید</span>
   </p>
 </nz-upload>
+
+<nz-modal
+  [nzVisible]="previewVisible"
+  [nzContent]="modalContent"
+  [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false"
+>
+  <ng-template #modalContent>
+    <img [src]="previewImage" style="width: 100%" alt="preview" />
+  </ng-template>
+</nz-modal>

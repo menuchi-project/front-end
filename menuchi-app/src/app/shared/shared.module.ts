@@ -17,6 +17,7 @@ import { TruncatePipe } from './pipes/truncate/truncate.pipe';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { UploadBoxComponent } from './components/upload-box/upload-box.component';
+import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [BreadcrumbComponent, TruncatePipe, UploadBoxComponent],
@@ -33,6 +34,8 @@ import { UploadBoxComponent } from './components/upload-box/upload-box.component
     NzButtonModule,
     NzIconModule,
     NzUploadModule,
+    NzModalComponent,
+    NzModalModule,
   ],
   exports: [BreadcrumbComponent, TruncatePipe, UploadBoxComponent],
 })
