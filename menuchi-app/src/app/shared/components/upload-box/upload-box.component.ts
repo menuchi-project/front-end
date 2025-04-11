@@ -58,7 +58,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
     if (!file.url && !file['preview']) {
       file['preview'] = await getBase64(file.originFileObj!);
     }
-    this.previewImage = file.url || (file['preview'] as string);
+    this.previewImage = file.url || file['preview'];
     this.previewVisible = true;
   };
 
@@ -77,7 +77,6 @@ export class UploadBoxComponent implements ControlValueAccessor {
 
     const timestamp = new Date().getTime();
     const fileName = `item-${timestamp}-${rawFile.name}`;
-    console.log(fileName);
 
     const uploadRequest: UploadUrlRequest = {
       restaurantId: '52907745-7672-470e-a803-a2f8feb52944',
@@ -94,14 +93,16 @@ export class UploadBoxComponent implements ControlValueAccessor {
           .subscribe({
             next: () => {
               this.messageService.success(`تصویر با موفقیت آپلود شد.`);
-              this.fileList = [
-                {
-                  uid: '-1',
-                  name: fileName,
-                  status: 'done',
-                  url: itemPicUrl,
-                },
-              ];
+              // this.fileList = [
+              //   {
+              //     uid: '-1',
+              //     name: fileName,
+              //     status: 'done',
+              //     url: itemPicUrl,
+              //     thumbUrl: itemPicUrl,
+              //   },
+              // ];
+              this.fileList[0].status = 'done';
               this.onChange(itemPicKey);
             },
             error: () => {
