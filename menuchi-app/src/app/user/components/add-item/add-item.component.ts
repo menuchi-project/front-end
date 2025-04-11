@@ -12,6 +12,8 @@ import { Subject } from 'rxjs';
 export class AddItemComponent implements OnInit, OnDestroy {
   isOkLoading = false;
   isVisible!: boolean;
+  private fb = inject(NonNullableFormBuilder);
+  private destroy$ = new Subject<void>();
 
   constructor(private readonly modalService: ModalService) {}
 
@@ -39,37 +41,16 @@ export class AddItemComponent implements OnInit, OnDestroy {
     this.modalService.closeModal();
   }
 
-  // --
-  private fb = inject(NonNullableFormBuilder);
-  private destroy$ = new Subject<void>();
-  selectedValue: any;
-
   validateForm = this.fb.group({
-    password: this.fb.control('', [Validators.required]),
-    nickname: this.fb.control('', [Validators.required]),
-    category: this.fb.control('', [Validators.required]),
-    phoneNumber: this.fb.control('', [Validators.required]),
-    comment: this.fb.control('', [Validators.required]),
-    itemImg: this.fb.control('', [Validators.required]),
+    nickname: this.fb.control('', Validators.required),
+    category: this.fb.control('', Validators.required),
+    phoneNumber: this.fb.control('', Validators.required),
+    comment: this.fb.control('', Validators.required),
+    itemImg: this.fb.control(null, Validators.required),
+    price: this.fb.control('', Validators.required),
   });
-  cats: string[] = [
-    'سلام2',
-    'سلام3',
-    'سلام4',
-    'سلا5م',
-    'س6لام',
-    '7سلام',
-    'سلام8',
-    'سلا9م',
-    'س0لام',
-    'سل11ام',
-    'س12لام',
-    'س121لام',
-    'س14لام',
-    '15سلام',
-    'سل16ام',
-    'سل17ام',
-  ];
+
+  cats: string[] = ['سلام2', 'سلام3'];
 
   ngOnDestroy(): void {
     this.destroy$.next();

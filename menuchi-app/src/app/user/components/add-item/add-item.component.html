@@ -43,12 +43,11 @@
             nzShowSearch
             nzAllowClear
             nzPlaceHolder="یک دسته بندی انتخاب کنید"
-            [(ngModel)]="selectedValue"
-            [ngModelOptions]="{ standalone: true }"
+            formControlName="category"
             style="width: 100%"
           >
             @for (cat of cats; track cat) {
-              <nz-option nzLabel="{{ cat }}" nzValue="{{ cat }}"></nz-option>
+              <nz-option [nzLabel]="cat" [nzValue]="cat"></nz-option>
             }
           </nz-select>
         </nz-form-control>
@@ -62,7 +61,13 @@
           nzErrorTip="قیمت را به درستی وارد کنید."
         >
           <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
-            <input type="text" nz-input placeholder="مثال: ۲۷۶٫۰۰۰" />
+            <input
+              type="text"
+              nz-input
+              id="price"
+              formControlName="price"
+              placeholder="مثال: ۲۷۶٫۰۰۰"
+            />
           </nz-input-group>
           <ng-template #suffixButton>
             <button
@@ -96,7 +101,15 @@
         <nz-form-label nzRequired>
           <span>آپلود تصویر</span>
         </nz-form-label>
-        <app-upload-box style="width: 100%"></app-upload-box>
+        <nz-form-control
+          [nzValidateStatus]="validateForm.controls['itemImg']"
+          nzErrorTip="آپلود تصویر الزامی است!"
+        >
+          <app-upload-box
+            formControlName="itemImg"
+            style="width: 100%"
+          ></app-upload-box>
+        </nz-form-control>
       </nz-form-item>
       <nz-form-item
         nz-row
