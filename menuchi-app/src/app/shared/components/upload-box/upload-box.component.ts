@@ -3,11 +3,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { UploadImageService } from '../../services/upload-image/upload-image.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UploadUrlRequest } from '../../models/UploadImage';
 
 @Component({
   selector: 'app-upload-box',
-  styleUrl: './upload-box.component.scss',
   templateUrl: './upload-box.component.html',
+  styleUrl: './upload-box.component.scss',
   standalone: false,
   providers: [
     {
@@ -18,21 +19,28 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class UploadBoxComponent implements ControlValueAccessor {
-  picUrl: string = 'https://example.com/upload-endpoint';
-  previewImage: string | undefined = '';
-  previewVisible = false;
   fileList: NzUploadFile[] = [];
-  private onChange = (_: any) => {};
-  private onTouched = () => {};
+  previewVisible = false;
+  previewImage: string | undefined = '';
+
+  private onChange: (value: any) => void = () => {};
+  private onTouched: () => void = () => {};
 
   constructor(
     private readonly messageService: NzMessageService,
     private readonly uploadImageService: UploadImageService,
   ) {}
 
-  writeValue(value: any): void {
+  writeValue(value: string | null): void {
     if (value) {
-      this.fileList = [value];
+      this.fileList = [
+        {
+          uid: '-1',
+          name: 'تصویر انتخاب‌شده',
+          status: 'done',
+          url: value,
+        },
+      ];
     } else {
       this.fileList = [];
     }
@@ -46,33 +54,67 @@ export class UploadBoxComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  handleChange({ file, fileList }: NzUploadChangeParam): void {
-    this.fileList = fileList;
-
-    if (file.status === 'done') {
-      this.messageService.success(`${file.name} فایل با موفقیت آپلود شد.`);
-      this.onChange(file); // <-- مقدار به فرم بده
-    } else if (file.status === 'error') {
-      this.messageService.error(`${file.name} آپلود با خطا مواجه شد.`);
-      this.onChange(null);
-    }
-  }
-
   handlePreview = async (file: NzUploadFile): Promise<void> => {
     if (!file.url && !file['preview']) {
       file['preview'] = await getBase64(file.originFileObj!);
     }
-    this.previewImage = file.url || file['preview'];
+    this.previewImage = file.url || (file['preview'] as string);
     this.previewVisible = true;
   };
 
-  beforeUpload = (file: NzUploadFile, fileList: NzUploadFile[]): boolean => {
+  beforeUpload = (file: NzUploadFile): boolean => {
     if (this.fileList.length >= 1) {
-      this.messageService.error(' فقط یک فایل مجاز است.');
+      this.messageService.error('فقط یک فایل قابل انتخاب است.');
       return false;
     }
     return true;
   };
+
+  handleChange({ file }: NzUploadChangeParam): void {
+    const rawFile = file.originFileObj;
+
+    if (!rawFile) return;
+
+    const timestamp = new Date().getTime();
+    const fileName = `item-${timestamp}-${rawFile.name}`;
+    console.log(fileName);
+
+    const uploadRequest: UploadUrlRequest = {
+      restaurantId: '52907745-7672-470e-a803-a2f8feb52944',
+      branchId: 'a7b29e98-411f-4616-9f5c-317643452544',
+      fileName,
+    };
+
+    this.uploadImageService.getUploadUrl(uploadRequest).subscribe({
+      next: (res) => {
+        const { itemPicUrl, itemPicKey } = res;
+
+        this.uploadImageService
+          .uploadToSignedUrl(itemPicUrl, itemPicKey, rawFile)
+          .subscribe({
+            next: () => {
+              this.messageService.success(`تصویر با موفقیت آپلود شد.`);
+              this.fileList = [
+                {
+                  uid: '-1',
+                  name: fileName,
+                  status: 'done',
+                  url: itemPicUrl,
+                },
+              ];
+              this.onChange(itemPicKey);
+            },
+            error: () => {
+              this.messageService.error(`خطا در آپلود تصویر.`);
+              this.onChange(null);
+            },
+          });
+      },
+      error: () => {
+        this.messageService.error('دریافت لینک آپلود با خطا مواجه شد.');
+      },
+    });
+  }
 }
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>

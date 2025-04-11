@@ -1,4 +1,4 @@
-export interface GetUrlRequest {
+export interface UploadUrlRequest {
   restaurantId: string;
   branchId: string;
   fileName: string;

@@ -1,17 +1,17 @@
 <nz-upload
   [(nzFileList)]="fileList"
   [nzMultiple]="false"
-  [nzAction]="picUrl"
   [nzBeforeUpload]="beforeUpload"
   [nzPreview]="handlePreview"
-  nzListType="picture"
-  nzAccept="image/*"
   [nzShowButton]="fileList.length < 1"
   [nzShowUploadList]="fileList.length >= 1"
+  nzAccept="image/*"
+  nzListType="picture"
   nzType="drag"
+  (nzChange)="handleChange($event)"
 >
   <p class="ant-upload-drag-icon">
-    <img src="/assets/icons/Upload.svg" alt="upload" />
+    <img src="/assets/icons/Upload.svg" alt="آپلود" />
   </p>
   <p class="ant-upload-hint">
     فایل را بکشید یا
@@ -26,6 +26,6 @@
   (nzOnCancel)="previewVisible = false"
 >
   <ng-template #modalContent>
-    <img [src]="previewImage" style="width: 100%" alt="preview" />
+    <img [src]="previewImage" style="width: 100%" alt="پیش‌نمایش تصویر" />
   </ng-template>
 </nz-modal>
