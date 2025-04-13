@@ -84,11 +84,13 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     setTimeout(() => {
       this.modalService.closeModal();
       this.isOkLoading = false;
+      this.resetForm();
     }, 2000);
   }
 
   handleCancel(): void {
     this.modalService.closeModal();
+    this.resetForm();
   }
 
   submitForm(): void {
@@ -106,6 +108,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           this.messageService.success(' آیتم با موفقیت ایجاد شد.');
           this.itemService.getCategoriesWithItems();
           this.modalService.closeModal();
+          this.resetForm();
         },
         error: (error) => {
           console.log('error in add item, line 110:', error);
@@ -140,5 +143,11 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
       control?.enable();
       control?.reset();
     }
+  }
+
+  resetForm(): void {
+    this.validateForm.reset();
+    this.validateForm.enable();
+    this.categorySelected = null;
   }
 }
