@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TitleService } from '../../../shared/services/title/title.service';
 
@@ -13,7 +13,10 @@ export class ManagementPageComponent implements OnDestroy {
   pageTitle = 'مدیریت';
   onPageChangedSub: Subscription;
 
-  constructor(private titleService: TitleService) {
+  constructor(
+    private readonly titleService: TitleService,
+    private readonly cdr: ChangeDetectorRef,
+  ) {
     this.onPageChangedSub = this.titleService.onPageChanged$.subscribe(
       ($event: string) => {
         this.updateTitle($event);
@@ -23,6 +26,7 @@ export class ManagementPageComponent implements OnDestroy {
 
   updateTitle(newTitle: string): void {
     this.pageTitle = newTitle;
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {

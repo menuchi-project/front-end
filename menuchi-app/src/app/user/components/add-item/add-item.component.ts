@@ -85,13 +85,12 @@ export class AddItemComponent implements OnInit, OnDestroy {
 
       this.itemService.createItem(newItem).subscribe({
         next: (response) => {
-          console.log(response);
           this.messageService.success(' آیتم با موفقیت ایجاد شد.');
           this.itemService.getCategoriesWithItems();
           this.modalService.closeModal();
         },
         error: (error) => {
-          console.log('error in add item, line 94:', error);
+          console.log('error in add item, line 93:', error);
           for (let e of error.error.details)
             this.messageService.error(' ' + e.message);
         },

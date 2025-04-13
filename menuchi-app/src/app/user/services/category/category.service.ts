@@ -19,7 +19,6 @@ export class CategoryService {
     return this.httpClient
       .get<CategoryName[]>(this.apiUrl + '/category-names')
       .subscribe((cats) => {
-        console.log('getCategoryNames in category service, line 23:', cats);
         this.getCategoryNamesData.next(cats);
       });
   }

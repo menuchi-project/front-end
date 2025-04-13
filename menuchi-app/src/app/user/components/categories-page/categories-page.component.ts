@@ -33,7 +33,7 @@ export class CategoriesPageComponent implements OnInit {
         this.allConnectedLists = this.lists.map((l) => l.id);
       },
       error: (error) => {
-        console.log('error in categories page, line 37:', error);
+        console.log('error in categories page, line 36:', error);
       },
     });
 
@@ -63,9 +63,6 @@ export class CategoriesPageComponent implements OnInit {
         event.currentIndex,
       );
     }
-
-    console.log(prevIndex, currIndex);
-    console.log(this.lists);
 
     this.cdr.detectChanges();
   }
