@@ -51,7 +51,10 @@
             </div>
             <div class="price">{{ data.price }}</div>
           </div>
-          <div class="item-image">{{ data.picUrl }}</div>
+
+          <div class="item-image">
+            <img src="{{ data.picUrl }}" alt="item image" />
+          </div>
         </div>
       </ng-template>
       <ng-template #cardTitle>
