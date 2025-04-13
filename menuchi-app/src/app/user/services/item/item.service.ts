@@ -26,7 +26,6 @@ export class ItemService {
     return this.httpClient
       .get<CategoryWithItemsResponse>(this.apiUrl)
       .subscribe((cats) => {
-        console.log('hiiii', cats);
         this.categoriesData.next(cats);
       });
   }
@@ -39,39 +38,7 @@ export class ItemService {
       });
   }
 
-  createCategory(newItem: CreateItemRequest) {
-    return this.httpClient.post(this.apiUrl, newItem).subscribe((res) => {
-      console.log(res);
-    });
+  createItem(newItem: CreateItemRequest) {
+    return this.httpClient.post(this.apiUrl + '/items', newItem);
   }
-
-  // updateCategory(id: number, name: string) {
-  //   this.loadingService.setLoading(true);
-  //   console.log(name);
-  //
-  //   return this.httpClient.put(
-  //     this.apiUrl,
-  //     { id: id, name: name },
-  //     {
-  //       withCredentials: true,
-  //     },
-  //   );
-  // }
-  //
-  // deleteCategory(id: number) {
-  //   this.loadingService.setLoading(true);
-  //   return this.httpClient.delete(this.apiUrl + `/${id}`, {
-  //     withCredentials: true,
-  //   });
-  // }
-  //
-  // getAllCategories() {
-  //   this.loadingService.setLoading(true);
-  //   return this.httpClient.get<AllCategories[]>(
-  //     this.apiUrl + `/all-category-without-pagination`,
-  //     {
-  //       withCredentials: true,
-  //     },
-  //   );
-  // }
 }
