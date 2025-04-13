@@ -80,12 +80,7 @@
       </ng-template>
       <ng-template #cardPreview>
         <h4>{{ data.name }}</h4>
-        <img
-          ngSrc="https://pizzaatour.ir/wp-content/uploads/2024/01/6336258792869.jpeg"
-          alt=""
-          height="150"
-          width="150"
-        />
+        <img [ngSrc]="data.picUrl" alt="" height="150" width="150" />
       </ng-template>
     }
 

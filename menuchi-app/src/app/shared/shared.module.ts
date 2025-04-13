@@ -20,7 +20,6 @@ import { UploadBoxComponent } from './components/upload-box/upload-box.component
 import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
 import { NzProgressComponent } from 'ng-zorro-antd/progress';
 import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
-import { PricePipe } from './pipes/price/price.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +27,6 @@ import { PricePipe } from './pipes/price/price.pipe';
     TruncatePipe,
     UploadBoxComponent,
     PersianNumberPipe,
-    PricePipe,
   ],
   imports: [
     CommonModule,
