@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
 import {
   NzMenuDirective,
   NzMenuItemComponent,
@@ -14,20 +14,9 @@ import {
 } from 'ng-zorro-antd/breadcrumb';
 import { RouterLink } from '@angular/router';
 import { TruncatePipe } from './pipes/truncate/truncate.pipe';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { UploadBoxComponent } from './components/upload-box/upload-box.component';
-import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
-import { NzProgressComponent } from 'ng-zorro-antd/progress';
-import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
 
 @NgModule({
-  declarations: [
-    BreadcrumbComponent,
-    TruncatePipe,
-    UploadBoxComponent,
-    PersianNumberPipe,
-  ],
+  declarations: [BreadcrumbComponent, TruncatePipe],
   imports: [
     CommonModule,
     NzIconDirective,
@@ -38,18 +27,7 @@ import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
     NzBreadCrumbComponent,
     NzBreadCrumbItemComponent,
     RouterLink,
-    NzButtonModule,
-    NzIconModule,
-    NzUploadModule,
-    NzModalComponent,
-    NzModalModule,
-    NzProgressComponent,
   ],
-  exports: [
-    BreadcrumbComponent,
-    TruncatePipe,
-    UploadBoxComponent,
-    PersianNumberPipe,
-  ],
+  exports: [BreadcrumbComponent, TruncatePipe],
 })
 export class SharedModule {}
