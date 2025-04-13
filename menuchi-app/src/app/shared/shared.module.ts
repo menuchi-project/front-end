@@ -19,9 +19,17 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { UploadBoxComponent } from './components/upload-box/upload-box.component';
 import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
 import { NzProgressComponent } from 'ng-zorro-antd/progress';
+import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
+import { PricePipe } from './pipes/price/price.pipe';
 
 @NgModule({
-  declarations: [BreadcrumbComponent, TruncatePipe, UploadBoxComponent],
+  declarations: [
+    BreadcrumbComponent,
+    TruncatePipe,
+    UploadBoxComponent,
+    PersianNumberPipe,
+    PricePipe,
+  ],
   imports: [
     CommonModule,
     NzIconDirective,
@@ -39,6 +47,11 @@ import { NzProgressComponent } from 'ng-zorro-antd/progress';
     NzModalModule,
     NzProgressComponent,
   ],
-  exports: [BreadcrumbComponent, TruncatePipe, UploadBoxComponent],
+  exports: [
+    BreadcrumbComponent,
+    TruncatePipe,
+    UploadBoxComponent,
+    PersianNumberPipe,
+  ],
 })
 export class SharedModule {}
