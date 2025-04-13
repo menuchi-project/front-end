@@ -64,7 +64,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
 
   beforeUpload = (file: NzUploadFile): boolean => {
     if (this.fileList.length >= 1) {
-      this.messageService.error('فقط یک فایل قابل انتخاب است.');
+      this.messageService.error(' فقط یک فایل قابل انتخاب است.');
       return false;
     }
     return true;
@@ -93,26 +93,20 @@ export class UploadBoxComponent implements ControlValueAccessor {
           .subscribe({
             next: () => {
               this.messageService.success(`تصویر با موفقیت آپلود شد.`);
-              // this.fileList = [
-              //   {
-              //     uid: '-1',
-              //     name: fileName,
-              //     status: 'done',
-              //     url: itemPicUrl,
-              //     thumbUrl: itemPicUrl,
-              //   },
-              // ];
               this.fileList[0].status = 'done';
+              this.fileList[0].url = file.url;
               this.onChange(itemPicKey);
             },
             error: () => {
               this.messageService.error(`خطا در آپلود تصویر.`);
+              this.fileList[0].status = 'error';
               this.onChange(null);
             },
           });
       },
       error: () => {
         this.messageService.error('دریافت لینک آپلود با خطا مواجه شد.');
+        this.fileList[0].status = 'error';
       },
     });
   }
