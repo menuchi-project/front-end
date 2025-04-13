@@ -79,6 +79,7 @@
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
+    padding-inline-end: 0.5rem;
 
     .add-item-btn {
       background-color: #aaaaaa;
@@ -98,7 +99,6 @@
       border-color: #d0d3d7;
       border-radius: 0;
       cursor: grab;
-      //margin-top: 0 !important;
 
       .header {
         display: flex;
