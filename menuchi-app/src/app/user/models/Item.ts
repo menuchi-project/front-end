@@ -24,6 +24,14 @@ export interface Category {
   items: Item[];
 }
 
+export interface CategoryName {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+  name: string;
+}
+
 export interface CategoryWithItemsResponse {
   id: string;
   createdAt: string;

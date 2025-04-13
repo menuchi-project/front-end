@@ -31,10 +31,9 @@ export class CategoriesPageComponent implements OnInit {
       next: (response: CategoryWithItemsResponse) => {
         this.lists = response.categories;
         this.allConnectedLists = this.lists.map((l) => l.id);
-        console.log(this.lists);
       },
       error: (error) => {
-        console.log('errrror', error);
+        console.log('error in categories page, line 37:', error);
       },
     });
 

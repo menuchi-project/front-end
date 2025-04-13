@@ -44,8 +44,8 @@
             nzPlaceHolder="یک دسته‌بندی انتخاب کنید"
             style="width: 100%"
           >
-            @for (cat of categories; track cat) {
-              <nz-option [nzLabel]="cat" [nzValue]="cat"></nz-option>
+            @for (cat of categories; track cat.id) {
+              <nz-option [nzLabel]="cat.name" [nzValue]="cat.id"></nz-option>
             }
           </nz-select>
         </nz-form-control>

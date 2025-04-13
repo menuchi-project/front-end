@@ -3,7 +3,8 @@ import { ModalService } from '../../services/modal/modal.service';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ItemService } from '../../services/item/item.service';
-import { CreateItemRequest } from '../../models/Item';
+import { CategoryName, CreateItemRequest } from '../../models/Item';
+import { CategoryService } from '../../services/category/category.service';
 
 @Component({
   selector: 'app-add-item',
@@ -18,7 +19,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
   private fb = inject(NonNullableFormBuilder);
   private destroy$ = new Subject<void>();
 
-  categories: string[] = ['غذای سنتی', 'دسر', 'نوشیدنی'];
+  categories: CategoryName[] = [];
 
   validateForm = this.fb.group({
     itemName: this.fb.control('', Validators.required),
@@ -31,14 +32,26 @@ export class AddItemComponent implements OnInit, OnDestroy {
   constructor(
     private readonly modalService: ModalService,
     private readonly itemService: ItemService,
+    private readonly categoryService: CategoryService,
   ) {}
 
   ngOnInit(): void {
+    this.categoryService.getCategoryNamesData$.subscribe({
+      next: (response: CategoryName[]) => {
+        this.categories = response;
+      },
+      error: (error) => {
+        console.log('error in add item, line 45:', error);
+      },
+    });
+
     this.modalService.modalOpens$.subscribe({
       next: (isOpen) => (this.isVisible = isOpen),
       error: (error) =>
-        console.error('Modal error in add item comp, line 34:', error),
+        console.error('Modal error in add item, line 53:', error),
     });
+
+    this.categoryService.getCategoryNames();
   }
 
   ngOnDestroy(): void {
