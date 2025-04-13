@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { ItemService } from '../../services/item/item.service';
 import { CategoryName, CreateItemRequest } from '../../models/Item';
 import { CategoryService } from '../../services/category/category.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-add-item',
@@ -33,6 +34,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
     private readonly modalService: ModalService,
     private readonly itemService: ItemService,
     private readonly categoryService: CategoryService,
+    private readonly messageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class AddItemComponent implements OnInit, OnDestroy {
         this.categories = response;
       },
       error: (error) => {
-        console.log('error in add item, line 45:', error);
+        console.log('error in add item, line 46:', error);
       },
     });
 
@@ -80,9 +82,19 @@ export class AddItemComponent implements OnInit, OnDestroy {
         price: parseFloat(this.validateForm.value['price']!),
         picKey: this.validateForm.value['image']!,
       };
-      console.log('Form submitted:', newItem);
-      this.itemService.createItem(newItem).subscribe((res) => {
-        console.log(res);
+
+      this.itemService.createItem(newItem).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.messageService.success(' آیتم با موفقیت ایجاد شد.');
+          this.itemService.getCategoriesWithItems();
+          this.modalService.closeModal();
+        },
+        error: (error) => {
+          console.log('error in add item, line 94:', error);
+          for (let e of error.error.details)
+            this.messageService.error(' ' + e.message);
+        },
       });
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
