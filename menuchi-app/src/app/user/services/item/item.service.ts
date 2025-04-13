@@ -26,7 +26,7 @@ export class ItemService {
     return this.httpClient
       .get<CategoryWithItemsResponse>(this.apiUrl)
       .subscribe((cats) => {
-        console.log('hiiii', cats);
+        console.log('getCategoriesWithItems in item service, line 29:', cats);
         this.categoriesData.next(cats);
       });
   }
@@ -39,10 +39,8 @@ export class ItemService {
       });
   }
 
-  createCategory(newItem: CreateItemRequest) {
-    return this.httpClient.post(this.apiUrl, newItem).subscribe((res) => {
-      console.log(res);
-    });
+  createItem(newItem: CreateItemRequest) {
+    return this.httpClient.post(this.apiUrl + '/items', newItem);
   }
 
   // updateCategory(id: number, name: string) {

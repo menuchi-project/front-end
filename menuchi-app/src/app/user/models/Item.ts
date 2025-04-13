@@ -33,4 +33,10 @@ export interface CategoryWithItemsResponse {
   categories: Category[];
 }
 
-export interface CreateItemRequest {}
+export interface CreateItemRequest {
+  categoryNameId: string;
+  name: string;
+  ingredients: string;
+  price: number;
+  picKey: string;
+}
