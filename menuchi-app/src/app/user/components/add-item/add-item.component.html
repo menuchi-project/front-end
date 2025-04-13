@@ -43,6 +43,7 @@
             nzAllowClear
             nzPlaceHolder="یک دسته‌بندی انتخاب کنید"
             style="width: 100%"
+            [nzDisabled]="categorySelected != null"
           >
             @for (cat of categories; track cat.id) {
               <nz-option [nzLabel]="cat.name" [nzValue]="cat.id"></nz-option>

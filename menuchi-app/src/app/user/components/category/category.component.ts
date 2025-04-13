@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ModalService } from '../../services/modal/modal.service';
+import { Category } from '../../models/Item';
 
 @Component({
   selector: 'app-category',
@@ -11,9 +12,10 @@ import { ModalService } from '../../services/modal/modal.service';
 export class CategoryComponent {
   loading: boolean = false;
 
-  @Input() list: any;
+  @Input() list!: Category;
   @Input() connectedLists: string[] = [];
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
+  @Output() addItemWithCategory = new EventEmitter<string>();
 
   constructor(private readonly modalService: ModalService) {}
 
@@ -21,7 +23,7 @@ export class CategoryComponent {
     this.itemDropped.emit(event);
   }
 
-  showModal(): void {
-    this.modalService.openModal();
+  showAddItemModal(): void {
+    this.addItemWithCategory.emit(this.list.categoryNameId);
   }
 }

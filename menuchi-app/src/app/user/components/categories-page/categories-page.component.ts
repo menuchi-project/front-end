@@ -18,6 +18,7 @@ import { ModalService } from '../../services/modal/modal.service';
 export class CategoriesPageComponent implements OnInit {
   lists: Category[] = [];
   allConnectedLists: string[] = [];
+  selectedCategoryForModal: string | null = null;
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -74,6 +75,11 @@ export class CategoriesPageComponent implements OnInit {
   }
 
   showModal(): void {
+    this.modalService.openModal();
+  }
+
+  openModalForCategory(categoryId: string): void {
+    this.selectedCategoryForModal = categoryId;
     this.modalService.openModal();
   }
 }

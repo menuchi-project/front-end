@@ -1,6 +1,4 @@
 <div class="container" style="height: 68vh">
-  <!--  <nz-switch [(ngModel)]="loading"></nz-switch>-->
-
   <div class="cat-header">
     <h3>{{ list.categoryName }}</h3>
     <div class="move-add-box">
@@ -8,7 +6,7 @@
         nzType="plus"
         nzTheme="outline"
         class="add-item-icon"
-        (click)="showModal()"
+        (click)="showAddItemModal()"
       />
       <nz-icon
         nzType="holder"
@@ -88,7 +86,7 @@
       nz-button
       nzType="primary"
       class="add-item-btn"
-      (click)="showModal()"
+      (click)="showAddItemModal()"
     >
       <nz-icon nzType="plus" />
       اضافه کردن آیتم جدید به دسته‌بندی
