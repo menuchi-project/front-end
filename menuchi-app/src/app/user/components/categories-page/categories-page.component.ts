@@ -7,7 +7,6 @@ import {
 import { ItemService } from '../../services/item/item.service';
 import { Category, CategoryWithItemsResponse } from '../../models/Item';
 import { TitleService } from '../../../shared/services/title/title.service';
-import { ModalService } from '../../services/modal/modal.service';
 
 @Component({
   selector: 'app-categories-page',
@@ -18,13 +17,11 @@ import { ModalService } from '../../services/modal/modal.service';
 export class CategoriesPageComponent implements OnInit {
   lists: Category[] = [];
   allConnectedLists: string[] = [];
-  selectedCategoryForModal: string | null = null;
 
   constructor(
-    private readonly cdr: ChangeDetectorRef,
-    private readonly itemService: ItemService,
-    private readonly titleService: TitleService,
-    private readonly modalService: ModalService,
+    private cdr: ChangeDetectorRef,
+    private itemService: ItemService,
+    private titleService: TitleService,
   ) {}
 
   ngOnInit(): void {
@@ -32,9 +29,10 @@ export class CategoriesPageComponent implements OnInit {
       next: (response: CategoryWithItemsResponse) => {
         this.lists = response.categories;
         this.allConnectedLists = this.lists.map((l) => l.id);
+        console.log(this.lists);
       },
       error: (error) => {
-        console.log('error in categories page, line 36:', error);
+        console.log('errrror', error);
       },
     });
 
@@ -65,6 +63,9 @@ export class CategoriesPageComponent implements OnInit {
       );
     }
 
+    console.log(prevIndex, currIndex);
+    console.log(this.lists);
+
     this.cdr.detectChanges();
   }
 
@@ -72,14 +73,5 @@ export class CategoriesPageComponent implements OnInit {
     moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
 
     this.cdr.detectChanges();
-  }
-
-  showModal(): void {
-    this.modalService.openModal();
-  }
-
-  openModalForCategory(categoryId: string): void {
-    this.selectedCategoryForModal = categoryId;
-    this.modalService.openModal();
   }
 }

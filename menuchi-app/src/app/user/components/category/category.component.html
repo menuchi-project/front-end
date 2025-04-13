@@ -1,13 +1,10 @@
-<div class="container" style="height: 68vh">
+<div class="container">
+  <!--  <nz-switch [(ngModel)]="loading"></nz-switch>-->
+
   <div class="cat-header">
     <h3>{{ list.categoryName }}</h3>
     <div class="move-add-box">
-      <nz-icon
-        nzType="plus"
-        nzTheme="outline"
-        class="add-item-icon"
-        (click)="showAddItemModal()"
-      />
+      <nz-icon nzType="plus" nzTheme="outline" class="add-item-icon" />
       <nz-icon
         nzType="holder"
         nzTheme="outline"
@@ -47,12 +44,9 @@
               <h3>مواد اولیه:</h3>
               <p>{{ data.ingredients | truncate: 35 }}</p>
             </div>
-            <div class="price">{{ data.price | persianNumber }} تومان</div>
+            <div class="price">{{ data.price }}</div>
           </div>
-
-          <div class="item-image">
-            <img src="{{ data.picUrl }}" alt="item image" />
-          </div>
+          <div class="item-image">{{ data.picUrl }}</div>
         </div>
       </ng-template>
       <ng-template #cardTitle>
@@ -78,16 +72,16 @@
       </ng-template>
       <ng-template #cardPreview>
         <h4>{{ data.name }}</h4>
-        <img [ngSrc]="data.picUrl" alt="" height="150" width="150" />
+        <img
+          ngSrc="https://pizzaatour.ir/wp-content/uploads/2024/01/6336258792869.jpeg"
+          alt=""
+          height="150"
+          width="150"
+        />
       </ng-template>
     }
 
-    <button
-      nz-button
-      nzType="primary"
-      class="add-item-btn"
-      (click)="showAddItemModal()"
-    >
+    <button nz-button nzType="primary" class="add-item-btn">
       <nz-icon nzType="plus" />
       اضافه کردن آیتم جدید به دسته‌بندی
     </button>

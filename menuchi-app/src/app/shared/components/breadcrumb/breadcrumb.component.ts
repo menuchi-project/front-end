@@ -17,12 +17,16 @@ export class BreadcrumbComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('BreadcrumbComponent Loaded');
+
     this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
+        console.log('NavigationEnd Event Triggered');
         this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
+        console.log('Updated Breadcrumbs:', this.breadcrumbs);
       });
   }
 
@@ -37,6 +41,7 @@ export class BreadcrumbComponent implements OnInit {
     }
 
     const children: ActivatedRoute[] = route.children;
+    console.log('Children Routes:', children);
 
     for (const child of children) {
       const routeURL: string = child.snapshot.url

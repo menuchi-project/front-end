@@ -24,9 +24,10 @@ export class ItemsTableComponent implements OnInit {
       next: (response: Item[]) => {
         this.listOfData = response;
         this.updateEditCache();
+        console.log('11', response);
       },
       error: (error) => {
-        console.log('error in items table, line 29:', error);
+        console.log('errrror', error);
       },
     });
 

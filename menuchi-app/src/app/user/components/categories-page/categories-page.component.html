@@ -1,17 +1,12 @@
 <div class="container">
   <div class="search-add-item">
     <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input id="search" type="text" nz-input placeholder="جست‌و‌جو کنید" />
+      <input type="text" nz-input placeholder="جست‌و‌جو کنید" />
     </nz-input-group>
     <ng-template #suffixIconSearch>
       <nz-icon nzType="search" />
     </ng-template>
-    <button
-      nz-button
-      nzType="primary"
-      class="add-item-btn"
-      (click)="showModal()"
-    >
+    <button nz-button nzType="primary" class="add-item-btn">
       <nz-icon nzType="plus" />
       افزودن آیتم جدید
     </button>
@@ -41,10 +36,7 @@
         [list]="list"
         [connectedLists]="allConnectedLists"
         (itemDropped)="onItemDropped($event)"
-        (addItemWithCategory)="openModalForCategory($event)"
       ></app-category>
     </div>
   </div>
 </div>
-
-<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>
