@@ -12,7 +12,7 @@ import {
   NzTextareaCountComponent,
 } from 'ng-zorro-antd/input';
 import { SharedModule } from '../shared/shared.module';
-import { ItemsTableComponent } from './components/items-table/items-table.component';
+import { ItemsTableComponent } from './components/items-page/items-table/items-table.component';
 import {
   CdkDrag,
   CdkDragHandle,
@@ -25,7 +25,7 @@ import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 import { CategoriesPageComponent } from './components/categories-page/categories-page.component';
 import { ManagementPageComponent } from './components/management-page/management-page.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { CategoryComponent } from './components/category/category.component';
+import { CategoryComponent } from './components/categories-page/category/category.component';
 import { NzSwitchComponent } from 'ng-zorro-antd/switch';
 import { NzCardComponent, NzCardMetaComponent } from 'ng-zorro-antd/card';
 import { NzSkeletonComponent } from 'ng-zorro-antd/skeleton';
@@ -52,6 +52,13 @@ import {
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import { NzCheckboxComponent } from 'ng-zorro-antd/checkbox';
 import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
+import { CreateMenuComponent } from './components/create-menu/create-menu.component';
+import { CylinderComponent } from './components/create-menu/cylinder/cylinder.component';
+import { CategoryCollapseComponent } from './components/create-menu/category-collapse/category-collapse.component';
+import {
+  NzCollapseComponent,
+  NzCollapsePanelComponent,
+} from 'ng-zorro-antd/collapse';
 
 @NgModule({
   declarations: [
@@ -62,6 +69,9 @@ import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
     BacklogPageComponent,
     CategoryComponent,
     AddItemComponent,
+    CreateMenuComponent,
+    CylinderComponent,
+    CategoryCollapseComponent,
   ],
   imports: [
     CommonModule,
@@ -108,6 +118,8 @@ import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
     NzSelectComponent,
     NzOptionComponent,
     NzTextareaCountComponent,
+    NzCollapseComponent,
+    NzCollapsePanelComponent,
   ],
   providers: [NzModalService],
   exports: [ItemsPageComponent, ManagementPageComponent],

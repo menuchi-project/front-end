@@ -1,0 +1,81 @@
+<div class="container" style="height: 68vh">
+  <div class="cat-header">
+    <h3>{{ list.categoryName }}</h3>
+  </div>
+
+  <div
+    cdkScrollable
+    [cdkDropListAutoScrollStep]="15"
+    class="drag-list"
+    cdkDropList
+    [id]="list.id"
+    [cdkDropListData]="list.items"
+    [cdkDropListConnectedTo]="connectedLists"
+    (cdkDropListDropped)="drop2($event)"
+  >
+    @if (list.items.length < 1) {
+      <nz-empty nzNotFoundImage="simple"></nz-empty>
+    }
+    @for (data of list.items; track data) {
+      <nz-card cdkDrag [nzLoading]="loading">
+        <nz-card-meta
+          [nzTitle]="cardTitle"
+          [nzDescription]="cardDesc"
+        ></nz-card-meta>
+        <nz-card *cdkDragPreview>
+          <nz-card-meta [nzDescription]="cardPreview"></nz-card-meta>
+        </nz-card>
+      </nz-card>
+      <ng-template #cardDesc>
+        <div class="item-content">
+          <div>
+            <div class="ingredients">
+              <h3>مواد اولیه:</h3>
+              <p>{{ data.ingredients | truncate: 35 }}</p>
+            </div>
+            <div class="price">{{ data.price | persianNumber }} تومان</div>
+          </div>
+
+          <div class="item-image">
+            <img src="{{ data.picUrl }}" alt="item image" />
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #cardTitle>
+        <div class="header">
+          <h4>{{ data.name }}</h4>
+          <nz-icon
+            nzTrigger="click"
+            nzType="more"
+            nz-dropdown
+            [nzDropdownMenu]="menu1"
+            nzPlacement="bottomRight"
+          />
+          <nz-dropdown-menu #menu1="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item>ویرایش آیتم</li>
+              <li nz-menu-item>انتقال به دسته‌بندی</li>
+              <li nz-menu-item style="color: #f23939 !important">
+                حذف از دسته‌بندی
+              </li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+      </ng-template>
+      <ng-template #cardPreview>
+        <h4>{{ data.name }}</h4>
+        <img [ngSrc]="data.picUrl" alt="" height="150" width="150" />
+      </ng-template>
+    }
+
+    <button
+      nz-button
+      nzType="primary"
+      class="add-item-btn"
+      (click)="showAddItemModal()"
+    >
+      <nz-icon nzType="plus" />
+      اضافه کردن آیتم جدید به دسته‌بندی
+    </button>
+  </div>
+</div>

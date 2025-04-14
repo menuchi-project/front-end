@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ModalService } from '../../services/modal/modal.service';
-import { Category } from '../../models/Item';
+import { ModalService } from '../../../services/modal/modal.service';
+import { Category } from '../../../models/Item';
 
 @Component({
   selector: 'app-category',

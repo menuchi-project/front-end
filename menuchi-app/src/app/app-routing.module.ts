@@ -5,6 +5,7 @@ import { ManagementPageComponent } from './user/components/management-page/manag
 import { AppComponent } from './app.component';
 import { ItemsPageComponent } from './user/components/items-page/items-page.component';
 import { BacklogPageComponent } from './user/components/backlog-page/backlog-page.component';
+import { CreateMenuComponent } from './user/components/create-menu/create-menu.component';
 
 const routes: Routes = [
   { path: 'home', component: AppComponent, data: { breadcrumb: 'خانه' } },
@@ -16,7 +17,12 @@ const routes: Routes = [
       {
         path: 'items',
         component: ItemsPageComponent,
-        data: { breadcrumb: 'داشبورد مدیریت' },
+        data: { breadcrumb: 'داشبورد' },
+      },
+      {
+        path: 'menu',
+        component: CreateMenuComponent,
+        data: { breadcrumb: 'ایجاد منوی جدید' },
       },
       {
         path: 'cats',
