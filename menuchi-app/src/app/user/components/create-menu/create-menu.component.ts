@@ -80,4 +80,6 @@ export class CreateMenuComponent implements OnInit {
     this.selectedCategoryForModal = categoryId;
     this.modalService.openModal();
   }
+
+  showAddCategoryModal() {}
 }

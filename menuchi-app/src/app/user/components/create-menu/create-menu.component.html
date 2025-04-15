@@ -9,7 +9,7 @@
   </div>
 
   <div
-    class="cats-container"
+    class="all-menus-container"
     cdkDropList
     cdkScrollable
     [cdkDropListAutoScrollStep]="25"
@@ -17,13 +17,26 @@
     [cdkDropListData]="lists"
     (cdkDropListDropped)="onListDropped($event)"
   >
-    <div *ngFor="let list of lists" cdkDrag class="cat-container">
+    <div *ngFor="let list of lists" cdkDrag class="menu-container">
       <!--      <app-cylinder-->
       <!--        [list]="list"-->
       <!--        (itemDropped)="onItemDropped($event)"-->
       <!--        (addItemWithCategory)="openModalForCategory($event)"-->
       <!--      ></app-cylinder>-->
       <app-category-collapse></app-category-collapse>
+      <button
+        nz-button
+        nzType="primary"
+        class="add-cat-btn"
+        (click)="showAddCategoryModal()"
+      >
+        <nz-icon nzType="plus" />
+        اضافه کردن دسته‌بندی
+      </button>
+    </div>
+
+    <div class="add-new-menu">
+      <nz-icon nzType="plus" />
     </div>
   </div>
 </div>
