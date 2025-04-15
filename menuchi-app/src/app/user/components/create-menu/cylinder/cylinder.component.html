@@ -1,0 +1,31 @@
+<div class="container" style="height: 68vh">
+  <div class="cat-header">
+    <h3>{{ list.categoryName }}</h3>
+  </div>
+
+  <div
+    cdkScrollable
+    [cdkDropListAutoScrollStep]="15"
+    class="drag-list"
+    cdkDropList
+    [id]="list.id"
+    [cdkDropListData]="list.items"
+    [cdkDropListConnectedTo]="connectedLists"
+    (cdkDropListDropped)="drop2($event)"
+  >
+    @if (list.items.length < 1) {
+      <nz-empty nzNotFoundImage="simple"></nz-empty>
+    }
+    @for (data of list.items; track data) {}
+
+    <button
+      nz-button
+      nzType="primary"
+      class="add-item-btn"
+      (click)="showAddItemModal()"
+    >
+      <nz-icon nzType="plus" />
+      اضافه کردن آیتم جدید به دسته‌بندی
+    </button>
+  </div>
+</div>

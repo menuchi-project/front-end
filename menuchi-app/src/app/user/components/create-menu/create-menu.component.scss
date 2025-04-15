@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 72vh;
+  min-height: 72vh;
+  overflow-y: hidden;
+
+  .search {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 30rem;
+  }
+
+  .all-menus-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1.4rem;
+    overflow-x: auto;
+    min-height: 64vh;
+    padding-inline-end: 1rem;
+
+    .menu-container {
+      .add-cat-btn {
+        background-color: #aaaaaa;
+        border-color: #aaaaaa;
+        font-size: 0.9rem;
+        font-weight: 402;
+        width: 97%;
+        margin-block-start: 1rem;
+        margin-block-end: 3rem;
+        align-self: center;
+      }
+    }
+
+    .add-new-menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: end;
+      border: 1px solid #d0d3d7;
+      height: 94%;
+      padding-inline: 6rem;
+
+      > nz-icon {
+        border-radius: 50%;
+        padding: 1rem;
+        background-color: #1c274c;
+        color: #ffffff;
+        font-size: 2rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.menu-container:last-child {
+  border: none;
+}
+
+.all-menus-container.cdk-drop-list-dragging,
+.menu-container:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="search">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
+      <input id="search" type="text" nz-input placeholder="جست‌و‌جو کنید" />
+    </nz-input-group>
+    <ng-template #suffixIconSearch>
+      <nz-icon nzType="search" />
+    </ng-template>
+  </div>
+
+  <div
+    class="all-menus-container"
+    cdkDropList
+    cdkScrollable
+    [cdkDropListAutoScrollStep]="25"
+    cdkDropListOrientation="horizontal"
+    [cdkDropListData]="lists"
+    (cdkDropListDropped)="onListDropped($event)"
+  >
+    <div *ngFor="let list of lists" cdkDrag class="menu-container">
+      <!--      <app-cylinder-->
+      <!--        [list]="list"-->
+      <!--        (itemDropped)="onItemDropped($event)"-->
+      <!--        (addItemWithCategory)="openModalForCategory($event)"-->
+      <!--      ></app-cylinder>-->
+      <app-category-collapse></app-category-collapse>
+      <button
+        nz-button
+        nzType="primary"
+        class="add-cat-btn"
+        (click)="showAddCategoryModal()"
+      >
+        <nz-icon nzType="plus" />
+        اضافه کردن دسته‌بندی
+      </button>
+    </div>
+
+    <div class="add-new-menu">
+      <nz-icon nzType="plus" />
+    </div>
+  </div>
+</div>
+
+<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>

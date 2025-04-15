@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Item } from '../../models/Item';
-import { ItemService } from '../../services/item/item.service';
+import { Item } from '../../../models/Item';
+import { ItemService } from '../../../services/item/item.service';
 
 @Component({
   selector: 'app-items-table',
