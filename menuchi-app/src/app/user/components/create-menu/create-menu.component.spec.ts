@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateMenuComponent } from './create-menu.component';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { NzInputGroupComponent } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 describe('CreateMenuComponent', () => {
   let component: CreateMenuComponent;
@@ -8,9 +11,10 @@ describe('CreateMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateMenuComponent]
-    })
-    .compileComponents();
+      declarations: [CreateMenuComponent],
+      imports: [NzInputGroupComponent, NzIconModule],
+      providers: [provideHttpClient(withFetch())],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CreateMenuComponent);
     component = fixture.componentInstance;
