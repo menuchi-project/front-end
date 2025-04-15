@@ -3,11 +3,7 @@ import { Category, CategoryWithItemsResponse } from '../../models/Item';
 import { ItemService } from '../../services/item/item.service';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { ModalService } from '../../services/modal/modal.service';
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-create-menu',
@@ -37,33 +33,7 @@ export class CreateMenuComponent implements OnInit {
     });
 
     this.itemService.getCategoriesWithItems();
-    this.titleService.onPageChanged$.next('بک‌لاگ');
-  }
-
-  onItemDropped(event: CdkDragDrop<any[]>) {
-    const prevIndex = this.lists.findIndex(
-      (list) => list.items === event.previousContainer.data,
-    );
-    const currIndex = this.lists.findIndex(
-      (list) => list.items === event.container.data,
-    );
-
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        this.lists[prevIndex].items,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    } else {
-      transferArrayItem(
-        this.lists[prevIndex].items,
-        this.lists[currIndex].items,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
-
-    this.cdr.detectChanges();
+    this.titleService.onPageChanged$.next('ایجاد منوی جدید');
   }
 
   onListDropped(event: CdkDragDrop<any[]>) {
