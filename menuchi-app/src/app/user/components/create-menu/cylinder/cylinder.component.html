@@ -10,7 +10,6 @@
     cdkDropList
     [id]="list.id"
     [cdkDropListData]="list.items"
-    [cdkDropListConnectedTo]="connectedLists"
     (cdkDropListDropped)="drop2($event)"
   >
     @if (list.items.length < 1) {
