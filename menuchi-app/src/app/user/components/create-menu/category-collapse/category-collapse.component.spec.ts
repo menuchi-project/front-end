@@ -10,6 +10,7 @@ import {
   NzCardModule,
 } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 
 describe('CategoryCollapseComponent', () => {
   let component: CategoryCollapseComponent;
@@ -25,6 +26,7 @@ describe('CategoryCollapseComponent', () => {
         NzCardMetaComponent,
         NzCardModule,
         NzIconModule,
+        NzDropdownMenuComponent,
       ],
       providers: [provideHttpClient(withFetch())],
     }).compileComponents();

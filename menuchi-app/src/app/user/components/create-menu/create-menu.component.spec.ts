@@ -4,6 +4,7 @@ import { CreateMenuComponent } from './create-menu.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { UserModule } from '../../user.module';
 
 describe('CreateMenuComponent', () => {
   let component: CreateMenuComponent;
@@ -12,7 +13,7 @@ describe('CreateMenuComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CreateMenuComponent],
-      imports: [NzInputGroupComponent, NzIconModule],
+      imports: [UserModule, NzInputGroupComponent, NzIconModule],
       providers: [provideHttpClient(withFetch())],
     }).compileComponents();
 
