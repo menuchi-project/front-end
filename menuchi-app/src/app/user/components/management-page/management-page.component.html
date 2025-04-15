@@ -12,7 +12,13 @@
             />
           </div>
           <ul nz-menu nzMode="inline">
-            <li nz-menu-item>
+            <li
+              nz-menu-item
+              routerLink="/manage"
+              routerLinkActive="activebutton"
+              [routerLinkActiveOptions]="{ exact: true }"
+              ariaCurrentWhenActive="page"
+            >
               <nz-icon nzType="home" />
               <span>صفحه اصلی</span>
             </li>

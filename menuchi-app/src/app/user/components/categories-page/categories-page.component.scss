@@ -25,7 +25,7 @@
     }
   }
 
-  .all-menus-container {
+  .cats-container {
     display: flex;
     flex-direction: row;
     gap: 1.4rem;
@@ -50,11 +50,11 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.menu-container:last-child {
+.cat-container:last-child {
   border: none;
 }
 
-.all-menus-container.cdk-drop-list-dragging,
-.menu-container:not(.cdk-drag-placeholder) {
+.cats-container.cdk-drop-list-dragging,
+.cat-container:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
