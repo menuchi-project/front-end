@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GetUrlResponse, UploadUrlRequest } from '../../models/UploadImage';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../../api-config/api-url';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadImageService {
-  private readonly apiUrl = 'http://localhost:8000/s3';
+  private readonly apiUrl = environment.apiUrl + '/s3';
 
   constructor(private httpClient: HttpClient) {}
 
