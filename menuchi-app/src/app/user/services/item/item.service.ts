@@ -6,14 +6,14 @@ import {
   CreateItemRequest,
   Item,
 } from '../../models/Item';
+import { environment } from '../../../../../api-config/api-url';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemService {
-  // private readonly apiUrl = environment.apiUrl + '/api/Categories';
   private readonly apiUrl =
-    'http://localhost:8000' + '/backlog/60f51c22-80f7-4807-a5cf-68aca0d8a2be';
+    environment.apiUrl + '/backlog/' + environment.backlogId;
 
   private categoriesData = new Subject<CategoryWithItemsResponse>();
   private itemsData = new Subject<Item[]>();

@@ -54,7 +54,11 @@
             <div class="header">
               <h4>{{ data.name }}</h4>
               <div>
-                <label nz-checkbox [(ngModel)]="itemChecked"></label>
+                <label
+                  nz-checkbox
+                  [(ngModel)]="itemChecked"
+                  name="check"
+                ></label>
                 <nz-icon
                   class="more"
                   nzTrigger="click"
