@@ -22,8 +22,7 @@ RUN npm ci && \
 # ###########################################
 FROM nginx:1.27.4-bookworm AS runtime
 
-WORKDIR /app
-RUN rm -rf /use/share/nginx/html/*
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/dist/menuchi-app/browser /use/share/nginx/html
+COPY .docker/nginx/nginx.conf /etc/nginx/
+COPY --from=build /app/dist/menuchi-app/browser /usr/share/nginx/html
