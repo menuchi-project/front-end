@@ -1,15 +1,20 @@
-<nz-collapse nzExpandIconPosition="end" style="width: 20rem">
+<nz-collapse
+  nzExpandIconPosition="end"
+  style="width: 20rem"
+  cdkDropList
+  [id]="'123'"
+  [cdkDropListData]="panels"
+  (cdkDropListDropped)="drop($event)"
+>
   @for (panel of panels; track panel) {
     <nz-collapse-panel
-      #p
+      cdkDrag
       [nzHeader]="header"
       [nzActive]="panel.active"
       [nzExtra]="extraTpl"
       [nzDisabled]="panel.disabled"
     >
       <div
-        cdkScrollable
-        [cdkDropListAutoScrollStep]="15"
         class="drag-list"
         cdkDropList
         [id]="list.id"
@@ -47,13 +52,21 @@
           <ng-template #cardTitle>
             <div class="header">
               <h4>{{ data.name }}</h4>
-              <nz-icon
-                nzTrigger="click"
-                nzType="more"
-                nz-dropdown
-                [nzDropdownMenu]="menu1"
-                nzPlacement="bottomRight"
-              />
+              <div>
+                <label nz-checkbox [(ngModel)]="itemChecked"></label>
+                <nz-icon
+                  class="more"
+                  nzTrigger="click"
+                  nz-dropdown
+                  [nzDropdownMenu]="menu1"
+                  nzPlacement="bottomRight"
+                >
+                  <object
+                    data="/assets/icons/More.svg"
+                    type="image/svg+xml"
+                  ></object>
+                </nz-icon>
+              </div>
               <nz-dropdown-menu #menu1="nzDropdownMenu">
                 <ul nz-menu>
                   <li nz-menu-item>ویرایش آیتم</li>
@@ -74,7 +87,7 @@
 
       <ng-template #header>
         <div style="display: flex; align-items: center">
-          <nz-icon>
+          <nz-icon style="margin-bottom: 1px; cursor: pointer; z-index: 10">
             <object data="/assets/icons/Drag.svg" type="image/svg+xml"></object>
           </nz-icon>
           <div style="display: flex; align-items: center; gap: 0.4rem">
@@ -89,10 +102,15 @@
           </div>
         </div>
       </ng-template>
+
+      <div *cdkDragPreview style="padding: 1rem; width: 16rem">
+        {{ list.categoryName }}
+      </div>
     </nz-collapse-panel>
   }
 </nz-collapse>
 <ng-template #extraTpl>
-  <!-- You can use stopPropagation if you don't want the panel to toggle -->
-  <nz-icon nzType="more" class="more" (click)="$event.stopPropagation()" />
+  <nz-icon class="more" (click)="$event.stopPropagation()">
+    <object data="/assets/icons/More.svg" type="image/svg+xml"></object>
+  </nz-icon>
 </ng-template>

@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { ModalService } from '../../../services/modal/modal.service';
 
 @Component({
@@ -51,6 +55,7 @@ export class CategoryCollapseComponent {
   };
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
   @Output() addItemWithCategory = new EventEmitter<string>();
+  itemChecked: boolean = true;
 
   constructor(private readonly modalService: ModalService) {}
 
@@ -60,5 +65,22 @@ export class CategoryCollapseComponent {
 
   showAddItemModal(): void {
     this.addItemWithCategory.emit(this.list.categoryNameId);
+  }
+
+  drop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 }

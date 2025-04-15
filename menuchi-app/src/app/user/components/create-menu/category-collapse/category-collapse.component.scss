@@ -77,11 +77,9 @@
 }
 
 .drag-list {
-  height: 100%;
-  overflow-y: scroll;
+  //height: 100%;
   display: flex;
   flex-direction: column;
-  padding-inline-end: 0.5rem;
 
   .add-item-btn {
     background-color: #aaaaaa;
@@ -95,12 +93,13 @@
   }
 
   nz-card {
-    width: 19rem;
     min-height: 11rem;
     max-height: 11rem;
     border-color: #d0d3d7;
     border-radius: 0;
     cursor: grab;
+    border-right: none;
+    border-left: none;
 
     .header {
       display: flex;
@@ -112,18 +111,7 @@
         color: #243e62;
       }
 
-      > nz-icon {
-        font-size: 1.2rem;
-        font-weight: bolder;
-        cursor: pointer;
-        padding-inline: 2px;
-        padding-block: 1px;
-        border-radius: 50%;
-        transition: background-color 0.4s ease;
-
-        &:hover {
-          background-color: rgba(28, 39, 76, 0.1);
-        }
+      div {
       }
 
       nz-dropdown-menu {
@@ -187,5 +175,19 @@
         }
       }
     }
+  }
+}
+
+nz-icon.more {
+  font-size: 1rem;
+  font-weight: bolder;
+  cursor: pointer;
+  padding-inline: 2px;
+  padding-block: 1px;
+  border-radius: 50%;
+  transition: background-color 0.4s ease;
+
+  &:hover {
+    background-color: rgba(28, 39, 76, 0.1);
   }
 }

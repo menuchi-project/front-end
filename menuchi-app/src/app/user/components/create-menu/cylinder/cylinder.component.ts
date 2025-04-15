@@ -10,8 +10,6 @@ import { ModalService } from '../../../services/modal/modal.service';
   styleUrl: './cylinder.component.scss',
 })
 export class CylinderComponent {
-  loading: boolean = false;
-
   @Input() list!: Category;
   @Input() connectedLists: string[] = [];
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
