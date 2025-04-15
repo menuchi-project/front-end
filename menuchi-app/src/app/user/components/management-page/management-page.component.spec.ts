@@ -6,6 +6,20 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SharedModule } from '../../../shared/shared.module';
 import { of } from 'rxjs';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { IconDefinition } from '@ant-design/icons-angular';
+import {
+  HomeOutline,
+  LogoutOutline,
+  ProductOutline,
+  SettingOutline,
+} from '@ant-design/icons-angular/icons';
+
+const icons: IconDefinition[] = [
+  LogoutOutline,
+  ProductOutline,
+  SettingOutline,
+  HomeOutline,
+];
 
 describe('ManagementPageComponent', () => {
   let component: ManagementPageComponent;
@@ -19,6 +33,7 @@ describe('ManagementPageComponent', () => {
         NzIconModule,
         SharedModule,
         RouterModule.forRoot([]),
+        NzIconModule.forChild(icons),
       ],
       providers: [
         {

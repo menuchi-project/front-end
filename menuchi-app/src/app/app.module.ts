@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { UserModule } from './user/user.module';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 registerLocaleData(fa);
 
@@ -21,6 +22,7 @@ registerLocaleData(fa);
     provideAnimationsAsync(),
     provideHttpClient(),
     provideHttpClient(withFetch()),
+    provideNoopAnimations(),
   ],
   bootstrap: [AppComponent],
 })

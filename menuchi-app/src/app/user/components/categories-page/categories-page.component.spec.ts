@@ -7,6 +7,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserModule } from '../../user.module';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { PlusOutline } from '@ant-design/icons-angular/icons';
 
 describe('CategoriesPageComponent', () => {
   let component: CategoriesPageComponent;
@@ -15,7 +16,12 @@ describe('CategoriesPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CategoriesPageComponent],
-      imports: [UserModule, NzInputGroupComponent, NzIconModule],
+      imports: [
+        UserModule,
+        NzInputGroupComponent,
+        NzIconModule,
+        NzIconModule.forChild([PlusOutline]),
+      ],
       providers: [
         provideHttpClient(withFetch()),
         {

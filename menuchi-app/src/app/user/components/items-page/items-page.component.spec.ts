@@ -5,6 +5,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserModule } from '../../user.module';
+import { PlusOutline } from '@ant-design/icons-angular/icons';
 
 describe('ItemsPageComponent', () => {
   let component: ItemsPageComponent;
@@ -13,7 +14,12 @@ describe('ItemsPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ItemsPageComponent],
-      imports: [UserModule, NzInputGroupComponent, NzIconModule],
+      imports: [
+        UserModule,
+        NzInputGroupComponent,
+        NzIconModule,
+        NzIconModule.forChild([PlusOutline]),
+      ],
       providers: [provideHttpClient(withFetch())],
     }).compileComponents();
 

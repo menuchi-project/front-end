@@ -5,6 +5,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UserModule } from '../../user.module';
+import { PlusOutline } from '@ant-design/icons-angular/icons';
 
 describe('CreateMenuComponent', () => {
   let component: CreateMenuComponent;
@@ -13,7 +14,12 @@ describe('CreateMenuComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CreateMenuComponent],
-      imports: [UserModule, NzInputGroupComponent, NzIconModule],
+      imports: [
+        UserModule,
+        NzInputGroupComponent,
+        NzIconModule,
+        NzIconModule.forChild([PlusOutline]),
+      ],
       providers: [provideHttpClient(withFetch())],
     }).compileComponents();
 

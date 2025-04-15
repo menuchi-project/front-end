@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Category } from '../../../models/Item';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ModalService } from '../../../services/modal/modal.service';
 
@@ -10,8 +9,20 @@ import { ModalService } from '../../../services/modal/modal.service';
   styleUrl: './cylinder.component.scss',
 })
 export class CylinderComponent {
-  @Input() list!: Category;
-  @Input() connectedLists: string[] = [];
+  // @Input() list!: Category;
+  list = {
+    categoryName: 'تیثخحتنبخحثن',
+    categoryNameId: '111',
+    id: '111111',
+    items: [
+      {
+        price: 12,
+        ingredients: 'rrrropkfor kpfrk',
+        picUrl: 'kk',
+        name: 'jiroji',
+      },
+    ],
+  };
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
   @Output() addItemWithCategory = new EventEmitter<string>();
 
