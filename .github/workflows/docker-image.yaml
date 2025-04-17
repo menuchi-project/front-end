@@ -27,3 +27,4 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: zahraam/menuchi-project:dev
+        target: runtime
