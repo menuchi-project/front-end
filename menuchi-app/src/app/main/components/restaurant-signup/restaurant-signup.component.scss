@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  [nz-form] {
+    width: 30rem;
+  }
+
+  .ant-select.ant-select-in-form-item.phone-select {
+    width: 80px;
+  }
+
+  .register-area {
+    margin-bottom: 8px;
+  }
+
+  .form-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,109 @@
+<div class="container">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired
+        >شماره همراه
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        [nzValidateStatus]="validateForm.controls['phoneNumber']"
+        nzErrorTip="Please input your phone number!"
+      >
+        <nz-input-group [nzAddOnAfter]="addOnBeforeTemplate">
+          <ng-template #addOnBeforeTemplate>
+            <span>98+</span>
+            <!--            <nz-select formControlName="phoneNumberPrefix" class="phone-select">-->
+            <!--              <nz-option nzLabel="+86" nzValue="+86"></nz-option>-->
+            <!--              <nz-option nzLabel="+87" nzValue="+87"></nz-option>-->
+            <!--            </nz-select>-->
+          </ng-template>
+          <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired
+        >رمز عبور
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Please input your password!"
+      >
+        <input
+          nz-input
+          type="password"
+          id="password"
+          formControlName="password"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired
+        >تکرار رمز عبور
+      </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
+        <input
+          nz-input
+          type="password"
+          formControlName="checkPassword"
+          id="checkPassword"
+        />
+        <ng-template #errorTpl let-control>
+          @if (control.errors?.["required"]) {
+            Please confirm your password!
+          }
+          @if (control.errors?.["confirm"]) {
+            Two passwords that you enter is inconsistent!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label
+        [nzSm]="6"
+        [nzXs]="24"
+        nzFor="nickname"
+        nzRequired
+        nzTooltipTitle="What do you want other to call you"
+      >
+        <span>نام کاربری</span>
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="Please input your nickname!"
+      >
+        <input nz-input id="nickname" formControlName="nickname" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email"
+        >ایمیل
+      </nz-form-label>
+      <nz-form-control
+        [nzSm]="14"
+        [nzXs]="24"
+        nzErrorTip="The input is not valid E-mail!"
+      >
+        <input nz-input formControlName="email" id="email" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <label nz-checkbox formControlName="agree">
+          <span>
+            <a>قوانین منوچی</a>
+            را مطالعه کرده و با آن موافقم.
+          </span>
+        </label>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <button nz-button nzType="primary" class="form-button">ثبت نام</button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>

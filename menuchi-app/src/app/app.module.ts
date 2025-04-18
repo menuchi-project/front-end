@@ -11,12 +11,19 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { UserModule } from './user/user.module';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { MainModule } from './main/main.module';
 
 registerLocaleData(fa);
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, UserModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    UserModule,
+    MainModule,
+  ],
   providers: [
     provideNzI18n(fa_IR),
     provideAnimationsAsync(),
