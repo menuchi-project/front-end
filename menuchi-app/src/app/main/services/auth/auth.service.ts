@@ -15,11 +15,9 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
   login(request: LoginRequest) {
-    return this.httpClient
-      .post<any>(this.apiUrl + '/res-signin', request)
-      .subscribe((res) => {
-        console.log(res);
-      });
+    return this.httpClient.post<boolean>(this.apiUrl + '/res-signin', request, {
+      withCredentials: true,
+    });
   }
 
   signup(request: SignupRequest) {

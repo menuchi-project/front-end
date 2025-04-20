@@ -1,5 +1,9 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { LoginRequest } from '../../models/Auth';
+import { AuthService } from '../../services/auth/auth.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-restaurant-login',
@@ -15,9 +19,36 @@ export class RestaurantLoginComponent {
     remember: this.fb.control(true),
   });
 
+  constructor(
+    private readonly authService: AuthService,
+    private readonly messageService: NzMessageService,
+    private readonly router: Router,
+  ) {}
+
   submitForm(): void {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
+      let request: LoginRequest = {
+        password: this.validateForm.value['password']!,
+        phoneNumber: this.validateForm.value['username']!,
+      };
+
+      this.authService.login(request).subscribe({
+        next: (response) => {
+          if (response) {
+            // localStorage.setItem('token', response.token);
+            console.log(response, 'll');
+            this.messageService.success(' شما با موفقیت وارد شدید.');
+            this.router.navigate(['/manage']);
+          } else {
+            this.messageService.error(' خطا در ورود!');
+          }
+        },
+        error: (error) => {
+          console.log('error in login:', error);
+          this.messageService.error(' ' + error.error.message);
+        },
+      });
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {

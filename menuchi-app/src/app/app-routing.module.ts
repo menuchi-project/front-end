@@ -8,6 +8,7 @@ import { BacklogPageComponent } from './user/components/backlog-page/backlog-pag
 import { CreateMenuComponent } from './user/components/create-menu/create-menu.component';
 import { RestaurantLoginComponent } from './main/components/restaurant-login/restaurant-login.component';
 import { RestaurantSignupComponent } from './main/components/restaurant-signup/restaurant-signup.component';
+import { authGuard } from './main/guards/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
@@ -22,6 +23,7 @@ const routes: Routes = [
     component: ManagementPageComponent,
     data: { breadcrumb: 'صفحه اصلی' },
     title: 'منوچی | مدیریت',
+    canActivate: [authGuard],
     children: [
       {
         path: 'items',
