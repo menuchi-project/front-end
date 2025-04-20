@@ -8,6 +8,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { SignupRequest, SignupResponse } from '../../models/Auth';
 import { AuthService } from '../../services/auth/auth.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-restaurant-signup',
@@ -19,8 +20,6 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
   private fb = inject(NonNullableFormBuilder);
   private destroy$ = new Subject<void>();
   isLoading = false;
-  successMessage: string | null = null;
-  errorMessage: string | null = null;
 
   validateForm = this.fb.group(
     {
@@ -46,7 +45,10 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     },
   );
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private message: NzMessageService,
+  ) {}
 
   ngOnInit(): void {
     this.validateForm.controls.password.valueChanges
@@ -74,14 +76,12 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
       this.authService.signup(signupData).subscribe({
         next: (response: SignupResponse) => {
           this.isLoading = false;
-          this.successMessage = 'ثبت نام با موفقیت انجام شد!';
-          this.errorMessage = null;
+          this.message.success('ثبت نام با موفقیت انجام شد!');
           console.log('Signup Response:', response);
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = 'مشکلی در ثبت نام پیش آمد!';
-          this.successMessage = null;
+          this.message.error('مشکلی در ثبت نام پیش آمد!');
           console.log('Signup Error:', error);
         },
       });
