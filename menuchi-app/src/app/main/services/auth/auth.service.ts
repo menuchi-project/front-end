@@ -27,17 +27,16 @@ export class AuthService {
   }
 
   fetchUserProfile() {
-    return this.httpClient
-      .get(environment.apiUrl + '/users/profile', { withCredentials: true })
-      .pipe(
-        tap((user: any) => {
-          this.userSubject.next(user);
-        }),
-        catchError((err) => {
-          this.userSubject.next(null);
-          return of(null);
-        }),
-      );
+    return this.httpClient.get(environment.apiUrl + '/users/profile').pipe(
+      tap((user: any) => {
+        this.userSubject.next(user);
+        console.log(user, 'kkk');
+      }),
+      catchError((err) => {
+        this.userSubject.next(null);
+        return of(null);
+      }),
+    );
   }
 
   getBacklogId(): string | null {

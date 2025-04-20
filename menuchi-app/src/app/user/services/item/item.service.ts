@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import {
@@ -7,20 +7,29 @@ import {
   Item,
 } from '../../models/Item';
 import { environment } from '../../../../../api-config/api-url';
+import { AuthService } from '../../../main/services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ItemService {
-  private readonly apiUrl =
-    environment.apiUrl + '/backlog/' + environment.backlogId;
+export class ItemService implements OnInit {
+  private apiUrl!: string;
 
   private categoriesData = new Subject<CategoryWithItemsResponse>();
   private itemsData = new Subject<Item[]>();
   categoriesData$ = this.categoriesData.asObservable();
   itemsData$ = this.itemsData.asObservable();
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private authService: AuthService,
+  ) {}
+
+  ngOnInit() {
+    const backlogId = this.authService.getBacklogId();
+    if (backlogId) this.apiUrl = environment.apiUrl + '/backlog/' + backlogId;
+    console.log('dd', this.apiUrl);
+  }
 
   getCategoriesWithItems() {
     return this.httpClient
