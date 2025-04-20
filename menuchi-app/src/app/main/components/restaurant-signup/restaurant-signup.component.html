@@ -2,8 +2,8 @@
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired
-        >شماره همراه
-      </nz-form-label>
+        >شماره همراه</nz-form-label
+      >
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
@@ -13,19 +13,16 @@
         <nz-input-group [nzAddOnAfter]="addOnBeforeTemplate">
           <ng-template #addOnBeforeTemplate>
             <span>98+</span>
-            <!--            <nz-select formControlName="phoneNumberPrefix" class="phone-select">-->
-            <!--              <nz-option nzLabel="+86" nzValue="+86"></nz-option>-->
-            <!--              <nz-option nzLabel="+87" nzValue="+87"></nz-option>-->
-            <!--            </nz-select>-->
           </ng-template>
-          <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
+          <input formControlName="phoneNumber" id="phoneNumber" nz-input />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired
-        >رمز عبور
-      </nz-form-label>
+        >رمز عبور</nz-form-label
+      >
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
@@ -39,16 +36,17 @@
         />
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired
-        >تکرار رمز عبور
-      </nz-form-label>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="repeatPassword" nzRequired
+        >تکرار رمز عبور</nz-form-label
+      >
       <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
         <input
           nz-input
           type="password"
-          formControlName="checkPassword"
-          id="checkPassword"
+          formControlName="repeatPassword"
+          id="repeatPassword"
         />
         <ng-template #errorTpl let-control>
           @if (control.errors?.["required"]) {
@@ -60,6 +58,7 @@
         </ng-template>
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-label
         [nzSm]="6"
@@ -78,10 +77,11 @@
         <input nz-input id="nickname" formControlName="nickname" />
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email"
-        >ایمیل
-      </nz-form-label>
+        >ایمیل</nz-form-label
+      >
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
@@ -90,9 +90,10 @@
         <input nz-input formControlName="email" id="email" />
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item nz-row class="register-area">
       <nz-form-control [nzSpan]="14" [nzOffset]="6">
-        <label nz-checkbox formControlName="agree">
+        <label nz-checkbox formControlName="agreeToRules">
           <span>
             <a>قوانین منوچی</a>
             را مطالعه کرده و با آن موافقم.
@@ -100,6 +101,7 @@
         </label>
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item nz-row class="register-area">
       <nz-form-control [nzSpan]="14" [nzOffset]="6">
         <button nz-button nzType="primary" class="form-button">ثبت نام</button>

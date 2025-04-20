@@ -16,23 +16,24 @@ import { Subject, takeUntil } from 'rxjs';
 export class RestaurantSignupComponent implements OnInit, OnDestroy {
   private fb = inject(NonNullableFormBuilder);
   private destroy$ = new Subject<void>();
+
   validateForm = this.fb.group({
-    email: this.fb.control('', [Validators.email, Validators.required]),
+    phoneNumber: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
-    checkPassword: this.fb.control('', [
+    repeatPassword: this.fb.control('', [
       Validators.required,
       this.confirmationValidator,
     ]),
     nickname: this.fb.control('', [Validators.required]),
-    phoneNumber: this.fb.control('', [Validators.required]),
-    agree: this.fb.control(false),
+    email: this.fb.control('', [Validators.required, Validators.email]),
+    agreeToRules: this.fb.control(false),
   });
 
   ngOnInit(): void {
     this.validateForm.controls.password.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.validateForm.controls.checkPassword.updateValueAndValidity();
+        this.validateForm.controls.repeatPassword.updateValueAndValidity();
       });
   }
 
@@ -60,6 +61,6 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     } else if (control.value !== this.validateForm.controls.password.value) {
       return { confirm: true, error: true };
     }
-    return {};
+    return null;
   }
 }
