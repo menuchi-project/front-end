@@ -8,6 +8,7 @@ import { NzInputGroupComponent, NzInputModule } from 'ng-zorro-antd/input';
 import { RestaurantLoginComponent } from './components/restaurant-login/restaurant-login.component';
 import { RestaurantSignupComponent } from './components/restaurant-signup/restaurant-signup.component';
 import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
+import { NzAlertComponent } from 'ng-zorro-antd/alert';
 
 @NgModule({
   declarations: [RestaurantLoginComponent, RestaurantSignupComponent],
@@ -21,6 +22,7 @@ import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
     NzInputGroupComponent,
     NzSelectComponent,
     NzOptionComponent,
+    NzAlertComponent,
   ],
 })
 export class MainModule {}

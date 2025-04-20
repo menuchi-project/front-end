@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../api-config/api-url';
 import { HttpClient } from '@angular/common/http';
-import { LoginRequest, SignupRequest } from '../../models/Auth';
+import { LoginRequest, SignupRequest, SignupResponse } from '../../models/Auth';
 
 @Injectable({
   providedIn: 'root',
@@ -21,10 +21,9 @@ export class AuthService {
   }
 
   signup(request: SignupRequest) {
-    return this.httpClient
-      .post<any>(this.apiUrl + '/res-signup', request)
-      .subscribe((res) => {
-        console.log(res);
-      });
+    return this.httpClient.post<SignupResponse>(
+      this.apiUrl + '/res-signup',
+      request,
+    );
   }
 }
