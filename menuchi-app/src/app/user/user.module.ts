@@ -59,6 +59,7 @@ import {
   NzCollapseComponent,
   NzCollapsePanelComponent,
 } from 'ng-zorro-antd/collapse';
+import { SelectDaysComponent } from './components/select-days/select-days.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import {
     CreateMenuComponent,
     CylinderComponent,
     CategoryCollapseComponent,
+    SelectDaysComponent,
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Category, CategoryWithItemsResponse } from '../../models/Item';
 import { ItemService } from '../../services/item/item.service';
 import { TitleService } from '../../../shared/services/title/title.service';
@@ -12,6 +18,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrl: './create-menu.component.scss',
 })
 export class CreateMenuComponent implements OnInit {
+  @Output() addCategory = new EventEmitter<string>();
   lists: Category[] = [];
   selectedCategoryForModal: string | null = null;
 
@@ -51,5 +58,7 @@ export class CreateMenuComponent implements OnInit {
     this.modalService.openModal();
   }
 
-  showAddCategoryModal() {}
+  showAddCategoryModal() {
+    this.addCategory.emit('this.list.categoryNameId');
+  }
 }
