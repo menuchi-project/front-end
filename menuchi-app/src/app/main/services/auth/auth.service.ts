@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../../api-config/api-url';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequest, SignupRequest, SignupResponse } from '../../models/Auth';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +16,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
   login(request: LoginRequest) {
-    return this.httpClient.post<boolean>(this.apiUrl + '/res-signin', request, {
-      withCredentials: true,
-    });
+    return this.httpClient.post<boolean>(this.apiUrl + '/res-signin', request);
   }
 
   signup(request: SignupRequest) {
@@ -50,5 +48,9 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.userSubject.value;
+  }
+
+  logout(): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.apiUrl}/logout`, {});
   }
 }
