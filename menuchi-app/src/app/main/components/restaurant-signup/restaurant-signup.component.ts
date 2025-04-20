@@ -9,6 +9,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { SignupRequest, SignupResponse } from '../../models/Auth';
 import { AuthService } from '../../services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-restaurant-signup',
@@ -48,6 +49,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private message: NzMessageService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -76,13 +78,18 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
       this.authService.signup(signupData).subscribe({
         next: (response: SignupResponse) => {
           this.isLoading = false;
-          this.message.success('ثبت نام با موفقیت انجام شد!');
+          this.message.success(' ثبت نام با موفقیت انجام شد!');
           console.log('Signup Response:', response);
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 1000);
         },
         error: (error) => {
           this.isLoading = false;
-          this.message.error('مشکلی در ثبت نام پیش آمد!');
+          this.message.error(' مشکلی در ثبت نام پیش آمد!');
           console.log('Signup Error:', error);
+          for (let e of error.error.details)
+            this.message.error(' ' + e.message);
         },
       });
     } else {

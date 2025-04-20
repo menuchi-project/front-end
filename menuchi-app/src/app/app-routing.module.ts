@@ -19,9 +19,9 @@ const routes: Routes = [
   },
   { path: 'home', component: AppComponent, data: { breadcrumb: 'خانه' } },
   {
-    path: 'manage',
+    path: 'dashboard',
     component: ManagementPageComponent,
-    data: { breadcrumb: 'صفحه اصلی' },
+    data: { breadcrumb: 'داشبورد' },
     title: 'منوچی | مدیریت',
     canActivate: [authGuard],
     children: [

@@ -36,10 +36,14 @@ export class RestaurantLoginComponent {
       this.authService.login(request).subscribe({
         next: (response) => {
           if (response) {
-            // localStorage.setItem('token', response.token);
-            console.log(response, 'll');
-            this.messageService.success(' شما با موفقیت وارد شدید.');
-            this.router.navigate(['/manage']);
+            this.authService.fetchUserProfile().subscribe((user) => {
+              if (user) {
+                this.messageService.success(' شما با موفقیت وارد شدید.');
+                this.router.navigate(['/dashboard']);
+              } else {
+                this.messageService.error('مشکلی در دریافت پروفایل پیش آمد!');
+              }
+            });
           } else {
             this.messageService.error(' خطا در ورود!');
           }
