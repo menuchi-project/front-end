@@ -13,6 +13,8 @@ RUN apt-get -y update && \
 
 COPY menuchi-app/ ./
 
+ENV API_URL=http://menuchi.api:8000
+
 RUN npm ci && \
     npm install -g @angular/cli && \
     npm run build --omit=dev
