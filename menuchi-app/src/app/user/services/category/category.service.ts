@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CategoryName } from '../../models/Item';
-import { environment } from '../../../../../api-config/api-url';
+import { environment } from '../../../../../api-config/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  private readonly apiUrl = environment.apiUrl;
+  private readonly apiUrl = environment.API_URL;
 
   private getCategoryNamesData = new Subject<CategoryName[]>();
   getCategoryNamesData$ = this.getCategoryNamesData.asObservable();

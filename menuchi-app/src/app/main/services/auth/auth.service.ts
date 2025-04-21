@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../../api-config/api-url';
+import { environment } from '../../../../../api-config/environment';
 import { HttpClient } from '@angular/common/http';
 import { LoginRequest, SignupRequest, SignupResponse } from '../../models/Auth';
 import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
@@ -8,7 +8,7 @@ import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiUrl = environment.apiUrl + '/auth';
+  private readonly apiUrl = environment.API_URL + '/auth';
 
   private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   fetchUserProfile() {
-    return this.httpClient.get(environment.apiUrl + '/users/profile').pipe(
+    return this.httpClient.get(environment.API_URL + '/users/profile').pipe(
       tap((user: any) => {
         this.userSubject.next(user);
       }),

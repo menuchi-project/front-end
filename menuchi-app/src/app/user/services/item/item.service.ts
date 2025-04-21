@@ -7,7 +7,7 @@ import {
   Item,
 } from '../../models/Item';
 import { AuthService } from '../../../main/services/auth/auth.service';
-import { environment } from '../../../../../api-config/api-url';
+import { environment } from '../../../../../api-config/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class ItemService implements OnInit {
     private authService: AuthService,
   ) {
     const backlogId = this.authService.getBacklogId();
-    if (backlogId) this.apiUrl = environment.apiUrl + '/backlog/' + backlogId;
+    if (backlogId) this.apiUrl = environment.API_URL + '/backlog/' + backlogId;
   }
 
   ngOnInit() {}
