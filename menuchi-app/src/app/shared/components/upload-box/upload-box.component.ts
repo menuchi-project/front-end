@@ -4,6 +4,8 @@ import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { UploadImageService } from '../../services/upload-image/upload-image.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UploadUrlRequest } from '../../models/UploadImage';
+import { AuthService } from '../../../main/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-box',
@@ -29,6 +31,8 @@ export class UploadBoxComponent implements ControlValueAccessor {
   constructor(
     private readonly messageService: NzMessageService,
     private readonly uploadImageService: UploadImageService,
+    private readonly authService: AuthService,
+    private readonly router: Router,
   ) {}
 
   writeValue(value: string | null): void {
@@ -78,9 +82,20 @@ export class UploadBoxComponent implements ControlValueAccessor {
     const timestamp = new Date().getTime();
     const fileName = `item-${timestamp}-${rawFile.name}`;
 
+    const restaurantId = this.authService.getRestaurantId();
+    const branchId = this.authService.getRestaurantId();
+
+    if (restaurantId == null || branchId == null) {
+      this.messageService.error(
+        ' خطا در دریافت اطلاعات! لطفا دوباره وارد شوید.',
+      );
+      this.router.navigate(['/login']);
+      return;
+    }
+
     const uploadRequest: UploadUrlRequest = {
-      restaurantId: '52907745-7672-470e-a803-a2f8feb52944',
-      branchId: 'a7b29e98-411f-4616-9f5c-317643452544',
+      restaurantId: restaurantId,
+      branchId: branchId,
       fileName,
     };
 

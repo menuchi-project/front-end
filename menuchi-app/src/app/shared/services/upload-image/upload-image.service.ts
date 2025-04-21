@@ -27,10 +27,6 @@ export class UploadImageService {
     const formData = new FormData();
     formData.append(itemPicKey, file);
 
-    return this.httpClient.put(url, file, {
-      // headers: {
-      //   'Content-Type': file.type,
-      // },
-    });
+    return this.httpClient.put(url, file);
   }
 }

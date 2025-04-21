@@ -30,13 +30,20 @@ export class AuthService {
     return this.httpClient.get(environment.apiUrl + '/users/profile').pipe(
       tap((user: any) => {
         this.userSubject.next(user);
-        console.log(user, 'kkk');
       }),
       catchError((err) => {
         this.userSubject.next(null);
         return of(null);
       }),
     );
+  }
+
+  getRestaurantId(): string | null {
+    return this.userSubject.value?.restaurants?.[0] ?? null;
+  }
+
+  getBranchId(): string | null {
+    return this.userSubject.value?.restaurants?.[0]?.branches?.[0] ?? null;
   }
 
   getBacklogId(): string | null {
