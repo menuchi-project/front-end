@@ -28,7 +28,7 @@
               "path": "src/custom-webpack.config.ts"
             },
             "main": "src/main.ts",
-            "outputPath": "dist/menuchi-app",
+            "outputPath": "dist/menuchi-app/browser",
             "index": "src/index.html",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
