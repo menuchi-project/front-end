@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GetUrlResponse, UploadUrlRequest } from '../../models/UploadImage';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../api-config/api-url';
@@ -27,6 +27,10 @@ export class UploadImageService {
     const formData = new FormData();
     formData.append(itemPicKey, file);
 
-    return this.httpClient.put(url, file);
+    return this.httpClient.put(url, file, {
+      headers: new HttpHeaders({
+        'Skip-Auth': 'true',
+      }),
+    });
   }
 }

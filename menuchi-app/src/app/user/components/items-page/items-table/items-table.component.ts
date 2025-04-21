@@ -20,6 +20,8 @@ export class ItemsTableComponent implements OnInit {
   constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
+    this.itemService.geAllItems();
+
     this.itemService.itemsData$.subscribe({
       next: (response: Item[]) => {
         this.listOfData = response;
@@ -30,7 +32,6 @@ export class ItemsTableComponent implements OnInit {
       },
     });
 
-    this.itemService.geAllItems();
     this.updateEditCache();
   }
 

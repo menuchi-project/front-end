@@ -6,6 +6,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UploadUrlRequest } from '../../models/UploadImage';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { log } from 'ng-zorro-antd/core/logger';
 
 @Component({
   selector: 'app-upload-box',
@@ -83,7 +84,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
     const fileName = `item-${timestamp}-${rawFile.name}`;
 
     const restaurantId = this.authService.getRestaurantId();
-    const branchId = this.authService.getRestaurantId();
+    const branchId = this.authService.getBranchId();
 
     if (restaurantId == null || branchId == null) {
       this.messageService.error(
@@ -99,6 +100,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
       fileName,
     };
 
+    console.log(111, uploadRequest);
     this.uploadImageService.getUploadUrl(uploadRequest).subscribe({
       next: (res) => {
         const { itemPicUrl, itemPicKey } = res;

@@ -6,8 +6,8 @@ import {
   CreateItemRequest,
   Item,
 } from '../../models/Item';
-import { environment } from '../../../../../api-config/api-url';
 import { AuthService } from '../../../main/services/auth/auth.service';
+import { environment } from '../../../../../api-config/api-url';
 
 @Injectable({
   providedIn: 'root',
@@ -23,13 +23,12 @@ export class ItemService implements OnInit {
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService,
-  ) {}
-
-  ngOnInit() {
+  ) {
     const backlogId = this.authService.getBacklogId();
     if (backlogId) this.apiUrl = environment.apiUrl + '/backlog/' + backlogId;
-    console.log('dd', this.apiUrl);
   }
+
+  ngOnInit() {}
 
   getCategoriesWithItems() {
     return this.httpClient

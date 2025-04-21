@@ -39,11 +39,11 @@ export class AuthService {
   }
 
   getRestaurantId(): string | null {
-    return this.userSubject.value?.restaurants?.[0] ?? null;
+    return this.userSubject.value?.restaurants[0].id ?? null;
   }
 
   getBranchId(): string | null {
-    return this.userSubject.value?.restaurants?.[0]?.branches?.[0] ?? null;
+    return this.userSubject.value?.restaurants[0].branches[0].id ?? null;
   }
 
   getBacklogId(): string | null {
