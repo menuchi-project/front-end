@@ -16,7 +16,6 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
 
   isOkLoading = false;
   isVisible = false;
-  // selectAll = false;
   indeterminate = false;
   checked = false;
   setOfCheckedId = new Set<string>();
@@ -48,7 +47,17 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
       fri: this.weekDays[6].checked,
     };
 
-    this.menuService.createMenuCylinder('', request);
+    this.menuService.createMenuCylinder(this.menuId, request).subscribe({
+      next: (response) => {
+        this.messageService.success(' منوی جدید با موفقیت ایجاد شد!');
+        this.menuService.getMenuById(this.menuId);
+        this.modalService.closeModal();
+      },
+      error: (error) => {
+        console.log('error in select days:', error);
+        this.messageService.error(' ' + error.error.message);
+      },
+    });
   }
 
   constructor(

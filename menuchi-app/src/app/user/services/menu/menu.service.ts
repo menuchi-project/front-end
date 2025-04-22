@@ -22,6 +22,9 @@ export class MenuService implements OnInit {
   private menusData = new Subject<Menu[]>();
   menusData$ = this.menusData.asObservable();
 
+  private currentMenuData = new Subject<Menu>();
+  currentMenuData$ = this.currentMenuData.asObservable();
+
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService,
@@ -58,7 +61,11 @@ export class MenuService implements OnInit {
   }
 
   getMenuById(menuId: string) {
-    return this.httpClient.get<Menu>(this.apiUrl + '/' + menuId);
+    return this.httpClient
+      .get<Menu>(this.apiUrl + '/' + menuId)
+      .subscribe((menu) => {
+        this.currentMenuData.next(menu);
+      });
   }
 
   updateMenu(menuId: string, request: UpdateMenuRequest) {
