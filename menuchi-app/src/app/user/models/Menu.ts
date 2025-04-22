@@ -38,13 +38,16 @@ export interface Cylinder {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  sat: string;
-  sun: string;
-  mon: string;
-  tue: string;
-  wed: string;
-  thu: string;
-  fri: string;
+  // days: boolean[];
+  days: {
+    sat: boolean;
+    sun: boolean;
+    mon: boolean;
+    tue: boolean;
+    wed: boolean;
+    thu: boolean;
+    fri: boolean;
+  };
   menuCategories: MenuCategory[];
 }
 
@@ -88,3 +91,13 @@ export interface CreateCylinderResponse {
   thu: boolean;
   fri: boolean;
 }
+
+export const WeekDays = [
+  { name: 'شنبه', value: 'sat' },
+  { name: 'یکشنبه', value: 'sun' },
+  { name: 'دوشنبه', value: 'mon' },
+  { name: 'سه شنبه', value: 'tue' },
+  { name: 'چهارشنبه', value: 'wed' },
+  { name: 'پنج شنبه', value: 'thu' },
+  { name: 'جمعه', value: 'fri' },
+];

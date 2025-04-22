@@ -1,4 +1,4 @@
-<h4 style="color: #243e62">شنبه ٫ یک‌شنبه٫ دوشنبه٫ ... ٫پنج‌شنبه</h4>
+<h4 style="color: #243e62">{{ weekDays }}</h4>
 <nz-collapse
   nzExpandIconPosition="end"
   style="width: 20rem"
@@ -11,21 +11,15 @@
     <nz-collapse-panel
       cdkDrag
       [nzHeader]="header"
-      [nzActive]="panel.active"
+      [nzActive]="true"
       [nzExtra]="extraTpl"
-      [nzDisabled]="panel.disabled"
+      [nzDisabled]="false"
     >
-      <div
-        class="drag-list"
-        cdkDropList
-        [id]="list.id"
-        [cdkDropListData]="list.items"
-        (cdkDropListDropped)="drop2($event)"
-      >
-        @if (list.items.length < 1) {
+      <div class="drag-list" cdkDropList (cdkDropListDropped)="drop2($event)">
+        @if (panel.items.length < 1) {
           <nz-empty nzNotFoundImage="simple"></nz-empty>
         }
-        @for (data of list.items; track data) {
+        @for (data of panel.items; track data) {
           <nz-card cdkDrag [nzLoading]="loading">
             <nz-card-meta
               [nzTitle]="cardTitle"
@@ -103,13 +97,13 @@
                 type="image/svg+xml"
               ></object>
             </nz-icon>
-            <span>{{ list.categoryName }}</span>
+            <span>{{ panel.items[0].categoryName }}</span>
           </div>
         </div>
       </ng-template>
 
       <div *cdkDragPreview style="padding: 1rem; width: 16rem">
-        {{ list.categoryName }}
+        {{ panel.items[0].categoryName }}
       </div>
     </nz-collapse-panel>
   }

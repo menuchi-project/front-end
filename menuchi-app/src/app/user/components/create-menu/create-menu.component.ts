@@ -12,7 +12,8 @@ import { DrawerService } from '../../services/drawer/drawer.service';
 import { MenuService } from '../../services/menu/menu.service';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Cylinder, Menu } from '../../models/Menu';
+import { Cylinder, Menu, WeekDays } from '../../models/Menu';
+import * as stream from 'node:stream';
 
 @Component({
   selector: 'app-create-menu',
@@ -95,5 +96,18 @@ export class CreateMenuComponent implements OnInit {
 
   openDaysModal(): void {
     this.modalService.openModal();
+  }
+
+  onItemDropped($event: CdkDragDrop<any[]>) {}
+
+  getWeekDaysString(cylinder: Cylinder): string {
+    let result = 'سلام سلام';
+    let i = 0;
+    // for (let day of cylinder.days) {
+    //   if (day) result += WeekDays[i].name;
+    //   i++;
+    // }
+
+    return result;
   }
 }
