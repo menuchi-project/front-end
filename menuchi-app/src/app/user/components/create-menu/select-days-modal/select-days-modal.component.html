@@ -1,1 +1,45 @@
-<p>select-days-modal works!</p>
+<nz-modal
+  nzWidth="22rem"
+  [nzStyle]="{ top: '2rem' }"
+  [(nzVisible)]="isVisible"
+  nzTitle="انتخاب روزهای هفته"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+  [nzContent]="modalContent"
+  [nzFooter]="null"
+>
+  <ng-template #modalContent>
+    <div nz-row>
+      <div nz-col nzSpan="24">
+        <label
+          nz-checkbox
+          [(nzChecked)]="checked"
+          [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="onAllChecked($event)"
+        >
+          انتخاب کل هفته
+        </label>
+      </div>
+    </div>
+
+    <div nz-row>
+      <div nz-col nzSpan="24" *ngFor="let day of weekDays">
+        <label
+          nz-checkbox
+          [nzChecked]="setOfCheckedId.has(day.value)"
+          (nzCheckedChange)="onItemChecked(day.value, $event)"
+          [(ngModel)]="day.checked"
+        >
+          {{ day.name }}
+        </label>
+      </div>
+    </div>
+
+    <div nz-row>
+      <div nz-col nzSpan="24" style="margin-top: 16px">
+        <button nz-button nzType="primary" (click)="submit()">ثبت</button>
+      </div>
+    </div>
+  </ng-template>
+</nz-modal>

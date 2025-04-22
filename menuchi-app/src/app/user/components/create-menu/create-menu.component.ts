@@ -37,7 +37,7 @@ export class CreateMenuComponent implements OnInit {
         this.lists = response.categories;
       },
       error: (error) => {
-        console.log('error in categories page, line 36:', error);
+        console.log('error in create menu page, line 40:', error);
       },
     });
 
@@ -66,5 +66,9 @@ export class CreateMenuComponent implements OnInit {
 
   showDrawer() {
     this.drawerService.openDrawer();
+  }
+
+  openDaysModal(): void {
+    this.modalService.openModal();
   }
 }

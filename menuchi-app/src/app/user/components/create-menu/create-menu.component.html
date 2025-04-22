@@ -35,10 +35,10 @@
       </button>
     </div>
 
-    <div class="add-new-menu">
+    <div class="add-new-menu" (click)="openDaysModal()">
       <nz-icon nzType="plus" />
     </div>
   </div>
 </div>
 
-<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>
+<app-select-days-modal></app-select-days-modal>
