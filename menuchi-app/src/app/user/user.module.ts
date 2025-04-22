@@ -5,10 +5,11 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
 import {
   NzInputDirective,
   NzInputGroupComponent,
+  NzInputModule,
   NzTextareaCountComponent,
 } from 'ng-zorro-antd/input';
 import { SharedModule } from '../shared/shared.module';
@@ -60,6 +61,12 @@ import {
   NzCollapsePanelComponent,
 } from 'ng-zorro-antd/collapse';
 import { SelectDaysComponent } from './components/select-days/select-days.component';
+import { SelectItemsDrawerComponent } from './components/create-menu/select-items-drawer/select-items-drawer.component';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import {
+  NzDrawerComponent,
+  NzDrawerContentDirective,
+} from 'ng-zorro-antd/drawer';
 
 @NgModule({
   declarations: [
@@ -74,6 +81,7 @@ import { SelectDaysComponent } from './components/select-days/select-days.compon
     CylinderComponent,
     CategoryCollapseComponent,
     SelectDaysComponent,
+    SelectItemsDrawerComponent,
   ],
   imports: [
     CommonModule,
@@ -122,6 +130,12 @@ import { SelectDaysComponent } from './components/select-days/select-days.compon
     NzTextareaCountComponent,
     NzCollapseComponent,
     NzCollapsePanelComponent,
+    FormsModule,
+    NzButtonModule,
+    NzDividerModule,
+    NzInputModule,
+    NzDrawerComponent,
+    NzDrawerContentDirective,
   ],
   providers: [NzModalService],
   exports: [ItemsPageComponent, ManagementPageComponent],

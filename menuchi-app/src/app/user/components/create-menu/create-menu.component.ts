@@ -10,6 +10,7 @@ import { ItemService } from '../../services/item/item.service';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { ModalService } from '../../services/modal/modal.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DrawerService } from '../../services/drawer/drawer.service';
 
 @Component({
   selector: 'app-create-menu',
@@ -27,6 +28,7 @@ export class CreateMenuComponent implements OnInit {
     private readonly itemService: ItemService,
     private readonly titleService: TitleService,
     private readonly modalService: ModalService,
+    private readonly drawerService: DrawerService,
   ) {}
 
   ngOnInit(): void {
@@ -60,5 +62,9 @@ export class CreateMenuComponent implements OnInit {
 
   showAddCategoryModal() {
     this.addCategory.emit('this.list.categoryNameId');
+  }
+
+  showDrawer() {
+    this.drawerService.openDrawer();
   }
 }
