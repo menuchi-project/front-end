@@ -22,14 +22,13 @@
     [cdkDropListData]="cylinders"
     (cdkDropListDropped)="onListDropped($event)"
   >
-    <div *ngFor="let list of cylinders" cdkDrag class="menu-container">
+    <div *ngFor="let cylinder of cylinders" cdkDrag class="menu-container">
       <app-cylinder
-        [weekDays]="getWeekDaysString(list)"
-        [panels]="list.menuCategories"
+        [weekDays]="getWeekDaysString(cylinder)"
+        [panels]="cylinder.menuCategories"
         (itemDropped)="onItemDropped($event)"
         (addItemWithCategory)="openModalForCategory($event)"
       ></app-cylinder>
-      <!--      <app-category-collapse></app-category-collapse>-->
       <button
         nz-button
         nzType="primary"

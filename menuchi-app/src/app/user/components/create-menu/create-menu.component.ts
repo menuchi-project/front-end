@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { ModalService } from '../../services/modal/modal.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -13,7 +7,6 @@ import { MenuService } from '../../services/menu/menu.service';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Cylinder, Menu, WeekDays } from '../../models/Menu';
-import * as stream from 'node:stream';
 
 @Component({
   selector: 'app-create-menu',
@@ -22,7 +15,6 @@ import * as stream from 'node:stream';
   styleUrl: './create-menu.component.scss',
 })
 export class CreateMenuComponent implements OnInit {
-  @Output() addCategory = new EventEmitter<string>();
   cylinders: Cylinder[] = [];
   selectedCategoryForModal: string | null = null;
   menuId!: string;
@@ -77,17 +69,9 @@ export class CreateMenuComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  showModal(): void {
-    this.modalService.openModal();
-  }
-
   openModalForCategory(categoryId: string): void {
     this.selectedCategoryForModal = categoryId;
     this.modalService.openModal();
-  }
-
-  showAddCategoryModal() {
-    this.addCategory.emit('this.list.categoryNameId');
   }
 
   showDrawer() {
@@ -101,13 +85,12 @@ export class CreateMenuComponent implements OnInit {
   onItemDropped($event: CdkDragDrop<any[]>) {}
 
   getWeekDaysString(cylinder: Cylinder): string {
-    let result = 'سلام سلام';
-    let i = 0;
-    // for (let day of cylinder.days) {
-    //   if (day) result += WeekDays[i].name;
-    //   i++;
-    // }
+    let result = '';
 
-    return result;
+    for (let i = 0; i < 7; i++)
+      if (cylinder.days[i]) result += WeekDays[i].name + '، ';
+
+    console.log(result, '11');
+    return result.substring(0, result.length - 1);
   }
 }

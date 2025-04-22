@@ -38,16 +38,7 @@ export interface Cylinder {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  // days: boolean[];
-  days: {
-    sat: boolean;
-    sun: boolean;
-    mon: boolean;
-    tue: boolean;
-    wed: boolean;
-    thu: boolean;
-    fri: boolean;
-  };
+  days: boolean[];
   menuCategories: MenuCategory[];
 }
 
