@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DrawerService } from '../../../services/drawer/drawer.service';
+import { Category, CategoryWithItemsResponse } from '../../../models/Item';
+import { ItemService } from '../../../services/item/item.service';
 
 @Component({
   selector: 'app-select-items-drawer',
@@ -9,16 +11,33 @@ import { DrawerService } from '../../../services/drawer/drawer.service';
 })
 export class SelectItemsDrawerComponent implements OnInit {
   isVisible: boolean = false;
+  panels: Category[] = [];
 
-  constructor(private readonly drawerService: DrawerService) {}
+  loading: boolean = false;
+  itemChecked: boolean = true;
+
+  constructor(
+    private readonly drawerService: DrawerService,
+    private readonly itemService: ItemService,
+  ) {}
 
   ngOnInit(): void {
+    this.itemService.categoriesData$.subscribe({
+      next: (response: CategoryWithItemsResponse) => {
+        this.panels = response.categories;
+      },
+      error: (error) => {
+        console.error('Drawer error in select item drawer:', error);
+      },
+    });
     this.drawerService.drawerOpens$.subscribe({
       next: (isOpen) => {
         this.isVisible = isOpen;
       },
       error: (error) =>
-        console.error('Drawer error in select item drawer, line 64:', error),
+        console.error('Drawer error in select item drawer:', error),
     });
+
+    this.itemService.getCategoriesWithItems();
   }
 }

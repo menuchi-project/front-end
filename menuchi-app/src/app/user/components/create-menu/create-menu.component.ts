@@ -31,6 +31,8 @@ export class CreateMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.authService.fetchUserProfile();
+
     this.menuService.currentMenuData$.subscribe({
       next: (response: Menu) => {
         this.menu = response;
@@ -91,6 +93,6 @@ export class CreateMenuComponent implements OnInit {
       if (cylinder.days[i]) result += WeekDays[i].name + '، ';
 
     console.log(result, '11');
-    return result.substring(0, result.length - 1);
+    return result.substring(0, result.length - 2);
   }
 }

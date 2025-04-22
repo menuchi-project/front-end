@@ -26,6 +26,7 @@
       <app-cylinder
         [weekDays]="getWeekDaysString(cylinder)"
         [panels]="cylinder.menuCategories"
+        [menuId]="menuId"
         (itemDropped)="onItemDropped($event)"
         (addItemWithCategory)="openModalForCategory($event)"
       ></app-cylinder>
@@ -47,3 +48,4 @@
 </div>
 
 <app-select-days-modal [menuId]="menuId"></app-select-days-modal>
+<app-select-items-drawer></app-select-items-drawer>

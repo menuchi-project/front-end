@@ -14,6 +14,7 @@ import { Menu, MenuCategory } from '../../../models/Menu';
 })
 export class CylinderComponent {
   @Input() panels: MenuCategory[] = [];
+  @Input() menuId!: string;
   @Input() weekDays!: string;
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
   @Output() addItemWithCategory = new EventEmitter<string>();
