@@ -30,11 +30,12 @@
         (itemDropped)="onItemDropped($event)"
         (addItemWithCategory)="openModalForCategory($event)"
       ></app-cylinder>
+
       <button
         nz-button
         nzType="primary"
         class="add-cat-btn"
-        (click)="showDrawer()"
+        (click)="showDrawer(cylinder.id)"
       >
         <nz-icon nzType="plus" />
         اضافه کردن دسته‌بندی
@@ -48,4 +49,8 @@
 </div>
 
 <app-select-days-modal [menuId]="menuId"></app-select-days-modal>
-<app-select-items-drawer></app-select-items-drawer>
+<app-select-items-drawer
+  [menuId]="menuId"
+  [cylinderId]="selectedCylinderId"
+  (submitted)="handleDrawerSubmit($event)"
+></app-select-items-drawer>

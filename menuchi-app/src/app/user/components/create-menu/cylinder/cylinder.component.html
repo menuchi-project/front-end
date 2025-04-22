@@ -7,105 +7,114 @@
   [cdkDropListData]="panels"
   (cdkDropListDropped)="drop($event)"
 >
-  @for (panel of panels; track panel) {
-    <nz-collapse-panel
-      cdkDrag
-      [nzHeader]="header"
-      [nzActive]="true"
-      [nzExtra]="extraTpl"
-      [nzDisabled]="false"
-    >
-      <div class="drag-list" cdkDropList (cdkDropListDropped)="drop2($event)">
-        @if (panel.items.length < 1) {
-          <nz-empty nzNotFoundImage="simple"></nz-empty>
-        }
-        @for (data of panel.items; track data) {
-          <nz-card cdkDrag [nzLoading]="loading">
-            <nz-card-meta
-              [nzTitle]="cardTitle"
-              [nzDescription]="cardDesc"
-            ></nz-card-meta>
-            <nz-card *cdkDragPreview>
-              <nz-card-meta [nzDescription]="cardPreview"></nz-card-meta>
+  @if (panels.length < 1) {
+    <nz-empty nzNotFoundImage="simple"></nz-empty>
+  } @else {
+    @for (panel of panels; track panel) {
+      <nz-collapse-panel
+        cdkDrag
+        [nzHeader]="header"
+        [nzActive]="true"
+        [nzExtra]="extraTpl"
+        [nzDisabled]="false"
+      >
+        <div class="drag-list" cdkDropList (cdkDropListDropped)="drop2($event)">
+          @if (panel.items.length < 1) {
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+          }
+          @for (data of panel.items; track data) {
+            <nz-card cdkDrag [nzLoading]="loading">
+              <nz-card-meta
+                [nzTitle]="cardTitle"
+                [nzDescription]="cardDesc"
+              ></nz-card-meta>
+              <nz-card *cdkDragPreview>
+                <nz-card-meta [nzDescription]="cardPreview"></nz-card-meta>
+              </nz-card>
             </nz-card>
-          </nz-card>
-          <ng-template #cardDesc>
-            <div class="item-content">
-              <div>
-                <div class="ingredients">
-                  <h3>مواد اولیه:</h3>
-                  <p>{{ data.ingredients | truncate: 35 }}</p>
+            <ng-template #cardDesc>
+              <div class="item-content">
+                <div>
+                  <div class="ingredients">
+                    <h3>مواد اولیه:</h3>
+                    <p>{{ data.ingredients | truncate: 35 }}</p>
+                  </div>
+                  <div class="price">
+                    {{ data.price | persianNumber }} تومان
+                  </div>
                 </div>
-                <div class="price">{{ data.price | persianNumber }} تومان</div>
-              </div>
 
-              <div class="item-image">
-                <img src="{{ data.picUrl }}" alt="item image" />
+                <div class="item-image">
+                  <img src="{{ data.picUrl }}" alt="item image" />
+                </div>
               </div>
-            </div>
-          </ng-template>
-          <ng-template #cardTitle>
-            <div class="header">
+            </ng-template>
+            <ng-template #cardTitle>
+              <div class="header">
+                <h4>{{ data.name }}</h4>
+                <div>
+                  <label
+                    nz-checkbox
+                    [(ngModel)]="itemChecked"
+                    name="check"
+                  ></label>
+                  <nz-icon
+                    class="more"
+                    nzTrigger="click"
+                    nz-dropdown
+                    [nzDropdownMenu]="menu1"
+                    nzPlacement="bottomRight"
+                  >
+                    <object
+                      data="/assets/icons/More.svg"
+                      type="image/svg+xml"
+                    ></object>
+                  </nz-icon>
+                </div>
+                <nz-dropdown-menu #menu1="nzDropdownMenu">
+                  <ul nz-menu>
+                    <li nz-menu-item>ویرایش آیتم</li>
+                    <li nz-menu-item>انتقال به دسته‌بندی</li>
+                    <li nz-menu-item style="color: #f23939 !important">
+                      حذف از دسته‌بندی
+                    </li>
+                  </ul>
+                </nz-dropdown-menu>
+              </div>
+            </ng-template>
+            <ng-template #cardPreview>
               <h4>{{ data.name }}</h4>
-              <div>
-                <label
-                  nz-checkbox
-                  [(ngModel)]="itemChecked"
-                  name="check"
-                ></label>
-                <nz-icon
-                  class="more"
-                  nzTrigger="click"
-                  nz-dropdown
-                  [nzDropdownMenu]="menu1"
-                  nzPlacement="bottomRight"
-                >
-                  <object
-                    data="/assets/icons/More.svg"
-                    type="image/svg+xml"
-                  ></object>
-                </nz-icon>
-              </div>
-              <nz-dropdown-menu #menu1="nzDropdownMenu">
-                <ul nz-menu>
-                  <li nz-menu-item>ویرایش آیتم</li>
-                  <li nz-menu-item>انتقال به دسته‌بندی</li>
-                  <li nz-menu-item style="color: #f23939 !important">
-                    حذف از دسته‌بندی
-                  </li>
-                </ul>
-              </nz-dropdown-menu>
-            </div>
-          </ng-template>
-          <ng-template #cardPreview>
-            <h4>{{ data.name }}</h4>
-            <img [ngSrc]="data.picUrl" alt="" height="150" width="150" />
-          </ng-template>
-        }
-      </div>
+              <img [ngSrc]="data.picUrl" alt="" height="150" width="150" />
+            </ng-template>
+          }
+        </div>
 
-      <ng-template #header>
-        <div style="display: flex; align-items: center">
-          <nz-icon style="margin-bottom: 1px; cursor: pointer; z-index: 10">
-            <object data="/assets/icons/Drag.svg" type="image/svg+xml"></object>
-          </nz-icon>
-          <div style="display: flex; align-items: center; gap: 0.4rem">
-            <span style="font-size: 0.7rem; color: #aaaaaa">|</span>
-            <nz-icon>
+        <ng-template #header>
+          <div style="display: flex; align-items: center">
+            <nz-icon style="margin-bottom: 1px; cursor: pointer; z-index: 10">
               <object
-                data="/assets/icons/categories/Pizza.svg"
+                data="/assets/icons/Drag.svg"
                 type="image/svg+xml"
               ></object>
             </nz-icon>
-            <span>{{ panel.items[0].categoryName }}</span>
+            <div style="display: flex; align-items: center; gap: 0.4rem">
+              <span style="font-size: 0.7rem; color: #aaaaaa">|</span>
+              <nz-icon>
+                <object
+                  data="/assets/icons/categories/Pizza.svg"
+                  type="image/svg+xml"
+                ></object>
+              </nz-icon>
+              <span>{{ panel.items[0].categoryName }}</span>
+            </div>
           </div>
-        </div>
-      </ng-template>
+        </ng-template>
 
-      <div *cdkDragPreview style="padding: 1rem; width: 16rem">
-        {{ panel.items[0].categoryName }}
-      </div>
-    </nz-collapse-panel>
+        <div *cdkDragPreview style="padding: 1rem; width: 16rem">
+          {{ panel.items[0].categoryName }}
+        </div>
+      </nz-collapse-panel>
+    }
   }
 </nz-collapse>
 <ng-template #extraTpl>

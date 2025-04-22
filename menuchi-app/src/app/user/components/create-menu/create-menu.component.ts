@@ -19,6 +19,7 @@ export class CreateMenuComponent implements OnInit {
   selectedCategoryForModal: string | null = null;
   menuId!: string;
   menu!: Menu;
+  selectedCylinderId: string = '';
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -76,7 +77,8 @@ export class CreateMenuComponent implements OnInit {
     this.modalService.openModal();
   }
 
-  showDrawer() {
+  showDrawer(cylinderId: string) {
+    this.selectedCylinderId = cylinderId;
     this.drawerService.openDrawer();
   }
 
@@ -94,5 +96,19 @@ export class CreateMenuComponent implements OnInit {
 
     console.log(result, '11');
     return result.substring(0, result.length - 2);
+  }
+
+  handleDrawerSubmit(event: { menuId: string; body: any }) {
+    this.menuService.addCategoryToMenu(event.menuId, event.body).subscribe({
+      next: (res) => {
+        console.log(' دسته‌بندی با موفقیت اضافه شد', res);
+        this.messageService.success(' دسته‌بندی با موفقیت اضافه شد');
+        this.menuService.getMenuById(this.menuId);
+      },
+      error: (err) => {
+        console.error(' خطا در ارسال دسته‌بندی', err);
+        this.messageService.error(' خطا در ارسال دسته‌بندی');
+      },
+    });
   }
 }

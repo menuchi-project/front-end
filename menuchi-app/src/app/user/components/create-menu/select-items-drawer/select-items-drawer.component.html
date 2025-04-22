@@ -1,6 +1,6 @@
 <nz-drawer
-  [nzClosable]="false"
   [(nzVisible)]="isVisible"
+  (nzOnClose)="close()"
   nzPlacement="left"
   nzTitle="انتخاب دسته بندی"
 >
@@ -16,7 +16,11 @@
       </div>
       <div class="select-all">
         <p>انتخاب کل آیتم‌ها</p>
-        <label nz-checkbox [(ngModel)]="itemChecked" name="check"></label>
+        <label
+          nz-checkbox
+          [(ngModel)]="allChecked"
+          (ngModelChange)="toggleAllItems()"
+        ></label>
       </div>
       <!-- todo id -->
       <nz-collapse nzExpandIconPosition="end" style="width: 100%" [id]="'123'">
@@ -63,8 +67,8 @@
                     <div>
                       <label
                         nz-checkbox
-                        [(ngModel)]="itemChecked"
-                        name="check"
+                        [ngModel]="isItemSelected(data.id)"
+                        (ngModelChange)="toggleItemSelection(data.id)"
                       ></label>
                     </div>
                     <nz-dropdown-menu #menu1="nzDropdownMenu">
@@ -106,8 +110,16 @@
         }
       </nz-collapse>
       <div class="buttons">
-        <button>ثبت</button>
-        <button>لغو</button>
+        <button nz-button nzType="default" (click)="close()">لغو</button>
+
+        <button
+          nz-button
+          nzType="primary"
+          [nzLoading]="isSubmitting"
+          (click)="submit()"
+        >
+          ایجاد
+        </button>
       </div>
     </div>
   </ng-container>

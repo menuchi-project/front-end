@@ -66,8 +66,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import {
   NzDrawerComponent,
   NzDrawerContentDirective,
+  NzDrawerModule,
 } from 'ng-zorro-antd/drawer';
 import { SelectDaysModalComponent } from './components/create-menu/select-days-modal/select-days-modal.component';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 
 @NgModule({
   declarations: [
@@ -138,6 +140,10 @@ import { SelectDaysModalComponent } from './components/create-menu/select-days-m
     NzInputModule,
     NzDrawerComponent,
     NzDrawerContentDirective,
+    FormsModule,
+    NzButtonModule,
+    NzDrawerModule,
+    NzRadioModule,
   ],
   providers: [NzModalService],
   exports: [ItemsPageComponent, ManagementPageComponent],

@@ -53,11 +53,11 @@ export class MenuService implements OnInit {
     );
   }
 
-  addMenuCategory(menuId: string, request: CreateCylinder) {
-    return this.httpClient.post(
-      this.apiUrl + '/' + menuId + '/categories',
-      request,
-    );
+  addCategoryToMenu(
+    menuId: string,
+    data: { categoryId: string; cylinderId: string; items: string[] },
+  ) {
+    return this.httpClient.post(`/menus/${menuId}/categories`, data);
   }
 
   getMenuById(menuId: string) {
