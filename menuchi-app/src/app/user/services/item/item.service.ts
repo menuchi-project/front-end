@@ -13,7 +13,7 @@ import { environment } from '../../../../../api-config/environment';
   providedIn: 'root',
 })
 export class ItemService implements OnInit {
-  private apiUrl!: string;
+  private readonly apiUrl!: string;
 
   private categoriesData = new Subject<CategoryWithItemsResponse>();
   private itemsData = new Subject<Item[]>();

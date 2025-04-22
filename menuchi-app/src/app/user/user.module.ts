@@ -67,6 +67,7 @@ import {
   NzDrawerComponent,
   NzDrawerContentDirective,
 } from 'ng-zorro-antd/drawer';
+import { SelectDaysModalComponent } from './components/create-menu/select-days-modal/select-days-modal.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import {
     CategoryCollapseComponent,
     SelectDaysComponent,
     SelectItemsDrawerComponent,
+    SelectDaysModalComponent,
   ],
   imports: [
     CommonModule,

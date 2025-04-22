@@ -2,8 +2,9 @@ export interface Item {
   id: string;
   createdAt: string;
   updatedAt: string;
-  deletedAt: string;
+  deletedAt: string | null;
   categoryId: string;
+  subCategoryId: string;
   categoryName: string;
   name: string;
   ingredients: string;
