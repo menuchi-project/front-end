@@ -11,6 +11,9 @@ import { TitleService } from '../../../shared/services/title/title.service';
 import { ModalService } from '../../services/modal/modal.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DrawerService } from '../../services/drawer/drawer.service';
+import { MenuService } from '../../services/menu/menu.service';
+import { AuthService } from '../../../main/services/auth/auth.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-create-menu',
@@ -22,6 +25,7 @@ export class CreateMenuComponent implements OnInit {
   @Output() addCategory = new EventEmitter<string>();
   lists: Category[] = [];
   selectedCategoryForModal: string | null = null;
+  menuId!: string;
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -29,6 +33,8 @@ export class CreateMenuComponent implements OnInit {
     private readonly titleService: TitleService,
     private readonly modalService: ModalService,
     private readonly drawerService: DrawerService,
+    private readonly menuService: MenuService,
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +48,12 @@ export class CreateMenuComponent implements OnInit {
     });
 
     this.itemService.getCategoriesWithItems();
+    this.menuService.createMenu({
+      name: 'بدون نام',
+      favicon: 'todo',
+      isPublished: false,
+      branchId: this.authService.getBranchId()!,
+    });
     this.titleService.onPageChanged$.next('ایجاد منوی جدید');
   }
 

@@ -17,7 +17,7 @@ export interface CreateMenuRequest {
   name: string;
   favicon: string;
   isPublished: boolean;
-  branchId: boolean;
+  branchId: string;
 }
 
 export interface CreateMenuResponse {

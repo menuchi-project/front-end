@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ModalService } from '../../../services/modal/modal.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -12,6 +12,8 @@ import { MenuService } from '../../../services/menu/menu.service';
   styleUrl: './select-days-modal.component.scss',
 })
 export class SelectDaysModalComponent implements OnInit, OnDestroy {
+  @Input() menuId!: string;
+
   isOkLoading = false;
   isVisible = false;
   // selectAll = false;
