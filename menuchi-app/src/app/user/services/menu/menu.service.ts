@@ -57,7 +57,7 @@ export class MenuService implements OnInit {
     menuId: string,
     data: { categoryId: string; cylinderId: string; items: string[] },
   ) {
-    return this.httpClient.post(`/menus/${menuId}/categories`, data);
+    return this.httpClient.post(this.apiUrl + `/${menuId}/categories`, data);
   }
 
   getMenuById(menuId: string) {
