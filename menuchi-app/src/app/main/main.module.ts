@@ -9,6 +9,7 @@ import { RestaurantLoginComponent } from './components/restaurant-login/restaura
 import { RestaurantSignupComponent } from './components/restaurant-signup/restaurant-signup.component';
 import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
 import { NzAlertComponent } from 'ng-zorro-antd/alert';
+import { RouterLink } from '@angular/router';
 
 @NgModule({
   declarations: [RestaurantLoginComponent, RestaurantSignupComponent],
@@ -23,6 +24,7 @@ import { NzAlertComponent } from 'ng-zorro-antd/alert';
     NzSelectComponent,
     NzOptionComponent,
     NzAlertComponent,
+    RouterLink,
   ],
 })
 export class MainModule {}
