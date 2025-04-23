@@ -52,4 +52,11 @@ export class ManagementPageComponent implements OnDestroy {
       },
     });
   }
+
+  handleCreateNewMenu() {
+    localStorage.removeItem('currentCreatingMenuId');
+    this.router.navigateByUrl('/dashboard').then(() => {
+      this.router.navigateByUrl('/dashboard/menu');
+    });
+  }
 }

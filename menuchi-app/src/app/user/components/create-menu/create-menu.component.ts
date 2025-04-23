@@ -34,37 +34,43 @@ export class CreateMenuComponent implements OnInit {
   ngOnInit(): void {
     this.authService.fetchUserProfile();
 
+    const savedMenuId = localStorage.getItem('currentCreatingMenuId');
+    if (savedMenuId) {
+      this.menuId = savedMenuId;
+      this.menuService.getMenuById(this.menuId);
+    } else {
+      this.menuService
+        .createMenu({
+          name: 'بدون نام',
+          favicon: 'todo',
+          isPublished: false,
+          branchId: this.authService.getBranchId()!,
+        })
+        .subscribe({
+          next: (response) => {
+            this.menuId = response.id;
+            localStorage.setItem('currentCreatingMenuId', this.menuId);
+            this.menuService.getMenuById(this.menuId);
+          },
+          error: (error) => {
+            console.log('error in create menu:', error);
+            this.messageService.error(' ' + error.error.message);
+          },
+        });
+    }
+
+    this.titleService.onPageChanged$.next('ایجاد منوی جدید');
+
     this.menuService.currentMenuData$.subscribe({
       next: (response: Menu) => {
         this.menu = response;
         this.cylinders = response.cylinders;
-        console.log(this.menu);
+        console.log('current menu:', this.menu);
       },
       error: (error) => {
         console.log('error in create menu page, line 47:', error);
       },
     });
-
-    this.menuService
-      .createMenu({
-        name: 'بدون نام',
-        favicon: 'todo',
-        isPublished: false,
-        branchId: this.authService.getBranchId()!,
-      })
-      .subscribe({
-        next: (response) => {
-          this.menuId = response.id;
-          this.menuService.getMenuById(this.menuId);
-          console.log(this.menuId);
-        },
-        error: (error) => {
-          console.log('error in create menu:', error);
-          this.messageService.error(' ' + error.error.message);
-        },
-      });
-
-    this.titleService.onPageChanged$.next('ایجاد منوی جدید');
   }
 
   onListDropped(event: CdkDragDrop<any[]>) {

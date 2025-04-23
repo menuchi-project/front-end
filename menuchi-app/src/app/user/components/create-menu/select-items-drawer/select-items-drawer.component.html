@@ -23,7 +23,12 @@
         ></label>
       </div>
       <!-- todo id -->
-      <nz-collapse nzExpandIconPosition="end" style="width: 100%" [id]="'123'">
+      <nz-collapse
+        nzAccordion
+        nzExpandIconPosition="end"
+        style="width: 100%"
+        [id]="'123'"
+      >
         @for (panel of panels; track panel) {
           <nz-collapse-panel
             [nzHeader]="header"
@@ -68,18 +73,9 @@
                       <label
                         nz-checkbox
                         [ngModel]="isItemSelected(data.id)"
-                        (ngModelChange)="toggleItemSelection(data.id)"
+                        (ngModelChange)="toggleItemSelection(data.id, panel.id)"
                       ></label>
                     </div>
-                    <nz-dropdown-menu #menu1="nzDropdownMenu">
-                      <ul nz-menu>
-                        <li nz-menu-item>ویرایش آیتم</li>
-                        <li nz-menu-item>انتقال به دسته‌بندی</li>
-                        <li nz-menu-item style="color: #f23939 !important">
-                          حذف از دسته‌بندی
-                        </li>
-                      </ul>
-                    </nz-dropdown-menu>
                   </div>
                 </ng-template>
                 <ng-template #cardPreview>

@@ -37,7 +37,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     category: this.fb.control('', Validators.required),
     price: this.fb.control('', Validators.required),
     ingredients: this.fb.control('', Validators.required),
-    image: this.fb.control(null, Validators.required),
+    image: this.fb.control(null),
   });
 
   constructor(

@@ -31,7 +31,7 @@
               <ul class="bg-color-prim">
                 <li
                   nz-menu-item
-                  routerLink="/dashboard/menu"
+                  (click)="handleCreateNewMenu()"
                   routerLinkActive="activebutton"
                   ariaCurrentWhenActive="page"
                 >
@@ -50,7 +50,13 @@
               <nz-icon nzType="product" nzTheme="outline" />
               <span>بک‌لاگ</span>
             </li>
-            <li nz-menu-item>
+            <li
+              nz-menu-item
+              class="button"
+              routerLink="/dashboard/setting"
+              routerLinkActive="activebutton"
+              ariaCurrentWhenActive="page"
+            >
               <nz-icon nzType="setting" nzTheme="outline" />
               <span>تنظیمات</span>
             </li>
