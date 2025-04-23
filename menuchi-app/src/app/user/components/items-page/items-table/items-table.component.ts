@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Item } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
+import { NzImageService } from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-items-table',
@@ -17,7 +18,10 @@ export class ItemsTableComponent implements OnInit {
   setOfCheckedId = new Set<string>();
   editCache: { [key: string]: { edit: boolean; data: Item } } = {};
 
-  constructor(private itemService: ItemService) {}
+  constructor(
+    private itemService: ItemService,
+    private imageService: NzImageService,
+  ) {}
 
   ngOnInit(): void {
     this.itemService.geAllItems();
@@ -108,5 +112,16 @@ export class ItemsTableComponent implements OnInit {
 
   deleteRow(id: string): void {
     this.listOfData = this.listOfData.filter((d) => d.id !== id);
+  }
+
+  showImage(picUrl: string) {
+    this.imageService.preview(
+      [
+        {
+          src: picUrl,
+        },
+      ],
+      { nzZoom: 1.5, nzRotate: 0 },
+    );
   }
 }

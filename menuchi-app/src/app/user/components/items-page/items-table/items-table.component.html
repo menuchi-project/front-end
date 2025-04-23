@@ -33,7 +33,11 @@
           <td>{{ data.price }}</td>
           <td>{{ data.ingredients }}</td>
           <td type="flex" align="middle">
-            <nz-icon nzType="picture" nzTheme="outline" />
+            <nz-icon
+              (click)="showImage(data.picUrl)"
+              nzType="picture"
+              nzTheme="outline"
+            />
           </td>
           <td type="flex" align="middle">
             <div class="edit-icons">

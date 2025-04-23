@@ -70,6 +70,7 @@ import {
 } from 'ng-zorro-antd/drawer';
 import { SelectDaysModalComponent } from './components/create-menu/select-days-modal/select-days-modal.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzImageService } from 'ng-zorro-antd/image';
 
 @NgModule({
   declarations: [
@@ -145,7 +146,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     NzDrawerModule,
     NzRadioModule,
   ],
-  providers: [NzModalService],
+  providers: [NzModalService, NzImageService],
   exports: [ItemsPageComponent, ManagementPageComponent],
 })
 export class UserModule {}
