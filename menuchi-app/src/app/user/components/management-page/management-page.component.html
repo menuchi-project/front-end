@@ -1,14 +1,23 @@
 <div class="container">
   <nz-layout>
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <nz-sider
+      nzCollapsible
+      [(nzCollapsed)]="isCollapsed"
+      [nzTrigger]="null"
+      [class.expanded]="!isCollapsed"
+    >
       <div class="side-menu">
         <div>
           <div class="logo">
             <img
-              src="/assets/menuchi-logo-white.svg"
+              [src]="
+                isCollapsed
+                  ? '/assets/menuchi-logo-white.svg'
+                  : '/assets/logo-expand.svg'
+              "
               alt="logo"
-              [height]="isCollapsed ? 37 : 52"
-              [width]="isCollapsed ? 50 : 70"
+              [height]="isCollapsed ? 80 : 60"
+              [width]="isCollapsed ? 50 : 180"
             />
           </div>
           <ul nz-menu nzMode="inline">

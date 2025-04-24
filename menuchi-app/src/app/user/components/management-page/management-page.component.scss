@@ -24,6 +24,10 @@
     font-weight: 500;
     padding-inline: 1rem;
 
+    &.expanded {
+      min-width: 15rem !important;
+    }
+
     .side-menu {
       .ant-menu-item,
       .ant-menu-submenu {
@@ -44,7 +48,8 @@
       height: 100vh;
 
       .logo {
-        margin: 1.4rem;
+        margin-inline: 1.4rem;
+        margin-block: 0.4rem 1.4rem;
         display: flex;
         align-items: center;
         justify-content: center;
