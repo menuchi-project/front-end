@@ -14,7 +14,6 @@ import { ItemService } from '../../services/item/item.service';
 import { CategoryName, CreateItemRequest } from '../../models/Item';
 import { CategoryService } from '../../services/category/category.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { log } from 'ng-zorro-antd/core/logger';
 
 @Component({
   selector: 'app-add-item',
@@ -38,7 +37,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     category: this.fb.control('', Validators.required),
     price: this.fb.control('', Validators.required),
     ingredients: this.fb.control('', Validators.required),
-    image: this.fb.control(null, Validators.required),
+    image: this.fb.control(null),
   });
 
   constructor(
@@ -60,7 +59,14 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.modalService.modalOpens$.subscribe({
-      next: (isOpen) => (this.isVisible = isOpen),
+      next: (isOpen) => {
+        this.isVisible = isOpen;
+        if (isOpen) {
+          this.resetForm();
+          this.trySetCategoryFromInput();
+          this.categoryService.getCategoryNames();
+        }
+      },
       error: (error) =>
         console.error('Modal error in add item, line 64:', error),
     });

@@ -6,14 +6,24 @@ import { AppComponent } from './app.component';
 import { ItemsPageComponent } from './user/components/items-page/items-page.component';
 import { BacklogPageComponent } from './user/components/backlog-page/backlog-page.component';
 import { CreateMenuComponent } from './user/components/create-menu/create-menu.component';
+import { RestaurantLoginComponent } from './main/components/restaurant-login/restaurant-login.component';
+import { RestaurantSignupComponent } from './main/components/restaurant-signup/restaurant-signup.component';
+import { authGuard } from './main/guards/auth.guard';
 
 const routes: Routes = [
+  { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
+  {
+    path: 'signup',
+    component: RestaurantSignupComponent,
+    title: 'منوچی | ثبت نام',
+  },
   { path: 'home', component: AppComponent, data: { breadcrumb: 'خانه' } },
   {
-    path: 'manage',
+    path: 'dashboard',
     component: ManagementPageComponent,
-    data: { breadcrumb: 'صفحه اصلی' },
+    data: { breadcrumb: 'داشبورد' },
     title: 'منوچی | مدیریت',
+    canActivate: [authGuard],
     children: [
       {
         path: 'items',

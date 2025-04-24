@@ -1,10 +1,15 @@
 <div class="container">
   <div class="search">
     <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input id="search" type="text" nz-input placeholder="جست‌و‌جو کنید" />
+      <input
+        id="search"
+        type="text"
+        nz-input
+        placeholder="نام منو را وارد کنید"
+      />
     </nz-input-group>
     <ng-template #suffixIconSearch>
-      <nz-icon nzType="search" />
+      <nz-icon nzType="edit" />
     </ng-template>
   </div>
 
@@ -14,31 +19,38 @@
     cdkScrollable
     [cdkDropListAutoScrollStep]="25"
     cdkDropListOrientation="horizontal"
-    [cdkDropListData]="lists"
+    [cdkDropListData]="cylinders"
     (cdkDropListDropped)="onListDropped($event)"
   >
-    <div *ngFor="let list of lists" cdkDrag class="menu-container">
-      <!--      <app-cylinder-->
-      <!--        [list]="list"-->
-      <!--        (itemDropped)="onItemDropped($event)"-->
-      <!--        (addItemWithCategory)="openModalForCategory($event)"-->
-      <!--      ></app-cylinder>-->
-      <app-category-collapse></app-category-collapse>
+    <div *ngFor="let cylinder of cylinders" cdkDrag class="menu-container">
+      <app-cylinder
+        [weekDays]="getWeekDaysString(cylinder)"
+        [panels]="cylinder.menuCategories"
+        [menuId]="menuId"
+        (itemDropped)="onItemDropped($event)"
+        (addItemWithCategory)="openModalForCategory($event)"
+      ></app-cylinder>
+
       <button
         nz-button
         nzType="primary"
         class="add-cat-btn"
-        (click)="showAddCategoryModal()"
+        (click)="showDrawer(cylinder.id)"
       >
         <nz-icon nzType="plus" />
         اضافه کردن دسته‌بندی
       </button>
     </div>
 
-    <div class="add-new-menu">
+    <div class="add-new-menu" (click)="openDaysModal()">
       <nz-icon nzType="plus" />
     </div>
   </div>
 </div>
 
-<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>
+<app-select-days-modal [menuId]="menuId"></app-select-days-modal>
+<app-select-items-drawer
+  [menuId]="menuId"
+  [cylinderId]="selectedCylinderId"
+  (submitted)="handleDrawerSubmit($event)"
+></app-select-items-drawer>

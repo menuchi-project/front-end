@@ -1,6 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ModalService } from '../../../services/modal/modal.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { Menu, MenuCategory } from '../../../models/Menu';
 
 @Component({
   selector: 'app-cylinder',
@@ -9,30 +13,33 @@ import { ModalService } from '../../../services/modal/modal.service';
   styleUrl: './cylinder.component.scss',
 })
 export class CylinderComponent {
-  // @Input() list!: Category;
-  list = {
-    categoryName: 'تیثخحتنبخحثن',
-    categoryNameId: '111',
-    id: '111111',
-    items: [
-      {
-        price: 12,
-        ingredients: 'rrrropkfor kpfrk',
-        picUrl: 'kk',
-        name: 'jiroji',
-      },
-    ],
-  };
+  @Input() panels: MenuCategory[] = [];
+  @Input() menuId!: string;
+  @Input() weekDays!: string;
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
   @Output() addItemWithCategory = new EventEmitter<string>();
 
-  constructor(private readonly modalService: ModalService) {}
+  loading: boolean = false;
+  itemChecked: boolean = true;
 
   drop2(event: CdkDragDrop<any[]>) {
     this.itemDropped.emit(event);
   }
 
-  showAddItemModal(): void {
-    this.addItemWithCategory.emit(this.list.categoryNameId);
+  drop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 }

@@ -1,0 +1,13 @@
+<nz-modal
+  nzWidth="22rem"
+  [nzStyle]="{ top: '2rem' }"
+  [(nzVisible)]="isVisible"
+  nzTitle="انتخاب روزهای هفته"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading"
+  [nzContent]="modalContent"
+  [nzFooter]="null"
+>
+  <ng-template #modalContent> بننن </ng-template>
+</nz-modal>

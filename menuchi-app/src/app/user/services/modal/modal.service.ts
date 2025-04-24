@@ -9,8 +9,6 @@ export class ModalService {
   private modalOpens = new Subject<boolean>();
   modalOpens$ = this.modalOpens.asObservable();
 
-  constructor(private httpClient: HttpClient) {}
-
   openModal() {
     this.modalOpens.next(true);
   }

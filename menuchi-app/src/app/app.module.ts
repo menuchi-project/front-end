@@ -8,21 +8,32 @@ import { registerLocaleData } from '@angular/common';
 import fa from '@angular/common/locales/fa';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { UserModule } from './user/user.module';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { MainModule } from './main/main.module';
+import { authInterceptor } from './main/interceptors/auth.interceptor';
 
 registerLocaleData(fa);
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, UserModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    UserModule,
+    MainModule,
+  ],
   providers: [
     provideNzI18n(fa_IR),
     provideAnimationsAsync(),
-    provideHttpClient(),
-    provideHttpClient(withFetch()),
     provideNoopAnimations(),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
   ],
   bootstrap: [AppComponent],
 })

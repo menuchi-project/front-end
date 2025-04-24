@@ -1,0 +1,122 @@
+<nz-drawer
+  [(nzVisible)]="isVisible"
+  (nzOnClose)="close()"
+  nzPlacement="left"
+  nzTitle="انتخاب دسته بندی"
+>
+  <ng-container *nzDrawerContent>
+    <div class="container">
+      <div class="search">
+        <nz-input-group [nzSuffix]="suffixIconSearch">
+          <input id="search" type="text" nz-input placeholder="جستجو کنید" />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+          <nz-icon nzType="search" />
+        </ng-template>
+      </div>
+      <div class="select-all">
+        <p>انتخاب کل آیتم‌ها</p>
+        <label
+          nz-checkbox
+          [(ngModel)]="allChecked"
+          (ngModelChange)="toggleAllItems()"
+        ></label>
+      </div>
+      <!-- todo id -->
+      <nz-collapse
+        nzAccordion
+        nzExpandIconPosition="end"
+        style="width: 100%"
+        [id]="'123'"
+      >
+        @for (panel of panels; track panel) {
+          <nz-collapse-panel
+            [nzHeader]="header"
+            [nzActive]="false"
+            [nzDisabled]="false"
+          >
+            <div class="drag-list">
+              @if (panel.items.length < 1) {
+                <nz-empty nzNotFoundImage="simple"></nz-empty>
+              }
+              @for (data of panel.items; track data) {
+                <nz-card [nzLoading]="loading">
+                  <nz-card-meta
+                    [nzTitle]="cardTitle"
+                    [nzDescription]="cardDesc"
+                  ></nz-card-meta>
+                  <nz-card *cdkDragPreview>
+                    <nz-card-meta [nzDescription]="cardPreview"></nz-card-meta>
+                  </nz-card>
+                </nz-card>
+                <ng-template #cardDesc>
+                  <div class="item-content">
+                    <div>
+                      <div class="ingredients">
+                        <h3>مواد اولیه:</h3>
+                        <p>{{ data.ingredients | truncate: 35 }}</p>
+                      </div>
+                      <div class="price">
+                        {{ data.price | persianNumber }} تومان
+                      </div>
+                    </div>
+
+                    <div class="item-image">
+                      <img src="{{ data.picUrl }}" alt="item image" />
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template #cardTitle>
+                  <div class="header">
+                    <h4>{{ data.name }}</h4>
+                    <div>
+                      <label
+                        nz-checkbox
+                        [ngModel]="isItemSelected(data.id)"
+                        (ngModelChange)="toggleItemSelection(data.id, panel.id)"
+                      ></label>
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template #cardPreview>
+                  <h4>{{ data.name }}</h4>
+                  <img [ngSrc]="data.picUrl" alt="" height="150" width="150" />
+                </ng-template>
+              }
+            </div>
+
+            <ng-template #header>
+              <div style="display: flex; align-items: center">
+                <div style="display: flex; align-items: center; gap: 0.4rem">
+                  <nz-icon>
+                    <object
+                      data="/assets/icons/categories/Pizza.svg"
+                      type="image/svg+xml"
+                    ></object>
+                  </nz-icon>
+                  <span>{{ panel.items[0].categoryName }}</span>
+                </div>
+              </div>
+            </ng-template>
+
+            <div *cdkDragPreview style="padding: 1rem; width: 16rem">
+              {{ panel.items[0].categoryName }}
+            </div>
+          </nz-collapse-panel>
+        }
+      </nz-collapse>
+      <div class="buttons">
+        <button nz-button nzType="default" (click)="close()">لغو</button>
+
+        <button
+          nz-button
+          nzType="primary"
+          [nzLoading]="isSubmitting"
+          (click)="submit()"
+        >
+          ایجاد
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</nz-drawer>
