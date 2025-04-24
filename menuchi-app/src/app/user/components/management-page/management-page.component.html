@@ -7,7 +7,7 @@
       [class.expanded]="!isCollapsed"
     >
       <div class="side-menu">
-        <div>
+        <div class="menu-content">
           <div class="logo">
             <img
               [src]="
@@ -20,7 +20,7 @@
               [width]="isCollapsed ? 50 : 180"
             />
           </div>
-          <ul nz-menu nzMode="inline">
+          <ul class="menu-item" nz-menu nzMode="inline">
             <li
               nz-menu-item
               routerLink="/dashboard"
@@ -35,7 +35,7 @@
               nz-submenu
               nzTitle="مدیریت منو"
               nzIcon="profile"
-              class="bg-color-prim"
+              class="bg-color-prim submenu"
             >
               <ul>
                 <li
