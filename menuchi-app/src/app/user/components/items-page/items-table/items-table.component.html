@@ -30,8 +30,8 @@
         @if (!editCache[data.id].edit) {
           <td>{{ data.name }}</td>
           <td>{{ data.categoryName }}</td>
-          <td>{{ data.price }}</td>
-          <td>{{ data.ingredients }}</td>
+          <td>{{ data.price | persianNumber }}</td>
+          <td>{{ data.ingredients | truncate }}</td>
           <td type="flex" align="middle">
             <nz-icon
               (click)="showImage(data.picUrl)"

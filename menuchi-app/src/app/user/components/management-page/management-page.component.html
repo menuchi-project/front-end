@@ -28,16 +28,20 @@
               nzIcon="profile"
               class="bg-color-prim"
             >
-              <ul class="bg-color-prim">
+              <ul>
                 <li
                   nz-menu-item
                   (click)="handleCreateNewMenu()"
                   routerLinkActive="activebutton"
                   ariaCurrentWhenActive="page"
                 >
-                  ایجاد منوی جدید
+                  <nz-icon nzType="product" nzTheme="outline" />
+                  <span>ایجاد منوی جدید</span>
                 </li>
-                <li nz-menu-item>منوهای ساخته شده</li>
+                <li nz-menu-item>
+                  <nz-icon nzType="product" nzTheme="outline" />
+                  <span> منوهای ساخته شده </span>
+                </li>
               </ul>
             </li>
             <li
