@@ -6,7 +6,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UploadUrlRequest } from '../../models/UploadImage';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { Router } from '@angular/router';
-import { log } from 'ng-zorro-antd/core/logger';
 
 @Component({
   selector: 'app-upload-box',
@@ -76,10 +75,9 @@ export class UploadBoxComponent implements ControlValueAccessor {
   };
 
   handleChange({ file }: NzUploadChangeParam): void {
+    if (file.status !== 'uploading' || !file.originFileObj) return;
+
     const rawFile = file.originFileObj;
-
-    if (!rawFile) return;
-
     const timestamp = new Date().getTime();
     const fileName = `item-${timestamp}-${rawFile.name}`;
 
@@ -100,7 +98,6 @@ export class UploadBoxComponent implements ControlValueAccessor {
       fileName,
     };
 
-    console.log(111, uploadRequest);
     this.uploadImageService.getUploadUrl(uploadRequest).subscribe({
       next: (res) => {
         const { itemPicUrl, itemPicKey } = res;
