@@ -88,7 +88,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
 
       if (!restaurantId || !branchId) {
         this.messageService.error(
-          'خطا در دریافت اطلاعات! لطفا دوباره وارد شوید.',
+          ' خطا در دریافت اطلاعات! لطفا دوباره وارد شوید.',
         );
         this.router.navigate(['/login']);
         return;
@@ -108,7 +108,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
             .uploadToSignedUrl(itemPicUrl, itemPicKey, rawFile)
             .subscribe({
               next: () => {
-                this.messageService.success('تصویر با موفقیت آپلود شد.');
+                this.messageService.success(' تصویر با موفقیت آپلود شد.');
                 // Update the existing file entry instead of replacing the array
                 this.fileList = this.fileList.map((f) =>
                   f.uid === file.uid
@@ -122,7 +122,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
                 this.onChange(itemPicKey);
               },
               error: () => {
-                this.messageService.error('خطا در آپلود تصویر.');
+                this.messageService.error(' خطا در آپلود تصویر.');
                 this.fileList = this.fileList.map((f) =>
                   f.uid === file.uid ? { ...f, status: 'error' } : f,
                 );
@@ -131,7 +131,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
             });
         },
         error: () => {
-          this.messageService.error('دریافت لینک آپلود با خطا مواجه شد.');
+          this.messageService.error(' دریافت لینک آپلود با خطا مواجه شد.');
           this.fileList = this.fileList.map((f) =>
             f.uid === file.uid ? { ...f, status: 'error' } : f,
           );
