@@ -1,11 +1,16 @@
 import { Component, forwardRef } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import {
+  NzUploadChangeParam,
+  NzUploadFile,
+  NzUploadXHRArgs,
+} from 'ng-zorro-antd/upload';
 import { UploadImageService } from '../../services/upload-image/upload-image.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UploadUrlRequest } from '../../models/UploadImage';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-upload-box',
@@ -41,7 +46,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
         {
           uid: '-1',
           name: 'تصویر انتخاب‌شده',
-          status: 'done',
+          status: 'done' as const,
           url: value,
         },
       ];
@@ -110,21 +115,24 @@ export class UploadBoxComponent implements ControlValueAccessor {
               next: () => {
                 this.messageService.success(' تصویر با موفقیت آپلود شد.');
                 // Update the existing file entry instead of replacing the array
+                const updatedFile: NzUploadFile = {
+                  ...file,
+                  status: 'done' as const, // Explicitly type as UploadFileStatus
+                  url: itemPicUrl.split('?')[0],
+                };
                 this.fileList = this.fileList.map((f) =>
-                  f.uid === file.uid
-                    ? {
-                        ...f,
-                        status: 'done',
-                        url: itemPicUrl.split('?')[0],
-                      }
-                    : f,
+                  f.uid === file.uid ? updatedFile : f,
                 );
                 this.onChange(itemPicKey);
               },
               error: () => {
                 this.messageService.error(' خطا در آپلود تصویر.');
+                const errorFile: NzUploadFile = {
+                  ...file,
+                  status: 'error' as const,
+                };
                 this.fileList = this.fileList.map((f) =>
-                  f.uid === file.uid ? { ...f, status: 'error' } : f,
+                  f.uid === file.uid ? errorFile : f,
                 );
                 this.onChange(null);
               },
@@ -139,6 +147,11 @@ export class UploadBoxComponent implements ControlValueAccessor {
       });
     }
   }
+
+  handleCustomRequest = (item: NzUploadXHRArgs): Subscription => {
+    // This dummy subscription prevents the default POST behavior
+    return new Subscription(() => {});
+  };
 }
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
