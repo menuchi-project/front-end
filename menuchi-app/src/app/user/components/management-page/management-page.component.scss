@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $dark-blue: #1d385e;
 $beige: #f1eae1;
 $active-text: #243e62;
@@ -156,7 +158,7 @@ nz-sider {
       color: $beige !important;
 
       &:hover {
-        background-color: lighten($sidebar-bg, 10%) !important;
+        background-color: color.adjust($sidebar-bg, $lightness: 10%) !important;
       }
 
       &-selected {
