@@ -1,31 +1,20 @@
 :host ::ng-deep {
-  .upload-status-default {
-    .ant-upload {
-      //border-color: #d9d9d9;
-      border-color: #8173de;
+  .ant-upload-list-picture .ant-upload-list-item {
+    &-error {
+      border-color: #ff4d4f !important;
     }
-  }
 
-  .upload-status-success {
-    .ant-upload {
+    &-done {
       border-color: #52c41a !important;
     }
   }
 
-  .upload-status-error {
-    .ant-upload {
-      border-color: #ff4d4f !important;
+  /* Style for the upload box (keep it neutral) */
+  .ant-upload.ant-upload-drag {
+    border-color: #d9d9d9;
+
+    &:hover {
+      border-color: #1890ff;
     }
-  }
-
-  // You might also want to style the text color
-  .upload-status-success .ant-upload-text,
-  .upload-status-success .ant-upload-hint {
-    color: #52c41a;
-  }
-
-  .upload-status-error .ant-upload-text,
-  .upload-status-error .ant-upload-hint {
-    color: #ff4d4f;
   }
 }
