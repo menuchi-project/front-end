@@ -106,20 +106,20 @@ export class UploadBoxComponent implements ControlValueAccessor {
           .uploadToSignedUrl(itemPicUrl, itemPicKey, rawFile)
           .subscribe({
             next: () => {
-              this.messageService.success(`تصویر با موفقیت آپلود شد.`);
+              this.messageService.success(` تصویر با موفقیت آپلود شد.`);
               this.fileList[0].status = 'done';
               this.fileList[0].url = file.url;
               this.onChange(itemPicKey);
             },
             error: () => {
-              this.messageService.error(`خطا در آپلود تصویر.`);
+              this.messageService.error(` خطا در آپلود تصویر.`);
               this.fileList[0].status = 'error';
               this.onChange(null);
             },
           });
       },
       error: () => {
-        this.messageService.error('دریافت لینک آپلود با خطا مواجه شد.');
+        this.messageService.error(' دریافت لینک آپلود با خطا مواجه شد.');
         this.fileList[0].status = 'error';
       },
     });
