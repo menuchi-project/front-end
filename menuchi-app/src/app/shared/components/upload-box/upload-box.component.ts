@@ -24,6 +24,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
   fileList: NzUploadFile[] = [];
   previewVisible = false;
   previewImage: string | undefined = '';
+  uploadStatus: 'default' | 'uploading' | 'success' | 'error' = 'default';
 
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
@@ -45,8 +46,10 @@ export class UploadBoxComponent implements ControlValueAccessor {
           url: value,
         },
       ];
+      this.uploadStatus = 'success';
     } else {
       this.fileList = [];
+      this.uploadStatus = 'default';
     }
   }
 
@@ -71,12 +74,14 @@ export class UploadBoxComponent implements ControlValueAccessor {
       this.messageService.error(' فقط یک فایل قابل انتخاب است.');
       return false;
     }
+    this.uploadStatus = 'default';
     return true;
   };
 
   handleChange({ file }: NzUploadChangeParam): void {
     if (file.status !== 'uploading' || !file.originFileObj) return;
 
+    this.uploadStatus = 'uploading';
     const rawFile = file.originFileObj;
     const timestamp = new Date().getTime();
     const fileName = `item-${timestamp}-${rawFile.name}`;
@@ -85,6 +90,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
     const branchId = this.authService.getBranchId();
 
     if (restaurantId == null || branchId == null) {
+      this.uploadStatus = 'error';
       this.messageService.error(
         ' خطا در دریافت اطلاعات! لطفا دوباره وارد شوید.',
       );
@@ -106,23 +112,45 @@ export class UploadBoxComponent implements ControlValueAccessor {
           .uploadToSignedUrl(itemPicUrl, itemPicKey, rawFile)
           .subscribe({
             next: () => {
-              this.messageService.success(` تصویر با موفقیت آپلود شد.`);
-              this.fileList[0].status = 'done';
-              this.fileList[0].url = file.url;
+              this.uploadStatus = 'success';
+              this.messageService.success('تصویر با موفقیت آپلود شد.');
+              this.fileList = [
+                {
+                  ...this.fileList[0],
+                  status: 'done',
+                  url: itemPicUrl.split('?')[0], // Use the clean URL without query params
+                },
+              ];
               this.onChange(itemPicKey);
             },
             error: () => {
-              this.messageService.error(` خطا در آپلود تصویر.`);
-              this.fileList[0].status = 'error';
+              this.uploadStatus = 'error';
+              this.messageService.error('خطا در آپلود تصویر.');
+              this.fileList = [
+                {
+                  ...this.fileList[0],
+                  status: 'error',
+                },
+              ];
               this.onChange(null);
             },
           });
       },
       error: () => {
-        this.messageService.error(' دریافت لینک آپلود با خطا مواجه شد.');
-        this.fileList[0].status = 'error';
+        this.uploadStatus = 'error';
+        this.messageService.error('دریافت لینک آپلود با خطا مواجه شد.');
+        this.fileList = [
+          {
+            ...this.fileList[0],
+            status: 'error',
+          },
+        ];
       },
     });
+  }
+
+  getStatusClass(): string {
+    return `upload-status-${this.uploadStatus}`;
   }
 }
 
