@@ -102,11 +102,8 @@
 
       <!-- آپلود تصویر -->
       <nz-form-item>
-        <nz-form-label nzRequired>تصویر آیتم</nz-form-label>
-        <nz-form-control
-          [nzValidateStatus]="validateForm.controls['image']"
-          nzErrorTip="آپلود تصویر الزامی است."
-        >
+        <nz-form-label>تصویر آیتم</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['image']">
           <app-upload-box
             formControlName="image"
             id="image"
