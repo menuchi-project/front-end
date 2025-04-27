@@ -24,12 +24,10 @@ export class UploadImageService {
     itemPicKey: string,
     file: File,
   ): Observable<any> {
-    const formData = new FormData();
-    formData.append(itemPicKey, file);
-
     return this.httpClient.put(url, file, {
       headers: new HttpHeaders({
         'Skip-Auth': 'true',
+        'Content-Type': file.type,
       }),
     });
   }

@@ -5,6 +5,8 @@
   [nzPreview]="handlePreview"
   [nzShowButton]="fileList.length < 1"
   [nzShowUploadList]="fileList.length >= 1"
+  [nzDisabled]="fileList.length >= 1"
+  [nzCustomRequest]="handleCustomRequest"
   nzAccept="image/*"
   nzListType="picture"
   nzType="drag"

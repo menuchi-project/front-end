@@ -1,12 +1,16 @@
 import { Component, forwardRef } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
+import {
+  NzUploadChangeParam,
+  NzUploadFile,
+  NzUploadXHRArgs,
+} from 'ng-zorro-antd/upload';
 import { UploadImageService } from '../../services/upload-image/upload-image.service';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UploadUrlRequest } from '../../models/UploadImage';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { Router } from '@angular/router';
-import { log } from 'ng-zorro-antd/core/logger';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-upload-box',
@@ -42,7 +46,7 @@ export class UploadBoxComponent implements ControlValueAccessor {
         {
           uid: '-1',
           name: 'تصویر انتخاب‌شده',
-          status: 'done',
+          status: 'done' as const,
           url: value,
         },
       ];
@@ -76,57 +80,78 @@ export class UploadBoxComponent implements ControlValueAccessor {
   };
 
   handleChange({ file }: NzUploadChangeParam): void {
-    const rawFile = file.originFileObj;
+    if (!file.originFileObj) return;
 
-    if (!rawFile) return;
+    // Only process when file status changes to 'uploading'
+    if (file.status === 'uploading') {
+      const rawFile = file.originFileObj;
+      const timestamp = new Date().getTime();
+      const fileName = `item-${timestamp}-${rawFile.name}`;
 
-    const timestamp = new Date().getTime();
-    const fileName = `item-${timestamp}-${rawFile.name}`;
+      const restaurantId = this.authService.getRestaurantId();
+      const branchId = this.authService.getBranchId();
 
-    const restaurantId = this.authService.getRestaurantId();
-    const branchId = this.authService.getBranchId();
+      if (!restaurantId || !branchId) {
+        this.messageService.error(
+          ' خطا در دریافت اطلاعات! لطفا دوباره وارد شوید.',
+        );
+        this.router.navigate(['/login']);
+        return;
+      }
 
-    if (restaurantId == null || branchId == null) {
-      this.messageService.error(
-        ' خطا در دریافت اطلاعات! لطفا دوباره وارد شوید.',
-      );
-      this.router.navigate(['/login']);
-      return;
+      const uploadRequest: UploadUrlRequest = {
+        restaurantId,
+        branchId,
+        fileName,
+      };
+
+      this.uploadImageService.getUploadUrl(uploadRequest).subscribe({
+        next: (res) => {
+          const { itemPicUrl, itemPicKey } = res;
+
+          this.uploadImageService
+            .uploadToSignedUrl(itemPicUrl, itemPicKey, rawFile)
+            .subscribe({
+              next: () => {
+                this.messageService.success(' تصویر با موفقیت آپلود شد.');
+                // Update the existing file entry instead of replacing the array
+                const updatedFile: NzUploadFile = {
+                  ...file,
+                  status: 'done' as const, // Explicitly type as UploadFileStatus
+                  url: itemPicUrl.split('?')[0],
+                };
+                this.fileList = this.fileList.map((f) =>
+                  f.uid === file.uid ? updatedFile : f,
+                );
+                this.onChange(itemPicKey);
+              },
+              error: () => {
+                this.messageService.error(' خطا در آپلود تصویر.');
+                const errorFile: NzUploadFile = {
+                  ...file,
+                  status: 'error' as const,
+                };
+                this.fileList = this.fileList.map((f) =>
+                  f.uid === file.uid ? errorFile : f,
+                );
+                this.onChange(null);
+              },
+            });
+        },
+        error: () => {
+          this.messageService.error(' دریافت لینک آپلود با خطا مواجه شد.');
+          this.fileList = this.fileList.map((f) =>
+            f.uid === file.uid ? { ...f, status: 'error' } : f,
+          );
+        },
+      });
     }
-
-    const uploadRequest: UploadUrlRequest = {
-      restaurantId: restaurantId,
-      branchId: branchId,
-      fileName,
-    };
-
-    console.log(111, uploadRequest);
-    this.uploadImageService.getUploadUrl(uploadRequest).subscribe({
-      next: (res) => {
-        const { itemPicUrl, itemPicKey } = res;
-
-        this.uploadImageService
-          .uploadToSignedUrl(itemPicUrl, itemPicKey, rawFile)
-          .subscribe({
-            next: () => {
-              this.messageService.success(`تصویر با موفقیت آپلود شد.`);
-              this.fileList[0].status = 'done';
-              this.fileList[0].url = file.url;
-              this.onChange(itemPicKey);
-            },
-            error: () => {
-              this.messageService.error(`خطا در آپلود تصویر.`);
-              this.fileList[0].status = 'error';
-              this.onChange(null);
-            },
-          });
-      },
-      error: () => {
-        this.messageService.error('دریافت لینک آپلود با خطا مواجه شد.');
-        this.fileList[0].status = 'error';
-      },
-    });
   }
+
+  handleCustomRequest = (item: NzUploadXHRArgs): Subscription => {
+    // This dummy subscription prevents the default POST behavior
+    return new Subscription(() => {});
+  };
 }
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>

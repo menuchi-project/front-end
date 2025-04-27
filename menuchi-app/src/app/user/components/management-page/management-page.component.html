@@ -1,17 +1,26 @@
 <div class="container">
   <nz-layout>
-    <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <nz-sider
+      nzCollapsible
+      [(nzCollapsed)]="isCollapsed"
+      [nzTrigger]="null"
+      [class.expanded]="!isCollapsed"
+    >
       <div class="side-menu">
-        <div>
+        <div class="menu-content">
           <div class="logo">
             <img
-              src="/assets/menuchi-logo-white.svg"
+              [src]="
+                isCollapsed
+                  ? '/assets/menuchi-logo-white.svg'
+                  : '/assets/logo-expand.svg'
+              "
               alt="logo"
-              [height]="isCollapsed ? 37 : 52"
-              [width]="isCollapsed ? 50 : 70"
+              [height]="isCollapsed ? 80 : 60"
+              [width]="isCollapsed ? 50 : 180"
             />
           </div>
-          <ul nz-menu nzMode="inline">
+          <ul class="menu-item" nz-menu nzMode="inline">
             <li
               nz-menu-item
               routerLink="/dashboard"
@@ -26,7 +35,7 @@
               nz-submenu
               nzTitle="مدیریت منو"
               nzIcon="profile"
-              class="bg-color-prim"
+              class="bg-color-prim submenu"
             >
               <ul>
                 <li
@@ -84,13 +93,6 @@
     </nz-sider>
     <nz-layout>
       <nz-header>
-        <span
-          class="trigger2"
-          nz-icon
-          [nzType]="isCollapsed ? 'left' : 'right'"
-          (click)="isCollapsed = !isCollapsed"
-        ></span>
-
         <div class="header">
           <h1>{{ pageTitle }}</h1>
           <div class="header-icons">

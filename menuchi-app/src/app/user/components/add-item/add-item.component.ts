@@ -71,6 +71,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
         console.error('Modal error in add item, line 64:', error),
     });
 
+    this.itemService.geAllItems();
     this.categoryService.getCategoryNames();
   }
 
@@ -114,6 +115,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           this.messageService.success(' آیتم با موفقیت ایجاد شد.');
           this.itemService.getCategoriesWithItems();
           this.modalService.closeModal();
+          this.itemService.geAllItems();
           this.resetForm();
         },
         error: (error) => {

@@ -69,14 +69,7 @@
             />
           </nz-input-group>
           <ng-template #suffixButton>
-            <button
-              nz-button
-              nzType="primary"
-              nzSize="large"
-              style="border-top-right-radius: 0; border-bottom-right-radius: 0"
-            >
-              تومان
-            </button>
+            <span tabindex="-1" class="toman-btn"> تومان </span>
           </ng-template>
         </nz-form-control>
       </nz-form-item>
@@ -102,11 +95,8 @@
 
       <!-- آپلود تصویر -->
       <nz-form-item>
-        <nz-form-label nzRequired>تصویر آیتم</nz-form-label>
-        <nz-form-control
-          [nzValidateStatus]="validateForm.controls['image']"
-          nzErrorTip="آپلود تصویر الزامی است."
-        >
+        <nz-form-label>تصویر آیتم</nz-form-label>
+        <nz-form-control [nzValidateStatus]="validateForm.controls['image']">
           <app-upload-box
             formControlName="image"
             id="image"
