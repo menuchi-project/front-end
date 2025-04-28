@@ -1,22 +1,26 @@
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-
-  .login-form {
-    width: 20rem;
-  }
-
-  .login-form-margin {
-    margin-bottom: 16px;
-  }
-
-  .login-form-forgot {
-    float: right;
-  }
-
-  .login-form-button {
-    width: 100%;
-  }
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../../../../../public/assets/Gradient.svg');
+    background-size: cover;
+    background-position: center;
+    .login-form {
+        width: 20rem;
+    }
+    .login-form-margin {
+        margin-bottom: 16px;
+    }
+    .login-form-forgot {
+        float: right;
+    }
+    .login-form-button {
+        width: 100%;
+    }
+    .rtl-text {
+        direction: rtl;
+        text-align: right;
+    }
 }
