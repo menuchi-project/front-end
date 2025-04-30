@@ -19,6 +19,11 @@ export class RestaurantLoginComponent {
     remember: this.fb.control(true),
   });
 
+  passwordVisible: boolean = false;
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
   constructor(
     private readonly authService: AuthService,
     private readonly messageService: NzMessageService,
