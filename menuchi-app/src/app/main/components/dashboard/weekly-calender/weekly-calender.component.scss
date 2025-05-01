@@ -174,3 +174,39 @@ button {
     color: #ccc;
   }
 }
+
+/* استایل‌های قبلی... */
+
+.day-column {
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 150, 136, 0.1);
+  }
+
+  &.selected {
+    background-color: rgba(33, 150, 243, 0.1);
+
+    .day-date {
+      background-color: #2196f3;
+      color: white;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #2196f3;
+    }
+  }
+
+  &.today.selected {
+    .day-date {
+      background-color: mix(#2196f3, #ffeb3b, 70%);
+    }
+  }
+}

@@ -25,7 +25,9 @@
         class="day-column"
         *ngFor="let day of getPersianWeekDays(); let i = index"
         [class.today]="getDayInfo(i).isToday"
+        [class.selected]="isSelected(getDayInfo(i).date)"
         [class.current-month]="getDayInfo(i).isCurrentMonth"
+        (click)="selectDate(getDayInfo(i).date)"
       >
         <div class="day-date">
           <span class="date-number">{{

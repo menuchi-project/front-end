@@ -11,25 +11,29 @@ import moment from 'jalali-moment';
 export class WeeklyCalenderComponent {
   viewDate: Date = new Date();
   locale: string = 'fa';
+  selectedDate: Date | null = null;
+
+  // // خروجی برای کامپوننت والد
+  // @Output() dateSelected = new EventEmitter<Date>();
 
   constructor() {
-    // تنظیمات locale برای تقویم فارسی
     moment.locale('fa', {
-      week: {
-        dow: 6, // شروع هفته از شنبه (6 = شنبه در moment.js)
-        doy: 12, // تعریف اولین روز سال
-      },
+      week: { dow: 6, doy: 12 },
     });
   }
 
-  // تابع شروع هفته با شنبه
+  // انتخاب یک روز
+  selectDate(date: Date): void {
+    this.selectedDate = date;
+    // this.dateSelected.emit(date);
+  }
+
   startOfPersianWeek(date: Date): Date {
-    const day = moment(date).day(); // روز هفته به صورت عددی
-    const diff = day >= 6 ? day - 6 : day + 1; // محاسبه اختلاف تا شنبه
+    const day = moment(date).day();
+    const diff = day >= 6 ? day - 6 : day + 1;
     return moment(date).subtract(diff, 'days').toDate();
   }
 
-  // تابع پایان هفته با جمعه
   endOfPersianWeek(date: Date): Date {
     return moment(this.startOfPersianWeek(date)).add(6, 'days').toDate();
   }
@@ -52,6 +56,10 @@ export class WeeklyCalenderComponent {
 
   isToday(date: Date): boolean {
     return isSameDay(date, new Date());
+  }
+
+  isSelected(date: Date): boolean {
+    return this.selectedDate ? isSameDay(date, this.selectedDate) : false;
   }
 
   getDayInfo(dayIndex: number): {
