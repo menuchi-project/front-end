@@ -16,7 +16,12 @@
   <button class="today-button" (click)="today()">امروز</button>
 
   <div class="week-days-header">
-    <div class="day-header" *ngFor="let day of getPersianWeekDays()">
+    <div
+      class="day-header"
+      *ngFor="let day of getPersianWeekDays(); let i = index"
+      [class.today]="getDayInfo(i).isToday"
+      [class.selected]="isSelected(getDayInfo(i).date)"
+    >
       <span>{{ day.long }}</span>
     </div>
   </div>

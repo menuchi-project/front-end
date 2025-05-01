@@ -36,10 +36,6 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #3e8e41;
-  }
 }
 
 .week-days-header {
@@ -52,17 +48,26 @@
     justify-content: center;
     flex: 1;
     font-weight: bold;
-    color: #252525;
-    background-color: #8c8c6e;
     height: 5.2rem;
     width: 4rem;
     max-width: 4rem;
     position: relative;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
+    background-color: white;
 
-    &.selected {
+    &.today {
       background-color: #8c8c6e;
+      span {
+        color: white;
+      }
+    }
+
+    &.selected:not(.today) {
+      background-color: rgb(200, 200, 156);
+      span {
+        color: white;
+      }
     }
 
     span {
@@ -71,6 +76,7 @@
       padding-inline: 0.8rem;
       font-size: 1rem;
       font-weight: 600 !important;
+      color: #252525;
     }
   }
 }
@@ -99,7 +105,7 @@
   max-width: 4rem;
 
   &:hover {
-    background-color: #f8f9fa;
+    background-color: #f0f0f0;
   }
 
   .day-number {
@@ -120,12 +126,11 @@
     background-color: #8c8c6e;
   }
 
-  &.selected {
-    background-color: #d0ebff;
+  &.selected:not(.today) {
+    background-color: rgb(200, 200, 156);
 
     .day-number {
-      font-weight: bold;
-      color: #1971c2;
+      color: white;
     }
   }
 
