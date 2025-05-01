@@ -8,7 +8,6 @@ import { CreateMenuComponent } from './user/components/create-menu/create-menu.c
 import { RestaurantLoginComponent } from './main/components/restaurant-login/restaurant-login.component';
 import { RestaurantSignupComponent } from './main/components/restaurant-signup/restaurant-signup.component';
 import { authGuard } from './main/guards/auth.guard';
-import { DashboardComponent } from './main/components/dashboard/dashboard.component';
 import { DashboardPageComponent } from './user/components/dashboard-page/dashboard-page.component';
 import { SettingsPageComponent } from './user/components/settings-page/settings-page.component';
 
@@ -20,7 +19,6 @@ const routes: Routes = [
     title: 'منوچی | ثبت نام',
   },
   { path: 'home', component: AppComponent, data: { breadcrumb: 'خانه' } },
-  { path: 'main', component: DashboardComponent },
   {
     path: 'dashboard',
     component: DashboardPageComponent,
