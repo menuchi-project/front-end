@@ -121,5 +121,6 @@ export class WeeklyCalenderComponent {
 
   today(): void {
     this.viewDate = new Date();
+    this.selectedDate = new Date();
   }
 }
