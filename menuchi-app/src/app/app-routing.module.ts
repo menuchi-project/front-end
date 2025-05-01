@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CategoriesPageComponent } from './user/components/categories-page/categories-page.component';
-import { ManagementPageComponent } from './user/components/management-page/management-page.component';
 import { AppComponent } from './app.component';
 import { ItemsPageComponent } from './user/components/items-page/items-page.component';
 import { BacklogPageComponent } from './user/components/backlog-page/backlog-page.component';
@@ -10,6 +9,7 @@ import { RestaurantLoginComponent } from './main/components/restaurant-login/res
 import { RestaurantSignupComponent } from './main/components/restaurant-signup/restaurant-signup.component';
 import { authGuard } from './main/guards/auth.guard';
 import { DashboardComponent } from './main/components/dashboard/dashboard.component';
+import { DashboardPageComponent } from './user/components/dashboard-page/dashboard-page.component';
 
 const routes: Routes = [
   { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'main', component: DashboardComponent },
   {
     path: 'dashboard',
-    component: ManagementPageComponent,
+    component: DashboardPageComponent,
     data: { breadcrumb: 'داشبورد' },
     title: 'منوچی | مدیریت',
     canActivate: [authGuard],

@@ -6,12 +6,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-management-page',
+  selector: 'app-dashboard-page',
   standalone: false,
-  templateUrl: './management-page.component.html',
-  styleUrl: './management-page.component.scss',
+  templateUrl: './dashboard-page.component.html',
+  styleUrl: './dashboard-page.component.scss',
 })
-export class ManagementPageComponent implements OnDestroy {
+export class DashboardPageComponent implements OnDestroy {
   isCollapsed = false;
   pageTitle = 'مدیریت';
   onPageChangedSub: Subscription;

@@ -71,6 +71,7 @@ import {
 import { SelectDaysModalComponent } from './components/create-menu/select-days-modal/select-days-modal.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzImageService } from 'ng-zorro-antd/image';
+import { DashboardPageComponent } from './components/dashboard-page/dashboard-page.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { NzImageService } from 'ng-zorro-antd/image';
     SelectDaysComponent,
     SelectItemsDrawerComponent,
     SelectDaysModalComponent,
+    DashboardPageComponent,
   ],
   imports: [
     CommonModule,
