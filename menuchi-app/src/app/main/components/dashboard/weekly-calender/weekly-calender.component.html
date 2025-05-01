@@ -1,23 +1,22 @@
 <div class="persian-week-calendar">
   <div class="calendar-header">
     <button class="nav-button prev-button" (click)="previousWeek()">
-      <img src="/assets/icons/Backlog.svg" alt="هفته قبل" />
+      <img src="/assets/icons/arrow-right.svg" alt="هفته قبل" />
     </button>
 
-    <div class="month-title">
-      <span class="month-name">{{ getPersianMonth() }}</span>
-      <span class="year">{{ getPersianYear() }}</span>
+    <div>
+      <h2>{{ getPersianMonth() }} {{ getPersianYear() }}</h2>
     </div>
 
-    <button class="today-button" (click)="today()">
-      <img src="/assets/icons/User.svg" alt="امروز" />
-      امروز
-    </button>
-
     <button class="nav-button next-button" (click)="nextWeek()">
-      <img src="/assets/icons/Home-white.svg" alt="هفته بعد" />
+      <img src="/assets/icons/arrow-left.svg" alt="هفته بعد" />
     </button>
   </div>
+
+  <button class="today-button" (click)="today()">
+    <img src="/assets/icons/User.svg" alt="امروز" />
+    امروز
+  </button>
 
   <div class="week-days-header">
     <div class="day-header" *ngFor="let day of getPersianWeekDays()">

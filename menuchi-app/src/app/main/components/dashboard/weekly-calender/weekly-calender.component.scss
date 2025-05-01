@@ -6,13 +6,6 @@
   overflow-x: auto;
 }
 
-.calendar-header {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-  padding: 0 10px;
-}
-
 .navigation {
   display: flex;
   justify-content: space-between;
@@ -208,6 +201,7 @@ button {
     }
   }
 }
+
 .persian-week-calendar {
   font-family: "Vazirmatn", sans-serif;
   direction: rtl;
@@ -221,28 +215,18 @@ button {
 
 .calendar-header {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e0e0e0;
+
+  h2 {
+    margin-block: 0 !important;
+  }
 }
 
 .month-title {
   display: flex;
-  flex-direction: column;
   align-items: center;
-
-  .month-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-  }
-
-  .year {
-    font-size: 0.9rem;
-    color: #666;
-  }
 }
 
 .nav-button {
