@@ -1,9 +1,15 @@
 <div class="calendar-container">
   <div class="calendar-header">
-    <button (click)="previousWeek()">هفته قبل</button>
-    <h2>{{ getWeekRange() }}</h2>
-    <button (click)="nextWeek()">هفته بعد</button>
-    <button (click)="today()">امروز</button>
+    <div class="navigation">
+      <button class="nav-button" (click)="previousWeek()">
+        <i class="icon">←</i> هفته قبل
+      </button>
+      <button class="today-button" (click)="today()">امروز</button>
+      <button class="nav-button" (click)="nextWeek()">
+        هفته بعد <i class="icon">→</i>
+      </button>
+    </div>
+    <h2 class="week-title">{{ getWeekRange() }}</h2>
   </div>
 
   <div class="week-view">
@@ -18,12 +24,17 @@
       <div
         class="day-column"
         *ngFor="let day of getPersianWeekDays(); let i = index"
+        [class.today]="getDayInfo(i).isToday"
+        [class.current-month]="getDayInfo(i).isCurrentMonth"
       >
         <div class="day-date">
-          {{ getPersianDate(addDays(startOfWeek(viewDate), i)) }}
+          <span class="date-number">{{
+            getPersianDate(getDayInfo(i).date)
+          }}</span>
+          <span class="today-badge" *ngIf="getDayInfo(i).isToday">امروز</span>
         </div>
         <div class="day-events">
-          <!-- Events would go here -->
+          <!-- محتوای رویدادها -->
         </div>
       </div>
     </div>

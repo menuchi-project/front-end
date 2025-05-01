@@ -1,32 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap");
+
 .calendar-container {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Vazirmatn", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   direction: rtl;
   text-align: right;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .calendar-header {
   display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  padding: 0 10px;
+}
+
+.navigation {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  background-color: #f5f5f5;
   margin-bottom: 10px;
+}
+
+.week-title {
+  text-align: center;
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.nav-button {
+  background-color: #f0f0f0;
+  color: #333;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  .icon {
+    font-size: 1.1em;
+  }
+}
+
+.today-button {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #3e8e41;
+  }
 }
 
 .week-view {
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .week-header {
   display: flex;
-  background-color: #f9f9f9;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .day-header {
   flex: 1;
-  padding: 10px;
+  padding: 12px 8px;
   text-align: center;
   border-right: 1px solid #e0e0e0;
 
@@ -37,12 +88,14 @@
 
 .day-name-short {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 .day-name-long {
-  font-size: 0.9em;
+  font-size: 0.9rem;
   color: #666;
+  margin-top: 4px;
 }
 
 .week-grid {
@@ -53,6 +106,7 @@
 .day-column {
   flex: 1;
   border-right: 1px solid #e0e0e0;
+  position: relative;
 
   &:last-child {
     border-right: none;
@@ -60,13 +114,63 @@
 }
 
 .day-date {
-  padding: 5px;
+  padding: 10px;
   text-align: center;
-  background-color: #f0f0f0;
   border-bottom: 1px solid #e0e0e0;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date-number {
+  font-weight: 500;
+}
+
+.today-badge {
+  background-color: #ff5722;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  font-weight: bold;
 }
 
 .day-events {
-  padding: 5px;
+  padding: 8px;
   height: 100%;
+}
+
+/* استایل‌های مخصوص امروز */
+.day-column.today {
+  background-color: rgba(255, 235, 59, 0.15);
+
+  .day-date {
+    background-color: #fff9c4;
+    color: #000;
+    font-weight: bold;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #ffc107;
+  }
+}
+
+/* استایل‌های روزهای غیر از ماه جاری */
+.day-column:not(.current-month) {
+  .day-date {
+    color: #aaa;
+  }
+
+  .day-name-short,
+  .day-name-long {
+    color: #ccc;
+  }
 }

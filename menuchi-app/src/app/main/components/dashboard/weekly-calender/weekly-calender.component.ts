@@ -1,65 +1,77 @@
 import { Component } from '@angular/core';
-import { CalendarEvent, CalendarView } from 'angular-calendar';
+import { addDays, addWeeks, endOfWeek, isSameDay, startOfWeek } from 'date-fns';
 import moment from 'jalali-moment';
-import { addDays, addWeeks, endOfWeek, startOfWeek } from 'date-fns';
 
 @Component({
-  selector: 'app-weekly-calender',
-  standalone: false,
+  selector: 'app-weekly-calendar',
   templateUrl: './weekly-calender.component.html',
-  styleUrl: './weekly-calender.component.scss',
+  standalone: false,
+  styleUrls: ['./weekly-calender.component.scss'],
 })
 export class WeeklyCalenderComponent {
-  view: CalendarView = CalendarView.Week;
   viewDate: Date = new Date();
-  events: CalendarEvent[] = [];
   locale: string = 'fa';
 
   constructor() {
-    // Set Jalali (Persian) locale
     moment.locale('fa');
   }
 
-  // Convert Gregorian to Jalali date for display
+  // تبدیل تاریخ میلادی به شمسی
   getPersianDate(date: Date): string {
-    return moment(date).format('jYYYY/jMM/jDD');
+    return moment(date).format('jD jMMMM');
   }
 
-  // Get week days names in Persian
+  // نام روزهای هفته به فارسی
   getPersianWeekDays(): { long: string; short: string }[] {
     return [
       { long: 'شنبه', short: 'ش' },
       { long: 'یکشنبه', short: 'ی' },
       { long: 'دوشنبه', short: 'د' },
-      { long: 'سه شنبه', short: 'س' },
+      { long: 'سه‌شنبه', short: 'س' },
       { long: 'چهارشنبه', short: 'چ' },
       { long: 'پنجشنبه', short: 'پ' },
       { long: 'جمعه', short: 'ج' },
     ];
   }
 
-  // Navigate to previous week
-  previousWeek(): void {
-    this.viewDate = addWeeks(this.viewDate, -1);
+  // بررسی آیا تاریخ داده شده امروز است یا نه
+  isToday(date: Date): boolean {
+    return isSameDay(date, new Date());
   }
 
-  // Navigate to next week
-  nextWeek(): void {
-    this.viewDate = addWeeks(this.viewDate, 1);
+  // دریافت اطلاعات هر روز
+  getDayInfo(dayIndex: number): {
+    date: Date;
+    isToday: boolean;
+    isCurrentMonth: boolean;
+  } {
+    const date = addDays(startOfWeek(this.viewDate), dayIndex);
+    return {
+      date,
+      isToday: this.isToday(date),
+      isCurrentMonth: date.getMonth() === this.viewDate.getMonth(),
+    };
   }
 
-  // Navigate to today
-  today(): void {
-    this.viewDate = new Date();
-  }
-
-  // Get current Persian week range
+  // محدوده هفته جاری
   getWeekRange(): string {
     const start = moment(startOfWeek(this.viewDate)).format('jD jMMMM');
     const end = moment(endOfWeek(this.viewDate)).format('jD jMMMM jYYYY');
     return `${start} تا ${end}`;
   }
 
-  protected readonly startOfWeek = startOfWeek;
-  protected readonly addDays = addDays;
+  // هفته قبل
+  previousWeek(): void {
+    this.viewDate = addWeeks(this.viewDate, -1);
+  }
+
+  // هفته بعد
+  nextWeek(): void {
+    this.viewDate = addWeeks(this.viewDate, 1);
+  }
+
+  // بازگشت به امروز
+  today(): void {
+    this.viewDate = new Date();
+  }
 }
