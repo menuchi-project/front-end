@@ -210,3 +210,138 @@ button {
     }
   }
 }
+.persian-week-calendar {
+  font-family: "Vazirmatn", sans-serif;
+  direction: rtl;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.month-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .month-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .year {
+    font-size: 0.9rem;
+    color: #666;
+  }
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #e9ecef;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.week-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #f1f3f5;
+  padding: 10px 0;
+  text-align: center;
+
+  .day-header {
+    font-weight: bold;
+    color: #495057;
+  }
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background-color: #e9ecef;
+}
+
+.day-cell {
+  background-color: white;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+
+  &:hover {
+    background-color: #f8f9fa;
+  }
+
+  .day-number {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+  }
+
+  .day-voltage {
+    font-size: 0.8rem;
+    color: #495057;
+    font-weight: bold;
+  }
+}
+
+.day-cell.today {
+  background-color: #fff3bf;
+
+  .day-number {
+    font-weight: bold;
+    color: #e67700;
+  }
+}
+
+.day-cell.selected {
+  background-color: #d0ebff;
+
+  .day-number {
+    font-weight: bold;
+    color: #1971c2;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #1971c2;
+  }
+}
+
+.day-cell:not(.current-month) {
+  .day-number {
+    color: #adb5bd;
+  }
+}

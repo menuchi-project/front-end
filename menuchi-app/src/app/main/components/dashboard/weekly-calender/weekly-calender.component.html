@@ -1,43 +1,40 @@
-<div class="calendar-container">
+<div class="persian-week-calendar">
   <div class="calendar-header">
-    <div class="navigation">
-      <button class="nav-button" (click)="previousWeek()">
-        <i class="icon">←</i> هفته قبل
-      </button>
-      <button class="today-button" (click)="today()">امروز</button>
-      <button class="nav-button" (click)="nextWeek()">
-        هفته بعد <i class="icon">→</i>
-      </button>
+    <button class="nav-button prev-button" (click)="previousWeek()">
+      <img src="/assets/icons/Backlog.svg" alt="هفته قبل" />
+    </button>
+
+    <div class="month-title">
+      <span class="month-name">{{ getPersianMonth() }}</span>
+      <span class="year">{{ getPersianYear() }}</span>
     </div>
-    <h2 class="week-title">{{ getWeekRange() }}</h2>
+
+    <button class="nav-button next-button" (click)="nextWeek()">
+      <img src="/assets/icons/Home-white.svg" alt="هفته بعد" />
+    </button>
   </div>
 
-  <div class="week-view">
-    <div class="week-header">
-      <div class="day-header" *ngFor="let day of getPersianWeekDays()">
-        <div class="day-name-short">{{ day.short }}</div>
-        <div class="day-name-long">{{ day.long }}</div>
-      </div>
+  <div class="week-days-header">
+    <div class="day-header" *ngFor="let day of getPersianWeekDays()">
+      {{ day.short }}
     </div>
+  </div>
 
-    <div class="week-grid">
+  <div class="week-grid">
+    <div
+      class="day-cell"
+      *ngFor="let day of getPersianWeekDays(); let i = index"
+      [class.today]="getDayInfo(i).isToday"
+      [class.selected]="isSelected(getDayInfo(i).date)"
+      [class.current-month]="getDayInfo(i).isCurrentMonth"
+      (click)="selectDate(getDayInfo(i).date)"
+    >
+      <div class="day-number">{{ getDayNumber(getDayInfo(i).date) }}</div>
       <div
-        class="day-column"
-        *ngFor="let day of getPersianWeekDays(); let i = index"
-        [class.today]="getDayInfo(i).isToday"
-        [class.selected]="isSelected(getDayInfo(i).date)"
-        [class.current-month]="getDayInfo(i).isCurrentMonth"
-        (click)="selectDate(getDayInfo(i).date)"
+        class="day-voltage"
+        *ngIf="getVoltage(getDayInfo(i).date) as voltage"
       >
-        <div class="day-date">
-          <span class="date-number">{{
-            getPersianDate(getDayInfo(i).date)
-          }}</span>
-          <span class="today-badge" *ngIf="getDayInfo(i).isToday">امروز</span>
-        </div>
-        <div class="day-events">
-          <!-- محتوای رویدادها -->
-        </div>
+        {{ voltage }}V
       </div>
     </div>
   </div>

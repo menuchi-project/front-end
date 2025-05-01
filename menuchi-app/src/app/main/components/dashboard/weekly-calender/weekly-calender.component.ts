@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { isSameDay } from 'date-fns';
 import moment from 'jalali-moment';
 
@@ -16,10 +16,34 @@ export class WeeklyCalenderComponent {
   // // خروجی برای کامپوننت والد
   // @Output() dateSelected = new EventEmitter<Date>();
 
+  // داده‌های نمونه برای ولتاژها (می‌توانید از سرویس دریافت کنید)
+  voltageData: { [key: string]: string } = {
+    '1403/2/11': '5V',
+    '1403/2/12': '4V',
+    '1403/2/13': '3V',
+    '1403/2/14': '4V',
+    '1403/2/15': '3V',
+  };
+
   constructor() {
-    moment.locale('fa', {
-      week: { dow: 6, doy: 12 },
-    });
+    moment.locale('fa', { week: { dow: 6, doy: 12 } });
+  }
+
+  getVoltage(date: Date): string | null {
+    const persianDate = moment(date).format('jYYYY/jM/jD');
+    return this.voltageData[persianDate] || null;
+  }
+
+  getPersianMonth(): string {
+    return moment(this.viewDate).format('jMMMM');
+  }
+
+  getPersianYear(): string {
+    return moment(this.viewDate).format('jYYYY');
+  }
+
+  getDayNumber(date: Date): string {
+    return moment(date).format('jD');
   }
 
   // انتخاب یک روز
