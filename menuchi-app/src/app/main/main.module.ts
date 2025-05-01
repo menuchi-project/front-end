@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
@@ -25,6 +25,7 @@ import { RouterLink } from '@angular/router';
     NzOptionComponent,
     NzAlertComponent,
     RouterLink,
+    NgOptimizedImage,
   ],
 })
 export class MainModule {}
