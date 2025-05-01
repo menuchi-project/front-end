@@ -72,6 +72,8 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { DashboardPageComponent } from './components/dashboard-page/dashboard-page.component';
 import { SettingsPageComponent } from './components/settings-page/settings-page.component';
+import { DashboardContentComponent } from './components/dashboard-page/dashboard-content/dashboard-content.component';
+import { MainModule } from '../main/main.module';
 
 @NgModule({
   declarations: [
@@ -89,6 +91,7 @@ import { SettingsPageComponent } from './components/settings-page/settings-page.
     SelectDaysModalComponent,
     DashboardPageComponent,
     SettingsPageComponent,
+    DashboardContentComponent,
   ],
   imports: [
     CommonModule,
@@ -147,6 +150,7 @@ import { SettingsPageComponent } from './components/settings-page/settings-page.
     NzButtonModule,
     NzDrawerModule,
     NzRadioModule,
+    MainModule,
   ],
   providers: [NzModalService, NzImageService],
   exports: [ItemsPageComponent],

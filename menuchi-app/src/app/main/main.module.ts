@@ -36,5 +36,6 @@ import { SharedModule } from '../shared/shared.module';
     NgOptimizedImage,
     SharedModule,
   ],
+  exports: [WeeklyCalenderComponent],
 })
 export class MainModule {}

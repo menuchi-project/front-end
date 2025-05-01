@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid red;
+  height: 100vh;
+
+  .card {
+    background-color: #ffffff;
+    border: 1px solid #d1d4d8;
+    border-radius: 10px;
+    width: fit-content;
+  }
+
+  .first-col {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    border: 1px solid greenyellow;
+  }
+
+  .second-col {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+    border: 1px solid rebeccapurple;
+  }
+}

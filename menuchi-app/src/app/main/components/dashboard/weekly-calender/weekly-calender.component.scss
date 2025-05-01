@@ -1,12 +1,12 @@
-.persian-week-calendar {
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   direction: rtl;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  border-radius: 1rem;
+  width: 25rem;
+  height: 12rem;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
 }
 
 .calendar-header {
@@ -14,10 +14,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 15px;
+  width: 100%;
 
   h2 {
     margin: 0;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: #333;
   }
 }
@@ -56,9 +57,9 @@
   justify-content: center;
   flex: 1;
   font-weight: bold;
-  height: 5.2rem;
-  width: 4rem;
-  max-width: 4rem;
+  height: 4.2rem;
+  width: 3rem;
+  max-width: 3rem;
   position: relative;
   border-top-left-radius: 50%;
   border-top-right-radius: 50%;
@@ -69,8 +70,9 @@
   span {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-    padding-inline: 0.8rem;
-    font-size: 1rem;
+    padding-inline-start: 1.8rem;
+    padding-inline-end: 0.8rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: #252525;
   }
@@ -116,14 +118,14 @@
   border-bottom-left-radius: 50%;
   border-bottom-right-radius: 50%;
   top: -0.5rem;
-  width: 4rem;
-  max-width: 4rem;
+  width: 3rem;
+  max-width: 3rem;
 
   .day-number {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: bold;
     width: 2.4rem;
     height: 2.4rem;
