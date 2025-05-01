@@ -2,6 +2,28 @@
   <div class="first-col"></div>
   <div class="second-col">
     <app-weekly-calendar class="card"></app-weekly-calendar>
-    <div class="card">jj</div>
+    <div class="card backlog-item">
+      <div class="header">
+        <div>
+          <object
+            data="/assets/icons/Backlog-blue.svg"
+            type="image/svg+xml"
+          ></object>
+          <h4>غذای امروز</h4>
+        </div>
+        <nz-icon>
+          <object data="/assets/icons/More.svg" type="image/svg+xml"></object>
+        </nz-icon>
+      </div>
+      <div class="item-info">
+        <div class="item-name"></div>
+        <img src="{{ item.picUrl }}" alt="item-image" />
+        <div class="info-row"></div>
+        <div class="info-row"></div>
+        <div class="info-row"></div>
+        <div class="info-row"></div>
+      </div>
+      <button nz-button nzType="primary">مشاهده همه آیتم‌ها</button>
+    </div>
   </div>
 </div>

@@ -39,5 +39,40 @@
       min-height: 72%;
       max-height: 72%;
     }
+
+    .backlog-item {
+      display: flex;
+      flex-direction: column;
+      padding-inline: 1rem;
+      padding-block: 1rem;
+
+      .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        > div {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.4rem;
+        }
+
+        h4,
+        nz-icon {
+          color: #243e62;
+          font-weight: bold;
+          margin-block-end: 0 !important;
+
+          object {
+            width: 1.2rem;
+          }
+        }
+      }
+
+      .item-info {
+      }
+    }
   }
 }
