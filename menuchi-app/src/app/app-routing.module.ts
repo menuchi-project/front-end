@@ -10,6 +10,7 @@ import { RestaurantSignupComponent } from './main/components/restaurant-signup/r
 import { authGuard } from './main/guards/auth.guard';
 import { DashboardComponent } from './main/components/dashboard/dashboard.component';
 import { DashboardPageComponent } from './user/components/dashboard-page/dashboard-page.component';
+import { SettingsPageComponent } from './user/components/settings-page/settings-page.component';
 
 const routes: Routes = [
   { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
@@ -38,6 +39,12 @@ const routes: Routes = [
         component: CreateMenuComponent,
         data: { breadcrumb: 'ایجاد منوی جدید' },
         title: 'منوچی | ایجاد منوی جدید',
+      },
+      {
+        path: 'settings',
+        component: SettingsPageComponent,
+        data: { breadcrumb: 'تنظیمات' },
+        title: 'منوچی | تنظیمات',
       },
       {
         path: 'cats',

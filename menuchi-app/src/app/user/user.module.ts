@@ -24,7 +24,6 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 import { CategoriesPageComponent } from './components/categories-page/categories-page.component';
-import { ManagementPageComponent } from './components/management-page/management-page.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CategoryComponent } from './components/categories-page/category/category.component';
 import { NzSwitchComponent } from 'ng-zorro-antd/switch';
@@ -72,13 +71,13 @@ import { SelectDaysModalComponent } from './components/create-menu/select-days-m
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { DashboardPageComponent } from './components/dashboard-page/dashboard-page.component';
+import { SettingsPageComponent } from './components/settings-page/settings-page.component';
 
 @NgModule({
   declarations: [
     ItemsPageComponent,
     ItemsTableComponent,
     CategoriesPageComponent,
-    ManagementPageComponent,
     BacklogPageComponent,
     CategoryComponent,
     AddItemComponent,
@@ -89,6 +88,7 @@ import { DashboardPageComponent } from './components/dashboard-page/dashboard-pa
     SelectItemsDrawerComponent,
     SelectDaysModalComponent,
     DashboardPageComponent,
+    SettingsPageComponent,
   ],
   imports: [
     CommonModule,
@@ -149,6 +149,6 @@ import { DashboardPageComponent } from './components/dashboard-page/dashboard-pa
     NzRadioModule,
   ],
   providers: [NzModalService, NzImageService],
-  exports: [ItemsPageComponent, ManagementPageComponent],
+  exports: [ItemsPageComponent],
 })
 export class UserModule {}
