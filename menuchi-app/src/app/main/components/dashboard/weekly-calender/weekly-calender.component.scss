@@ -1,17 +1,14 @@
-/* ========== Base Styles ========== */
 .persian-week-calendar {
-  font-family: "Vazirmatn", sans-serif;
   direction: rtl;
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
-  border-radius: 15px;
+  border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  background-color: #ffffff;
 }
 
-/* ========== Header Styles ========== */
 .calendar-header {
   display: flex;
   justify-content: space-between;
@@ -21,7 +18,7 @@
 
   h2 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #333;
   }
 }
@@ -43,118 +40,110 @@
   &:hover {
     background-color: #3e8e41;
   }
-
-  img {
-    width: 16px;
-    height: 16px;
-  }
 }
 
-/* ========== Week Header Styles ========== */
 .week-days-header {
   display: flex;
   gap: 0.4rem;
 
   .day-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
     flex: 1;
-    text-align: center;
     font-weight: bold;
     color: #252525;
     background-color: #8c8c6e;
     height: 5.2rem;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    width: 4rem;
+    max-width: 4rem;
     position: relative;
     border-top-left-radius: 50%;
     border-top-right-radius: 50%;
+
+    &.selected {
+      background-color: #8c8c6e;
+    }
 
     span {
       writing-mode: vertical-rl;
       transform: rotate(180deg);
       padding-inline: 0.8rem;
-      font-size: 0.9rem;
+      font-size: 1rem;
+      font-weight: 600 !important;
     }
   }
 }
 
-/* ========== Week Grid Styles ========== */
 .week-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
-  background-color: #e9ecef;
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
 }
 
 .day-cell {
-  background-color: white;
-  aspect-ratio: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: white;
+  aspect-ratio: 1;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
-  padding: 5px;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  top: -0.5rem;
+  width: 4rem;
+  max-width: 4rem;
 
   &:hover {
     background-color: #f8f9fa;
   }
 
   .day-number {
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-  }
-
-  .day-voltage {
-    font-size: 0.8rem;
-    color: #495057;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
     font-weight: bold;
+    width: 2.4rem;
+    height: 2.4rem;
+    background-color: #243e62;
+    color: #ffffff;
+    border-radius: 50%;
+    padding-block-start: 0.4rem;
+  }
+
+  &.today {
+    background-color: #8c8c6e;
+  }
+
+  &.selected {
+    background-color: #d0ebff;
+
+    .day-number {
+      font-weight: bold;
+      color: #1971c2;
+    }
+  }
+
+  &:not(.current-month) {
+    .day-number {
+      color: #adb5bd;
+      opacity: 0.7;
+    }
+
+    .day-voltage {
+      font-size: 0.8rem;
+      color: #495057;
+      font-weight: bold;
+      opacity: 0.5;
+    }
   }
 }
 
-/* ========== Day States ========== */
-.day-cell.today {
-  background-color: #fff3bf;
-
-  .day-number {
-    font-weight: bold;
-    color: #e67700;
-  }
-}
-
-.day-cell.selected {
-  background-color: #d0ebff;
-
-  .day-number {
-    font-weight: bold;
-    color: #1971c2;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background-color: #1971c2;
-  }
-}
-
-.day-cell:not(.current-month) {
-  .day-number {
-    color: #adb5bd;
-    opacity: 0.7;
-  }
-
-  .day-voltage {
-    opacity: 0.5;
-  }
-}
-
-/* ========== Navigation Buttons ========== */
 .nav-button {
   background: none;
   border: none;

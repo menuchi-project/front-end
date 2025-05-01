@@ -12,6 +12,7 @@ import { NzAlertComponent } from 'ng-zorro-antd/alert';
 import { RouterLink } from '@angular/router';
 import { WeeklyCalenderComponent } from './components/dashboard/weekly-calender/weekly-calender.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     NzAlertComponent,
     RouterLink,
     NgOptimizedImage,
+    SharedModule,
   ],
 })
 export class MainModule {}

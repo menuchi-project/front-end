@@ -13,10 +13,7 @@
     </button>
   </div>
 
-  <button class="today-button" (click)="today()">
-    <img src="/assets/icons/User.svg" alt="امروز" />
-    امروز
-  </button>
+  <button class="today-button" (click)="today()">امروز</button>
 
   <div class="week-days-header">
     <div class="day-header" *ngFor="let day of getPersianWeekDays()">
@@ -33,7 +30,9 @@
       [class.current-month]="getDayInfo(i).isCurrentMonth"
       (click)="selectDate(getDayInfo(i).date)"
     >
-      <div class="day-number">{{ getDayNumber(getDayInfo(i).date) }}</div>
+      <div class="day-number">
+        {{ getDayNumber(getDayInfo(i).date) | persianNumber }}
+      </div>
       <div
         class="day-voltage"
         *ngIf="getVoltage(getDayInfo(i).date) as voltage"
