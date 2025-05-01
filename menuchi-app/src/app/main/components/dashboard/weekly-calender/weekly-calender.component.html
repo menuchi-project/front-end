@@ -15,34 +15,42 @@
 
   <button class="today-button" (click)="today()">امروز</button>
 
-  <div class="week-days-header">
-    <div
-      class="day-header"
-      *ngFor="let day of getPersianWeekDays(); let i = index"
-      [class.today]="getDayInfo(i).isToday"
-      [class.selected]="isSelected(getDayInfo(i).date)"
-    >
-      <span>{{ day.long }}</span>
-    </div>
-  </div>
-
-  <div class="week-grid">
-    <div
-      class="day-cell"
-      *ngFor="let day of getPersianWeekDays(); let i = index"
-      [class.today]="getDayInfo(i).isToday"
-      [class.selected]="isSelected(getDayInfo(i).date)"
-      [class.current-month]="getDayInfo(i).isCurrentMonth"
-      (click)="selectDate(getDayInfo(i).date)"
-    >
-      <div class="day-number">
-        {{ getDayNumber(getDayInfo(i).date) | persianNumber }}
-      </div>
+  <div class="week-container">
+    <div class="week-days-header">
       <div
-        class="day-voltage"
-        *ngIf="getVoltage(getDayInfo(i).date) as voltage"
+        class="day-header"
+        *ngFor="let day of getPersianWeekDays(); let i = index"
+        [class.today]="getDayInfo(i).isToday"
+        [class.selected]="isSelected(getDayInfo(i).date)"
+        [class.hovered]="hoveredDayIndex === i"
+        (mouseenter)="setHoveredDay(i)"
+        (mouseleave)="setHoveredDay(null)"
       >
-        {{ voltage }}V
+        <span>{{ day.long }}</span>
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <div
+        class="day-cell"
+        *ngFor="let day of getPersianWeekDays(); let i = index"
+        [class.today]="getDayInfo(i).isToday"
+        [class.selected]="isSelected(getDayInfo(i).date)"
+        [class.current-month]="getDayInfo(i).isCurrentMonth"
+        [class.hovered]="hoveredDayIndex === i"
+        (click)="selectDate(getDayInfo(i).date)"
+        (mouseenter)="setHoveredDay(i)"
+        (mouseleave)="setHoveredDay(null)"
+      >
+        <div class="day-number">
+          {{ getDayNumber(getDayInfo(i).date) | persianNumber }}
+        </div>
+        <div
+          class="day-voltage"
+          *ngIf="getVoltage(getDayInfo(i).date) as voltage"
+        >
+          {{ voltage }}V
+        </div>
       </div>
     </div>
   </div>

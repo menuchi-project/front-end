@@ -12,11 +12,8 @@ export class WeeklyCalenderComponent {
   viewDate: Date = new Date();
   locale: string = 'fa';
   selectedDate: Date | null = null;
+  hoveredDayIndex: number | null = null;
 
-  // // خروجی برای کامپوننت والد
-  // @Output() dateSelected = new EventEmitter<Date>();
-
-  // داده‌های نمونه برای ولتاژها (می‌توانید از سرویس دریافت کنید)
   voltageData: { [key: string]: string } = {
     '1403/2/11': '5V',
     '1403/2/12': '4V',
@@ -26,7 +23,11 @@ export class WeeklyCalenderComponent {
   };
 
   constructor() {
-    moment.locale('fa', { week: { dow: 6, doy: 12 } });
+    moment.locale(this.locale, { week: { dow: 6, doy: 12 } });
+  }
+
+  setHoveredDay(index: number | null): void {
+    this.hoveredDayIndex = index;
   }
 
   getVoltage(date: Date): string | null {
@@ -46,10 +47,8 @@ export class WeeklyCalenderComponent {
     return moment(date).format('jD');
   }
 
-  // انتخاب یک روز
   selectDate(date: Date): void {
     this.selectedDate = date;
-    // this.dateSelected.emit(date);
   }
 
   startOfPersianWeek(date: Date): Date {
