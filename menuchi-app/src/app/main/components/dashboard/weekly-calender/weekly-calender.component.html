@@ -1,1 +1,31 @@
-<p>weekly-calender works!</p>
+<div class="calendar-container">
+  <div class="calendar-header">
+    <button (click)="previousWeek()">هفته قبل</button>
+    <h2>{{ getWeekRange() }}</h2>
+    <button (click)="nextWeek()">هفته بعد</button>
+    <button (click)="today()">امروز</button>
+  </div>
+
+  <div class="week-view">
+    <div class="week-header">
+      <div class="day-header" *ngFor="let day of getPersianWeekDays()">
+        <div class="day-name-short">{{ day.short }}</div>
+        <div class="day-name-long">{{ day.long }}</div>
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <div
+        class="day-column"
+        *ngFor="let day of getPersianWeekDays(); let i = index"
+      >
+        <div class="day-date">
+          {{ getPersianDate(addDays(startOfWeek(viewDate), i)) }}
+        </div>
+        <div class="day-events">
+          <!-- Events would go here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
