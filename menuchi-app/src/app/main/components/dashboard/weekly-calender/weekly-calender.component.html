@@ -25,11 +25,11 @@
         [class.hovered]="hoveredDayIndex === i"
         (mouseenter)="setHoveredDay(i)"
         (mouseleave)="setHoveredDay(null)"
+        (click)="selectDate(getDayInfo(i).date)"
       >
         <span>{{ day.long }}</span>
       </div>
     </div>
-
     <div class="week-grid">
       <div
         class="day-cell"
