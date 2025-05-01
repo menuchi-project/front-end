@@ -10,15 +10,13 @@ import { RestaurantSignupComponent } from './components/restaurant-signup/restau
 import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
 import { NzAlertComponent } from 'ng-zorro-antd/alert';
 import { RouterLink } from '@angular/router';
-import { WeeklyCalenderComponent } from './components/dashboard/weekly-calender/weekly-calender.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { WeeklyCalenderComponent } from './components/weekly-calender/weekly-calender.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
     RestaurantLoginComponent,
     RestaurantSignupComponent,
-    DashboardComponent,
     WeeklyCalenderComponent,
   ],
   imports: [
