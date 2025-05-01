@@ -54,9 +54,9 @@ export class RestaurantLoginComponent {
           }
         },
         error: (error) => {
-          console.log('error in login:', error);
-          this.messageService.error(' ' + error.error.message);
-        },
+          console.log('خطا در ورود: ', error);
+            this.messageService.error(' اطلاعات وارد شده صحیح نمی‌باشند.');
+         },
       });
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {

@@ -1,148 +1,148 @@
 .container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  background-image: url("../../../../../public/assets/images/login-bg.jpg");
-  background-size: cover;
-  background-position: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-image: url("../../../../../public/assets/images/login-bg.jpg");
+    background-size: cover;
+    background-position: center;
 }
 
 .login-box {
-  background-color: white;
-  padding-left: 30px;
-  padding-right: 30px;
-  border-radius: 24px;
-  padding-top: 25px;
-  width: 45%;
-  max-width: 500px;
-  min-width: 300px;
+    background-color: white;
+    padding-left: 1.87rem;
+    padding-right: 1.87rem;
+    border-radius: 1.5rem;
+    padding-top: 1.56rem;
+    width: 45%;
+    max-width: 31.25rem;
+    min-width: 18.75rem;
 }
 
 .login-form .ant-input {
-  background-color: white;
-  color: #333;
-  height: 38px;
+    background-color: white;
+    color: #333;
+    height: 2.3rem;
 }
 
 .header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .logo img {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  margin-bottom: 7px;
+    width: 4.4rem;
+    height: 4.4rem;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
 }
 
 .login-form {
-  width: 100%;
-  padding: 0 20px;
+    width: 100%;
+    padding: 0 1.25rem;
 }
 
 .login-form-margin {
-  margin-bottom: 16px;
+    margin-bottom: 1rem;
 }
 
 .login-form-forgot {
-  white-space: nowrap;
-  float: right;
-  margin-right: 15px;
-  text-decoration: underline;
-  font-size: 0.7rem;
-  position: absolute;
-  font-weight: 450;
+    white-space: nowrap;
+    float: right;
+    margin-right: 0.9rem;
+    text-decoration: underline;
+    font-size: 0.7rem;
+    position: absolute;
+    font-weight: 450;
 }
 
 .login-form-button {
-  width: 100%;
-  height: 45px;
-  margin-top: 32px;
-  margin-bottom: 36px;
-  font-size: 16px;
-  border-radius: 8px;
+    width: 100%;
+    height: 2.8rem;
+    margin-top: 2rem;
+    margin-bottom: 2.25rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
 }
 
 .login-form-item {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .login-form-item nz-form-label {
-  margin-bottom: 18px;
+    margin-bottom: 1.1rem;
 }
 
 .rtl-text {
-  direction: rtl;
-  text-align: right;
-  font-weight: 400;
+    direction: rtl;
+    text-align: right;
+    font-weight: 400;
 }
 
 :host ::ng-deep .ant-form-item-label label {
-  color: #343434 !important;
+    color: #343434 !important;
 }
 
 h2 {
-  font-weight: 700;
-  color: #1c274c;
-  margin: 0 0 0;
+    font-weight: 700;
+    color: #1c274c;
+    margin: 0 0 0;
 }
 
 .subtitle a {
-  color: #243e62;
-  font-size: 0.7rem;
-  text-decoration: underline;
-  font-weight: 450;
+    color: #243e62;
+    font-size: 0.7rem;
+    text-decoration: underline;
+    font-weight: 450;
 }
 
 .subtitle {
-  color: #666666;
-  font-size: 0.7rem;
-  font-weight: 450;
+    color: #666666;
+    font-size: 0.7rem;
+    font-weight: 450;
 }
 
 .password-input-row {
-  margin-top: -20px;
-  display: flex;
-  align-items: center;
+    margin-top: -1.25rem;
+    display: flex;
+    align-items: center;
 }
 
 .password-input-row .ant-form-control {
-  padding-top: 0;
+    padding-top: 0;
 }
 
 .password-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .password-wrapper input {
-  box-sizing: border-box;
-  width: 100%;
-  height: 38px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 2.4rem;
 }
 
 .eye-icon {
-  position: absolute;
-  left: 10px;
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  background-image: url("../../../../../public/assets/icons/Eye.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
+    position: absolute;
+    left: 0.6rem;
+    cursor: pointer;
+    width: 1.25rem;
+    height: 20px;
+    background-image: url("../../../../../public/assets/icons/Eye.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 :host ::ng-deep {
-  [nzFor="phone"] + .ant-form-item-control .ant-form-item-explain-error,
-  [nzFor="password"] + .ant-form-item-control .ant-form-item-explain-error {
-    font-size: 12px;
-    font-weight: 500;
-  }
+    [nzFor="phone"]+.ant-form-item-control .ant-form-item-explain-error,
+    [nzFor="password"]+.ant-form-item-control .ant-form-item-explain-error {
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
 }
