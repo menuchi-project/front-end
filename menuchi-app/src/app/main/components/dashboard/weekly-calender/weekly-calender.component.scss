@@ -1,196 +1,4 @@
-.calendar-container {
-  font-family: "Vazirmatn", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  direction: rtl;
-  text-align: right;
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-.navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.week-title {
-  text-align: center;
-  margin: 0;
-  color: #333;
-  font-size: 1.2rem;
-}
-
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  font-family: inherit;
-}
-
-.nav-button {
-  background-color: #f0f0f0;
-  color: #333;
-
-  &:hover {
-    background-color: #e0e0e0;
-  }
-
-  .icon {
-    font-size: 1.1em;
-  }
-}
-
-.today-button {
-  background-color: #4caf50;
-  color: white;
-  font-weight: bold;
-
-  &:hover {
-    background-color: #3e8e41;
-  }
-}
-
-.week-view {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.week-header {
-  display: flex;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.day-name-short {
-  font-weight: bold;
-  font-size: 1.1rem;
-  color: #333;
-}
-
-.day-name-long {
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 4px;
-}
-
-.week-grid {
-  display: flex;
-  min-height: 500px;
-}
-
-.day-column {
-  flex: 1;
-  border-right: 1px solid #e0e0e0;
-  position: relative;
-
-  &:last-child {
-    border-right: none;
-  }
-}
-
-.day-date {
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.date-number {
-  font-weight: 500;
-}
-
-.today-badge {
-  background-color: #ff5722;
-  color: white;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  margin-top: 4px;
-  font-weight: bold;
-}
-
-.day-events {
-  padding: 8px;
-  height: 100%;
-}
-
-/* استایل‌های مخصوص امروز */
-.day-column.today {
-  background-color: rgba(255, 235, 59, 0.15);
-
-  .day-date {
-    background-color: #fff9c4;
-    color: #000;
-    font-weight: bold;
-  }
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 4px;
-    height: 100%;
-    background-color: #ffc107;
-  }
-}
-
-/* استایل‌های روزهای غیر از ماه جاری */
-.day-column:not(.current-month) {
-  .day-date {
-    color: #aaa;
-  }
-
-  .day-name-short,
-  .day-name-long {
-    color: #ccc;
-  }
-}
-
-/* استایل‌های قبلی... */
-
-.day-column {
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: rgba(0, 150, 136, 0.1);
-  }
-
-  &.selected {
-    background-color: rgba(33, 150, 243, 0.1);
-
-    .day-date {
-      background-color: #2196f3;
-      color: white;
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 100%;
-      height: 3px;
-      background-color: #2196f3;
-    }
-  }
-
-  &.today.selected {
-    .day-date {
-      background-color: mix(#2196f3, #ffeb3b, 70%);
-    }
-  }
-}
-
+/* ========== Base Styles ========== */
 .persian-week-calendar {
   font-family: "Vazirmatn", sans-serif;
   direction: rtl;
@@ -200,70 +8,77 @@ button {
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
+/* ========== Header Styles ========== */
 .calendar-header {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
 
   h2 {
-    margin-block: 0 !important;
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
   }
 }
 
-.month-title {
+.today-button {
   display: flex;
   align-items: center;
-}
-
-.nav-button {
-  background: none;
+  gap: 8px;
+  background-color: #4caf50;
+  color: white;
   border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin: 10px auto;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
+  font-weight: bold;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #e9ecef;
+    background-color: #3e8e41;
   }
 
   img {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
   }
 }
 
+/* ========== Week Header Styles ========== */
 .week-days-header {
   display: flex;
-  flex-direction: row;
-  gap: 1rem;
+  gap: 0.4rem;
 
   .day-header {
-    background-color: #8c8c6e;
-    border-top-left-radius: 50%;
-    border-top-right-radius: 50%;
+    flex: 1;
+    text-align: center;
     font-weight: bold;
     color: #252525;
-    flex: 1;
-    padding: 12px 0; // Adjust padding for vertical text
-    text-align: center;
+    background-color: #8c8c6e;
+    height: 5.2rem;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    writing-mode: vertical-rl; // This makes text vertical
-    transform: rotate(180deg); // Rotates text to be right-side up
-    font-weight: bold;
-    min-height: 60px; // Adjust as needed
+    position: relative;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
 
     span {
-      transform: rotate(-90deg);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      padding-inline: 0.8rem;
+      font-size: 0.9rem;
     }
   }
 }
 
+/* ========== Week Grid Styles ========== */
 .week-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -281,6 +96,7 @@ button {
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
+  padding: 5px;
 
   &:hover {
     background-color: #f8f9fa;
@@ -298,6 +114,7 @@ button {
   }
 }
 
+/* ========== Day States ========== */
 .day-cell.today {
   background-color: #fff3bf;
 
@@ -329,5 +146,27 @@ button {
 .day-cell:not(.current-month) {
   .day-number {
     color: #adb5bd;
+    opacity: 0.7;
+  }
+
+  .day-voltage {
+    opacity: 0.5;
+  }
+}
+
+/* ========== Navigation Buttons ========== */
+.nav-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #e9ecef;
   }
 }

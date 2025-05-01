@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { isSameDay } from 'date-fns';
 import moment from 'jalali-moment';
 
@@ -73,7 +73,7 @@ export class WeeklyCalenderComponent {
       { long: 'دوشنبه', short: 'د', dayIndex: 1 },
       { long: 'سه‌شنبه', short: 'س', dayIndex: 2 },
       { long: 'چهارشنبه', short: 'چ', dayIndex: 3 },
-      { long: 'پنجشنبه', short: 'پ', dayIndex: 4 },
+      { long: 'پنج‌شبنه', short: 'پ', dayIndex: 4 },
       { long: 'جمعه', short: 'ج', dayIndex: 5 },
     ];
   }
