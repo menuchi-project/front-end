@@ -1,22 +1,48 @@
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("../../../../../public/assets/images/login-bg.jpg");
+    background-size: cover;
+    background-position: center;
+}
 
-  [nz-form] {
+[nz-form] {
     width: 30rem;
-  }
+}
 
-  .ant-select.ant-select-in-form-item.phone-select {
+.ant-select.ant-select-in-form-item.phone-select {
     width: 80px;
-  }
+}
 
-  .register-area {
+.register-area {
     margin-bottom: 8px;
-  }
+}
 
-  .form-button {
+.form-button {
     width: 100%;
-  }
+}
+
+.rtl-text {
+    direction: rtl;
+    text-align: right;
+    font-weight: 400;
+}
+
+.signup-box {
+    background-color: white;
+    padding-left: 1.87rem;
+    padding-right: 1.87rem;
+    border-radius: 1.5rem;
+    padding-top: 1.56rem;
+    width: 35%;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
 }
