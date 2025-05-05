@@ -46,6 +46,16 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     },
   );
 
+  passwordVisible: boolean = false;
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
+  
+  repeatPasswordVisible: boolean = false;
+  toggleRepeatPasswordVisibility(): void {
+    this.repeatPasswordVisible = !this.repeatPasswordVisible;
+  }
+
   constructor(
     private authService: AuthService,
     private message: NzMessageService,
@@ -54,11 +64,19 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.validateForm.controls.password.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.validateForm.controls.repeatPassword.updateValueAndValidity();
-      });
-  }
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(() => {
+      this.validateForm.controls.repeatPassword.updateValueAndValidity();
+      this.validateForm.updateValueAndValidity(); 
+    });
+
+  this.validateForm.controls.repeatPassword.valueChanges
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(() => {
+      this.validateForm.controls.repeatPassword.updateValueAndValidity();
+      this.validateForm.updateValueAndValidity(); 
+    });
+}
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -86,10 +104,19 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.isLoading = false;
-          this.message.error(' مشکلی در ثبت نام پیش آمد!');
-          console.log('Signup Error:', error);
-          for (let e of error.error.details)
-            this.message.error(' ' + e.message);
+          if (error.status === 409) {
+            this.message.error('این شماره تلفن یا ایمیل قبلاً ثبت شده است!');}
+            else if (error.status === 422) {
+              this.message.error('اطلاعات وارد شده صحیح نمی‌باشند.');
+              if (error.error && error.error.details) {
+                error.error.details.forEach((detail: any) => {
+                  this.message.error('خطا در ثبت‌نام: ' + detail.message);
+                });
+              }
+            } else {
+              this.message.error('مشکلی در ثبت نام پیش آمد! لطفاً دوباره تلاش کنید.');
+            }
+            console.log('خطا :', error);
         },
       });
     } else {
@@ -99,6 +126,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
+      this.message.error('لطفاً فرم را به درستی پر کنید!');
     }
   }
 
@@ -106,6 +134,13 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     const password = group.get('password')?.value;
     const repeatPassword = group.get('repeatPassword')?.value;
 
-    return password === repeatPassword ? null : { passwordMismatch: true };
+    if (password && repeatPassword && password !== repeatPassword) {
+      group.get('repeatPassword')?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+    if (password && repeatPassword && password === repeatPassword) {
+      group.get('repeatPassword')?.setErrors(null);
+    }
+    return null;
   }
-}
+  }

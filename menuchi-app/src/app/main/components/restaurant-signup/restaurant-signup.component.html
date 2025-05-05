@@ -9,15 +9,15 @@
                 از قبل حساب دارید؟ <a href="/login">ورود به حساب کاربری</a>
             </p>
         </div>
-        <nz-form-item>
-            <nz-form-label [nzSpan]="24" nzFor="nickname" nzRequired class="rtl-text">
-                نام کاربری خود را وارد کنید
-            </nz-form-label>
-            <nz-form-control [nzSpan]="24" nzErrorTip="نام کاربری خود را وارد کنید!">
-                <input nz-input id="nickname" formControlName="nickname" />
-            </nz-form-control>
-        </nz-form-item>
         <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <nz-form-item>
+                <nz-form-label [nzSpan]="24" nzFor="nickname" nzRequired class="rtl-text">
+                    نام کاربری خود را وارد کنید
+                </nz-form-label>
+                <nz-form-control [nzSpan]="24" nzErrorTip="لطفا نام کاربری خود را وارد کنید!">
+                    <input nz-input id="nickname" formControlName="nickname" />
+                </nz-form-control>
+            </nz-form-item>
             <nz-form-item>
                 <nz-form-label [nzSpan]="24" nzFor="phoneNumber" nzRequired class="rtl-text">شماره تماس خود را وارد کنید
                 </nz-form-label>
@@ -29,54 +29,46 @@
                 <nz-form-label [nzSpan]="24" nzFor="email" nzRequired class="rtl-text">
                     ایمیل خود را وارد کنید
                 </nz-form-label>
-                <nz-form-control [nzSpan]="24" nzErrorTip="ایمیل وارد شده معتبر نیست!">
+                <nz-form-control [nzSpan]="24" nzErrorTip="لطفا ایمیل معتبر وارد کنید!">
                     <input nz-input type="email" formControlName="email" id="email" />
                 </nz-form-control>
             </nz-form-item>
             <div class="password-container">
-                <div nz-row>
+                <div nz-row [nzGutter]="16">
                     <div nz-col [nzSpan]="12">
                         <nz-form-item>
-                            <nz-form-label nzFor="password" nzRequired>رمز عبور خود را وارد کنید</nz-form-label>
-                        </nz-form-item>
-                    </div>
-
-                    <div nz-col [nzSpan]="12" class="rtl-text">
-                        <nz-form-item>
-                            <nz-form-label nzFor="repeatPassword" nzRequired>رمز عبور خود را مجددا وارد کنید</nz-form-label>
-                        </nz-form-item>
-                    </div>
-                </div>
-
-                <div nz-row>
-                    <div nz-col [nzSpan]="10" class="password-field">
-                        <nz-form-item>
-                            <nz-form-control nzErrorTip="رمز عبور باید حداقل 8 کاراکتر شامل یک حرف بزرگ، یک حرف کوچک، یک عدد و یک علامت خاص باشد.">
-                                <input nz-input type="password" id="password" formControlName="password" />
+                            <nz-form-label nzFor="password" nzRequired class="rtl-text" [nzNoColon]="true">
+                                رمز عبور خود را وارد کنید
+                            </nz-form-label>
+                            <nz-form-control nzErrorTip="رمز باید حداقل 8 کاراکتر شامل یک حرف بزرگ و کوچک، یک عدد و یک علامت خاص باشد.">
+                                <div class="password-wrapper">
+                                    <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="password" />
+                                    <i class="eye-icon" (click)="togglePasswordVisibility()"></i>
+                                </div>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
-
-                    <div nz-col [nzSpan]="10" class="password-field">
+                    <div nz-col [nzSpan]="12">
                         <nz-form-item>
-                            <nz-form-control [nzErrorTip]="errorTpl">
-                                <input nz-input type="password" formControlName="repeatPassword" id="repeatPassword" />
-                                <ng-template #errorTpl let-control>
-                                    <div *ngIf="control.errors?.required">لطفا رمز عبور خود را تکرار کنید!</div>
-                                    <div *ngIf="control.errors?.confirm">دو رمز عبور وارد شده تطابق ندارند!</div>
+                            <nz-form-label nzFor="repeatPassword" nzRequired class="rtl-text" [nzNoColon]="true">
+                                رمز عبور خود را مجددا وارد کنید
+                            </nz-form-label>
+                            <nz-form-control [nzHasFeedback]="validateForm.get('repeatPassword')?.invalid && validateForm.get('repeatPassword')?.touched" [nzErrorTip]="repeatPasswordErrorTip">
+                                <div class="password-wrapper">
+                                    <input [type]="repeatPasswordVisible ? 'text' : 'repeatPassword'" nz-input formControlName="repeatPassword" />
+                                    <i class="eye-icon" (click)="toggleRepeatPasswordVisibility()"></i>
+                                </div>
+                                <ng-template #repeatPasswordErrorTip let-control>
+                                    <div *ngIf="control.hasError('required')">لطفاً رمز عبور را تکرار کنید!</div>
+                                    <div *ngIf="control.hasError('passwordMismatch')">رمزهای وارد شده با هم مطابقت ندارند!</div>
                                 </ng-template>
                             </nz-form-control>
                         </nz-form-item>
                     </div>
                 </div>
             </div>
-            <nz-form-item nz-row class="register-area">
-                <nz-form-control [nzSpan]="14" [nzOffset]="6">
-                    <button nz-button nzType="primary" class="form-button" [disabled]="isLoading">
-        ایجاد حساب کاربری
+            <button nz-button class="signup-form-button signup-form-margin" [nzType]="'primary'">ایجاد حساب کاربری
       </button>
-                </nz-form-control>
-            </nz-form-item>
         </form>
     </div>
 </div>
