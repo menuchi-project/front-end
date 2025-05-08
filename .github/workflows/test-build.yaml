@@ -18,17 +18,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: 'npm'
-          cache-dependency-path: menuchi-app/package-lock.json
 
       - name: Install Deps
-        run: npm ci
+        run: cd menuchi-app ; npm ci
 
       - name: Install ng
-        run: npm install -g @angular/cli
+        run: cd menuchi-app ; npm install -g @angular/cli
 
       - name: Test
-        run: ng test
+        run: cd menuchi-app ; ng test
     
   build:
     runs-on: ubuntu-latest
