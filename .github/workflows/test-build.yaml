@@ -25,8 +25,11 @@ jobs:
       - name: Install ng
         run: cd menuchi-app ; npm install -g @angular/cli
 
+      - name: Build 
+        run: cd menuchi-app ; npm run build
+        
       - name: Test
-        run: cd menuchi-app ; ng test
+        run: cd menuchi-app ; ng test --no-watch --no-progress --watch=false --code-coverage --browsers=ChromeHeadlessCI
     
   build:
     runs-on: ubuntu-latest
