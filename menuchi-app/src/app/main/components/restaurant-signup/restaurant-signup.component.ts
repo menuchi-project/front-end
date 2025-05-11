@@ -69,16 +69,14 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     this.validateForm.controls.password.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.validateForm.controls.repeatPassword.updateValueAndValidity();
-        this.validateForm.updateValueAndValidity();
+        if (this.validateForm.controls.repeatPassword.value) {
+          this.validateForm.controls.repeatPassword.updateValueAndValidity();
+        }
       });
 
     this.validateForm.controls.repeatPassword.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.validateForm.controls.repeatPassword.updateValueAndValidity();
-        this.validateForm.updateValueAndValidity();
-      });
+      .subscribe(() => {});
   }
 
   ngOnDestroy(): void {
@@ -141,11 +139,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     const repeatPassword = group.get('repeatPassword')?.value;
 
     if (password && repeatPassword && password !== repeatPassword) {
-      group.get('repeatPassword')?.setErrors({ passwordMismatch: true });
       return { passwordMismatch: true };
-    }
-    if (password && repeatPassword && password === repeatPassword) {
-      group.get('repeatPassword')?.setErrors(null);
     }
     return null;
   }
