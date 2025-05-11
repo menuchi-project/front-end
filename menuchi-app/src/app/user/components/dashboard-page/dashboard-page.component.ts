@@ -3,18 +3,19 @@ import { Subscription } from 'rxjs';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-management-page',
+  selector: 'app-dashboard-page',
   standalone: false,
-  templateUrl: './management-page.component.html',
-  styleUrl: './management-page.component.scss',
+  templateUrl: './dashboard-page.component.html',
+  styleUrl: './dashboard-page.component.scss',
 })
-export class ManagementPageComponent implements OnDestroy {
+export class DashboardPageComponent implements OnDestroy {
   isCollapsed = false;
   pageTitle = 'مدیریت';
   onPageChangedSub: Subscription;
+  showHeader = true;
 
   constructor(
     private readonly titleService: TitleService,
@@ -23,6 +24,13 @@ export class ManagementPageComponent implements OnDestroy {
     private readonly messageService: NzMessageService,
     private readonly router: Router,
   ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.showHeader = !(this.router.url === '/dashboard');
+        this.cdr.detectChanges();
+      }
+    });
+
     this.onPageChangedSub = this.titleService.onPageChanged$.subscribe(
       ($event: string) => {
         this.updateTitle($event);

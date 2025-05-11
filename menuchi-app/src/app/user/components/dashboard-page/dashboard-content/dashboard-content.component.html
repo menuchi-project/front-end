@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="first-col"></div>
+  <div class="second-col">
+    <app-weekly-calendar class="card"></app-weekly-calendar>
+    <div class="card backlog-item">
+      <div class="header">
+        <div>
+          <object
+            data="/assets/icons/Backlog-blue.svg"
+            type="image/svg+xml"
+          ></object>
+          <h4>غذای امروز</h4>
+        </div>
+        <nz-icon>
+          <object data="/assets/icons/More.svg" type="image/svg+xml"></object>
+        </nz-icon>
+      </div>
+      <div class="item-info">
+        <div class="item-name">
+          <h3>کباب کوبیده مخصوص</h3>
+          <div>
+            <nz-icon>
+              <object
+                data="/assets/icons/arrow-right.svg"
+                type="image/svg+xml"
+              ></object>
+            </nz-icon>
+            <nz-icon>
+              <object
+                data="/assets/icons/arrow-left.svg"
+                type="image/svg+xml"
+              ></object>
+            </nz-icon>
+          </div>
+        </div>
+        <img src="{{ item.picUrl }}" alt="item-image" />
+        <div class="info-row">
+          <span>نام</span>
+          <p>کباب کوبیده</p>
+        </div>
+        <div class="info-row">
+          <span>دسته بندی</span>
+          <p>ایرانی</p>
+        </div>
+        <div class="info-row">
+          <span>قیمت</span>
+          <p>2400000 تومان</p>
+        </div>
+        <div class="info-row">
+          <span>مواد اولیه</span>
+          <p>
+            ۳۰۰ گرم گوشت چرخ کرده٫ ۵ عدد پیاز ٫ فلفل٫ نمک٫فلفل قرمز٫ ادویه
+            مخصوص٫...
+          </p>
+        </div>
+
+        <button nz-button nzType="primary">مشاهده همه آیتم‌ها</button>
+      </div>
+    </div>
+  </div>
+</div>

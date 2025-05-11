@@ -41,6 +41,7 @@
                 <li
                   nz-menu-item
                   (click)="handleCreateNewMenu()"
+                  [routerLinkActiveOptions]="{ exact: true }"
                   routerLinkActive="activebutton"
                   ariaCurrentWhenActive="page"
                 >
@@ -57,6 +58,7 @@
               nz-menu-item
               class="button"
               routerLink="/dashboard/cats"
+              [routerLinkActiveOptions]="{ exact: true }"
               routerLinkActive="activebutton"
               ariaCurrentWhenActive="page"
             >
@@ -66,7 +68,8 @@
             <li
               nz-menu-item
               class="button"
-              routerLink="/dashboard/setting"
+              routerLink="/dashboard/settings"
+              [routerLinkActiveOptions]="{ exact: true }"
               routerLinkActive="activebutton"
               ariaCurrentWhenActive="page"
             >
@@ -92,30 +95,36 @@
       </div>
     </nz-sider>
     <nz-layout>
-      <nz-header>
-        <div class="header">
-          <h1>{{ pageTitle }}</h1>
-          <div class="header-icons">
-            <img
-              ngSrc="/assets/icons/Notification.svg"
-              alt="notif"
-              height="44"
-              width="44"
-            />
-            <img
-              ngSrc="/assets/icons/User.svg"
-              alt="user"
-              height="44"
-              width="44"
-            />
+      @if (showHeader) {
+        <nz-header>
+          <div class="header">
+            <h1>{{ pageTitle }}</h1>
+            <div class="header-icons">
+              <img
+                ngSrc="/assets/icons/Notification.svg"
+                alt="notif"
+                height="44"
+                width="44"
+              />
+              <img
+                ngSrc="/assets/icons/User.svg"
+                alt="user"
+                height="44"
+                width="44"
+              />
+            </div>
           </div>
-        </div>
-      </nz-header>
+        </nz-header>
+      }
       <nz-content>
-        <app-breadcrumb></app-breadcrumb>
-        <div class="inner-content">
-          <router-outlet />
-        </div>
+        @if (showHeader) {
+          <app-breadcrumb></app-breadcrumb>
+          <div class="inner-content">
+            <router-outlet />
+          </div>
+        } @else {
+          <app-dashboard-content></app-dashboard-content>
+        }
       </nz-content>
       <!--      <nz-footer>اینجا فوتره</nz-footer>-->
     </nz-layout>

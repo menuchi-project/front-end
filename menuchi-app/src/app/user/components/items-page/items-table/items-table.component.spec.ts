@@ -5,6 +5,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { PlusOutline } from '@ant-design/icons-angular/icons';
+import { NzImageModule } from 'ng-zorro-antd/image';
 
 describe('ItemsTableComponent', () => {
   let component: ItemsTableComponent;
@@ -13,7 +14,11 @@ describe('ItemsTableComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ItemsTableComponent],
-      imports: [NzTableModule, NzIconModule.forChild([PlusOutline])],
+      imports: [
+        NzImageModule,
+        NzTableModule,
+        NzIconModule.forChild([PlusOutline]),
+      ],
       providers: [provideHttpClient(withFetch())],
     }).compileComponents();
 
