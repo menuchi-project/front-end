@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="calendar-header">
+    <button class="nav-button prev-button" (click)="previousWeek()">
+      <img src="/assets/icons/arrow-right.svg" alt="هفته قبل" />
+    </button>
+
+    <div>
+      <h2>{{ getPersianMonth() }} {{ getPersianYear() }}</h2>
+    </div>
+
+    <button class="nav-button next-button" (click)="nextWeek()">
+      <img src="/assets/icons/arrow-left.svg" alt="هفته بعد" />
+    </button>
+  </div>
+
+  <!--  <button class="today-button" (click)="today()">امروز</button>-->
+
+  <div class="week-container">
+    <div class="week-days-header">
+      <div
+        class="day-header"
+        *ngFor="let day of getPersianWeekDays(); let i = index"
+        [class.today]="getDayInfo(i).isToday"
+        [class.selected]="isSelected(getDayInfo(i).date)"
+        [class.hovered]="hoveredDayIndex === i"
+        (mouseenter)="setHoveredDay(i)"
+        (mouseleave)="setHoveredDay(null)"
+        (click)="selectDate(getDayInfo(i).date)"
+      >
+        <span>{{ day.long }}</span>
+      </div>
+    </div>
+    <div class="week-grid">
+      <div
+        class="day-cell"
+        *ngFor="let day of getPersianWeekDays(); let i = index"
+        [class.today]="getDayInfo(i).isToday"
+        [class.selected]="isSelected(getDayInfo(i).date)"
+        [class.current-month]="getDayInfo(i).isCurrentMonth"
+        [class.hovered]="hoveredDayIndex === i"
+        (click)="selectDate(getDayInfo(i).date)"
+        (mouseenter)="setHoveredDay(i)"
+        (mouseleave)="setHoveredDay(null)"
+      >
+        <div class="day-number">
+          {{ getDayNumber(getDayInfo(i).date) | persianNumber }}
+        </div>
+        <div
+          class="day-voltage"
+          *ngIf="getVoltage(getDayInfo(i).date) as voltage"
+        >
+          {{ voltage }}V
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
