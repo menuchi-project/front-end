@@ -18,6 +18,7 @@ export class CategoryComponent {
   @Input() connectedLists: string[] = [];
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
   @Output() addItemWithCategory = new EventEmitter<string>();
+  @Output() itemDeleted = new EventEmitter<string>();
 
   constructor(
     private readonly modalService: ModalService,
@@ -34,13 +35,17 @@ export class CategoryComponent {
   }
 
   confirmDelete(id: string): void {
+    this.loading = true;
     this.itemService.deleteItems([id]).subscribe({
-      next: (response) => {
-        this.messageService.info(' آیتم با موفقیت حذف شد.');
-        this.itemService.geAllItems();
+      next: () => {
+        this.messageService.info('آیتم با موفقیت حذف شد.');
+        this.itemService.getCategoriesWithItems();
       },
       error: (error) => {
-        this.messageService.error(' مشکلی در حذف آیتم به وجود آمد!');
+        this.messageService.error('مشکلی در حذف آیتم به وجود آمد!');
+      },
+      complete: () => {
+        this.loading = false;
       },
     });
   }
