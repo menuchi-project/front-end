@@ -168,4 +168,8 @@ nz-form-control {
 :host ::ng-deep .ant-form-item-label {
   padding-bottom: 0;
   line-height: 2;
+
+  > label {
+    color: #252525;
+  }
 }
