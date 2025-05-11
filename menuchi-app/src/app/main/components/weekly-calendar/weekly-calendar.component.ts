@@ -4,11 +4,11 @@ import moment from 'jalali-moment';
 
 @Component({
   selector: 'app-weekly-calendar',
-  templateUrl: './weekly-calender.component.html',
+  templateUrl: './weekly-calendar.component.html',
   standalone: false,
-  styleUrls: ['./weekly-calender.component.scss'],
+  styleUrls: ['./weekly-calendar.component.scss'],
 })
-export class WeeklyCalenderComponent {
+export class WeeklyCalendarComponent {
   viewDate: Date = new Date();
   locale: string = 'fa';
   selectedDate: Date | null = null;
