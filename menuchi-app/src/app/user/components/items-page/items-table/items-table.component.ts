@@ -3,6 +3,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Item } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
 import { NzImageService } from 'ng-zorro-antd/image';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-items-table',
@@ -21,6 +22,7 @@ export class ItemsTableComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private imageService: NzImageService,
+    private messageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -111,7 +113,15 @@ export class ItemsTableComponent implements OnInit {
   }
 
   deleteRow(id: string): void {
-    this.listOfData = this.listOfData.filter((d) => d.id !== id);
+    this.itemService.deleteItems([id]).subscribe({
+      next: () => {
+        this.messageService.info(' آیتم با موفقیت حذف شد.');
+        this.itemService.geAllItems();
+      },
+      error: (error) => {
+        this.messageService.error(' مشکلی در حذف آیتم به وجود آمد!');
+      },
+    });
   }
 
   showImage(picUrl: string) {
@@ -123,5 +133,9 @@ export class ItemsTableComponent implements OnInit {
       ],
       { nzZoom: 1.5, nzRotate: 0 },
     );
+  }
+
+  getSelectedItems(): string[] {
+    return Array.from(this.setOfCheckedId);
   }
 }
