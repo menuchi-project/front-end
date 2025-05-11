@@ -26,7 +26,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     {
       phoneNumber: this.fb.control('', [
         Validators.required,
-        Validators.pattern(/^9\d{9}$/),
+        Validators.pattern(/^09\d{9}$/),
       ]),
       password: this.fb.control('', [
         Validators.pattern(
@@ -37,14 +37,26 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
       nickname: this.fb.control('', [
         Validators.required,
         Validators.minLength(3),
+        Validators.pattern('^[a-zA-Z0-9_-]{3,30}$'),
       ]),
       email: this.fb.control('', [Validators.required, Validators.email]),
-      agreeToRules: this.fb.control(false, [Validators.requiredTrue]),
     },
     {
       validators: this.passwordsMatchValidator,
     },
   );
+
+  passwordVisible: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  repeatPasswordVisible: boolean = false;
+
+  toggleRepeatPasswordVisibility(): void {
+    this.repeatPasswordVisible = !this.repeatPasswordVisible;
+  }
 
   constructor(
     private authService: AuthService,
@@ -56,8 +68,14 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     this.validateForm.controls.password.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        this.validateForm.controls.repeatPassword.updateValueAndValidity();
+        if (this.validateForm.controls.repeatPassword.value) {
+          this.validateForm.controls.repeatPassword.updateValueAndValidity();
+        }
       });
+
+    this.validateForm.controls.repeatPassword.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {});
   }
 
   ngOnDestroy(): void {
@@ -86,10 +104,21 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.isLoading = false;
-          this.message.error(' مشکلی در ثبت نام پیش آمد!');
-          console.log('Signup Error:', error);
-          for (let e of error.error.details)
-            this.message.error(' ' + e.message);
+          if (error.status === 409) {
+            this.message.error(' این شماره تلفن یا ایمیل قبلاً ثبت شده است!');
+          } else if (error.status === 422) {
+            this.message.error(' اطلاعات وارد شده صحیح نمی‌باشند.');
+            if (error.error && error.error.details) {
+              error.error.details.forEach((detail: any) => {
+                this.message.error(' خطا در ثبت‌نام: ' + detail.message);
+              });
+            }
+          } else {
+            this.message.error(
+              ' مشکلی در ثبت نام پیش آمد! لطفاً دوباره تلاش کنید.',
+            );
+          }
+          console.log('خطا :', error);
         },
       });
     } else {
@@ -99,6 +128,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
+      this.message.error(' لطفاً فرم را به درستی پر کنید!');
     }
   }
 
@@ -106,6 +136,9 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     const password = group.get('password')?.value;
     const repeatPassword = group.get('repeatPassword')?.value;
 
-    return password === repeatPassword ? null : { passwordMismatch: true };
+    if (password && repeatPassword && password !== repeatPassword) {
+      return { passwordMismatch: true };
+    }
+    return null;
   }
 }

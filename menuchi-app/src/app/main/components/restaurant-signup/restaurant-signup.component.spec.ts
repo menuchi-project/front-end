@@ -6,6 +6,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 describe('RestaurantSignupComponent', () => {
   let component: RestaurantSignupComponent;
@@ -20,6 +21,7 @@ describe('RestaurantSignupComponent', () => {
         NzInputModule,
         ReactiveFormsModule,
         NzCheckboxModule,
+        NzButtonModule,
       ],
     }).compileComponents();
 
