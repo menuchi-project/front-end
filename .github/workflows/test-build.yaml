@@ -29,7 +29,7 @@ jobs:
         run: cd menuchi-app ; npm run build
         
       - name: Test
-        run: cd menuchi-app ; ng test --no-watch --no-progress --watch=false --code-coverage --browsers=ChromeHeadlessCI
+        run: cd menuchi-app ; ng test --no-watch --no-progress --watch=false --code-coverage --browsers=ChromeHeadless
     
   build:
     runs-on: ubuntu-latest
