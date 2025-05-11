@@ -6,7 +6,7 @@
         nzType="plus"
         nzTheme="outline"
         class="add-item-icon"
-        (click)="showAddItemModal()"
+        (click)="showAddItemModal(list.categoryNameId)"
       />
       <nz-icon
         nzType="holder"
@@ -93,10 +93,12 @@
       nz-button
       nzType="primary"
       class="add-item-btn"
-      (click)="showAddItemModal()"
+      (click)="showAddItemModal(list.categoryNameId)"
     >
       <nz-icon nzType="plus" />
       اضافه کردن آیتم جدید به دسته‌بندی
     </button>
   </div>
 </div>
+
+<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>

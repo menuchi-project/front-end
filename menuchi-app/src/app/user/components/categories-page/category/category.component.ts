@@ -30,8 +30,13 @@ export class CategoryComponent {
     this.itemDropped.emit(event);
   }
 
-  showAddItemModal(): void {
-    this.addItemWithCategory.emit(this.list.categoryNameId);
+  selectedCategoryForModal: string | null = null;
+
+  showAddItemModal(catNameId: string): void {
+    // this.addItemWithCategory.emit(this.list.categoryNameId);
+    console.log(22, this.list);
+    this.selectedCategoryForModal = this.list.categoryNameId;
+    this.modalService.openModal();
   }
 
   confirmDelete(id: string): void {

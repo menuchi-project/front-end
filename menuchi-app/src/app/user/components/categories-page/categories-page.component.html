@@ -41,10 +41,8 @@
         [list]="list"
         [connectedLists]="allConnectedLists"
         (itemDropped)="onItemDropped($event)"
-        (addItemWithCategory)="openModalForCategory($event)"
+        (addItemWithCategory)="openModalForCategory(list.categoryNameId)"
       ></app-category>
     </div>
   </div>
 </div>
-
-<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>
