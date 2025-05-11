@@ -5,6 +5,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlusOutline } from '@ant-design/icons-angular/icons';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 describe('CylinderComponent', () => {
   let component: CylinderComponent;
@@ -17,6 +18,7 @@ describe('CylinderComponent', () => {
         NzIconModule,
         DragDropModule,
         NzIconModule.forChild([PlusOutline]),
+        NzEmptyModule,
       ],
       providers: [provideHttpClient(withFetch())],
     }).compileComponents();

@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([])],
       declarations: [AppComponent],
+      providers: [provideHttpClient(withFetch())],
     }).compileComponents();
   });
 
