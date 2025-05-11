@@ -38,11 +38,11 @@ export class CategoryComponent {
     this.loading = true;
     this.itemService.deleteItems([id]).subscribe({
       next: () => {
-        this.messageService.info('آیتم با موفقیت حذف شد.');
+        this.messageService.info(' آیتم با موفقیت حذف شد.');
         this.itemService.getCategoriesWithItems();
       },
       error: (error) => {
-        this.messageService.error('مشکلی در حذف آیتم به وجود آمد!');
+        this.messageService.error(' مشکلی در حذف آیتم به وجود آمد!');
       },
       complete: () => {
         this.loading = false;
