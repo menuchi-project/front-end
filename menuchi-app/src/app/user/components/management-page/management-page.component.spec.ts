@@ -13,6 +13,7 @@ import {
   ProductOutline,
   SettingOutline,
 } from '@ant-design/icons-angular/icons';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 const icons: IconDefinition[] = [
   LogoutOutline,
@@ -36,6 +37,7 @@ describe('ManagementPageComponent', () => {
         NzIconModule.forChild(icons),
       ],
       providers: [
+        provideHttpClient(withFetch()),
         {
           provide: ActivatedRoute,
           useValue: {

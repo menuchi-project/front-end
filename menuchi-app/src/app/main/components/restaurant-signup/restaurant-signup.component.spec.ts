@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RestaurantSignupComponent } from './restaurant-signup.component';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 describe('RestaurantSignupComponent', () => {
   let component: RestaurantSignupComponent;
@@ -8,9 +13,15 @@ describe('RestaurantSignupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RestaurantSignupComponent]
-    })
-    .compileComponents();
+      declarations: [RestaurantSignupComponent],
+      providers: [provideHttpClient(withFetch())],
+      imports: [
+        NzFormModule,
+        NzInputModule,
+        ReactiveFormsModule,
+        NzCheckboxModule,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RestaurantSignupComponent);
     component = fixture.componentInstance;
