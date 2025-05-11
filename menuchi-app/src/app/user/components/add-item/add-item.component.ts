@@ -131,6 +131,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
+      this.messageService.error(' لطفاً فرم را به درستی پر کنید!');
     }
   }
 
