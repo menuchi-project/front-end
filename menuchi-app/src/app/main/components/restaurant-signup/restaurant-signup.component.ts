@@ -40,7 +40,6 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
         Validators.pattern('^[a-zA-Z0-9_-]{3,30}$'),
       ]),
       email: this.fb.control('', [Validators.required, Validators.email]),
-      agreeToRules: this.fb.control(false, [Validators.requiredTrue]),
     },
     {
       validators: this.passwordsMatchValidator,
@@ -85,7 +84,6 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
   }
 
   submitForm(): void {
-    console.log(111111112, this.validateForm.controls);
     if (this.validateForm.valid) {
       this.isLoading = true;
       const signupData: SignupRequest = {
