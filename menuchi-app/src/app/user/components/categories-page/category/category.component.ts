@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ModalService } from '../../../services/modal/modal.service';
 import { Category } from '../../../models/Item';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ItemService } from '../../../services/item/item.service';
 
 @Component({
   selector: 'app-category',
@@ -17,7 +19,11 @@ export class CategoryComponent {
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
   @Output() addItemWithCategory = new EventEmitter<string>();
 
-  constructor(private readonly modalService: ModalService) {}
+  constructor(
+    private readonly modalService: ModalService,
+    private readonly messageService: NzMessageService,
+    private readonly itemService: ItemService,
+  ) {}
 
   drop2(event: CdkDragDrop<any[]>) {
     this.itemDropped.emit(event);
@@ -25,5 +31,17 @@ export class CategoryComponent {
 
   showAddItemModal(): void {
     this.addItemWithCategory.emit(this.list.categoryNameId);
+  }
+
+  confirmDelete(id: string): void {
+    this.itemService.deleteItems([id]).subscribe({
+      next: (response) => {
+        this.messageService.info(' آیتم با موفقیت حذف شد.');
+        this.itemService.geAllItems();
+      },
+      error: (error) => {
+        this.messageService.error(' مشکلی در حذف آیتم به وجود آمد!');
+      },
+    });
   }
 }

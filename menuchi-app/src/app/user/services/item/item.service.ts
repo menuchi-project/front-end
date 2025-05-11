@@ -49,4 +49,15 @@ export class ItemService implements OnInit {
   createItem(newItem: CreateItemRequest) {
     return this.httpClient.post(this.apiUrl + '/items', newItem);
   }
+
+  deleteItems(itemIds: string[]) {
+    const options = {
+      body: itemIds,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    return this.httpClient.delete(this.apiUrl + '/items', options);
+  }
 }

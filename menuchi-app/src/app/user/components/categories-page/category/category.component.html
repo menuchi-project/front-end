@@ -69,7 +69,14 @@
             <ul nz-menu>
               <li nz-menu-item>ویرایش آیتم</li>
               <li nz-menu-item>انتقال به دسته‌بندی</li>
-              <li nz-menu-item style="color: #f23939 !important">
+              <li
+                nz-menu-item
+                style="color: #f23939 !important"
+                nz-popconfirm
+                nzPopconfirmTitle="آیا از حذف این آیتم مطمئن هستید؟"
+                nzPopconfirmPlacement="bottom"
+                (nzOnConfirm)="confirmDelete(data.id)"
+              >
                 حذف از دسته‌بندی
               </li>
             </ul>
