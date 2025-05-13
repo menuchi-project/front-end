@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Item } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
+import { UserService } from '../../../services/user/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-content',
@@ -8,13 +10,22 @@ import { ItemService } from '../../../services/item/item.service';
   templateUrl: './dashboard-content.component.html',
   styleUrl: './dashboard-content.component.scss',
 })
-export class DashboardContentComponent implements OnInit {
+export class DashboardContentComponent implements OnInit, OnDestroy {
   item!: Item;
+  userName: string = '';
+  private itemsSubscription!: Subscription;
 
-  constructor(private readonly itemService: ItemService) {
-    this.itemService.itemsData$.subscribe({
+  constructor(
+    private readonly itemService: ItemService,
+    private readonly userService: UserService
+  ) {}
+
+  ngOnInit() {
+    this.userName = this.userService.getUserName();
+
+    this.itemsSubscription = this.itemService.itemsData$.subscribe({
       next: (response: Item[]) => {
-        this.item = response[0];
+        this.item = response[0] || null;
       },
       error: (error) => {
         console.log('error in dashboard, line 22:', error);
@@ -24,14 +35,9 @@ export class DashboardContentComponent implements OnInit {
     this.itemService.geAllItems();
   }
 
-  ngOnInit() {
-    // this.itemService.itemsData$.subscribe({
-    //   next: (response: Item[]) => {
-    //     this.item = response[0];
-    //   },
-    //   error: (error) => {
-    //     console.log('error in dashboard, line 22:', error);
-    //   },
-    // });
+  ngOnDestroy() {
+    if (this.itemsSubscription) {
+      this.itemsSubscription.unsubscribe();
+    }
   }
 }
