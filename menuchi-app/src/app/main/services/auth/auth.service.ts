@@ -72,4 +72,19 @@ export class AuthService {
   getUserName(): string {
     return this.userSubject.value?.username || 'کاربر ناشناس';
   }
+
+ getAllBranchIds(): string[] {
+    const branches: string[] = [];
+    const restaurants = this.userSubject.value?.restaurants;
+
+    if (restaurants) {
+      restaurants.forEach((restaurant: any) => {
+        restaurant.branches.forEach((branch: any) => {
+          branches.push(branch.id);
+        });
+      });
+    }
+
+    return branches;
+  }
 }

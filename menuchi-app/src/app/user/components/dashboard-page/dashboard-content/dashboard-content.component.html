@@ -9,6 +9,41 @@
                 <img src="/assets/icons/User-blue.svg" alt="userProfile" class="icon" />
             </nz-icon>
         </div>
+
+        <div class="menu-container">
+            <div class="menus-section">
+                <div nzAlign="middle" class="section-header">
+                    <div class="header-left">
+                        <object data="/assets/icons/Menu2.svg" type="image/svg+xml"></object>
+                        <h3>منوهای ساخته شده</h3>
+                    </div>
+                    <div class="arrow-container">
+                        <img [class.disabled]="currentIndex + visibleMenus.length >= menus.length" (click)="currentIndex + visibleMenus.length < menus.length && scrollMenus('right')" src="/assets/icons/arrow-right.svg" class="arrow-icon" />
+                        <img [class.disabled]="currentIndex === 0" (click)="currentIndex > 0 && scrollMenus('left')" src="/assets/icons/arrow-left.svg" class="arrow-icon" />
+                    </div>
+                </div>
+
+                <div *ngIf="menus.length > 0; else noMenus" class="menus-carousel">
+                    <div class="menus-container">
+                        <div *ngFor="let menu of visibleMenus" class="menu-card" nz-col [nzSpan]="12">
+                            <nz-card [nzHoverable]="true" (click)="viewMenuDetails(menu.id)" class="card">
+                                <nz-card-meta [nzTitle]="menu.name || 'بدون عنوان'">
+                                </nz-card-meta>
+                                <div class="card-actions">
+                                    <button nz-button nzType="default" (click)="viewMenuDetails(menu.id)">جزئیات بیشتر منو</button>
+                                </div>
+                            </nz-card>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #noMenus>
+                    <div class="no-menus-message">
+                        <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="'منویی برای نمایش وجود ندارد'"></nz-empty>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+
     </div>
     <div class="second-col">
         <app-weekly-calendar class="card"></app-weekly-calendar>

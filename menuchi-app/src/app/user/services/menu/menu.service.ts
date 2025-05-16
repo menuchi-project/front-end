@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { environment } from '../../../../../api-config/environment';
@@ -18,6 +18,7 @@ import {
 export class MenuService implements OnInit {
   private readonly apiUrl = environment.API_URL + '/menus';
   private backlogId: string | null;
+  private branchIds: string[] = [];
 
   private menusData = new Subject<Menu[]>();
   menusData$ = this.menusData.asObservable();
@@ -30,10 +31,26 @@ export class MenuService implements OnInit {
     private authService: AuthService,
   ) {
     this.backlogId = this.authService.getBacklogId();
+    this.branchIds = this.authService.getAllBranchIds();
   }
 
   ngOnInit() {}
 
+  getAllMenusForBranches() {
+    const requests = this.branchIds.map(branchId => 
+      this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`)
+    );
+
+    return forkJoin(requests).subscribe({
+      next: (menusArray) => {
+        const allMenus = menusArray.flat();
+        this.menusData.next(allMenus);
+      },
+      error: (error) => {
+        console.error('Error fetching menus for all branches:', error);
+      }
+    });
+  }
   getAllMenus() {
     return this.httpClient
       .get<Menu[]>(this.apiUrl + '/backlog/' + this.backlogId)
