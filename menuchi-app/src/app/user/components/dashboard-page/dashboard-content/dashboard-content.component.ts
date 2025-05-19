@@ -79,6 +79,7 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     this.updateVisibleMenus();
   }
 
+
   viewMenuDetails(menuId: string) {
     console.log('Viewing menu details:', menuId);
   }
