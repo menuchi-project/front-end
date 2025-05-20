@@ -49,3 +49,12 @@ export interface CreateItemRequest {
   price: number;
   picKey: string;
 }
+
+export interface UpdateItemRequest {
+  categoryId: string;
+  subCategoryId: string;
+  name: string;
+  ingredients: string;
+  price: number;
+  picKey: string | null;
+}

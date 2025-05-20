@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Item } from '../../../models/Item';
+import { Item, UpdateItemRequest } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -98,9 +98,34 @@ export class ItemsTableComponent implements OnInit {
   }
 
   saveEdit(id: string): void {
-    const index = this.listOfData.findIndex((item) => item.id === id);
-    Object.assign(this.listOfData[index], this.editCache[id].data);
-    this.editCache[id].edit = false;
+    const editedItem = this.editCache[id].data;
+
+    const updatePayload: UpdateItemRequest = {
+      name: editedItem.name,
+      ingredients: editedItem.ingredients,
+      price: editedItem.price,
+      categoryId: editedItem.categoryId,
+      subCategoryId: editedItem.subCategoryId,
+      picKey: null,
+    };
+
+    this.itemService.updateItem(editedItem.id, updatePayload).subscribe({
+      next: () => {
+        const index = this.listOfData.findIndex((item) => item.id === id);
+        if (index !== -1) {
+          Object.assign(this.listOfData[index], editedItem);
+          this.editCache[id] = {
+            edit: false,
+            data: { ...editedItem },
+          };
+          this.messageService.success(' آیتم با موفقیت ویرایش شد.');
+        }
+      },
+      error: (error) => {
+        this.messageService.error(' مشکلی در ویرایش آیتم به وجود آمد!');
+        console.error(' خطا هنگام ذخیره آیتم:', error);
+      },
+    });
   }
 
   updateEditCache(): void {
