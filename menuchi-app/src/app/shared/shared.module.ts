@@ -21,6 +21,7 @@ import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
 import { NzProgressComponent } from 'ng-zorro-antd/progress';
 import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
 import { HorizontalScrollerComponent } from './components/horizontal-scroller/horizontal-scroller.component';
+import { PersianPricePipe } from './pipes/persian-price/persian-price.pipe';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,8 @@ import { HorizontalScrollerComponent } from './components/horizontal-scroller/ho
     UploadBoxComponent,
     PersianNumberPipe,
     HorizontalScrollerComponent,
+    PersianPricePipe,
+    PersianNumberPipe,
   ],
   imports: [
     CommonModule,
@@ -54,6 +57,8 @@ import { HorizontalScrollerComponent } from './components/horizontal-scroller/ho
     UploadBoxComponent,
     PersianNumberPipe,
     HorizontalScrollerComponent,
+    PersianPricePipe,
+    PersianNumberPipe,
   ],
 })
 export class SharedModule {}
