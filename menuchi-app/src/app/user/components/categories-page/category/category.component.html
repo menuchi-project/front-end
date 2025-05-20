@@ -6,7 +6,7 @@
         nzType="plus"
         nzTheme="outline"
         class="add-item-icon"
-        (click)="showAddItemModal()"
+        (click)="showAddItemModal(list.categoryNameId)"
       />
       <nz-icon
         nzType="holder"
@@ -67,9 +67,16 @@
           />
           <nz-dropdown-menu #menu1="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item>ویرایش آیتم</li>
-              <li nz-menu-item>انتقال به دسته‌بندی</li>
-              <li nz-menu-item style="color: #f23939 !important">
+              <li nz-menu-item class="dropdown-item">ویرایش آیتم</li>
+              <li nz-menu-item class="dropdown-item">انتقال به دسته‌بندی</li>
+              <li
+                nz-menu-item
+                class="delete-item"
+                nz-popconfirm
+                nzPopconfirmTitle="آیا از حذف این آیتم مطمئن هستید؟"
+                nzPopconfirmPlacement="bottom"
+                (nzOnConfirm)="confirmDelete(data.id)"
+              >
                 حذف از دسته‌بندی
               </li>
             </ul>
@@ -86,10 +93,12 @@
       nz-button
       nzType="primary"
       class="add-item-btn"
-      (click)="showAddItemModal()"
+      (click)="showAddItemModal(list.categoryNameId)"
     >
       <nz-icon nzType="plus" />
       اضافه کردن آیتم جدید به دسته‌بندی
     </button>
   </div>
 </div>
+
+<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>

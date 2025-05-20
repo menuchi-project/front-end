@@ -1,10 +1,11 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
   CategoryWithItemsResponse,
   CreateItemRequest,
   Item,
+  UpdateItemRequest,
 } from '../../models/Item';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { environment } from '../../../../../api-config/environment';
@@ -48,5 +49,23 @@ export class ItemService implements OnInit {
 
   createItem(newItem: CreateItemRequest) {
     return this.httpClient.post(this.apiUrl + '/items', newItem);
+  }
+
+  deleteItems(itemIds: string[]) {
+    const options = {
+      body: itemIds,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    return this.httpClient.delete(this.apiUrl + '/items', options);
+  }
+
+  updateItem(itemId: string, newItem: UpdateItemRequest): Observable<void> {
+    return this.httpClient.patch<void>(
+      `${this.apiUrl}/items/${itemId}`,
+      newItem,
+    );
   }
 }
