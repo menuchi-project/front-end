@@ -40,10 +40,6 @@
   background: #243e62;
   color: white;
   border-color: #8c8c6e;
-
-  img {
-    color: red;
-  }
 }
 
 .menu-item img {
@@ -56,4 +52,20 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
+}
+
+.icon-mask {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background-color: #243e62;
+  mask: var(--icon-url) no-repeat center;
+  -webkit-mask: var(--icon-url) no-repeat center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  margin-left: 4px;
+}
+
+.menu-item.active .icon-mask {
+  background-color: #ffffff;
 }

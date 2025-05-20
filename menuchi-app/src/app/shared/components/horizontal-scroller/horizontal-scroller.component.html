@@ -10,7 +10,12 @@
       [class.active]="item === selectedItem"
       (click)="selectItem(item)"
     >
-      <img class="cat-icon" [src]="item.icon" alt="{{ item.label }}" />
+      <span
+        class="icon-mask"
+        [ngStyle]="{
+          '--icon-url': 'url(' + item.icon + ')',
+        }"
+      ></span>
       <span>{{ item.label }}</span>
     </button>
   </div>
