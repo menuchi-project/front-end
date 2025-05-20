@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
 import {
   NzMenuDirective,
@@ -20,6 +20,7 @@ import { UploadBoxComponent } from './components/upload-box/upload-box.component
 import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
 import { NzProgressComponent } from 'ng-zorro-antd/progress';
 import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
+import { HorizontalScrollerComponent } from './components/horizontal-scroller/horizontal-scroller.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
     TruncatePipe,
     UploadBoxComponent,
     PersianNumberPipe,
+    HorizontalScrollerComponent,
   ],
   imports: [
     CommonModule,
@@ -44,12 +46,14 @@ import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
     NzModalComponent,
     NzModalModule,
     NzProgressComponent,
+    NgOptimizedImage,
   ],
   exports: [
     BreadcrumbComponent,
     TruncatePipe,
     UploadBoxComponent,
     PersianNumberPipe,
+    HorizontalScrollerComponent,
   ],
 })
 export class SharedModule {}

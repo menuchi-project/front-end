@@ -10,6 +10,7 @@ import { RestaurantSignupComponent } from './main/components/restaurant-signup/r
 import { authGuard } from './main/guards/auth.guard';
 import { DashboardPageComponent } from './user/components/dashboard-page/dashboard-page.component';
 import { SettingsPageComponent } from './user/components/settings-page/settings-page.component';
+import { MenuPreviewComponent } from './main/components/menu-preview/menu-preview.component';
 
 const routes: Routes = [
   { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
@@ -26,6 +27,12 @@ const routes: Routes = [
     title: 'منوچی | مدیریت',
     canActivate: [authGuard],
     children: [
+      {
+        path: 'preview',
+        component: MenuPreviewComponent,
+        data: { breadcrumb: 'پیش‌نمایش منو' },
+        title: 'پیش‌نمایش منو',
+      },
       {
         path: 'items',
         component: ItemsPageComponent,

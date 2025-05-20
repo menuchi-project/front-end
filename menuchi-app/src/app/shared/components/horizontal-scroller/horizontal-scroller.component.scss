@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex: 1;
+  gap: 0.8rem;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #8c8c6e;
+  border-radius: 6px;
+  min-width: 80px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background-color: rgba(36, 62, 98, 0.2);
+  }
+}
+
+.menu-item.active {
+  background: #243e62;
+  color: white;
+  border-color: #8c8c6e;
+
+  img {
+    color: red;
+  }
+}
+
+.menu-item img {
+  width: 24px;
+  height: 24px;
+}
+
+.scroll-button {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}

@@ -1,0 +1,21 @@
+<div class="container">
+  <button class="scroll-button" (click)="scrollLeft()">
+    <img src="/assets/icons/arrow-right.svg" alt="‹" />
+  </button>
+
+  <div class="scroll-container" #scrollContainer>
+    <button
+      *ngFor="let item of menuItems"
+      class="menu-item"
+      [class.active]="item === selectedItem"
+      (click)="selectItem(item)"
+    >
+      <img class="cat-icon" [src]="item.icon" alt="{{ item.label }}" />
+      <span>{{ item.label }}</span>
+    </button>
+  </div>
+
+  <button class="scroll-button" (click)="scrollRight()">
+    <img src="/assets/icons/arrow-left.svg" alt="›" />
+  </button>
+</div>
