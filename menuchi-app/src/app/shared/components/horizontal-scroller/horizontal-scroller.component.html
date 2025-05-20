@@ -5,7 +5,7 @@
 
   <div class="scroll-container" #scrollContainer>
     <button
-      *ngFor="let item of menuItems"
+      *ngFor="let item of items"
       class="menu-item"
       [class.active]="item === selectedItem"
       (click)="selectItem(item)"
