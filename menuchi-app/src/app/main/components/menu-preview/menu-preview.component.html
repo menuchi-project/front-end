@@ -1,4 +1,12 @@
 <div class="container">
-  <app-weekly-calendar></app-weekly-calendar>
-  <app-horizontal-scroller [items]="items"></app-horizontal-scroller>
+  <app-weekly-calendar class="calendar"></app-weekly-calendar>
+  <app-horizontal-scroller
+    [items]="categories"
+    class="cat-names"
+  ></app-horizontal-scroller>
+  <div class="items-container">
+    @for (item of items; track item.id) {
+      <app-item-card [data]="item"></app-item-card>
+    }
+  </div>
 </div>

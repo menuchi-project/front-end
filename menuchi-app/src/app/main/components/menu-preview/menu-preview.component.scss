@@ -1,6 +1,27 @@
 .container {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   gap: 2rem;
+
+  .calendar {
+    border: 1px solid #d1d4d8;
+    border-radius: 10px;
+    padding-block: 0.6rem;
+    padding-inline: 0.6rem;
+    width: 95%;
+  }
+
+  .cat-names {
+    width: 100%;
+  }
+
+  .items-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+  }
 }

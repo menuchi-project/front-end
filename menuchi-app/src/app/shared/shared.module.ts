@@ -22,6 +22,14 @@ import { NzProgressComponent } from 'ng-zorro-antd/progress';
 import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
 import { HorizontalScrollerComponent } from './components/horizontal-scroller/horizontal-scroller.component';
 import { PersianPricePipe } from './pipes/persian-price/persian-price.pipe';
+import { ItemCardComponent } from './components/item-card/item-card.component';
+import { CdkDrag, CdkDragPreview } from '@angular/cdk/drag-drop';
+import { NzCardComponent, NzCardMetaComponent } from 'ng-zorro-antd/card';
+import {
+  NzDropDownDirective,
+  NzDropdownMenuComponent,
+} from 'ng-zorro-antd/dropdown';
+import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 
 @NgModule({
   declarations: [
@@ -32,6 +40,7 @@ import { PersianPricePipe } from './pipes/persian-price/persian-price.pipe';
     HorizontalScrollerComponent,
     PersianPricePipe,
     PersianNumberPipe,
+    ItemCardComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +59,13 @@ import { PersianPricePipe } from './pipes/persian-price/persian-price.pipe';
     NzModalModule,
     NzProgressComponent,
     NgOptimizedImage,
+    CdkDrag,
+    NzCardComponent,
+    NzCardMetaComponent,
+    NzDropDownDirective,
+    NzDropdownMenuComponent,
+    NzPopconfirmDirective,
+    CdkDragPreview,
   ],
   exports: [
     BreadcrumbComponent,
@@ -59,6 +75,7 @@ import { PersianPricePipe } from './pipes/persian-price/persian-price.pipe';
     HorizontalScrollerComponent,
     PersianPricePipe,
     PersianNumberPipe,
+    ItemCardComponent,
   ],
 })
 export class SharedModule {}
