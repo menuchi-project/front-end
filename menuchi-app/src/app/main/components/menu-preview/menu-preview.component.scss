@@ -18,10 +18,11 @@
   }
 
   .items-container {
+    padding-inline-start: 1.5rem;
     display: flex;
     gap: 2rem;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: start;
     align-items: center;
   }
 }
