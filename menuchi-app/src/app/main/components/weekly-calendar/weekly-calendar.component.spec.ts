@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WeeklyCalendarComponent } from '././weekly-calendar.component';
+import { WeeklyCalendarComponent } from './weekly-calendar.component';
 import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-number.pipe';
 
 describe('WeeklyCalenderComponent', () => {

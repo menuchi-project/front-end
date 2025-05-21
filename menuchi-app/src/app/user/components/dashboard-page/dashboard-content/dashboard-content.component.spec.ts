@@ -6,6 +6,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ItemService } from '../../../services/item/item.service';
 import { of } from 'rxjs';
 import { PersianNumberPipe } from '../../../../shared/pipes/persian-number/persian-number.pipe';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 describe('DashboardContentComponent', () => {
   let component: DashboardContentComponent;
@@ -43,7 +44,7 @@ describe('DashboardContentComponent', () => {
         provideHttpClient(withFetch()),
         { provide: ItemService, useValue: mockItemService },
       ],
-      imports: [NzIconModule],
+      imports: [NzIconModule, NzEmptyModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardContentComponent);
