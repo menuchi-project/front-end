@@ -66,12 +66,20 @@ export class CategoriesPageComponent implements OnInit {
     }
 
     this.cdr.detectChanges();
+
+    console.log(191, this.lists[currIndex]);
+    this.itemService.reorderInCategory(
+      this.lists[currIndex].items.map((i) => i.id),
+    );
   }
 
   onListDropped(event: CdkDragDrop<any[]>) {
     moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
 
     this.cdr.detectChanges();
+
+    console.log(190, this.lists);
+    this.itemService.reorderCategories(this.lists.map((c) => c.id));
   }
 
   showModal(): void {
