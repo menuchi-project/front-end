@@ -79,7 +79,12 @@ export class ItemService implements OnInit {
   }
 
   reorderInItemsList(itemIds: string[]) {
-    this.httpClient.patch(this.apiUrl + '/reorder-items/in-list', itemIds);
+    console.log(196, itemIds);
+    this.httpClient
+      .patch(this.apiUrl + '/reorder-items/in-list', itemIds)
+      .subscribe((r) => {
+        console.log(r);
+      });
   }
 
   reorderCategories(catIds: string[]) {

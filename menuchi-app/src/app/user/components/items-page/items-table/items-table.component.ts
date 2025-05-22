@@ -48,6 +48,9 @@ export class ItemsTableComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.listOfData, event.previousIndex, event.currentIndex);
+
+    console.log(123, this.listOfData);
+    this.itemService.reorderInItemsList(this.listOfData.map((i) => i.id));
   }
 
   updateCheckedSet(id: string, checked: boolean): void {
