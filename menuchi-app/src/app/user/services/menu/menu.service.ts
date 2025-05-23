@@ -37,20 +37,22 @@ export class MenuService implements OnInit {
   ngOnInit() {}
 
   getAllMenusForBranches() {
-    const requests = this.branchIds.map(branchId => 
-      this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`)
-    );
+  const branchIds = this.authService.getAllBranchIds();
+  const requests = branchIds.map(branchId =>
+    this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`)
+  );
 
-    return forkJoin(requests).subscribe({
-      next: (menusArray) => {
-        const allMenus = menusArray.flat();
-        this.menusData.next(allMenus);
-      },
-      error: (error) => {
-        console.error('Error fetching menus for all branches:', error);
-      }
-    });
-  }
+  return forkJoin(requests).subscribe({
+    next: (menusArray) => {
+      const allMenus = menusArray.flat();
+      this.menusData.next(allMenus);
+    },
+    error: (error) => {
+      console.error('Error fetching menus for all branches:', error);
+    }
+  });
+}
+
   getAllMenus() {
     return this.httpClient
       .get<Menu[]>(this.apiUrl + '/backlog/' + this.backlogId)

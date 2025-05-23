@@ -6,6 +6,7 @@ import { UserService } from '../../../services/user/user.service';
 import { MenuService } from '../../../services/menu/menu.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../main/services/auth/auth.service';
+import { RestaurantService } from '../../../services/restaurant/restaurant.service';
 
 @Component({
   selector: 'app-dashboard-content',
@@ -14,6 +15,7 @@ import { AuthService } from '../../../../main/services/auth/auth.service';
   styleUrl: './dashboard-content.component.scss',
 })
 export class DashboardContentComponent implements OnInit, OnDestroy {
+[x: string]: any;
   item!: Item;
   menus: Menu[] = [];
   userName: string = '';
@@ -22,31 +24,29 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   private itemsSubscription!: Subscription;
   private menusSubscription!: Subscription;
   private branchId: string | null;
+  branches: any[] = [];
+  restaurantName: string = '';
+  restaurantImageUrl: string = '';
+  private restaurantId: string | null;
 
   constructor(
     private readonly itemService: ItemService,
     private readonly userService: UserService,
     private readonly authService: AuthService,
-    private readonly menuService: MenuService
+    private readonly menuService: MenuService,
+    private readonly restaurantService: RestaurantService
   ) {
     this.branchId = this.authService.getBranchId();
+    this.restaurantId = this.authService.getRestaurantId();
   }
 
   ngOnInit() {
-    this.userName = this.userService.getUserName();
+  this.userName = this.userService.getUserName();
 
-    this.itemsSubscription = this.itemService.itemsData$.subscribe({
-      next: (response: Item[]) => {
-        this.item = response[0] || null;
-      },
-      error: (error) => {
-        console.log('Error fetching items:', error);
-      },
-    });
+  this.authService.user$.subscribe(user => {
+    if (user) {
+      this.branchId = this.authService.getBranchId();
 
-    this.itemService.geAllItems();
-
-    if (this.branchId) {
       this.menusSubscription = this.menuService.menusData$.subscribe({
         next: (menus: Menu[]) => {
           this.menus = menus.map(menu => ({
@@ -61,10 +61,32 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
       });
 
       this.menuService.getAllMenusForBranches();
-    } else {
-      console.error('Branch ID is not available.');
     }
-  }
+  });
+
+  this.itemsSubscription = this.itemService.itemsData$.subscribe({
+    next: (response: Item[]) => {
+      this.item = response[0] || null;
+    },
+    error: (error) => {
+      console.log('Error fetching items:', error);
+    },
+  });
+
+  this.itemService.geAllItems();
+
+  if (this.restaurantId) {
+      this.restaurantService.getRestaurantDetails(this.restaurantId).subscribe({
+        next: (restaurant) => {
+          this.restaurantName = restaurant.displayName;
+          this.restaurantImageUrl = restaurant.avatarUrl;
+          this.branches = restaurant.branches;
+        },
+        error: (err) => console.error('خطا در دریافت اطلاعات رستوران:', err)
+      });
+    }
+}
+
 
   updateVisibleMenus() {
     this.visibleMenus = this.menus.slice(this.currentIndex, this.currentIndex + 2);
@@ -83,6 +105,11 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   viewMenuDetails(menuId: string) {
     console.log('Viewing menu details:', menuId);
   }
+
+  onImageError(event: Event) {
+  const imgElement = event.target as HTMLImageElement;
+  imgElement.src = '/assets/images/Default-Restaurant.svg';
+}
 
   ngOnDestroy() {
     if (this.itemsSubscription) {
