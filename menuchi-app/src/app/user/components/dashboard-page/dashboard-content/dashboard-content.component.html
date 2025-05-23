@@ -58,7 +58,7 @@
                     <div *ngFor="let branch of branches" class="branch-card" nz-col [nzSpan]="12">
                         <nz-card [nzHoverable]="true" class="card">
                             <img [src]="restaurantImageUrl" (error)="onImageError($event)" alt="تصویر رستوران" class=" card branch-img" />
-                            <h3 class="branch-title">حاج {{ restaurantName }}</h3>
+                            <h3 class="branch-title"> حاج بهزاد سروستان{{ restaurantName }}</h3>
                             <p class="branch-address">خیابان {{ branch.displayName }}، پلاک ۳</p>
                             <div class="working-hours">
                                 <object data="/assets/icons/CalendarMark.svg" type="image/svg+xml"></object>
