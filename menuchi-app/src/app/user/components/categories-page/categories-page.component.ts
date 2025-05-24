@@ -5,7 +5,11 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { ItemService } from '../../services/item/item.service';
-import { Category, CategoryWithItemsResponse } from '../../models/Item';
+import {
+  Category,
+  CategoryWithItemsResponse,
+  UpdateItemRequest,
+} from '../../models/Item';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { ModalService } from '../../services/modal/modal.service';
 
@@ -56,29 +60,53 @@ export class CategoriesPageComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
+      this.itemService.reorderInCategory(
+        this.lists[currIndex].items.map((i) => i.id),
+      );
     } else {
+      const movedItem = this.lists[prevIndex].items[event.previousIndex];
+      const newCategoryId = this.lists[currIndex].id;
+
       transferArrayItem(
         this.lists[prevIndex].items,
         this.lists[currIndex].items,
         event.previousIndex,
         event.currentIndex,
       );
+
+      const updateRequest: UpdateItemRequest = {
+        categoryId: newCategoryId,
+        subCategoryId: movedItem.subCategoryId,
+        name: movedItem.name,
+        ingredients: movedItem.ingredients,
+        price: movedItem.price,
+        picKey: null,
+      };
+
+      this.itemService.updateItem(movedItem.id, updateRequest).subscribe({
+        next: () => {
+          this.itemService.reorderInCategory(
+            this.lists[currIndex].items.map((i) => i.id),
+          );
+        },
+        error: (error) => {
+          transferArrayItem(
+            this.lists[currIndex].items,
+            this.lists[prevIndex].items,
+            event.currentIndex,
+            event.previousIndex,
+          );
+        },
+      });
     }
 
     this.cdr.detectChanges();
-
-    console.log(191, this.lists[currIndex]);
-    this.itemService.reorderInCategory(
-      this.lists[currIndex].items.map((i) => i.id),
-    );
   }
 
   onListDropped(event: CdkDragDrop<any[]>) {
     moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
 
     this.cdr.detectChanges();
-
-    console.log(190, this.lists);
     this.itemService.reorderCategories(this.lists.map((c) => c.id));
   }
 

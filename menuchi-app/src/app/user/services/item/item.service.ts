@@ -70,7 +70,6 @@ export class ItemService implements OnInit {
   }
 
   reorderInCategory(itemIds: string[]) {
-    console.log(192, itemIds);
     this.httpClient
       .patch(this.apiUrl + '/reorder-items/in-category', itemIds)
       .subscribe((r) => {
@@ -79,7 +78,6 @@ export class ItemService implements OnInit {
   }
 
   reorderInItemsList(itemIds: string[]) {
-    console.log(196, itemIds);
     this.httpClient
       .patch(this.apiUrl + '/reorder-items/in-list', itemIds)
       .subscribe((r) => {
@@ -88,7 +86,6 @@ export class ItemService implements OnInit {
   }
 
   reorderCategories(catIds: string[]) {
-    console.log(195, catIds);
     this.httpClient
       .patch(this.apiUrl + '/reorder-categories', catIds)
       .subscribe((r) => {
