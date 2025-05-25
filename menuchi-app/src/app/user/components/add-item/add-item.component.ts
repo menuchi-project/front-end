@@ -66,18 +66,18 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     this.itemService.catNamesData$.subscribe({
       next: (response: CategoryName[]) => {
         this.backlogCategoryNames = response;
-
-        this.categoryService.getCategoryNamesData$.subscribe({
-          next: (response: CategoryName[]) => {
-            this.defaultCategoryNames = response;
-          },
-          error: (error) => {
-            console.error('error in add item, line 63:', error);
-          },
-        });
       },
       error: (error) => {
-        console.error('error in add item, line 63:', error);
+        console.error('error in add item, line 71:', error);
+      },
+    });
+
+    this.categoryService.getCategoryNamesData$.subscribe({
+      next: (response: CategoryName[]) => {
+        this.defaultCategoryNames = response;
+      },
+      error: (error) => {
+        console.error('error in add item, line 80:', error);
       },
     });
 
@@ -100,7 +100,6 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
 
             this.categories.push(...diff);
           }
-          console.log(113, this.categories, this.categorySelected);
 
           if (this.isEditMode && this.editingItem) {
             this.populateFormForEdit(this.editingItem);
