@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core'; //
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ModalService } from '../../../services/modal/modal.service';
+import { ModalService } from '../../../services/modal/modal.service'; //
 import { Category } from '../../../models/Item';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ItemService } from '../../../services/item/item.service';
@@ -17,7 +17,6 @@ export class CategoryComponent {
   @Input() list!: Category;
   @Input() connectedLists: string[] = [];
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
-  // @Output() addItemWithCategory = new EventEmitter<string>(); // این خط را حذف کنید
   @Output() itemDeleted = new EventEmitter<string>();
 
   constructor(

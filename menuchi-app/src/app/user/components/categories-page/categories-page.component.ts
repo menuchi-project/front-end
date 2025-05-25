@@ -11,7 +11,7 @@ import {
   UpdateItemRequest,
 } from '../../models/Item';
 import { TitleService } from '../../../shared/services/title/title.service';
-import { ModalService } from '../../services/modal/modal.service';
+import { ModalService } from '../../services/modal/modal.service'; //
 
 @Component({
   selector: 'app-categories-page',
@@ -22,8 +22,6 @@ import { ModalService } from '../../services/modal/modal.service';
 export class CategoriesPageComponent implements OnInit {
   lists: Category[] = [];
   allConnectedLists: string[] = [];
-  // selectedCategoryForModal دیگر مستقیماً نیازی نیست، چون از طریق سرویس منتقل می‌شود
-  // selectedCategoryForModal: string | null = null; // این خط دیگر ضرورتی ندارد
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -112,12 +110,10 @@ export class CategoriesPageComponent implements OnInit {
   }
 
   showModal(): void {
-    // برای افزودن کلی، categoryId را null می‌فرستیم.
     this.modalService.openModal(null);
   }
 
   openModalForCategory(categoryId: string): void {
-    // وقتی از داخل دسته‌بندی باز می‌شود، categoryId را ارسال می‌کنیم.
     this.modalService.openModal(categoryId);
   }
 }

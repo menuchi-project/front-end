@@ -22,7 +22,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrl: './add-item.component.scss',
 })
 export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
-  // Input را برای حالت "افزودن کلی" نگه می‌داریم، اما priority با categoryId از سرویس است.
   @Input() categorySelected: string | null = null;
 
   isOkLoading = false;
@@ -82,13 +81,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     this.destroy$.complete();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // این بخش هنوز می‌تواند برای تنظیم اولیه استفاده شود، اما مقدار سرویس ارجحیت دارد
-    if (changes['categorySelected'] && !this.isVisible) {
-      // فقط وقتی مودال باز نیست تغییرات Input را اعمال کن
-      this.trySetCategoryFromInput();
-    }
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   handleOk(): void {
     this.isOkLoading = true;
@@ -150,7 +143,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
 
       if (exists) {
         control?.setValue(this.categorySelected);
-        control?.disable(); // غیر فعال کردن فیلد
+        control?.disable();
       }
     } else {
       control?.enable();
@@ -161,6 +154,6 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   resetForm(): void {
     this.validateForm.reset();
     this.validateForm.enable();
-    this.categorySelected = null; // برای اطمینان از پاک شدن در هنگام بسته شدن
+    this.categorySelected = null;
   }
 }
