@@ -4,6 +4,7 @@ import { CategoryName, Item, UpdateItemRequest } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
   selector: 'app-items-table',
@@ -13,6 +14,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class ItemsTableComponent implements OnInit {
   listOfData: Item[] = [];
+  fullListOfData: Item[] = [];
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly Item[] = [];
@@ -28,6 +30,7 @@ export class ItemsTableComponent implements OnInit {
     private itemService: ItemService,
     private imageService: NzImageService,
     private messageService: NzMessageService,
+    private categoryService: CategoryService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -36,7 +39,8 @@ export class ItemsTableComponent implements OnInit {
 
     this.itemService.itemsData$.subscribe({
       next: (response: Item[]) => {
-        this.listOfData = response;
+        this.fullListOfData = response;
+        this.listOfData = [...this.fullListOfData];
         this.updateEditCache();
         this.cdr.detectChanges();
       },
@@ -57,6 +61,22 @@ export class ItemsTableComponent implements OnInit {
         console.log('error in items table, line 53:', error);
       },
     });
+  }
+
+  filterItems(searchText: string): void {
+    if (!searchText) {
+      this.listOfData = [...this.fullListOfData];
+    } else {
+      const lowerCaseSearchText = searchText.toLowerCase();
+      this.listOfData = this.fullListOfData.filter(
+        (item) =>
+          item.name.toLowerCase().includes(lowerCaseSearchText) ||
+          item.categoryName.toLowerCase().includes(lowerCaseSearchText) ||
+          item.ingredients.toLowerCase().includes(lowerCaseSearchText),
+      );
+    }
+    this.pageIndex = 1;
+    this.cdr.detectChanges();
   }
 
   sortPrice = (a: Item, b: Item): number => a.price - b.price;

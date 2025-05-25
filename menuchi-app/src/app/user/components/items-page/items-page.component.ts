@@ -4,6 +4,7 @@ import { ModalService } from '../../services/modal/modal.service';
 import { ItemService } from '../../services/item/item.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ItemsTableComponent } from './items-table/items-table.component';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-items-page',
@@ -14,6 +15,9 @@ import { ItemsTableComponent } from './items-table/items-table.component';
 export class ItemsPageComponent implements OnInit {
   @ViewChild(ItemsTableComponent) itemsTable!: ItemsTableComponent;
 
+  searchText: string = '';
+  private searchInputSubject = new Subject<string>();
+
   constructor(
     private readonly titleService: TitleService,
     private readonly modalService: ModalService,
@@ -23,10 +27,18 @@ export class ItemsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.onPageChanged$.next('آیتم‌های غذایی');
+
+    this.searchInputSubject.pipe(debounceTime(500)).subscribe((searchValue) => {
+      this.itemsTable.filterItems(searchValue);
+    });
   }
 
   showModal(): void {
     this.modalService.openModal();
+  }
+
+  onSearchInputChange(searchValue: string): void {
+    this.searchInputSubject.next(searchValue);
   }
 
   deleteItems() {
