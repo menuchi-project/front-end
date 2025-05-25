@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import {
+  CategoryName,
   CategoryWithItemsResponse,
   CreateItemRequest,
   Item,
@@ -18,8 +19,10 @@ export class ItemService implements OnInit {
 
   private categoriesData = new Subject<CategoryWithItemsResponse>();
   private itemsData = new Subject<Item[]>();
+  private catNamesData = new Subject<CategoryName[]>();
   categoriesData$ = this.categoriesData.asObservable();
   itemsData$ = this.itemsData.asObservable();
+  catNamesData$ = this.catNamesData.asObservable();
 
   constructor(
     private httpClient: HttpClient,
@@ -67,6 +70,14 @@ export class ItemService implements OnInit {
       `${this.apiUrl}/items/${itemId}`,
       newItem,
     );
+  }
+
+  getBacklogCatNames() {
+    return this.httpClient
+      .get<CategoryName[]>(this.apiUrl + '/category-names')
+      .subscribe((cats) => {
+        this.catNamesData.next(cats);
+      });
   }
 
   reorderInCategory(itemIds: string[]) {

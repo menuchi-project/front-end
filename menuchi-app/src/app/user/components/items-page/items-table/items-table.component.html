@@ -66,11 +66,18 @@
             />
           </td>
           <td>
-            <input
-              type="text"
-              nz-input
+            <nz-select
               [(ngModel)]="editCache[data.id].data.categoryName"
-            />
+              nzShowSearch
+              style="width: 100%"
+            >
+              @for (cat of categories; track cat.id) {
+                <nz-option
+                  [nzLabel]="cat.name"
+                  [nzValue]="cat.name"
+                ></nz-option>
+              }
+            </nz-select>
           </td>
           <td>
             <input

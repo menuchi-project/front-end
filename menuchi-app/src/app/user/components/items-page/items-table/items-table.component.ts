@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Item, UpdateItemRequest } from '../../../models/Item';
+import { CategoryName, Item, UpdateItemRequest } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
   selector: 'app-items-table',
@@ -18,11 +19,13 @@ export class ItemsTableComponent implements OnInit {
   listOfCurrentPageData: readonly Item[] = [];
   setOfCheckedId = new Set<string>();
   editCache: { [key: string]: { edit: boolean; data: Item } } = {};
+  categories: CategoryName[] = [];
 
   constructor(
     private itemService: ItemService,
     private imageService: NzImageService,
     private messageService: NzMessageService,
+    private categoryService: CategoryService,
   ) {}
 
   ngOnInit(): void {
@@ -34,11 +37,23 @@ export class ItemsTableComponent implements OnInit {
         this.updateEditCache();
       },
       error: (error) => {
-        console.log('error in items table, line 29:', error);
+        console.log('error in items table, line 40:', error);
       },
     });
 
     this.updateEditCache();
+
+    this.itemService.getBacklogCatNames();
+
+    this.itemService.catNamesData$.subscribe({
+      next: (response: CategoryName[]) => {
+        this.categories = response;
+        this.updateEditCache();
+      },
+      error: (error: any) => {
+        console.log('error in items table, line 53:', error);
+      },
+    });
   }
 
   sortPrice = (a: Item, b: Item): number => a.price - b.price;
@@ -100,6 +115,13 @@ export class ItemsTableComponent implements OnInit {
 
   saveEdit(id: string): void {
     const editedItem = this.editCache[id].data;
+    console.log(14, editedItem);
+
+    const selectedCategory = this.categories.find(
+      (cat) => cat.id === editedItem.categoryId,
+    );
+
+    console.log(13, selectedCategory);
 
     const updatePayload: UpdateItemRequest = {
       name: editedItem.name,
@@ -115,6 +137,9 @@ export class ItemsTableComponent implements OnInit {
         const index = this.listOfData.findIndex((item) => item.id === id);
         if (index !== -1) {
           Object.assign(this.listOfData[index], editedItem);
+          if (selectedCategory) {
+            this.listOfData[index].categoryName = 'selectedCategory.name;';
+          }
           this.editCache[id] = {
             edit: false,
             data: { ...editedItem },
