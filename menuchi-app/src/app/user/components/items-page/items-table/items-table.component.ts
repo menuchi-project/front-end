@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Item, UpdateItemRequest } from '../../../models/Item';
+import { CategoryName, Item, UpdateItemRequest } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -13,16 +13,23 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class ItemsTableComponent implements OnInit {
   listOfData: Item[] = [];
+  fullListOfData: Item[] = [];
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly Item[] = [];
   setOfCheckedId = new Set<string>();
   editCache: { [key: string]: { edit: boolean; data: Item } } = {};
+  categories: CategoryName[] = [];
+
+  pageSize: number = 10;
+  pageSizeOptions: number[] = [5, 10, 20, 50];
+  pageIndex: number = 1;
 
   constructor(
     private itemService: ItemService,
     private imageService: NzImageService,
     private messageService: NzMessageService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -30,15 +37,47 @@ export class ItemsTableComponent implements OnInit {
 
     this.itemService.itemsData$.subscribe({
       next: (response: Item[]) => {
-        this.listOfData = response;
+        this.fullListOfData = response;
+        this.listOfData = [...this.fullListOfData];
         this.updateEditCache();
+        this.cdr.detectChanges();
       },
       error: (error) => {
-        console.log('error in items table, line 29:', error);
+        console.log('error in items table, line 40:', error);
       },
     });
 
-    this.updateEditCache();
+    this.itemService.getBacklogCatNames();
+
+    this.itemService.catNamesData$.subscribe({
+      next: (response: CategoryName[]) => {
+        this.categories = response;
+        this.updateEditCache();
+        this.cdr.detectChanges();
+      },
+      error: (error: any) => {
+        console.log('error in items table, line 53:', error);
+      },
+    });
+  }
+
+  filterItems(searchText: string): void {
+    if (!searchText) {
+      this.listOfData = [...this.fullListOfData];
+    } else {
+      const lowerCaseSearchText = searchText.toLowerCase();
+      this.listOfData = this.fullListOfData.filter(
+        (item) =>
+          item.name.toLowerCase().includes(lowerCaseSearchText) ||
+          item.price.toString().includes(lowerCaseSearchText) ||
+          item.categoryName.toLowerCase().includes(lowerCaseSearchText) ||
+          item.ingredients.toLowerCase().includes(lowerCaseSearchText),
+      );
+    }
+    this.pageIndex = 1;
+    this.setOfCheckedId.clear();
+    this.refreshCheckedStatus();
+    this.cdr.detectChanges();
   }
 
   sortPrice = (a: Item, b: Item): number => a.price - b.price;
@@ -48,6 +87,7 @@ export class ItemsTableComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.listOfData, event.previousIndex, event.currentIndex);
+    this.itemService.reorderInItemsList(this.listOfData.map((i) => i.id));
   }
 
   updateCheckedSet(id: string, checked: boolean): void {
@@ -75,10 +115,26 @@ export class ItemsTableComponent implements OnInit {
     this.refreshCheckedStatus();
   }
 
+  onPageIndexChange(index: number): void {
+    this.pageIndex = index;
+    this.refreshCheckedStatus();
+    this.cdr.detectChanges();
+  }
+
+  onPageSizeChange(size: number): void {
+    this.pageSize = size;
+    this.pageIndex = 1;
+    this.listOfData = [...this.listOfData];
+    this.refreshCheckedStatus();
+    this.cdr.detectChanges();
+  }
+
   refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every((item) =>
-      this.setOfCheckedId.has(item.id),
-    );
+    this.checked =
+      this.listOfCurrentPageData.length > 0 &&
+      this.listOfCurrentPageData.every((item) =>
+        this.setOfCheckedId.has(item.id),
+      );
     this.indeterminate =
       this.listOfCurrentPageData.some((item) =>
         this.setOfCheckedId.has(item.id),
@@ -100,6 +156,10 @@ export class ItemsTableComponent implements OnInit {
   saveEdit(id: string): void {
     const editedItem = this.editCache[id].data;
 
+    const selectedCategory = this.categories.find(
+      (cat) => cat.categoryId === editedItem.categoryId,
+    );
+
     const updatePayload: UpdateItemRequest = {
       name: editedItem.name,
       ingredients: editedItem.ingredients,
@@ -111,9 +171,13 @@ export class ItemsTableComponent implements OnInit {
 
     this.itemService.updateItem(editedItem.id, updatePayload).subscribe({
       next: () => {
+        this.itemService.getCategoriesWithItems().subscribe();
         const index = this.listOfData.findIndex((item) => item.id === id);
         if (index !== -1) {
           Object.assign(this.listOfData[index], editedItem);
+          if (selectedCategory) {
+            this.listOfData[index].categoryName = selectedCategory.name;
+          }
           this.editCache[id] = {
             edit: false,
             data: { ...editedItem },
@@ -156,7 +220,7 @@ export class ItemsTableComponent implements OnInit {
           src: picUrl,
         },
       ],
-      { nzZoom: 1.5, nzRotate: 0 },
+      { nzZoom: 1, nzRotate: 0 },
     );
   }
 

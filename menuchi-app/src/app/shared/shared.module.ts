@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
 import {
   NzMenuDirective,
@@ -20,6 +20,16 @@ import { UploadBoxComponent } from './components/upload-box/upload-box.component
 import { NzModalComponent, NzModalModule } from 'ng-zorro-antd/modal';
 import { NzProgressComponent } from 'ng-zorro-antd/progress';
 import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
+import { HorizontalScrollerComponent } from './components/horizontal-scroller/horizontal-scroller.component';
+import { PersianPricePipe } from './pipes/persian-price/persian-price.pipe';
+import { ItemCardComponent } from './components/item-card/item-card.component';
+import { CdkDrag, CdkDragPreview } from '@angular/cdk/drag-drop';
+import { NzCardComponent, NzCardMetaComponent } from 'ng-zorro-antd/card';
+import {
+  NzDropDownDirective,
+  NzDropdownMenuComponent,
+} from 'ng-zorro-antd/dropdown';
+import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 
 @NgModule({
   declarations: [
@@ -27,6 +37,10 @@ import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
     TruncatePipe,
     UploadBoxComponent,
     PersianNumberPipe,
+    HorizontalScrollerComponent,
+    PersianPricePipe,
+    PersianNumberPipe,
+    ItemCardComponent,
   ],
   imports: [
     CommonModule,
@@ -44,12 +58,24 @@ import { PersianNumberPipe } from './pipes/persian-number/persian-number.pipe';
     NzModalComponent,
     NzModalModule,
     NzProgressComponent,
+    NgOptimizedImage,
+    CdkDrag,
+    NzCardComponent,
+    NzCardMetaComponent,
+    NzDropDownDirective,
+    NzDropdownMenuComponent,
+    NzPopconfirmDirective,
+    CdkDragPreview,
   ],
   exports: [
     BreadcrumbComponent,
     TruncatePipe,
     UploadBoxComponent,
     PersianNumberPipe,
+    HorizontalScrollerComponent,
+    PersianPricePipe,
+    PersianNumberPipe,
+    ItemCardComponent,
   ],
 })
 export class SharedModule {}

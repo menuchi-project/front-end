@@ -5,7 +5,7 @@
     </button>
 
     <div>
-      <h2>{{ getPersianMonth() }} {{ getPersianYear() }}</h2>
+      <h2>{{ getPersianMonth() }} {{ getPersianYear() | persianNumber }}</h2>
     </div>
 
     <button class="nav-button next-button" (click)="nextWeek()">

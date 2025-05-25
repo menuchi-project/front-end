@@ -114,10 +114,9 @@ export class UploadBoxComponent implements ControlValueAccessor {
             .subscribe({
               next: () => {
                 this.messageService.success(' تصویر با موفقیت آپلود شد.');
-                // Update the existing file entry instead of replacing the array
                 const updatedFile: NzUploadFile = {
                   ...file,
-                  status: 'done' as const, // Explicitly type as UploadFileStatus
+                  status: 'done' as const,
                   url: itemPicUrl.split('?')[0],
                 };
                 this.fileList = this.fileList.map((f) =>

@@ -45,9 +45,18 @@
           <div>
             <div class="ingredients">
               <h3>مواد اولیه:</h3>
-              <p>{{ data.ingredients | truncate: 35 }}</p>
+              <p
+                [innerHTML]="
+                  data.ingredients | truncate: 35 | highlight: searchTerm
+                "
+              ></p>
             </div>
-            <div class="price">{{ data.price | persianNumber }} تومان</div>
+            <span
+              class="price"
+              [innerHTML]="
+                (data.price | persianPrice) + ' تومان' | highlight: searchTerm
+              "
+            ></span>
           </div>
 
           <div class="item-image">
@@ -57,7 +66,7 @@
       </ng-template>
       <ng-template #cardTitle>
         <div class="header">
-          <h4>{{ data.name }}</h4>
+          <h4 [innerHTML]="data.name | highlight: searchTerm"></h4>
           <nz-icon
             nzTrigger="click"
             nzType="more"
@@ -67,7 +76,9 @@
           />
           <nz-dropdown-menu #menu1="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item class="dropdown-item">ویرایش آیتم</li>
+              <li nz-menu-item class="dropdown-item" (click)="editItem(data)">
+                ویرایش آیتم
+              </li>
               <li nz-menu-item class="dropdown-item">انتقال به دسته‌بندی</li>
               <li
                 nz-menu-item
@@ -84,7 +95,7 @@
         </div>
       </ng-template>
       <ng-template #cardPreview>
-        <h4>{{ data.name }}</h4>
+        <h4 [innerHTML]="data.name | highlight: searchTerm"></h4>
         <img [ngSrc]="data.picUrl" alt="" height="150" width="150" />
       </ng-template>
     }
@@ -100,5 +111,3 @@
     </button>
   </div>
 </div>
-
-<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>

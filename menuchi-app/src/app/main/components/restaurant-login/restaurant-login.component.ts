@@ -4,6 +4,7 @@ import { LoginRequest } from '../../models/Auth';
 import { AuthService } from '../../services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+import { UserService } from '../../../user/services/user/user.service';
 
 @Component({
   selector: 'app-restaurant-login',
@@ -26,13 +27,13 @@ export class RestaurantLoginComponent {
 
   constructor(
     private readonly authService: AuthService,
+    private readonly userService: UserService,
     private readonly messageService: NzMessageService,
     private readonly router: Router,
   ) {}
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
       let request: LoginRequest = {
         password: this.validateForm.value['password']!,
         phoneNumber: this.validateForm.value['username']!,
@@ -41,22 +42,27 @@ export class RestaurantLoginComponent {
       this.authService.login(request).subscribe({
         next: (response) => {
           if (response) {
-            this.authService.fetchUserProfile().subscribe((user) => {
-              if (user) {
-                this.messageService.success(' شما با موفقیت وارد شدید.');
-                this.router.navigate(['/dashboard']);
-              } else {
+            this.authService.fetchUserProfile().subscribe({
+              next: (user) => {
+                if (user) {
+                  this.messageService.success('شما با موفقیت وارد شدید.');
+                  this.router.navigate(['/dashboard']);
+                } else {
+                  this.messageService.error('مشکلی در دریافت پروفایل پیش آمد!');
+                }
+              },
+              error: () => {
                 this.messageService.error('مشکلی در دریافت پروفایل پیش آمد!');
-              }
+              },
             });
           } else {
-            this.messageService.error(' خطا در ورود!');
+            this.messageService.error('خطا در ورود!');
           }
         },
         error: (error) => {
           console.log('خطا در ورود: ', error);
-            this.messageService.error(' اطلاعات وارد شده صحیح نمی‌باشند.');
-         },
+          this.messageService.error('اطلاعات وارد شده صحیح نمی‌باشند.');
+        },
       });
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
