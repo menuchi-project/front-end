@@ -32,22 +32,25 @@
     </button>
   </div>
 
-  <div
-    class="cats-container"
-    cdkDropList
-    cdkScrollable
-    [cdkDropListAutoScrollStep]="25"
-    cdkDropListOrientation="horizontal"
-    [cdkDropListData]="lists"
-    (cdkDropListDropped)="onListDropped($event)"
-  >
-    <div *ngFor="let list of filteredLists" cdkDrag class="cat-container">
-      <app-category
-        [list]="list"
-        [connectedLists]="allConnectedLists"
-        (itemDropped)="onItemDropped($event)"
-      ></app-category>
+  <nz-spin [nzSpinning]="isLoading" nzSize="large" nzTip="در حال بارگذاری...">
+    <div
+      class="cats-container"
+      cdkDropList
+      cdkScrollable
+      [cdkDropListAutoScrollStep]="25"
+      cdkDropListOrientation="horizontal"
+      [cdkDropListData]="lists"
+      (cdkDropListDropped)="onListDropped($event)"
+    >
+      <div *ngFor="let list of filteredLists" cdkDrag class="cat-container">
+        <app-category
+          [list]="list"
+          [connectedLists]="allConnectedLists"
+          (itemDropped)="onItemDropped($event)"
+        ></app-category>
+      </div>
     </div>
-  </div>
+  </nz-spin>
+
   <app-add-item></app-add-item>
 </div>

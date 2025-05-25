@@ -13,7 +13,7 @@ import {
 import { TitleService } from '../../../shared/services/title/title.service';
 import { ModalService } from '../../services/modal/modal.service';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-categories-page',
@@ -26,6 +26,7 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
   allConnectedLists: string[] = [];
   _searchTerm: string = '';
   filteredLists: Category[] = [];
+  isLoading: boolean = false;
 
   private searchSubject = new Subject<string>();
   private subscriptions: Subscription[] = [];
@@ -47,27 +48,32 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const categoriesSubscription = this.itemService.categoriesData$.subscribe({
-      next: (response: CategoryWithItemsResponse) => {
-        this.lists = response.categories;
-        this.allConnectedLists = this.lists.map((l) => l.id);
-        this.filterItems();
-      },
-      error: (error) => {
-        console.log('error in categories page, line 36:', error);
-      },
-    });
+    this.isLoading = true;
+    const categoriesSubscription = this.itemService
+      .getCategoriesWithItems()
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (response: CategoryWithItemsResponse) => {
+          this.lists = response.categories;
+          this.allConnectedLists = this.lists.map((l) => l.id);
+          this.filterItems();
+        },
+        error: (error: any) => {
+          console.log('error in categories page:', error);
+        },
+      });
     this.subscriptions.push(categoriesSubscription);
 
     const searchSubscription = this.searchSubject
       .pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((searchTerm) => {
+      .subscribe(() => {
+        this.isLoading = true;
         this.filterItems();
         this.cdr.detectChanges();
+        this.isLoading = false;
       });
     this.subscriptions.push(searchSubscription);
 
-    this.itemService.getCategoriesWithItems();
     this.titleService.onPageChanged$.next('بک‌لاگ');
   }
 
@@ -89,10 +95,15 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
         event.previousIndex,
         event.currentIndex,
       );
-      this.itemService.reorderInCategory(
-        this.lists[currIndex].items.map((i) => i.id),
-      );
+      this.itemService
+        .reorderInCategory(this.lists[currIndex].items.map((i) => i.id))
+        .subscribe({
+          next: () => console.log('Reordered in category successfully'),
+          error: (error) =>
+            console.error('Error reordering in category:', error),
+        });
     } else {
+      this.isLoading = true;
       const movedItem = this.lists[prevIndex].items[event.previousIndex];
       const newCategoryId = this.lists[currIndex].id;
 
@@ -112,31 +123,50 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
         picKey: null,
       };
 
-      this.itemService.updateItem(movedItem.id, updateRequest).subscribe({
-        next: () => {
-          this.itemService.reorderInCategory(
-            this.lists[currIndex].items.map((i) => i.id),
-          );
-        },
-        error: (error) => {
-          transferArrayItem(
-            this.lists[currIndex].items,
-            this.lists[prevIndex].items,
-            event.currentIndex,
-            event.previousIndex,
-          );
-        },
-      });
+      this.itemService
+        .updateItem(movedItem.id, updateRequest)
+        .pipe(finalize(() => (this.isLoading = false)))
+        .subscribe({
+          next: () => {
+            this.itemService
+              .reorderInCategory(this.lists[currIndex].items.map((i) => i.id))
+              .subscribe({
+                next: () =>
+                  console.log('Reordered in new category successfully'),
+                error: (error) =>
+                  console.error('Error reordering in new category:', error),
+              });
+          },
+          error: (error: any) => {
+            transferArrayItem(
+              this.lists[currIndex].items,
+              this.lists[prevIndex].items,
+              event.currentIndex,
+              event.previousIndex,
+            );
+          },
+        });
     }
 
     this.cdr.detectChanges();
   }
 
   onListDropped(event: CdkDragDrop<any[]>) {
+    this.isLoading = true;
     moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
 
     this.cdr.detectChanges();
-    this.itemService.reorderCategories(this.lists.map((c) => c.id));
+    this.itemService
+      .reorderCategories(this.lists.map((c) => c.id))
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (response: any) => {
+          console.log('Categories reordered successfully:', response);
+        },
+        error: (error: any) => {
+          console.error('Error reordering categories:', error);
+        },
+      });
   }
 
   showModal(): void {

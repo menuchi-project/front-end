@@ -4,6 +4,7 @@ import { ModalService } from '../../../services/modal/modal.service';
 import { Category, Item } from '../../../models/Item';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ItemService } from '../../../services/item/item.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-category',
@@ -39,17 +40,21 @@ export class CategoryComponent {
 
   confirmDelete(id: string): void {
     this.loading = true;
-    this.itemService.deleteItems([id]).subscribe({
-      next: () => {
-        this.messageService.info(' آیتم با موفقیت حذف شد.');
-        this.itemService.getCategoriesWithItems();
-      },
-      error: (error) => {
-        this.messageService.error(' مشکلی در حذف آیتم به وجود آمد!');
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
+    this.itemService
+      .deleteItems([id])
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.messageService.info(' آیتم با موفقیت حذف شد.');
+          this.itemService.getCategoriesWithItems();
+        },
+        error: (error) => {
+          this.messageService.error(' مشکلی در حذف آیتم به وجود آمد!');
+        },
+      });
   }
 }

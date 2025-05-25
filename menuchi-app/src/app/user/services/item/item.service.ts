@@ -34,12 +34,8 @@ export class ItemService implements OnInit {
 
   ngOnInit() {}
 
-  getCategoriesWithItems() {
-    return this.httpClient
-      .get<CategoryWithItemsResponse>(this.apiUrl)
-      .subscribe((cats) => {
-        this.categoriesData.next(cats);
-      });
+  getCategoriesWithItems(): Observable<CategoryWithItemsResponse> {
+    return this.httpClient.get<CategoryWithItemsResponse>(this.apiUrl);
   }
 
   geAllItems() {
@@ -50,11 +46,11 @@ export class ItemService implements OnInit {
       });
   }
 
-  createItem(newItem: CreateItemRequest) {
+  createItem(newItem: CreateItemRequest): Observable<any> {
     return this.httpClient.post(this.apiUrl + '/items', newItem);
   }
 
-  deleteItems(itemIds: string[]) {
+  deleteItems(itemIds: string[]): Observable<any> {
     const options = {
       body: itemIds,
       headers: {
@@ -80,27 +76,21 @@ export class ItemService implements OnInit {
       });
   }
 
-  reorderInCategory(itemIds: string[]) {
-    this.httpClient
-      .patch(this.apiUrl + '/reorder-items/in-category', itemIds)
-      .subscribe((r) => {
-        console.log(r);
-      });
+  reorderInCategory(itemIds: string[]): Observable<any> {
+    return this.httpClient.patch(
+      this.apiUrl + '/reorder-items/in-category',
+      itemIds,
+    );
   }
 
-  reorderInItemsList(itemIds: string[]) {
-    this.httpClient
-      .patch(this.apiUrl + '/reorder-items/in-list', itemIds)
-      .subscribe((r) => {
-        console.log(r);
-      });
+  reorderInItemsList(itemIds: string[]): Observable<any> {
+    return this.httpClient.patch(
+      this.apiUrl + '/reorder-items/in-list',
+      itemIds,
+    );
   }
 
-  reorderCategories(catIds: string[]) {
-    this.httpClient
-      .patch(this.apiUrl + '/reorder-categories', catIds)
-      .subscribe((r) => {
-        console.log(r);
-      });
+  reorderCategories(catIds: string[]): Observable<any> {
+    return this.httpClient.patch(this.apiUrl + '/reorder-categories', catIds);
   }
 }
