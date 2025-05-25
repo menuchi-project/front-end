@@ -59,7 +59,12 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     this.itemService.catNamesData$.subscribe({
       next: (response: CategoryName[]) => {
         this.categories = response;
-        this.trySetCategoryFromInput();
+
+        if (this.isEditMode && this.editingItem) {
+          this.populateFormForEdit(this.editingItem);
+        } else {
+          this.trySetCategoryFromInput();
+        }
       },
       error: (error) => {
         console.error('error in add item, line 63:', error);
@@ -113,8 +118,10 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
       ingredients: item.ingredients,
       image: null, // todo
     });
+
     this.validateForm.get('category')?.setValue(item.categoryId);
     this.validateForm.get('category')?.disable();
+
     console.log(
       117,
       this.validateForm.get('category')?.getRawValue(),
