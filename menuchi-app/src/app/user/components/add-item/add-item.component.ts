@@ -18,6 +18,7 @@ import {
   UpdateItemRequest,
 } from '../../models/Item';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { CategoryService } from '../../services/category/category.service';
 
 @Component({
   selector: 'app-add-item',
@@ -37,6 +38,8 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   private destroy$ = new Subject<void>();
 
   categories: CategoryName[] = [];
+  backlogCategoryNames: CategoryName[] = [];
+  defaultCategoryNames: CategoryName[] = [];
 
   validateForm = this.fb.group({
     itemName: this.fb.control('', Validators.required),
@@ -49,22 +52,29 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private readonly modalService: ModalService,
     private readonly itemService: ItemService,
+    private readonly categoryService: CategoryService,
     private readonly messageService: NzMessageService,
   ) {}
+
+  isAddModal = () => !this.isEditMode && this.categorySelected == null;
 
   ngOnInit(): void {
     this.itemService.geAllItems();
     this.itemService.getBacklogCatNames();
+    this.categoryService.getCategoryNames();
 
     this.itemService.catNamesData$.subscribe({
       next: (response: CategoryName[]) => {
-        this.categories = response;
+        this.backlogCategoryNames = response;
 
-        if (this.isEditMode && this.editingItem) {
-          this.populateFormForEdit(this.editingItem);
-        } else {
-          this.trySetCategoryFromInput();
-        }
+        this.categoryService.getCategoryNamesData$.subscribe({
+          next: (response: CategoryName[]) => {
+            this.defaultCategoryNames = response;
+          },
+          error: (error) => {
+            console.error('error in add item, line 63:', error);
+          },
+        });
       },
       error: (error) => {
         console.error('error in add item, line 63:', error);
@@ -79,6 +89,18 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           this.categorySelected = modalState.categoryId;
           this.editingItem = modalState.itemToEdit;
           this.isEditMode = !!modalState.itemToEdit;
+
+          this.categoryService.getCategoryNames();
+          this.categories = this.backlogCategoryNames;
+
+          if (this.isAddModal()) {
+            const diff = this.defaultCategoryNames.filter(
+              (item) => !this.backlogCategoryNames.find((c) => c.id == item.id),
+            );
+
+            this.categories.push(...diff);
+          }
+          console.log(113, this.categories, this.categorySelected);
 
           if (this.isEditMode && this.editingItem) {
             this.populateFormForEdit(this.editingItem);
@@ -167,6 +189,8 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           (c) => c.categoryId == formValues.category,
         )?.id!;
 
+        if (!findCatNameId) findCatNameId = formValues.category;
+
         let newItem: CreateItemRequest = {
           categoryNameId: findCatNameId,
           name: formValues.itemName!,
@@ -174,6 +198,8 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           price: parseFloat(formValues.price!.toString()),
           picKey: null, //todo
         };
+
+        console.log(197, newItem);
 
         this.itemService.createItem(newItem).subscribe({
           next: (response) => {
