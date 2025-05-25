@@ -48,21 +48,17 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isLoading = true; // لودینگ را در اینجا فعال می‌کنیم
-
-    // سابسکرایب به BehaviorSubject در سرویس
-    // finalize در اینجا فقط زمانی اجرا می‌شود که Observable کامل شود (که برای BehaviorSubject تا زمانی که complete() یا error() نشود، رخ نمی‌دهد)
-    // بنابراین، کنترل isLoading باید دقیق‌تر باشد.
+    this.isLoading = true;
     const categoriesSubscription = this.itemService.categoriesData$.subscribe({
       next: (response: CategoryWithItemsResponse) => {
         this.lists = response.categories;
         this.allConnectedLists = this.lists.map((l) => l.id);
         this.filterItems();
-        this.isLoading = false; // اینجا لودینگ را پس از دریافت داده غیرفعال می‌کنیم
+        this.isLoading = false;
       },
       error: (error: any) => {
         console.log('error in categories page:', error);
-        this.isLoading = false; // در صورت خطا نیز لودینگ را غیرفعال می‌کنیم
+        this.isLoading = false;
       },
     });
     this.subscriptions.push(categoriesSubscription);
@@ -91,6 +87,7 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
     );
 
     if (event.previousContainer === event.container) {
+      this.isLoading = true;
       moveItemInArray(
         this.filteredLists[prevIndex].items,
         event.previousIndex,
@@ -99,12 +96,16 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
       this.itemService
         .reorderInCategory(this.filteredLists[currIndex].items.map((i) => i.id))
         .subscribe({
-          next: () => console.log('Reordered in category successfully'),
-          error: (error) =>
-            console.error('Error reordering in category:', error),
+          next: () => {
+            this.isLoading = false;
+          },
+          error: (error) => {
+            console.error('Error reordering in category:', error);
+            this.isLoading = false;
+          },
         });
     } else {
-      this.isLoading = true; // لودینگ در شروع عملیات کشیدن و رها کردن فعال می‌شود
+      this.isLoading = true;
       const movedItem =
         this.filteredLists[prevIndex].items[event.previousIndex];
       const newCategoryId = this.filteredLists[currIndex].id;
@@ -127,19 +128,17 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
 
       this.itemService.updateItem(movedItem.id, updateRequest).subscribe({
         next: () => {
-          // پس از به‌روزرسانی آیتم، دوباره دسته‌بندی‌ها را بارگذاری کنید
           this.itemService
             .reorderInCategory(
               this.filteredLists[currIndex].items.map((i) => i.id),
             )
             .subscribe({
               next: () => {
-                console.log('Reordered in new category successfully');
-                this.isLoading = false; // لودینگ را در اینجا غیرفعال می‌کنیم
+                this.isLoading = false;
               },
               error: (error) => {
                 console.error('Error reordering in new category:', error);
-                this.isLoading = false; // در صورت خطا نیز لودینگ را غیرفعال می‌کنیم
+                this.isLoading = false;
               },
             });
         },
@@ -150,7 +149,7 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
             event.currentIndex,
             event.previousIndex,
           );
-          this.isLoading = false; // در صورت خطا لودینگ را غیرفعال می‌کنیم
+          this.isLoading = false;
         },
       });
     }
@@ -159,7 +158,7 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
   }
 
   onListDropped(event: CdkDragDrop<any[]>) {
-    this.isLoading = true; // لودینگ در شروع عملیات کشیدن و رها کردن فعال می‌شود
+    this.isLoading = true;
     moveItemInArray(
       this.filteredLists,
       event.previousIndex,
@@ -171,9 +170,8 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
       .reorderCategories(this.filteredLists.map((c) => c.id))
       .subscribe({
         next: (response: any) => {
-          console.log('Categories reordered successfully:', response);
           this.syncFilteredListsToOriginal();
-          this.isLoading = false; // لودینگ را در اینجا غیرفعال می‌کنیم
+          this.isLoading = false;
         },
         error: (error: any) => {
           console.error('Error reordering categories:', error);
@@ -183,7 +181,7 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
             event.previousIndex,
           );
           this.syncFilteredListsToOriginal();
-          this.isLoading = false; // در صورت خطا لودینگ را غیرفعال می‌کنیم
+          this.isLoading = false;
         },
       });
   }

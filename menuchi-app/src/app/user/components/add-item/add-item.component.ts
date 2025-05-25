@@ -59,7 +59,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
         this.trySetCategoryFromInput();
       },
       error: (error) => {
-        console.log('error in add item, line 63:', error);
+        console.error('error in add item, line 63:', error);
       },
     });
 

@@ -133,8 +133,6 @@ export class SelectItemsDrawerComponent implements OnInit {
       panel.items.some((item) => this.selectedItemIds.has(item.id)),
     );
 
-    console.log(11, selectedCategory);
-
     const categoryId = selectedCategory?.id;
 
     const body = {

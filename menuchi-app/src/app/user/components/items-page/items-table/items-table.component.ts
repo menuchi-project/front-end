@@ -115,13 +115,10 @@ export class ItemsTableComponent implements OnInit {
 
   saveEdit(id: string): void {
     const editedItem = this.editCache[id].data;
-    console.log(14, editedItem);
 
     const selectedCategory = this.categories.find(
       (cat) => cat.id === editedItem.categoryId,
     );
-
-    console.log(13, selectedCategory);
 
     const updatePayload: UpdateItemRequest = {
       name: editedItem.name,
