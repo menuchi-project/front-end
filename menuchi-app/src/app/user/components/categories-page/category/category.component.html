@@ -46,10 +46,17 @@
             <div class="ingredients">
               <h3>مواد اولیه:</h3>
               <p
-                [innerHTML]="highlightText(data.ingredients | truncate: 35)"
+                [innerHTML]="
+                  data.ingredients | truncate: 35 | highlight: searchTerm
+                "
               ></p>
             </div>
-            <div class="price">{{ data.price | persianPrice }} تومان</div>
+            <span
+              class="price"
+              [innerHTML]="
+                (data.price | persianPrice) + ' تومان' | highlight: searchTerm
+              "
+            ></span>
           </div>
 
           <div class="item-image">
@@ -59,7 +66,7 @@
       </ng-template>
       <ng-template #cardTitle>
         <div class="header">
-          <h4 [innerHTML]="highlightText(data.name)"></h4>
+          <h4 [innerHTML]="data.name | highlight: searchTerm"></h4>
           <nz-icon
             nzTrigger="click"
             nzType="more"
@@ -88,7 +95,7 @@
         </div>
       </ng-template>
       <ng-template #cardPreview>
-        <h4 [innerHTML]="highlightText(data.name)"></h4>
+        <h4 [innerHTML]="data.name | highlight: searchTerm"></h4>
         <img [ngSrc]="data.picUrl" alt="" height="150" width="150" />
       </ng-template>
     }

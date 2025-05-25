@@ -196,6 +196,7 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
         items: category.items.filter(
           (item) =>
             item.name.toLowerCase().includes(this._searchTerm.toLowerCase()) ||
+            item.price.toString().includes(this._searchTerm.toLowerCase()) ||
             item.ingredients
               .toLowerCase()
               .includes(this._searchTerm.toLowerCase()),

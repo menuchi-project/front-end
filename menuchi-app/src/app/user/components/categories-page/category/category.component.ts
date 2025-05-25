@@ -12,7 +12,6 @@ import { Category, Item } from '../../../models/Item';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ItemService } from '../../../services/item/item.service';
 import { finalize } from 'rxjs/operators';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-category',
@@ -33,13 +32,9 @@ export class CategoryComponent implements OnChanges {
     private readonly modalService: ModalService,
     private readonly messageService: NzMessageService,
     private readonly itemService: ItemService,
-    private sanitizer: DomSanitizer,
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['searchTerm'] || changes['list']) {
-    }
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   drop2(event: CdkDragDrop<any[]>) {
     this.itemDropped.emit(event);
@@ -83,21 +78,5 @@ export class CategoryComponent implements OnChanges {
           this.messageService.error(' مشکلی در حذف آیتم به وجود آمد!');
         },
       });
-  }
-
-  highlightText(text: string): SafeHtml {
-    if (!this.searchTerm || !text) {
-      return this.sanitizer.bypassSecurityTrustHtml(text);
-    }
-    const escapedSearchTerm = this.searchTerm.replace(
-      /[.*+?^${}()|[\]\\]/g,
-      '\\$&',
-    );
-    const regex = new RegExp(`(${escapedSearchTerm})`, 'gi');
-    const highlightedText = text.replace(
-      regex,
-      '<span class="highlight">$&</span>',
-    );
-    return this.sanitizer.bypassSecurityTrustHtml(highlightedText);
   }
 }
