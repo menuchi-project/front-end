@@ -157,7 +157,7 @@ export class ItemsTableComponent implements OnInit {
     const editedItem = this.editCache[id].data;
 
     const selectedCategory = this.categories.find(
-      (cat) => cat.id === editedItem.categoryId,
+      (cat) => cat.categoryId === editedItem.categoryId,
     );
 
     const updatePayload: UpdateItemRequest = {
@@ -171,6 +171,7 @@ export class ItemsTableComponent implements OnInit {
 
     this.itemService.updateItem(editedItem.id, updatePayload).subscribe({
       next: () => {
+        this.itemService.getCategoriesWithItems().subscribe();
         const index = this.listOfData.findIndex((item) => item.id === id);
         if (index !== -1) {
           Object.assign(this.listOfData[index], editedItem);

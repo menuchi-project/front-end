@@ -72,14 +72,14 @@
           </td>
           <td>
             <nz-select
-              [(ngModel)]="editCache[data.id].data.categoryName"
+              [(ngModel)]="editCache[data.id].data.categoryId"
               nzShowSearch
               style="width: 100%"
             >
-              @for (cat of categories; track cat.id) {
+              @for (cat of categories; track cat.categoryId) {
                 <nz-option
                   [nzLabel]="cat.name"
-                  [nzValue]="cat.name"
+                  [nzValue]="cat.categoryId"
                 ></nz-option>
               }
             </nz-select>
