@@ -65,12 +65,10 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(categoriesSubscription);
 
     const searchSubscription = this.searchSubject
-      .pipe(debounceTime(300), distinctUntilChanged())
+      .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe(() => {
-        this.isLoading = true;
         this.filterItems();
         this.cdr.detectChanges();
-        this.isLoading = false;
       });
     this.subscriptions.push(searchSubscription);
 

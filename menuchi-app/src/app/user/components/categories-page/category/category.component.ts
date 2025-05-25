@@ -50,9 +50,18 @@ export class CategoryComponent {
       .subscribe({
         next: () => {
           this.messageService.info(' آیتم با موفقیت حذف شد.');
-          this.itemService.getCategoriesWithItems();
+          this.itemService.getCategoriesWithItems().subscribe({
+            next: (response) => {
+              this.list.items =
+                response.categories.find((cat) => cat.id === this.list.id)
+                  ?.items || [];
+            },
+            error: (error) => {
+              console.error('Error refreshing categories after delete:', error);
+            },
+          });
         },
-        error: (error) => {
+        error: (error: any) => {
           this.messageService.error(' مشکلی در حذف آیتم به وجود آمد!');
         },
       });
