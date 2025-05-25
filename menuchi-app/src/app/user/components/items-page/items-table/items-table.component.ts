@@ -4,7 +4,6 @@ import { CategoryName, Item, UpdateItemRequest } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
   selector: 'app-items-table',
@@ -76,6 +75,8 @@ export class ItemsTableComponent implements OnInit {
       );
     }
     this.pageIndex = 1;
+    this.setOfCheckedId.clear();
+    this.refreshCheckedStatus();
     this.cdr.detectChanges();
   }
 
@@ -116,6 +117,7 @@ export class ItemsTableComponent implements OnInit {
 
   onPageIndexChange(index: number): void {
     this.pageIndex = index;
+    this.refreshCheckedStatus();
     this.cdr.detectChanges();
   }
 
@@ -123,13 +125,16 @@ export class ItemsTableComponent implements OnInit {
     this.pageSize = size;
     this.pageIndex = 1;
     this.listOfData = [...this.listOfData];
+    this.refreshCheckedStatus();
     this.cdr.detectChanges();
   }
 
   refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every((item) =>
-      this.setOfCheckedId.has(item.id),
-    );
+    this.checked =
+      this.listOfCurrentPageData.length > 0 &&
+      this.listOfCurrentPageData.every((item) =>
+        this.setOfCheckedId.has(item.id),
+      );
     this.indeterminate =
       this.listOfCurrentPageData.some((item) =>
         this.setOfCheckedId.has(item.id),
