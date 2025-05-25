@@ -53,6 +53,9 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    this.itemService.geAllItems();
+    this.itemService.getBacklogCatNames();
+
     this.itemService.catNamesData$.subscribe({
       next: (response: CategoryName[]) => {
         this.categories = response;
@@ -83,9 +86,6 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
       error: (error) =>
         console.error('Modal error in add item, line 64:', error),
     });
-
-    this.itemService.geAllItems();
-    this.itemService.getBacklogCatNames();
   }
 
   ngOnDestroy(): void {
@@ -108,12 +108,19 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   populateFormForEdit(item: Item): void {
     this.validateForm.patchValue({
       itemName: item.name,
-      category: item.categoryId, // todo
+      category: item.categoryId,
       price: item.price,
       ingredients: item.ingredients,
       image: null, // todo
     });
+    this.validateForm.get('category')?.setValue(item.categoryId);
     this.validateForm.get('category')?.disable();
+    console.log(
+      117,
+      this.validateForm.get('category')?.getRawValue(),
+      item.categoryId,
+      this.categories,
+    );
   }
 
   submitForm(): void {
@@ -149,12 +156,12 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
             },
           });
       } else {
-        let findCatName = this.categories.find(
+        let findCatNameId = this.categories.find(
           (c) => c.categoryId == formValues.category,
         )?.id!;
 
         let newItem: CreateItemRequest = {
-          categoryNameId: findCatName,
+          categoryNameId: findCatNameId,
           name: formValues.itemName!,
           ingredients: formValues.ingredients!,
           price: parseFloat(formValues.price!.toString()),
@@ -164,8 +171,6 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
         this.itemService.createItem(newItem).subscribe({
           next: (response) => {
             this.messageService.success(' آیتم با موفقیت ایجاد شد.');
-            // این فراخوانی باعث می‌شود که getCategoriesWithItems
-            // فراخوانی شود و سپس categoriesData.next() را فعال کند
             this.itemService.getCategoriesWithItems().subscribe();
             this.modalService.closeModal();
             this.itemService.geAllItems();
@@ -193,23 +198,14 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
 
   private trySetCategoryFromInput(): void {
     const control = this.validateForm.get('category');
-    console.log(
-      'Category selected for modal (after categories loaded):',
-      this.categorySelected,
-      this.categories.map((c) => {
-        c.id;
-        c.categoryId;
-        c.name;
-      }),
-    );
 
     if (this.categorySelected && this.categories.length > 0) {
       const exists = this.categories.find(
-        (cat) => cat.categoryId === this.categorySelected,
+        (cat) => cat.id === this.categorySelected,
       );
 
       if (exists) {
-        control?.setValue(this.categorySelected);
+        control?.setValue(exists.categoryId);
         control?.disable();
       } else {
         control?.enable();
