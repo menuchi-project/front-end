@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CategoryName, Item, UpdateItemRequest } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
 import { NzImageService } from 'ng-zorro-antd/image';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { CategoryService } from '../../../services/category/category.service';
 
 @Component({
   selector: 'app-items-table',
@@ -21,11 +20,15 @@ export class ItemsTableComponent implements OnInit {
   editCache: { [key: string]: { edit: boolean; data: Item } } = {};
   categories: CategoryName[] = [];
 
+  pageSize: number = 10;
+  pageSizeOptions: number[] = [5, 10, 20, 50];
+  pageIndex: number = 1;
+
   constructor(
     private itemService: ItemService,
     private imageService: NzImageService,
     private messageService: NzMessageService,
-    private categoryService: CategoryService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -35,13 +38,12 @@ export class ItemsTableComponent implements OnInit {
       next: (response: Item[]) => {
         this.listOfData = response;
         this.updateEditCache();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.log('error in items table, line 40:', error);
       },
     });
-
-    this.updateEditCache();
 
     this.itemService.getBacklogCatNames();
 
@@ -49,6 +51,7 @@ export class ItemsTableComponent implements OnInit {
       next: (response: CategoryName[]) => {
         this.categories = response;
         this.updateEditCache();
+        this.cdr.detectChanges();
       },
       error: (error: any) => {
         console.log('error in items table, line 53:', error);
@@ -89,6 +92,18 @@ export class ItemsTableComponent implements OnInit {
   onCurrentPageDataChange($event: readonly Item[]): void {
     this.listOfCurrentPageData = $event;
     this.refreshCheckedStatus();
+  }
+
+  onPageIndexChange(index: number): void {
+    this.pageIndex = index;
+    this.cdr.detectChanges();
+  }
+
+  onPageSizeChange(size: number): void {
+    this.pageSize = size;
+    this.pageIndex = 1;
+    this.listOfData = [...this.listOfData];
+    this.cdr.detectChanges();
   }
 
   refreshCheckedStatus(): void {
@@ -135,7 +150,7 @@ export class ItemsTableComponent implements OnInit {
         if (index !== -1) {
           Object.assign(this.listOfData[index], editedItem);
           if (selectedCategory) {
-            this.listOfData[index].categoryName = 'selectedCategory.name;';
+            this.listOfData[index].categoryName = selectedCategory.name;
           }
           this.editCache[id] = {
             edit: false,

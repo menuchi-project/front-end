@@ -1,8 +1,13 @@
 <nz-table
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+  (nzPageIndexChange)="onPageIndexChange($event)"
+  (nzPageSizeChange)="onPageSizeChange($event)"
   [nzData]="listOfData"
   [nzShowPagination]="true"
   [nzFrontPagination]="true"
+  [nzPageSize]="pageSize"
+  [nzPageSizeOptions]="pageSizeOptions"
+  [nzShowSizeChanger]="true"
   nzBordered
 >
   <thead>
@@ -21,7 +26,7 @@
     </tr>
   </thead>
   <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-    @for (data of listOfData; track data) {
+    @for (data of listOfCurrentPageData; track data.id) {
       <tr cdkDrag>
         <td
           [nzChecked]="setOfCheckedId.has(data.id)"
