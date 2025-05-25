@@ -100,7 +100,9 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   submitForm(): void {
     if (this.validateForm.valid) {
       let newItem: CreateItemRequest = {
-        categoryNameId: this.validateForm.value['category']!,
+        categoryNameId: this.categorySelected
+          ? this.categorySelected
+          : this.validateForm.value['category']!,
         name: this.validateForm.value['itemName']!,
         ingredients: this.validateForm.value['ingredients']!,
         price: parseFloat(this.validateForm.value['price']!),

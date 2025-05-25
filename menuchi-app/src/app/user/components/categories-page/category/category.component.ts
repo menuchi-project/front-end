@@ -30,7 +30,6 @@ export class CategoryComponent {
   }
 
   showAddItemModal(catNameId: string): void {
-    console.log(22, this.list, catNameId);
     this.modalService.openModal(this.list.categoryNameId);
   }
 
