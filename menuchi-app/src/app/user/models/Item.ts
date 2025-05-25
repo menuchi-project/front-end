@@ -47,7 +47,7 @@ export interface CreateItemRequest {
   name: string;
   ingredients: string;
   price: number;
-  picKey: string;
+  picKey: string | null;
 }
 
 export interface UpdateItemRequest {

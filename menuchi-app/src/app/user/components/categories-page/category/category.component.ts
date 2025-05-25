@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core'; //
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ModalService } from '../../../services/modal/modal.service'; //
-import { Category } from '../../../models/Item';
+import { ModalService } from '../../../services/modal/modal.service';
+import { Category, Item } from '../../../models/Item';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ItemService } from '../../../services/item/item.service';
 
@@ -30,7 +30,11 @@ export class CategoryComponent {
   }
 
   showAddItemModal(catNameId: string): void {
-    this.modalService.openModal(this.list.categoryNameId);
+    this.modalService.openModal(this.list.categoryNameId, null);
+  }
+
+  editItem(item: Item): void {
+    this.modalService.openModal(item.categoryId, item);
   }
 
   confirmDelete(id: string): void {

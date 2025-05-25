@@ -112,8 +112,4 @@ export class CategoriesPageComponent implements OnInit {
   showModal(): void {
     this.modalService.openModal(null);
   }
-
-  openModalForCategory(categoryId: string): void {
-    this.modalService.openModal(categoryId);
-  }
 }

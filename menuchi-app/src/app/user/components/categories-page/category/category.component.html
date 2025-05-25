@@ -67,7 +67,9 @@
           />
           <nz-dropdown-menu #menu1="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item class="dropdown-item">ویرایش آیتم</li>
+              <li nz-menu-item class="dropdown-item" (click)="editItem(data)">
+                ویرایش آیتم
+              </li>
               <li nz-menu-item class="dropdown-item">انتقال به دسته‌بندی</li>
               <li
                 nz-menu-item

@@ -2,7 +2,7 @@
   nzWidth="22rem"
   [nzStyle]="{ top: '2rem' }"
   [(nzVisible)]="isVisible"
-  nzTitle="ایجاد آیتم جدید"
+  [nzTitle]="isEditMode ? 'ویرایش آیتم' : 'ایجاد آیتم جدید'"
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
   [nzOkLoading]="isOkLoading"
@@ -16,7 +16,6 @@
       nzLayout="vertical"
       (ngSubmit)="submitForm()"
     >
-      <!-- نام آیتم -->
       <nz-form-item>
         <nz-form-label nzFor="itemName" nzRequired>نام آیتم</nz-form-label>
         <nz-form-control nzErrorTip="نام آیتم نمی‌تواند خالی باشد.">
@@ -29,7 +28,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!-- دسته بندی -->
       <nz-form-item>
         <nz-form-label nzRequired>دسته‌بندی</nz-form-label>
         <nz-form-control
@@ -43,7 +41,7 @@
             nzAllowClear
             nzPlaceHolder="یک دسته‌بندی انتخاب کنید"
             style="width: 100%"
-            [nzDisabled]="categorySelected != null"
+            [nzDisabled]="categorySelected != null || isEditMode"
           >
             @for (cat of categories; track cat.id) {
               <nz-option [nzLabel]="cat.name" [nzValue]="cat.id"></nz-option>
@@ -52,7 +50,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!-- قیمت -->
       <nz-form-item>
         <nz-form-label nzFor="price" nzRequired>قیمت</nz-form-label>
         <nz-form-control
@@ -74,7 +71,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!-- مواد تشکیل دهنده -->
       <nz-form-item>
         <nz-form-label nzFor="ingredients" nzRequired>
           مواد تشکیل‌دهنده
@@ -93,7 +89,6 @@
         </nz-form-control>
       </nz-form-item>
 
-      <!-- آپلود تصویر -->
       <nz-form-item>
         <nz-form-label>تصویر آیتم</nz-form-label>
         <nz-form-control [nzValidateStatus]="validateForm.controls['image']">
@@ -107,7 +102,9 @@
 
       <nz-form-item nz-row style="margin-block-start: 1rem">
         <nz-form-control>
-          <button nz-button nzType="primary" style="width: 100%">ایجاد</button>
+          <button nz-button nzType="primary" style="width: 100%">
+            {{ isEditMode ? "ذخیره تغییرات" : "ایجاد" }}
+          </button>
         </nz-form-control>
       </nz-form-item>
     </form>
