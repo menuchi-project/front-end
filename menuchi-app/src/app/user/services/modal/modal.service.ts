@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService {
-  private modalOpens = new Subject<boolean>();
+  private modalOpens = new Subject<{
+    isOpen: boolean;
+    categoryId: string | null;
+  }>();
   modalOpens$ = this.modalOpens.asObservable();
 
-  openModal() {
-    this.modalOpens.next(true);
+  openModal(categoryId: string | null = null) {
+    this.modalOpens.next({ isOpen: true, categoryId: categoryId });
   }
 
   closeModal() {
-    this.modalOpens.next(false);
+    this.modalOpens.next({ isOpen: false, categoryId: null });
   }
 }

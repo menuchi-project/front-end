@@ -17,7 +17,7 @@ export class CategoryComponent {
   @Input() list!: Category;
   @Input() connectedLists: string[] = [];
   @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
-  @Output() addItemWithCategory = new EventEmitter<string>();
+  // @Output() addItemWithCategory = new EventEmitter<string>(); // این خط را حذف کنید
   @Output() itemDeleted = new EventEmitter<string>();
 
   constructor(
@@ -30,13 +30,9 @@ export class CategoryComponent {
     this.itemDropped.emit(event);
   }
 
-  selectedCategoryForModal: string | null = null;
-
   showAddItemModal(catNameId: string): void {
-    // this.addItemWithCategory.emit(this.list.categoryNameId);
-    console.log(22, this.list);
-    this.selectedCategoryForModal = this.list.categoryNameId;
-    this.modalService.openModal();
+    console.log(22, this.list, catNameId);
+    this.modalService.openModal(this.list.categoryNameId);
   }
 
   confirmDelete(id: string): void {

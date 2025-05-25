@@ -22,7 +22,8 @@ import { ModalService } from '../../services/modal/modal.service';
 export class CategoriesPageComponent implements OnInit {
   lists: Category[] = [];
   allConnectedLists: string[] = [];
-  selectedCategoryForModal: string | null = null;
+  // selectedCategoryForModal دیگر مستقیماً نیازی نیست، چون از طریق سرویس منتقل می‌شود
+  // selectedCategoryForModal: string | null = null; // این خط دیگر ضرورتی ندارد
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -111,11 +112,12 @@ export class CategoriesPageComponent implements OnInit {
   }
 
   showModal(): void {
-    this.modalService.openModal();
+    // برای افزودن کلی، categoryId را null می‌فرستیم.
+    this.modalService.openModal(null);
   }
 
   openModalForCategory(categoryId: string): void {
-    this.selectedCategoryForModal = categoryId;
-    this.modalService.openModal();
+    // وقتی از داخل دسته‌بندی باز می‌شود، categoryId را ارسال می‌کنیم.
+    this.modalService.openModal(categoryId);
   }
 }

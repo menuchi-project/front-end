@@ -68,8 +68,8 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.modalService.modalOpens$.subscribe({
-      next: (isOpen) => {
-        this.isVisible = isOpen;
+      next: (modalState) => {
+        this.isVisible = modalState.isOpen;
       },
       error: (error) =>
         console.error('Modal error in select days, line 30:', error),

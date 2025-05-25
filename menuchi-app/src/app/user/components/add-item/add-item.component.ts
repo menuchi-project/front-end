@@ -22,6 +22,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrl: './add-item.component.scss',
 })
 export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
+  // Input را برای حالت "افزودن کلی" نگه می‌داریم، اما priority با categoryId از سرویس است.
   @Input() categorySelected: string | null = null;
 
   isOkLoading = false;
@@ -59,10 +60,11 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.modalService.modalOpens$.subscribe({
-      next: (isOpen) => {
-        this.isVisible = isOpen;
-        if (isOpen) {
+      next: (modalState) => {
+        this.isVisible = modalState.isOpen;
+        if (modalState.isOpen) {
           this.resetForm();
+          this.categorySelected = modalState.categoryId;
           this.trySetCategoryFromInput();
           this.categoryService.getCategoryNames();
         }
@@ -81,7 +83,9 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['categorySelected']) {
+    // این بخش هنوز می‌تواند برای تنظیم اولیه استفاده شود، اما مقدار سرویس ارجحیت دارد
+    if (changes['categorySelected'] && !this.isVisible) {
+      // فقط وقتی مودال باز نیست تغییرات Input را اعمال کن
       this.trySetCategoryFromInput();
     }
   }
@@ -137,8 +141,8 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
 
   private trySetCategoryFromInput(): void {
     const control = this.validateForm.get('category');
+    console.log('Category selected for modal:', this.categorySelected);
 
-    console.log(this.categorySelected);
     if (this.categorySelected && this.categories.length > 0) {
       const exists = this.categories.find(
         (cat) => cat.id === this.categorySelected,
@@ -146,7 +150,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
 
       if (exists) {
         control?.setValue(this.categorySelected);
-        control?.disable();
+        control?.disable(); // غیر فعال کردن فیلد
       }
     } else {
       control?.enable();
@@ -157,6 +161,6 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   resetForm(): void {
     this.validateForm.reset();
     this.validateForm.enable();
-    this.categorySelected = null;
+    this.categorySelected = null; // برای اطمینان از پاک شدن در هنگام بسته شدن
   }
 }
