@@ -30,7 +30,6 @@ export class ItemsTableComponent implements OnInit {
     private itemService: ItemService,
     private imageService: NzImageService,
     private messageService: NzMessageService,
-    private categoryService: CategoryService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -71,6 +70,7 @@ export class ItemsTableComponent implements OnInit {
       this.listOfData = this.fullListOfData.filter(
         (item) =>
           item.name.toLowerCase().includes(lowerCaseSearchText) ||
+          item.price.toString().includes(lowerCaseSearchText) ||
           item.categoryName.toLowerCase().includes(lowerCaseSearchText) ||
           item.ingredients.toLowerCase().includes(lowerCaseSearchText),
       );
@@ -214,7 +214,7 @@ export class ItemsTableComponent implements OnInit {
           src: picUrl,
         },
       ],
-      { nzZoom: 1.5, nzRotate: 0 },
+      { nzZoom: 1, nzRotate: 0 },
     );
   }
 
