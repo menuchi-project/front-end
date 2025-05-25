@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -12,6 +12,8 @@ import {
 } from '../../models/Item';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { ModalService } from '../../services/modal/modal.service';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-categories-page',
@@ -19,11 +21,14 @@ import { ModalService } from '../../services/modal/modal.service';
   templateUrl: './categories-page.component.html',
   styleUrl: './categories-page.component.scss',
 })
-export class CategoriesPageComponent implements OnInit {
+export class CategoriesPageComponent implements OnInit, OnDestroy {
   lists: Category[] = [];
   allConnectedLists: string[] = [];
-  searchTerm: string = '';
+  _searchTerm: string = '';
   filteredLists: Category[] = [];
+
+  private searchSubject = new Subject<string>();
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -32,20 +37,42 @@ export class CategoriesPageComponent implements OnInit {
     private readonly modalService: ModalService,
   ) {}
 
+  get searchTerm(): string {
+    return this._searchTerm;
+  }
+
+  set searchTerm(value: string) {
+    this._searchTerm = value;
+    this.searchSubject.next(value);
+  }
+
   ngOnInit(): void {
-    this.itemService.categoriesData$.subscribe({
+    const categoriesSubscription = this.itemService.categoriesData$.subscribe({
       next: (response: CategoryWithItemsResponse) => {
         this.lists = response.categories;
         this.allConnectedLists = this.lists.map((l) => l.id);
-        this.filterItems(); // Call filterItems initially
+        this.filterItems();
       },
       error: (error) => {
         console.log('error in categories page, line 36:', error);
       },
     });
+    this.subscriptions.push(categoriesSubscription);
+
+    const searchSubscription = this.searchSubject
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((searchTerm) => {
+        this.filterItems();
+        this.cdr.detectChanges();
+      });
+    this.subscriptions.push(searchSubscription);
 
     this.itemService.getCategoriesWithItems();
     this.titleService.onPageChanged$.next('بک‌لاگ');
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   onItemDropped(event: CdkDragDrop<any[]>) {
@@ -117,17 +144,17 @@ export class CategoriesPageComponent implements OnInit {
   }
 
   filterItems(): void {
-    if (!this.searchTerm) {
-      this.filteredLists = JSON.parse(JSON.stringify(this.lists)); // Deep copy to avoid modifying original lists
+    if (!this._searchTerm) {
+      this.filteredLists = JSON.parse(JSON.stringify(this.lists));
     } else {
       this.filteredLists = this.lists.map((category) => ({
         ...category,
         items: category.items.filter(
           (item) =>
-            item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            item.name.toLowerCase().includes(this._searchTerm.toLowerCase()) ||
             item.ingredients
               .toLowerCase()
-              .includes(this.searchTerm.toLowerCase()),
+              .includes(this._searchTerm.toLowerCase()),
         ),
       }));
     }
