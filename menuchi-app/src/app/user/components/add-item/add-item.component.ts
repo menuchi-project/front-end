@@ -136,7 +136,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           .subscribe({
             next: () => {
               this.messageService.success(' آیتم با موفقیت ویرایش شد.');
-              this.itemService.getCategoriesWithItems();
+              this.itemService.getCategoriesWithItems().subscribe();
               this.modalService.closeModal();
               this.isOkLoading = false;
               this.resetForm();
@@ -164,7 +164,9 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
         this.itemService.createItem(newItem).subscribe({
           next: (response) => {
             this.messageService.success(' آیتم با موفقیت ایجاد شد.');
-            this.itemService.getCategoriesWithItems();
+            // این فراخوانی باعث می‌شود که getCategoriesWithItems
+            // فراخوانی شود و سپس categoriesData.next() را فعال کند
+            this.itemService.getCategoriesWithItems().subscribe();
             this.modalService.closeModal();
             this.itemService.geAllItems();
             this.isOkLoading = false;

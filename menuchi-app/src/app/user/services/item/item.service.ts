@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import {
   CategoryName,
   CategoryWithItemsResponse,
@@ -17,7 +17,14 @@ import { environment } from '../../../../../api-config/environment';
 export class ItemService implements OnInit {
   private readonly apiUrl!: string;
 
-  private categoriesData = new Subject<CategoryWithItemsResponse>();
+  private categoriesData = new BehaviorSubject<CategoryWithItemsResponse>({
+    id: '',
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: '',
+    branchId: '',
+    categories: [],
+  });
   private itemsData = new Subject<Item[]>();
   private catNamesData = new Subject<CategoryName[]>();
   categoriesData$ = this.categoriesData.asObservable();
@@ -30,9 +37,19 @@ export class ItemService implements OnInit {
   ) {
     const backlogId = this.authService.getBacklogId();
     if (backlogId) this.apiUrl = environment.API_URL + '/backlog/' + backlogId;
+    this.loadInitialCategories();
   }
 
   ngOnInit() {}
+
+  private loadInitialCategories(): void {
+    if (this.apiUrl) {
+      this.getCategoriesWithItems().subscribe({
+        error: (error) =>
+          console.error('Error loading initial categories:', error),
+      });
+    }
+  }
 
   getCategoriesWithItems(): Observable<CategoryWithItemsResponse> {
     return this.httpClient.get<CategoryWithItemsResponse>(this.apiUrl).pipe(
