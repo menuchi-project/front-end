@@ -60,12 +60,13 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
         },
         error: (error: any) => {
           console.log('error in categories page:', error);
+          this.isLoading = false;
         },
       });
     this.subscriptions.push(categoriesSubscription);
 
     const searchSubscription = this.searchSubject
-      .pipe(debounceTime(500), distinctUntilChanged())
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe(() => {
         this.filterItems();
         this.cdr.detectChanges();
@@ -80,21 +81,21 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
   }
 
   onItemDropped(event: CdkDragDrop<any[]>) {
-    const prevIndex = this.lists.findIndex(
+    const prevIndex = this.filteredLists.findIndex(
       (list) => list.items === event.previousContainer.data,
     );
-    const currIndex = this.lists.findIndex(
+    const currIndex = this.filteredLists.findIndex(
       (list) => list.items === event.container.data,
     );
 
     if (event.previousContainer === event.container) {
       moveItemInArray(
-        this.lists[prevIndex].items,
+        this.filteredLists[prevIndex].items,
         event.previousIndex,
         event.currentIndex,
       );
       this.itemService
-        .reorderInCategory(this.lists[currIndex].items.map((i) => i.id))
+        .reorderInCategory(this.filteredLists[currIndex].items.map((i) => i.id))
         .subscribe({
           next: () => console.log('Reordered in category successfully'),
           error: (error) =>
@@ -102,12 +103,13 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
         });
     } else {
       this.isLoading = true;
-      const movedItem = this.lists[prevIndex].items[event.previousIndex];
-      const newCategoryId = this.lists[currIndex].id;
+      const movedItem =
+        this.filteredLists[prevIndex].items[event.previousIndex];
+      const newCategoryId = this.filteredLists[currIndex].id;
 
       transferArrayItem(
-        this.lists[prevIndex].items,
-        this.lists[currIndex].items,
+        this.filteredLists[prevIndex].items,
+        this.filteredLists[currIndex].items,
         event.previousIndex,
         event.currentIndex,
       );
@@ -127,7 +129,9 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.itemService
-              .reorderInCategory(this.lists[currIndex].items.map((i) => i.id))
+              .reorderInCategory(
+                this.filteredLists[currIndex].items.map((i) => i.id),
+              )
               .subscribe({
                 next: () =>
                   console.log('Reordered in new category successfully'),
@@ -137,32 +141,44 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
           },
           error: (error: any) => {
             transferArrayItem(
-              this.lists[currIndex].items,
-              this.lists[prevIndex].items,
+              this.filteredLists[currIndex].items,
+              this.filteredLists[prevIndex].items,
               event.currentIndex,
               event.previousIndex,
             );
           },
         });
     }
-
+    // After any drag-drop operation, update the original lists from filteredLists
+    this.syncFilteredListsToOriginal();
     this.cdr.detectChanges();
   }
 
   onListDropped(event: CdkDragDrop<any[]>) {
     this.isLoading = true;
-    moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.filteredLists,
+      event.previousIndex,
+      event.currentIndex,
+    );
 
     this.cdr.detectChanges();
     this.itemService
-      .reorderCategories(this.lists.map((c) => c.id))
+      .reorderCategories(this.filteredLists.map((c) => c.id))
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (response: any) => {
           console.log('Categories reordered successfully:', response);
+          this.syncFilteredListsToOriginal();
         },
         error: (error: any) => {
           console.error('Error reordering categories:', error);
+          moveItemInArray(
+            this.filteredLists,
+            event.currentIndex,
+            event.previousIndex,
+          );
+          this.syncFilteredListsToOriginal();
         },
       });
   }
@@ -186,5 +202,10 @@ export class CategoriesPageComponent implements OnInit, OnDestroy {
         ),
       }));
     }
+  }
+
+  private syncFilteredListsToOriginal(): void {
+    this.lists = JSON.parse(JSON.stringify(this.filteredLists));
+    this.filterItems();
   }
 }
