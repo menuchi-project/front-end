@@ -43,8 +43,11 @@
             style="width: 100%"
             [nzDisabled]="categorySelected != null || isEditMode"
           >
-            @for (cat of categories; track cat.id) {
-              <nz-option [nzLabel]="cat.name" [nzValue]="cat.id"></nz-option>
+            @for (cat of categories; track cat.categoryId) {
+              <nz-option
+                [nzLabel]="cat.name"
+                [nzValue]="cat.categoryId"
+              ></nz-option>
             }
           </nz-select>
         </nz-form-control>

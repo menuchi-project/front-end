@@ -27,6 +27,7 @@ export interface Category {
 
 export interface CategoryName {
   id: string;
+  categoryId: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

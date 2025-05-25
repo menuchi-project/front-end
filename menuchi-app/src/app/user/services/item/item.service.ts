@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import {
   CategoryName,
   CategoryWithItemsResponse,
@@ -35,7 +35,11 @@ export class ItemService implements OnInit {
   ngOnInit() {}
 
   getCategoriesWithItems(): Observable<CategoryWithItemsResponse> {
-    return this.httpClient.get<CategoryWithItemsResponse>(this.apiUrl);
+    return this.httpClient.get<CategoryWithItemsResponse>(this.apiUrl).pipe(
+      tap((cats) => {
+        this.categoriesData.next(cats);
+      }),
+    );
   }
 
   geAllItems() {

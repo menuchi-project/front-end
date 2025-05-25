@@ -17,7 +17,6 @@ import {
   Item,
   UpdateItemRequest,
 } from '../../models/Item';
-import { CategoryService } from '../../services/category/category.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -50,18 +49,17 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private readonly modalService: ModalService,
     private readonly itemService: ItemService,
-    private readonly categoryService: CategoryService,
     private readonly messageService: NzMessageService,
   ) {}
 
   ngOnInit(): void {
-    this.categoryService.getCategoryNamesData$.subscribe({
+    this.itemService.catNamesData$.subscribe({
       next: (response: CategoryName[]) => {
         this.categories = response;
         this.trySetCategoryFromInput();
       },
       error: (error) => {
-        console.log('error in add item, line 56:', error);
+        console.log('error in add item, line 63:', error);
       },
     });
 
@@ -79,7 +77,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           } else {
             this.trySetCategoryFromInput();
           }
-          this.categoryService.getCategoryNames();
+          this.itemService.getBacklogCatNames();
         }
       },
       error: (error) =>
@@ -87,7 +85,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.itemService.geAllItems();
-    this.categoryService.getCategoryNames();
+    this.itemService.getBacklogCatNames();
   }
 
   ngOnDestroy(): void {
@@ -151,8 +149,12 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
             },
           });
       } else {
+        let findCatName = this.categories.find(
+          (c) => c.categoryId == formValues.category,
+        )?.id!;
+
         let newItem: CreateItemRequest = {
-          categoryNameId: formValues.category!,
+          categoryNameId: findCatName,
           name: formValues.itemName!,
           ingredients: formValues.ingredients!,
           price: parseFloat(formValues.price!.toString()),
@@ -192,11 +194,16 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
     console.log(
       'Category selected for modal (after categories loaded):',
       this.categorySelected,
+      this.categories.map((c) => {
+        c.id;
+        c.categoryId;
+        c.name;
+      }),
     );
 
     if (this.categorySelected && this.categories.length > 0) {
       const exists = this.categories.find(
-        (cat) => cat.id === this.categorySelected,
+        (cat) => cat.categoryId === this.categorySelected,
       );
 
       if (exists) {
