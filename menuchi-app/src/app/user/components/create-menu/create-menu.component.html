@@ -48,7 +48,10 @@
   </div>
 </div>
 
-<app-select-days-modal [menuId]="menuId"></app-select-days-modal>
+<app-select-days-modal
+  [menuId]="menuId"
+  [selectedDays]="existingDays"
+></app-select-days-modal>
 <app-select-items-drawer
   [menuId]="menuId"
   [cylinderId]="selectedCylinderId"
