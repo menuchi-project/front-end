@@ -32,7 +32,12 @@
     </button>
   </div>
 
-  <nz-spin [nzSpinning]="isLoading" nzSize="large" nzTip="در حال بارگذاری...">
+  <nz-spin
+    [nzSpinning]="isLoading"
+    nzSize="large"
+    nzTip="در حال بارگذاری..."
+    class="full-height-spin"
+  >
     <div
       class="cats-container"
       cdkDropList
@@ -46,6 +51,7 @@
         <app-category
           [list]="list"
           [connectedLists]="allConnectedLists"
+          [searchTerm]="searchTerm"
           (itemDropped)="onItemDropped($event)"
         ></app-category>
       </div>
