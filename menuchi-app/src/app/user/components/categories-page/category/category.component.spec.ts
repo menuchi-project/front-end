@@ -6,6 +6,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { HolderOutline, PlusOutline } from '@ant-design/icons-angular/icons';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { AddItemComponent } from '../../add-item/add-item.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 describe('CategoryComponent', () => {
   let component: CategoryComponent;
@@ -13,11 +15,12 @@ describe('CategoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CategoryComponent],
+      declarations: [CategoryComponent, AddItemComponent],
       imports: [
         NzIconModule,
         DragDropModule,
         NzEmptyModule,
+        NzModalModule,
         NzIconModule.forChild([PlusOutline, HolderOutline]),
       ],
       providers: [provideHttpClient(withFetch())],

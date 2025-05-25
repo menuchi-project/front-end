@@ -97,7 +97,6 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
         next: (response: SignupResponse) => {
           this.isLoading = false;
           this.message.success(' ثبت نام با موفقیت انجام شد!');
-          console.log('Signup Response:', response);
           setTimeout(() => {
             this.router.navigate(['/login']);
           }, 1000);

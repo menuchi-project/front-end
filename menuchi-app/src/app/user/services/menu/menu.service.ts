@@ -18,6 +18,7 @@ import {
 export class MenuService implements OnInit {
   private readonly apiUrl = environment.API_URL + '/menus';
   private backlogId: string | null;
+  private branchIds: string[] = [];
 
   private menusData = new Subject<Menu[]>();
   menusData$ = this.menusData.asObservable();
@@ -30,6 +31,7 @@ export class MenuService implements OnInit {
     private authService: AuthService,
   ) {
     this.backlogId = this.authService.getBacklogId();
+    this.branchIds = this.authService.getAllBranchIds();
   }
 
   ngOnInit() {}

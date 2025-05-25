@@ -76,6 +76,8 @@ import { SettingsPageComponent } from './components/settings-page/settings-page.
 import { DashboardContentComponent } from './components/dashboard-page/dashboard-content/dashboard-content.component';
 import { MainModule } from '../main/main.module';
 import { JoinNonEmptyPipe} from './components/dashboard-page/dashboard-content/dashboard-content.component';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { HighlightPipe } from '../shared/pipes/highlight/highlight.pipe';
 
 @NgModule({
   declarations: [
@@ -155,6 +157,8 @@ import { JoinNonEmptyPipe} from './components/dashboard-page/dashboard-content/d
     NzRadioModule,
     MainModule,
     NzToolTipModule,
+    NzSpinComponent,
+    HighlightPipe,
   ],
   providers: [NzModalService, NzImageService],
   exports: [ItemsPageComponent],
