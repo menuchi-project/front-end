@@ -1,7 +1,14 @@
 <div class="container">
   <div class="search-add-item">
     <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input id="search" type="text" nz-input placeholder="جست‌و‌جو کنید" />
+      <input
+        id="search"
+        type="text"
+        nz-input
+        placeholder="جست‌و‌جو کنید"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterItems()"
+      />
     </nz-input-group>
     <ng-template #suffixIconSearch>
       <nz-icon nzType="search" />
@@ -35,7 +42,7 @@
     [cdkDropListData]="lists"
     (cdkDropListDropped)="onListDropped($event)"
   >
-    <div *ngFor="let list of lists" cdkDrag class="cat-container">
+    <div *ngFor="let list of filteredLists" cdkDrag class="cat-container">
       <app-category
         [list]="list"
         [connectedLists]="allConnectedLists"

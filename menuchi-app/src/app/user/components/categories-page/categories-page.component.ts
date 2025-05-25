@@ -11,7 +11,7 @@ import {
   UpdateItemRequest,
 } from '../../models/Item';
 import { TitleService } from '../../../shared/services/title/title.service';
-import { ModalService } from '../../services/modal/modal.service'; //
+import { ModalService } from '../../services/modal/modal.service';
 
 @Component({
   selector: 'app-categories-page',
@@ -22,6 +22,8 @@ import { ModalService } from '../../services/modal/modal.service'; //
 export class CategoriesPageComponent implements OnInit {
   lists: Category[] = [];
   allConnectedLists: string[] = [];
+  searchTerm: string = '';
+  filteredLists: Category[] = [];
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -35,6 +37,7 @@ export class CategoriesPageComponent implements OnInit {
       next: (response: CategoryWithItemsResponse) => {
         this.lists = response.categories;
         this.allConnectedLists = this.lists.map((l) => l.id);
+        this.filterItems(); // Call filterItems initially
       },
       error: (error) => {
         console.log('error in categories page, line 36:', error);
@@ -111,5 +114,22 @@ export class CategoriesPageComponent implements OnInit {
 
   showModal(): void {
     this.modalService.openModal(null);
+  }
+
+  filterItems(): void {
+    if (!this.searchTerm) {
+      this.filteredLists = JSON.parse(JSON.stringify(this.lists)); // Deep copy to avoid modifying original lists
+    } else {
+      this.filteredLists = this.lists.map((category) => ({
+        ...category,
+        items: category.items.filter(
+          (item) =>
+            item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            item.ingredients
+              .toLowerCase()
+              .includes(this.searchTerm.toLowerCase()),
+        ),
+      }));
+    }
   }
 }
