@@ -32,6 +32,11 @@
                     width: 2.6rem;
                     height: 2.6rem;
                     cursor: pointer;
+                    transition: all 0.8s ease;
+                    &:hover {
+                        filter: grayscale(100%) brightness(0.4);
+                        transform: scale(1.1);
+                    }
                 }
             }
             .header-right {
@@ -271,7 +276,7 @@
             color: #243E62;
             cursor: pointer;
             text-decoration: underline;
-            margin-right: 8px;
+            margin-right: 0.5rem;
         }
          :host ::ng-deep .ant-tooltip {
             display: block !important;
@@ -279,15 +284,16 @@
             z-index: 1000 !important;
             position: absolute;
         }
-         :host ::ng-deep .ant-tooltip-inner {
+         :host ::ng-deep .ant-tooltip.multiline-tooltip .ant-tooltip-inner {
             background: #333 !important;
             color: #fff !important;
             white-space: pre-line !important;
             text-align: right;
-            padding: 10px;
-            min-width: 200px;
+            padding: 0.6rem;
+            min-width: 12.5rem;
             font-family: Arial, sans-serif;
             line-height: 1.8;
+            white-space: pre-line;
         }
     }
     .second-col {

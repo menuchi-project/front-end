@@ -7,8 +7,9 @@ import { MenuService } from '../../../services/menu/menu.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../main/services/auth/auth.service';
 import { RestaurantService } from '../../../services/restaurant/restaurant.service';
-import { OpeningTimes } from '../../../models/restaurant';
+import { Branch, OpeningTimes, Restaurant } from '../../../models/restaurant';
 import { Router } from '@angular/router';
+import { PersianNumberPipe } from '../../../../shared/pipes/persian-number/persian-number.pipe';
 
 export @Pipe({
   name: 'joinNonEmpty',
@@ -27,6 +28,7 @@ class JoinNonEmptyPipe implements PipeTransform {
   standalone: false,
   templateUrl: './dashboard-content.component.html',
   styleUrl: './dashboard-content.component.scss',
+  providers: [PersianNumberPipe],
 })
 export class DashboardContentComponent implements OnInit, OnDestroy {
 [x: string]: any;
@@ -36,12 +38,15 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   visibleMenus: Menu[] = [];
   currentIndex = 0;
   private branchId: string | null;
-  branches: any[] = [];
-  restaurantName: string = '';
-  restaurantImageUrl: string = '';
-  openingHours: string = 'نامشخص';
-  openingHoursTooltip: string = '';
   private restaurantId: string | null;
+  restaurant: Restaurant = {
+    id: '',
+    name: 'بدون نام',
+    imageUrl: '/assets/images/Default-Restaurant.svg',
+    branches: [],
+    openingHours: 'نامشخص',
+    openingHoursTooltip: 'شناسه رستوران در دسترس نیست',
+  };
   private subscriptions: Subscription = new Subscription();
   private itemsSubscription!: Subscription;
   private menusSubscription!: Subscription;
@@ -51,16 +56,19 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly menuService: MenuService,
-    private readonly restaurantService: RestaurantService
+    private readonly restaurantService: RestaurantService,
+    private readonly router: Router,
+    private readonly persianNumberPipe: PersianNumberPipe
+
   ) {
     this.branchId = this.authService.getBranchId();
     this.restaurantId = this.authService.getRestaurantId();
   }
 
-  ngOnInit() {
-  this.userName = this.userService.getUserName();
+ ngOnInit() {
+    this.userName = this.userService.getUserName();
 
-  this.subscriptions.add(
+    this.subscriptions.add(
       this.authService.user$.subscribe(user => {
         if (user) {
           this.branchId = this.authService.getBranchId();
@@ -80,58 +88,66 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
             },
           });
 
-          this.menuService.getMenusForCurrentBranch();
+          this.menuService.getAllMenusForBranches(); 
         }
       })
     );
 
-  this.itemsSubscription = this.itemService.itemsData$.subscribe({
-    next: (response: Item[]) => {
-      this.item = response[0] || null;
-    },
-    error: (error) => {
-      console.log('خطا در دریافت آیتم‌ها: ', error);
-    },
-  });
-
-  this.itemService.geAllItems();
-
-  if (this.restaurantId) {
-  this.subscriptions.add(
-    this.restaurantService.getRestaurantDetails(this.restaurantId).subscribe({
-      next: (restaurant: any) => {
-        this.restaurantName = restaurant.displayName || restaurant.name || 'بدون نام';
-        this.restaurantImageUrl = restaurant.avatarUrl || '/assets/images/Default-Restaurant.svg';
-        this.branches = restaurant.branches || [];
-
-        if (this.branchId) {
-          const branch = this.branches.find(b => b.id === this.branchId);
-          if (branch && branch.openingTimes) {
-            this.openingHours = this.formatOpeningHours(branch.openingTimes);
-            this.openingHoursTooltip = this.formatOpeningHoursTooltip(branch.openingTimes);
-          } else {
-            this.openingHours = 'نامشخص';
-            this.openingHoursTooltip = 'داده‌های ساعت کاری در دسترس نیست';
-          }
-        } else {
-          this.openingHours = 'نامشخص';
-          this.openingHoursTooltip = 'شناسه شعبه در دسترس نیست';
-        }
+    this.itemsSubscription = this.itemService.itemsData$.subscribe({
+      next: (response: Item[]) => {
+        this.item = response[0] || null;
       },
-      error: (err) => {
-        console.error('خطا در دریافت اطلاعات رستوران:', err);
-        this.branches = [];
-        this.restaurantImageUrl = '/assets/images/Default-Restaurant.svg';
-        this.openingHours = 'نامشخص';
-        this.openingHoursTooltip = 'اطلاعات ساعت کاری در دسترس نیست';
+      error: (error) => {
+        console.error('خطا در دریافت آیتم‌ها: ', error);
       },
-    })
-  );
-} else {
-  this.openingHours = 'نامشخص';
-  this.openingHoursTooltip = 'شناسه رستوران در دسترس نیست';
-}
-}
+    });
+
+    this.itemService.geAllItems(); 
+
+    if (this.restaurantId) {
+      this.subscriptions.add(
+        this.restaurantService.getRestaurantDetails(this.restaurantId).subscribe({
+          next: (restaurantData: any) => {
+            this.restaurant = {
+              id: this.restaurantId || '',
+              name: restaurantData.displayName || restaurantData.name || 'بدون نام',
+              imageUrl: restaurantData.avatarUrl || '/assets/images/Default-Restaurant.svg',
+              branches: restaurantData.branches || [],
+              openingHours: 'نامشخص',
+              openingHoursTooltip: 'داده‌های ساعت کاری در دسترس نیست',
+            };
+
+            if (this.branchId) {
+              const branch = this.restaurant.branches.find((b: Branch) => b.id === this.branchId);
+              console.log('Selected Branch:', branch); // لاگ دیباگ
+              if (branch) console.log('Opening Times:', branch.openingTimes); // لاگ دیباگ
+              if (branch && branch.openingTimes) {
+                this.restaurant.openingHours = this.formatOpeningHours(branch.openingTimes);
+                this.restaurant.openingHoursTooltip = this.formatOpeningHoursTooltip(branch.openingTimes);
+              } else {
+                this.restaurant.openingHours = 'نامشخص';
+                this.restaurant.openingHoursTooltip = 'داده‌های ساعت کاری در دسترس نیست';
+              }
+            } else {
+              this.restaurant.openingHours = 'نامشخص';
+              this.restaurant.openingHoursTooltip = 'شناسه شعبه در دسترس نیست';
+            }
+          },
+          error: (err) => {
+            console.error('خطا در دریافت اطلاعات رستوران:', err);
+            this.restaurant = {
+              id: this.restaurantId || '',
+              name: 'بدون نام',
+              imageUrl: '/assets/images/Default-Restaurant.svg',
+              branches: [],
+              openingHours: 'نامشخص',
+              openingHoursTooltip: 'اطلاعات ساعت کاری در دسترس نیست',
+            };
+          },
+        })
+      );
+    }
+  }
 
 
   updateVisibleMenus() {
@@ -149,7 +165,7 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
 
 
   viewMenuDetails(menuId: string) {
-    this['router'].navigate(['/dashboard/preview', menuId]);
+    this.router.navigate(['/dashboard/preview', menuId]);
     }
 
   onImageError(event: Event) {
@@ -167,59 +183,58 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   }
 
   private formatOpeningHours(openingTimes: OpeningTimes): string {
-    const timeRange = openingTimes.sat;
-    if (!timeRange) {
-      return 'نامشخص';
-    }
-    const [start, end] = timeRange.split('-');
-    const startHour = parseInt(start.split(':')[0], 10);
-    const endHour = parseInt(end.split(':')[0], 10);
-    const toPersianDigits = (num: number): string => {
-      const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-      return num.toString().replace(/\d/g, (d) => persianDigits[parseInt(d)]);
-    };
-    return `همه روزه - از ساعت ${toPersianDigits(startHour)} تا ${toPersianDigits(endHour)}`;
+  const timeRange = openingTimes.sat;
+  if (!timeRange) {
+    return 'نامشخص';
   }
+  const [start, end] = timeRange.split('-');
+  const startHour = parseInt(start.split(':')[0], 10);
+  const endHour = parseInt(end.split(':')[0], 10);
+  return `همه روزه - از ساعت ${this.persianNumberPipe.transform(startHour)} تا ${this.persianNumberPipe.transform(endHour)}`;
+}
+
 
   private formatOpeningHoursTooltip(openingTimes: OpeningTimes): string {
-    const dayNames = ['شنبه', 'یک‌شنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'];
-    const days = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'] as const;
-    const toPersianDigits = (num: number): string => {
-      const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-      return num.toString().replace(/\d/g, (d) => persianDigits[parseInt(d)]);
-    };
-    const groups: { timeRange: string; dayIndices: number[] }[] = [];
-    days.forEach((day, index) => {
-      const timeRange = openingTimes[day] || 'closed';
-      const existingGroup = groups.find(g => g.timeRange === timeRange);
-      if (existingGroup) {
-        existingGroup.dayIndices.push(index);
-      } else {
-        groups.push({ timeRange, dayIndices: [index] });
-      }
-    });
-    const hoursList = groups.map(group => {
-      const indices = group.dayIndices.sort((a, b) => a - b);
-      let hours = 'تعطیل';
-      if (group.timeRange !== 'closed') {
-        const [start, end] = group.timeRange.split('-');
-        const startHour = parseInt(start.split(':')[0], 10);
-        const endHour = parseInt(end.split(':')[0], 10);
-        hours = `از ${toPersianDigits(startHour)} تا ${toPersianDigits(endHour)}`;
-      }
-      let daysStr = '';
-      if (indices.length === 1) {
-        daysStr = dayNames[indices[0]];
-      } else if (indices.length === 2) {
-        daysStr = `${dayNames[indices[0]]} و ${dayNames[indices[1]]}`;
-      } else {
-        const first = indices[0];
-        const last = indices[indices.length - 1];
-        daysStr = indices.length === 7 ? 'همه روزه' : `${dayNames[first]} تا ${dayNames[last]}`;
-      }
-      return `${daysStr}: ${hours}`;
-    });
+  const dayNames = ['شنبه', 'یک‌شنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'];
+  const days = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'] as const;
 
-    return hoursList.join('\n');
-  }
+  const groups: { timeRange: string; dayIndices: number[] }[] = [];
+
+  days.forEach((day, index) => {
+    const timeRange = openingTimes[day] || 'closed';
+    const existingGroup = groups.find(g => g.timeRange === timeRange);
+    if (existingGroup) {
+      existingGroup.dayIndices.push(index);
+    } else {
+      groups.push({ timeRange, dayIndices: [index] });
+    }
+  });
+
+  const hoursList = groups.map(group => {
+    const indices = group.dayIndices.sort((a, b) => a - b);
+    let hours = 'تعطیل';
+
+    if (group.timeRange !== 'closed') {
+      const [start, end] = group.timeRange.split('-');
+      const startHour = parseInt(start.split(':')[0], 10);
+      const endHour = parseInt(end.split(':')[0], 10);
+      hours = `از ${this.persianNumberPipe.transform(startHour)} تا ${this.persianNumberPipe.transform(endHour)}`;
+    }
+
+    let daysStr = '';
+    if (indices.length === 1) {
+      daysStr = dayNames[indices[0]];
+    } else if (indices.length === 2) {
+      daysStr = `${dayNames[indices[0]]} و ${dayNames[indices[1]]}`;
+    } else {
+      const first = indices[0];
+      const last = indices[indices.length - 1];
+      daysStr = indices.length === 7 ? 'همه روزه' : `${dayNames[first]} تا ${dayNames[last]}`;
+    }
+
+    return `${daysStr}: ${hours}`;
+  });
+
+  return hoursList.join(', ');
+}
 }

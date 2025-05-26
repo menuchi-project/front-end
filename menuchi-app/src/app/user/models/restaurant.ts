@@ -12,3 +12,26 @@ export interface OpeningTimes {
   updatedAt: string;
   deletedAt: string | null;
 }
+
+export interface Branch {
+  id: string;
+  address?: {
+    country: string;
+    region: string;
+    city: string;
+    area: string;
+    street: string;
+    description: string;
+  };
+  openingTimes?: OpeningTimes;
+}
+
+export interface Restaurant {
+  id: string;
+  name: string;
+  displayName?: string;
+  imageUrl: string;
+  branches: Branch[];
+  openingHours: string;
+  openingHoursTooltip: string;
+}
