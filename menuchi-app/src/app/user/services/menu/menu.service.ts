@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { forkJoin, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { environment } from '../../../../../api-config/environment';
@@ -18,7 +18,6 @@ import {
 export class MenuService implements OnInit {
   private readonly apiUrl = environment.API_URL + '/menus';
   private backlogId: string | null;
-  private branchIds: string[] = [];
 
   private menusData = new Subject<Menu[]>();
   menusData$ = this.menusData.asObservable();
@@ -31,27 +30,29 @@ export class MenuService implements OnInit {
     private authService: AuthService,
   ) {
     this.backlogId = this.authService.getBacklogId();
-    this.branchIds = this.authService.getAllBranchIds();
   }
 
   ngOnInit() {}
 
-  getAllMenusForBranches() {
-  const branchIds = this.authService.getAllBranchIds();
-  const requests = branchIds.map(branchId =>
-    this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`)
-  );
-
-  return forkJoin(requests).subscribe({
-    next: (menusArray) => {
-      const allMenus = menusArray.flat();
-      this.menusData.next(allMenus);
-    },
-    error: (error) => {
-      console.error('Error fetching menus for all branches:', error);
+  getMenusForCurrentBranch(): Observable<Menu[]> {
+    const branchId = this.authService.getBranchId();
+    if (!branchId) {
+      console.error('شعبه یافت نشد');
+      return throwError(() => new Error('شعبه یافت نشد'));
     }
-  });
-}
+
+    const request = this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`);
+    request.subscribe({
+      next: (menus) => {
+        this.menusData.next(menus);
+      },
+      error: (error) => {
+        console.error('خطا در دریافت منوهای شعبه:', error);
+        this.menusData.next([]);
+      },
+    });
+    return request;
+  }
 
   getAllMenus() {
     return this.httpClient

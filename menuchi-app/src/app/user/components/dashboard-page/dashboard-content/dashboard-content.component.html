@@ -26,7 +26,7 @@
                 <div class="menus-container">
                     <div *ngFor="let menu of visibleMenus" class="menu-card" nz-col [nzSpan]="12">
                         <nz-card [nzHoverable]="true" class="card">
-                            <nz-card-meta [nzTitle]="menu.name || 'بدون عنوان'">
+                            <nz-card-meta [nzTitle]="menu.name || 'بدون نام'">
                             </nz-card-meta>
                             <div class="card-actions">
                                 <button nz-button nzType="default" (click)="viewMenuDetails(menu.id)">جزئیات بیشتر منو</button>
@@ -58,11 +58,16 @@
                     <div *ngFor="let branch of branches" class="branch-card" nz-col [nzSpan]="12">
                         <nz-card [nzHoverable]="true" class="card">
                             <img [src]="restaurantImageUrl" (error)="onImageError($event)" alt="تصویر رستوران" class=" card branch-img" />
-                            <h3 class="branch-title"> حاج بهزاد سروستان{{ restaurantName }}</h3>
-                            <p class="branch-address">خیابان {{ branch.displayName }}، پلاک ۳</p>
+                            <h3 class="branch-title">{{ restaurantName }}</h3>
+                            <p *ngIf="branch.address" class="branch-address">
+                                {{ [branch.address.country, branch.address.region, branch.address.city, branch.address.area, branch.address.street, branch.address.description] | joinNonEmpty: ', ' }}
+                            </p>
                             <div class="working-hours">
                                 <object data="/assets/icons/CalendarMark.svg" type="image/svg+xml"></object>
-                                <h3 class="branch-hours">همه‌روزه - از ساعت ۱۲ الی ۲۳</h3>
+
+                                <a nz-tooltip [nzTooltipTitle]="openingHoursTooltip" nzTooltipTrigger="hover" class="tooltip-trigger">
+      نمایش ساعت کاری
+    </a>
                             </div>
                             <div class="card-actions">
                                 <button nz-button nzType="default">تنظیمات منوی رستوران</button>

@@ -209,7 +209,7 @@
             }
             .branch-address {
                 color: #AAAAAA;
-                font-size: 0.8rem;
+                font-size: 0.9rem;
             }
             .branch-img {
                 width: 92%;
@@ -267,13 +267,34 @@
                 font-size: 1rem;
             }
         }
+        .tooltip-trigger {
+            color: #243E62;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-right: 8px;
+        }
+         :host ::ng-deep .ant-tooltip {
+            display: block !important;
+            opacity: 1 !important;
+            z-index: 1000 !important;
+            position: absolute;
+        }
+         :host ::ng-deep .ant-tooltip-inner {
+            background: #333 !important;
+            color: #fff !important;
+            white-space: pre-line !important;
+            text-align: right;
+            padding: 10px;
+            min-width: 200px;
+            font-family: Arial, sans-serif;
+            line-height: 1.8;
+        }
     }
     .second-col {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         width: 30%;
-        border: 1px solid rebeccapurple;
         height: 100%;
         .card:nth-child(1) {
             min-height: 25%;
