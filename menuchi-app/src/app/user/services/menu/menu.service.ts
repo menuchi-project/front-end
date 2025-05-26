@@ -36,25 +36,22 @@ export class MenuService implements OnInit {
 
   ngOnInit() {}
 
-  getMenusForCurrentBranch(): Observable<Menu[]> {
-    const branchId = this.authService.getBranchId();
-    if (!branchId) {
-      console.error('شعبه یافت نشد');
-      return throwError(() => new Error('شعبه یافت نشد'));
-    }
+  getAllMenusForBranches() {
+  const branchIds = this.authService.getAllBranchIds();
+  const requests = branchIds.map(branchId =>
+    this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`)
+  );
 
-    const request = this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`);
-    request.subscribe({
-      next: (menus) => {
-        this.menusData.next(menus);
-      },
-      error: (error) => {
-        console.error('خطا در دریافت منوهای شعبه:', error);
-        this.menusData.next([]);
-      },
-    });
-    return request;
-  }
+  return forkJoin(requests).subscribe({
+    next: (menusArray) => {
+      const allMenus = menusArray.flat();
+      this.menusData.next(allMenus);
+    },
+    error: (error) => {
+      console.error('Error fetching menus for all branches:', error);
+    }
+  });
+}
 
   getAllMenus() {
     return this.httpClient
