@@ -98,15 +98,12 @@ export class CreateMenuComponent implements OnInit {
   onItemDropped($event: CdkDragDrop<any[]>) {}
 
   getWeekDaysString(cylinder: Cylinder): string {
-    console.log(100, cylinder);
     let result: string[] = [];
     for (let i = 0; i < WeekDays.length; i++) {
       if (cylinder.days[i]) {
         result.push(WeekDays[i].name);
       }
     }
-
-    console.log(result);
     return result.join('، ');
   }
 
