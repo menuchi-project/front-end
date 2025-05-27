@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CATEGORIES } from '../../models/CatNameIcons';
-import { Item } from '../../../user/models/Item';
+import { CategoryName, Item } from '../../../user/models/Item';
 import { MenuService } from '../../../user/services/menu/menu.service';
+import { ItemService } from '../../../user/services/item/item.service';
 import { ActivatedRoute } from '@angular/router';
 import { MenuCategory, MenuPreview } from '../../../user/models/Menu';
 
@@ -12,15 +12,18 @@ import { MenuCategory, MenuPreview } from '../../../user/models/Menu';
   styleUrl: './menu-preview.component.scss',
 })
 export class MenuPreviewComponent implements OnInit {
-  categories = CATEGORIES;
-  allItems: Item[] = []; // Stores all unique items from the menu preview
-  filteredItems: Item[] = []; // Items to display based on selected day
+  categories: CategoryName[] = [];
+  allItems: Item[] = [];
+  itemsFilteredByDay: Item[] = [];
+  finalFilteredItems: Item[] = [];
   menuId: string | null = null;
   menuPreviewData: MenuPreview | null = null;
-  selectedDay: string = 'sat'; // Default to Saturday or the current day
+  selectedDay: string = 'sat';
+  selectedCategoryId: string | null = null;
 
   constructor(
     private readonly menuService: MenuService,
+    private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
   ) {}
 
@@ -35,6 +38,17 @@ export class MenuPreviewComponent implements OnInit {
         );
       }
     });
+
+    this.itemService.catNamesData$.subscribe({
+      next: (catNames: CategoryName[]) => {
+        this.categories = catNames;
+        console.log('Category Names from API:', this.categories);
+      },
+      error: (error) => {
+        console.error('Error fetching category names:', error);
+      },
+    });
+    this.itemService.getBacklogCatNames();
   }
 
   private getAndDisplayMenuPreview(menuId: string): void {
@@ -67,13 +81,11 @@ export class MenuPreviewComponent implements OnInit {
           }
         });
 
-        // Get all unique items across all days
         const uniqueItemsMap = new Map<string, Item>();
         collectedItems.forEach((item) => uniqueItemsMap.set(item.id, item));
         this.allItems = Array.from(uniqueItemsMap.values());
 
-        // Initially filter items for the default selected day (e.g., 'sat')
-        this.filterItemsByDay(this.selectedDay);
+        this.applyFilters();
       },
       error: (error) => {
         console.error('Error fetching menu preview:', error);
@@ -81,39 +93,44 @@ export class MenuPreviewComponent implements OnInit {
     });
   }
 
-  // New method to handle day selection from the calendar component
   onDaySelected(day: string): void {
     this.selectedDay = day;
-    this.filterItemsByDay(day);
+    this.selectedCategoryId = null;
+    this.applyFilters();
   }
 
-  // New method to filter items based on the selected day
-  private filterItemsByDay(day: string): void {
-    if (!this.menuPreviewData) {
-      this.filteredItems = [];
-      return;
+  onCategorySelected(categoryId: string): void {
+    this.selectedCategoryId = categoryId;
+    this.applyFilters();
+  }
+
+  private applyFilters(): void {
+    let itemsToFilter: Item[] = [];
+
+    if (this.menuPreviewData) {
+      const categoriesForSelectedDay = (this.menuPreviewData as any)[
+        this.selectedDay
+      ] as MenuCategory[] | undefined;
+      if (categoriesForSelectedDay && Array.isArray(categoriesForSelectedDay)) {
+        categoriesForSelectedDay.forEach((category) => {
+          if (category.items && Array.isArray(category.items)) {
+            itemsToFilter.push(...category.items);
+          }
+        });
+      }
     }
 
-    const categoriesForSelectedDay = (this.menuPreviewData as any)[day] as
-      | MenuCategory[]
-      | undefined;
-    const itemsForSelectedDay: Item[] = [];
+    const uniqueItemsByDayMap = new Map<string, Item>();
+    itemsToFilter.forEach((item) => uniqueItemsByDayMap.set(item.id, item));
+    this.itemsFilteredByDay = Array.from(uniqueItemsByDayMap.values());
 
-    if (categoriesForSelectedDay && Array.isArray(categoriesForSelectedDay)) {
-      categoriesForSelectedDay.forEach((category) => {
-        if (category.items && Array.isArray(category.items)) {
-          itemsForSelectedDay.push(...category.items);
-        }
-      });
+    if (this.selectedCategoryId) {
+      this.finalFilteredItems = this.itemsFilteredByDay.filter(
+        (item) => item.categoryId === this.selectedCategoryId,
+      );
+    } else {
+      this.finalFilteredItems = this.itemsFilteredByDay;
     }
-
-    // Remove duplicates if items can appear in multiple categories within the same day
-    const uniqueFilteredItemsMap = new Map<string, Item>();
-    itemsForSelectedDay.forEach((item) =>
-      uniqueFilteredItemsMap.set(item.id, item),
-    );
-    this.filteredItems = Array.from(uniqueFilteredItemsMap.values());
-
-    console.log(`Items for ${day}:`, this.filteredItems);
+    console.log('Final Filtered Items:', this.finalFilteredItems);
   }
 }

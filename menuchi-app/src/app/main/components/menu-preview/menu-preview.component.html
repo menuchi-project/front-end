@@ -6,12 +6,15 @@
   <app-horizontal-scroller
     [items]="categories"
     class="cat-names"
+    (categorySelected)="onCategorySelected($event)"
   ></app-horizontal-scroller>
   <div class="items-container">
-    @for (item of filteredItems; track item.id) {
+    @for (item of finalFilteredItems; track item.id) {
       <app-item-card [data]="item"></app-item-card>
     } @empty {
-      <p class="no-items-message">آیتمی برای روز انتخاب شده موجود نیست.</p>
+      <p class="no-items-message">
+        آیتمی برای روز و دسته‌بندی انتخاب شده موجود نیست.
+      </p>
     }
   </div>
 </div>
