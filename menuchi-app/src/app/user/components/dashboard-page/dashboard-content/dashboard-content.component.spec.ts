@@ -30,6 +30,7 @@ describe('DashboardContentComponent', () => {
         name: 'fff',
         positionInItemsList: 1,
         positionInCategory: 1,
+        orderCount: 1,
       },
     ]);
 
