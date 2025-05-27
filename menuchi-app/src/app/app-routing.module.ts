@@ -28,7 +28,7 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'preview',
+        path: 'preview/:menuId',
         component: MenuPreviewComponent,
         data: { breadcrumb: 'پیش‌نمایش منو' },
         title: 'پیش‌نمایش منو',

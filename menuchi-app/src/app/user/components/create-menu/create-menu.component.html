@@ -16,7 +16,8 @@
       class="preview-btn"
       nz-button
       nzType="primary"
-      routerLink="/dashboard/preview"
+      [routerLink]="['/dashboard/preview', menuId]"
+      *ngIf="menuId"
     >
       پیش‌نمایش منو
       <nz-icon>

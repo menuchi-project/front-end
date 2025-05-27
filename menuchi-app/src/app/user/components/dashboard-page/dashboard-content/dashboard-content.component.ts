@@ -17,11 +17,12 @@ import { Branch, OpeningTimes, Restaurant } from '../../../models/restaurant';
 import { Router } from '@angular/router';
 import { PersianNumberPipe } from '../../../../shared/pipes/persian-number/persian-number.pipe';
 
+export
 @Pipe({
   name: 'joinNonEmpty',
   standalone: false,
 })
-export class JoinNonEmptyPipe implements PipeTransform {
+class JoinNonEmptyPipe implements PipeTransform {
   transform(
     values: (string | null | undefined)[],
     separator: string = ', ',
@@ -40,6 +41,8 @@ export class JoinNonEmptyPipe implements PipeTransform {
   providers: [PersianNumberPipe],
 })
 export class DashboardContentComponent implements OnInit, OnDestroy {
+  [x: string]: any;
+
   item!: Item;
   menus: Menu[] = [];
   userName: string = '';
@@ -135,6 +138,8 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 const branch = this.restaurant.branches.find(
                   (b: Branch) => b.id === this.branchId,
                 );
+                console.log('Selected Branch:', branch); // لاگ دیباگ
+                if (branch) console.log('Opening Times:', branch.openingTimes); // لاگ دیباگ
                 if (branch && branch.openingTimes) {
                   this.restaurant.openingHours = this.formatOpeningHours(
                     branch.openingTimes,
@@ -203,7 +208,6 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     if (this.menusSubscription) {
       this.menusSubscription.unsubscribe();
     }
-    this.subscriptions.unsubscribe();
   }
 
   private formatOpeningHours(openingTimes: OpeningTimes): string {
@@ -257,7 +261,7 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
         daysStr = dayNames[indices[0]];
       } else if (indices.length === 2) {
         daysStr = `${dayNames[indices[0]]} و ${dayNames[indices[1]]}`;
-      } else if (indices.length > 2) {
+      } else {
         const first = indices[0];
         const last = indices[indices.length - 1];
         daysStr =
@@ -269,6 +273,6 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
       return `${daysStr}: ${hours}`;
     });
 
-    return hoursList.join('\n');
+    return hoursList.join(', ');
   }
 }

@@ -7,6 +7,7 @@ import { MenuService } from '../../services/menu/menu.service';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Cylinder, Menu, WeekDays } from '../../models/Menu';
+import { CATEGORIES } from '../../../main/models/CatNameIcons';
 
 @Component({
   selector: 'app-create-menu',
@@ -68,11 +69,25 @@ export class CreateMenuComponent implements OnInit {
         this.cylinders = response.cylinders;
         this.updateExistingDays();
         console.log('current menu:', this.menu);
+
+        this.setIcons();
       },
       error: (error) => {
         console.log('error in create menu page, line 47:', error);
       },
     });
+  }
+
+  setIcons() {
+    for (let cyl of this.cylinders) {
+      for (let i = 0; i < cyl.menuCategories.length; i++) {
+        let menuCat = cyl.menuCategories[i];
+        menuCat.icon = CATEGORIES.find(
+          (c) => c.label == menuCat.categoryName,
+        )?.icon;
+        if (!menuCat.icon) menuCat.icon = 'assets/icons/categories/سالاد.svg';
+      }
+    }
   }
 
   onListDropped(event: CdkDragDrop<any[]>) {

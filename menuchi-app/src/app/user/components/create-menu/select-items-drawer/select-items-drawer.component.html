@@ -89,7 +89,8 @@
                 <div style="display: flex; align-items: center; gap: 0.4rem">
                   <nz-icon>
                     <object
-                      data="/assets/icons/categories/Pizza.svg"
+                      style="height: 18px; width: 18px"
+                      [data]="getSafeResourceUrl(panel.icon)"
                       type="image/svg+xml"
                     ></object>
                   </nz-icon>

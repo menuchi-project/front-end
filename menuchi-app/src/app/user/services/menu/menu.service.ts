@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { forkJoin, Observable, Subject, throwError } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { environment } from '../../../../../api-config/environment';
@@ -9,6 +9,7 @@ import {
   CreateMenuRequest,
   CreateMenuResponse,
   Menu,
+  MenuPreview,
   UpdateMenuRequest,
 } from '../../models/Menu';
 
@@ -37,21 +38,21 @@ export class MenuService implements OnInit {
   ngOnInit() {}
 
   getAllMenusForBranches() {
-  const branchIds = this.authService.getAllBranchIds();
-  const requests = branchIds.map(branchId =>
-    this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`)
-  );
+    const branchIds = this.authService.getAllBranchIds();
+    const requests = branchIds.map((branchId) =>
+      this.httpClient.get<Menu[]>(`${this.apiUrl}/branch/${branchId}`),
+    );
 
-  return forkJoin(requests).subscribe({
-    next: (menusArray) => {
-      const allMenus = menusArray.flat();
-      this.menusData.next(allMenus);
-    },
-    error: (error) => {
-      console.error('Error fetching menus for all branches:', error);
-    }
-  });
-}
+    return forkJoin(requests).subscribe({
+      next: (menusArray) => {
+        const allMenus = menusArray.flat();
+        this.menusData.next(allMenus);
+      },
+      error: (error) => {
+        console.error('Error fetching menus for all branches:', error);
+      },
+    });
+  }
 
   getAllMenus() {
     return this.httpClient
@@ -89,5 +90,9 @@ export class MenuService implements OnInit {
 
   updateMenu(menuId: string, request: UpdateMenuRequest) {
     return this.httpClient.patch(this.apiUrl + '/' + menuId, request);
+  }
+
+  getMenuPreview(menuId: string): Observable<MenuPreview> {
+    return this.httpClient.get<MenuPreview>(`${this.apiUrl}/${menuId}/preview`);
   }
 }

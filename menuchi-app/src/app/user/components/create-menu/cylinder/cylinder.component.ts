@@ -1,45 +1,44 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
-import { Menu, MenuCategory } from '../../../models/Menu';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { MenuCategory } from '../../../models/Menu';
+import { Item } from '../../../models/Item';
 
 @Component({
   selector: 'app-cylinder',
-  standalone: false,
   templateUrl: './cylinder.component.html',
-  styleUrl: './cylinder.component.scss',
+  styleUrls: ['./cylinder.component.scss'],
+  standalone: false,
 })
 export class CylinderComponent {
+  @Input() weekDays!: string;
   @Input() panels: MenuCategory[] = [];
   @Input() menuId!: string;
-  @Input() weekDays!: string;
-  @Output() itemDropped = new EventEmitter<CdkDragDrop<any[]>>();
+
+  @Output() itemDropped = new EventEmitter<CdkDragDrop<Item[]>>();
   @Output() addItemWithCategory = new EventEmitter<string>();
 
-  loading: boolean = false;
-  itemChecked: boolean = true;
+  loading = false;
+  itemChecked = false;
 
-  drop2(event: CdkDragDrop<any[]>) {
+  constructor(private sanitizer: DomSanitizer) {}
+
+  getSafeResourceUrl(url: string | undefined): SafeResourceUrl {
+    if (url) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+    return this.sanitizer.bypassSecurityTrustResourceUrl('');
+  }
+
+  drop(event: CdkDragDrop<MenuCategory[]>) {
+    moveItemInArray(this.panels, event.previousIndex, event.currentIndex);
+  }
+
+  drop2(event: CdkDragDrop<Item[]>) {
     this.itemDropped.emit(event);
   }
 
-  drop(event: CdkDragDrop<any[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
+  openModalForCategory(categoryId: string) {
+    this.addItemWithCategory.emit(categoryId);
   }
 }
