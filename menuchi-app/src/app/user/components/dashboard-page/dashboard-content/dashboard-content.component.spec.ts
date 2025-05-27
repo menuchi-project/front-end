@@ -14,7 +14,6 @@ describe('DashboardContentComponent', () => {
   let mockItemService: jasmine.SpyObj<ItemService>;
 
   beforeEach(async () => {
-    // Create a mock ItemService
     mockItemService = jasmine.createSpyObj('ItemService', ['geAllItems']);
     mockItemService.itemsData$ = of([
       {
@@ -31,6 +30,7 @@ describe('DashboardContentComponent', () => {
         name: 'fff',
         positionInItemsList: 1,
         positionInCategory: 1,
+        orderCount: 1,
       },
     ]);
 

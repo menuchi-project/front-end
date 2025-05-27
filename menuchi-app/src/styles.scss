@@ -173,3 +173,10 @@ nz-sider:not(.ant-layout-sider-collapsed) {
 .ant-form-item-required::before {
   display: none !important;
 }
+
+.highlight {
+  background-color: rgba(140, 140, 110, 0.5);
+  border-radius: 4px;
+  padding-inline: 2px;
+  font-weight: bold;
+}

@@ -38,8 +38,10 @@ export interface Cylinder {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  days: boolean[];
+  days: string[];
   menuCategories: MenuCategory[];
+  positionInMenu: string;
+  daysString: string;
 }
 
 export interface MenuCategory {
@@ -49,7 +51,8 @@ export interface MenuCategory {
   deletedAt: string | null;
   categoryId: string;
   cylinderId: string;
-  positionInMenu: string;
+  positionInCylinder: string;
+  categoryName: string;
   items: Item[];
 }
 

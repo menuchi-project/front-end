@@ -34,7 +34,6 @@ export class RestaurantLoginComponent {
 
   submitForm(): void {
     if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
       let request: LoginRequest = {
         password: this.validateForm.value['password']!,
         phoneNumber: this.validateForm.value['username']!,

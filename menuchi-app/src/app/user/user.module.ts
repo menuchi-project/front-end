@@ -6,6 +6,7 @@ import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import {
   NzInputDirective,
   NzInputGroupComponent,
@@ -74,6 +75,9 @@ import { DashboardPageComponent } from './components/dashboard-page/dashboard-pa
 import { SettingsPageComponent } from './components/settings-page/settings-page.component';
 import { DashboardContentComponent } from './components/dashboard-page/dashboard-content/dashboard-content.component';
 import { MainModule } from '../main/main.module';
+import { JoinNonEmptyPipe} from './components/dashboard-page/dashboard-content/dashboard-content.component';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { HighlightPipe } from '../shared/pipes/highlight/highlight.pipe';
 
 @NgModule({
   declarations: [
@@ -92,6 +96,7 @@ import { MainModule } from '../main/main.module';
     DashboardPageComponent,
     SettingsPageComponent,
     DashboardContentComponent,
+    JoinNonEmptyPipe,
   ],
   imports: [
     CommonModule,
@@ -151,6 +156,9 @@ import { MainModule } from '../main/main.module';
     NzDrawerModule,
     NzRadioModule,
     MainModule,
+    NzToolTipModule,
+    NzSpinComponent,
+    HighlightPipe,
   ],
   providers: [NzModalService, NzImageService],
   exports: [ItemsPageComponent],

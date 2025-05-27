@@ -48,15 +48,6 @@ export class SelectItemsDrawerComponent implements OnInit {
     this.itemService.getCategoriesWithItems();
   }
 
-  // toggleItemSelection(id: string) {
-  //   if (this.selectedItemIds.has(id)) {
-  //     this.selectedItemIds.delete(id);
-  //   } else {
-  //     this.selectedItemIds.add(id);
-  //   }
-  //   this.syncAllChecked();
-  // }
-
   toggleAllItems() {
     this.allChecked = !this.allChecked;
     this.selectedItemIds.clear();
@@ -79,45 +70,9 @@ export class SelectItemsDrawerComponent implements OnInit {
     this.allChecked = this.selectedItemIds.size === totalItems;
   }
 
-  // submit() {
-  //   const selectedCategoryIds = new Set(
-  //     this.panels.flatMap((panel) =>
-  //       panel.items
-  //         .filter((item) => this.selectedItemIds.has(item.id))
-  //         .map(() => panel.id),
-  //     ),
-  //   );
-  //
-  //   if (selectedCategoryIds.size > 1) {
-  //     console.error('More than one category selected!');
-  //     return;
-  //   }
-  //
-  //   this.isSubmitting = true;
-  //
-  //   const selectedCategory = this.panels.find((panel) =>
-  //     panel.items.some((item) => this.selectedItemIds.has(item.id)),
-  //   );
-  //
-  //   const categoryId = selectedCategory?.id;
-  //
-  //   const body = {
-  //     categoryId,
-  //     cylinderId: this.cylinderId,
-  //     items: Array.from(this.selectedItemIds),
-  //   };
-  //
-  //   this.submitted.emit({ menuId: this.menuId, body });
-  //
-  //   setTimeout(() => {
-  //     this.isSubmitting = false;
-  //     this.close();
-  //   }, 1000);
-  // }
-
   submit() {
     const selectedCategoryIds = new Set(
-      this.panels.flatMap((panel, panelIndex) =>
+      this.panels.flatMap((panel) =>
         panel.items
           .filter((item) => this.selectedItemIds.has(item.id))
           .map(() => panel.id),
@@ -129,11 +84,11 @@ export class SelectItemsDrawerComponent implements OnInit {
       return;
     }
 
+    this.isSubmitting = true;
+
     const selectedCategory = this.panels.find((panel) =>
       panel.items.some((item) => this.selectedItemIds.has(item.id)),
     );
-
-    console.log(11, selectedCategory);
 
     const categoryId = selectedCategory?.id;
 
@@ -155,11 +110,13 @@ export class SelectItemsDrawerComponent implements OnInit {
     this.drawerService.closeDrawer();
     this.selectedItemIds.clear();
     this.allChecked = false;
+    this.selectedCategoryId = null;
   }
 
   toggleItemSelection(id: string, categoryId: string) {
     if (this.selectedCategoryId && this.selectedCategoryId !== categoryId) {
       this.selectedItemIds.clear();
+      this.allChecked = false;
     }
 
     if (this.selectedItemIds.has(id)) {

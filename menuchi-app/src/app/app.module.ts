@@ -14,9 +14,9 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { UserModule } from './user/user.module';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { MainModule } from './main/main.module';
 import { authInterceptor } from './main/interceptors/auth.interceptor';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 registerLocaleData(fa);
 
@@ -32,7 +32,7 @@ registerLocaleData(fa);
   providers: [
     provideNzI18n(fa_IR),
     provideAnimationsAsync(),
-    provideNoopAnimations(),
+    provideAnimations(),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
   ],
   bootstrap: [AppComponent],
