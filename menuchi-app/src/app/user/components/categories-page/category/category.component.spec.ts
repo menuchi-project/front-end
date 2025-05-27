@@ -38,6 +38,7 @@ describe('CategoryComponent', () => {
       updatedAt: '',
       categoryNameId: '11',
       items: [],
+      icon: '',
     };
 
     fixture.detectChanges();
