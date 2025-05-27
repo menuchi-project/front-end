@@ -24,6 +24,7 @@ export interface Category {
   categoryName: string;
   positionInBacklog: number;
   items: Item[];
+  icon: string | undefined;
 }
 
 export interface CategoryName {

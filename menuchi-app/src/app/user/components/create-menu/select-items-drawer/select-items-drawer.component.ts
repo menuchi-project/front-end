@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DrawerService } from '../../../services/drawer/drawer.service';
 import { Category, CategoryWithItemsResponse } from '../../../models/Item';
 import { ItemService } from '../../../services/item/item.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { CATEGORIES } from '../../../../main/models/CatNameIcons';
 
 @Component({
   selector: 'app-select-items-drawer',
@@ -26,12 +28,14 @@ export class SelectItemsDrawerComponent implements OnInit {
   constructor(
     private readonly drawerService: DrawerService,
     private readonly itemService: ItemService,
+    private readonly sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit(): void {
     this.itemService.categoriesData$.subscribe({
       next: (response: CategoryWithItemsResponse) => {
         this.panels = response.categories;
+        this.setIcons();
       },
       error: (error) => {
         console.error('Drawer error in select item drawer:', error);
@@ -127,5 +131,22 @@ export class SelectItemsDrawerComponent implements OnInit {
 
     this.selectedCategoryId = categoryId;
     this.syncAllChecked();
+  }
+
+  getSafeResourceUrl(url: string | undefined): SafeResourceUrl {
+    if (url) {
+      return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+    return this.sanitizer.bypassSecurityTrustResourceUrl('');
+  }
+
+  setIcons() {
+    for (let i = 0; i < this.panels.length; i++) {
+      let menuCat = this.panels[i];
+      menuCat.icon = CATEGORIES.find(
+        (c) => c.label == menuCat.categoryName,
+      )?.icon;
+      if (!menuCat.icon) menuCat.icon = 'assets/icons/categories/سالاد.svg';
+    }
   }
 }

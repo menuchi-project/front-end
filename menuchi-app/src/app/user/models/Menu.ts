@@ -54,6 +54,7 @@ export interface MenuCategory {
   positionInCylinder: string;
   categoryName: string;
   items: Item[];
+  icon: string | undefined;
 }
 
 export interface UpdateMenuRequest {
