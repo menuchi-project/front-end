@@ -72,6 +72,9 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "port": 3000
+          },
           "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {

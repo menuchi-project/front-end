@@ -20,6 +20,7 @@ export class CreateMenuComponent implements OnInit {
   menuId!: string;
   menu!: Menu;
   selectedCylinderId: string = '';
+  existingDays: string[] = [];
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
@@ -65,6 +66,7 @@ export class CreateMenuComponent implements OnInit {
       next: (response: Menu) => {
         this.menu = response;
         this.cylinders = response.cylinders;
+        this.updateExistingDays();
         console.log('current menu:', this.menu);
       },
       error: (error) => {
@@ -89,18 +91,20 @@ export class CreateMenuComponent implements OnInit {
   }
 
   openDaysModal(): void {
+    this.updateExistingDays();
     this.modalService.openModal();
   }
 
   onItemDropped($event: CdkDragDrop<any[]>) {}
 
   getWeekDaysString(cylinder: Cylinder): string {
-    let result = '';
-
-    for (let i = 0; i < 7; i++)
-      if (cylinder.days[i]) result += WeekDays[i].name + '، ';
-
-    return result.substring(0, result.length - 2);
+    let result: string[] = [];
+    for (let i = 0; i < WeekDays.length; i++) {
+      if (cylinder.days[i]) {
+        result.push(WeekDays[i].name);
+      }
+    }
+    return result.join('، ');
   }
 
   handleDrawerSubmit(event: { menuId: string; body: any }) {
@@ -114,5 +118,22 @@ export class CreateMenuComponent implements OnInit {
         this.messageService.error(' خطا در ارسال دسته‌بندی');
       },
     });
+  }
+
+  updateExistingDays(): void {
+    this.existingDays = [];
+    this.cylinders.forEach((cylinder) => {
+      if (cylinder.days) {
+        for (let i = 0; i < WeekDays.length; i++) {
+          if (
+            cylinder.days[i] &&
+            !this.existingDays.includes(WeekDays[i].value)
+          ) {
+            this.existingDays.push(WeekDays[i].value);
+          }
+        }
+      }
+    });
+    console.log('Existing days:', this.existingDays);
   }
 }

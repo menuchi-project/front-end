@@ -13,6 +13,7 @@ import { MenuService } from '../../../services/menu/menu.service';
 })
 export class SelectDaysModalComponent implements OnInit, OnDestroy {
   @Input() menuId!: string;
+  @Input() selectedDays: string[] = [];
 
   isOkLoading = false;
   isVisible = false;
@@ -21,44 +22,14 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
   setOfCheckedId = new Set<string>();
   private destroy$ = new Subject<void>();
   weekDays = [
-    { name: 'شنبه', value: 'sat', checked: false },
-    { name: 'یکشنبه', value: 'sun', checked: false },
-    { name: 'دوشنبه', value: 'mon', checked: false },
-    { name: 'سه شنبه', value: 'tue', checked: false },
-    { name: 'چهارشنبه', value: 'wed', checked: false },
-    { name: 'پنج شنبه', value: 'thu', checked: false },
-    { name: 'جمعه', value: 'fri', checked: false },
+    { name: 'شنبه', value: 'sat', checked: false, disabled: false },
+    { name: 'یکشنبه', value: 'sun', checked: false, disabled: false },
+    { name: 'دوشنبه', value: 'mon', checked: false, disabled: false },
+    { name: 'سه شنبه', value: 'tue', checked: false, disabled: false },
+    { name: 'چهارشنبه', value: 'wed', checked: false, disabled: false },
+    { name: 'پنج شنبه', value: 'thu', checked: false, disabled: false },
+    { name: 'جمعه', value: 'fri', checked: false, disabled: false },
   ];
-
-  // todo
-  onAllChecked(value: boolean): void {
-    this.weekDays.forEach((item) => this.updateCheckedSet(item.value, value));
-    this.refreshCheckedStatus();
-  }
-
-  submit(): void {
-    const request: CreateCylinder = {
-      sat: this.weekDays[0].checked,
-      sun: this.weekDays[1].checked,
-      mon: this.weekDays[2].checked,
-      tue: this.weekDays[3].checked,
-      wed: this.weekDays[4].checked,
-      thu: this.weekDays[5].checked,
-      fri: this.weekDays[6].checked,
-    };
-
-    this.menuService.createMenuCylinder(this.menuId, request).subscribe({
-      next: (response) => {
-        this.messageService.success(' منوی جدید با موفقیت ایجاد شد!');
-        this.menuService.getMenuById(this.menuId);
-        this.modalService.closeModal();
-      },
-      error: (error) => {
-        console.log('error in select days:', error);
-        this.messageService.error(' ' + error.error.message);
-      },
-    });
-  }
 
   constructor(
     private readonly modalService: ModalService,
@@ -70,27 +41,69 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
     this.modalService.modalOpens$.subscribe({
       next: (modalState) => {
         this.isVisible = modalState.isOpen;
+        if (modalState.isOpen) {
+          this.resetDaysSelection();
+        }
       },
       error: (error) =>
         console.error('Modal error in select days, line 30:', error),
     });
   }
 
+  onAllChecked(value: boolean): void {
+    this.weekDays.forEach((item) => {
+      this.updateCheckedSet(item.value, value);
+      item.checked = value;
+    });
+    this.refreshCheckedStatus();
+  }
+
+  onItemChecked(id: string, checked: boolean): void {
+    const day = this.weekDays.find((d) => d.value === id);
+    if (day) {
+      this.updateCheckedSet(id, checked);
+      day.checked = checked;
+      this.refreshCheckedStatus();
+    }
+  }
+
+  submit(): void {
+    const request: CreateCylinder = {
+      sat: this.setOfCheckedId.has('sat'),
+      sun: this.setOfCheckedId.has('sun'),
+      mon: this.setOfCheckedId.has('mon'),
+      tue: this.setOfCheckedId.has('tue'),
+      wed: this.setOfCheckedId.has('wed'),
+      thu: this.setOfCheckedId.has('thu'),
+      fri: this.setOfCheckedId.has('fri'),
+    };
+
+    const anyDaySelected = Object.values(request).some(Boolean);
+    if (!anyDaySelected) {
+      this.messageService.warning('لطفاً حداقل یک روز را انتخاب کنید.');
+      return;
+    }
+
+    this.menuService.createMenuCylinder(this.menuId, request).subscribe({
+      next: (response) => {
+        this.messageService.success(' منوی جدید با موفقیت ایجاد شد!');
+        this.menuService.getMenuById(this.menuId);
+        this.modalService.closeModal();
+      },
+      error: (error) => {
+        console.log('error in select days:', error);
+        if (error.status == 409)
+          this.messageService.error(
+            ' منویی برای این ترکیب روزها قبلا ایجاد شده است!',
+          );
+        else this.messageService.error(' ' + error.error.message);
+      },
+    });
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  handleOk(): void {
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.modalService.closeModal();
-      this.isOkLoading = false;
-    }, 2000);
-  }
-
-  handleCancel(): void {
-    this.modalService.closeModal();
   }
 
   updateCheckedSet(id: string, checked: boolean): void {
@@ -110,8 +123,27 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
       !this.checked;
   }
 
-  onItemChecked(id: string, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
+  handleCancel(): void {
+    this.modalService.closeModal();
+    this.resetDaysSelection();
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.modalService.closeModal();
+      this.isOkLoading = false;
+      this.resetDaysSelection();
+    }, 2000);
+  }
+
+  resetDaysSelection(): void {
+    this.setOfCheckedId.clear();
+    this.checked = false;
+    this.indeterminate = false;
+    this.weekDays.forEach((day) => {
+      day.checked = false;
+      day.disabled = false;
+    });
   }
 }
