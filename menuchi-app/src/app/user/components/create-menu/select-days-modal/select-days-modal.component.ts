@@ -92,7 +92,11 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.log('error in select days:', error);
-        this.messageService.error(' ' + error.error.message);
+        if (error.status == 409)
+          this.messageService.error(
+            ' منویی برای این ترکیب روزها قبلا ایجاد شده است!',
+          );
+        else this.messageService.error(' ' + error.error.message);
       },
     });
   }
