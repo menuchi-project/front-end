@@ -62,7 +62,6 @@ export class CreateMenuComponent implements OnInit {
 
     this.titleService.onPageChanged$.next('ایجاد منوی جدید');
 
-    this.menuService.getMenuById(this.menuId);
     this.menuService.currentMenuData$.subscribe({
       next: (response: Menu) => {
         this.menu = response;
@@ -92,6 +91,7 @@ export class CreateMenuComponent implements OnInit {
   }
 
   openDaysModal(): void {
+    this.updateExistingDays();
     this.modalService.openModal();
   }
 

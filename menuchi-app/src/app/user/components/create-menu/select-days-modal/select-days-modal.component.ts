@@ -42,7 +42,7 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
       next: (modalState) => {
         this.isVisible = modalState.isOpen;
         if (modalState.isOpen) {
-          this.updateDisabledDays();
+          this.resetDaysSelection();
         }
       },
       error: (error) =>
@@ -52,17 +52,15 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
 
   onAllChecked(value: boolean): void {
     this.weekDays.forEach((item) => {
-      if (!item.disabled) {
-        this.updateCheckedSet(item.value, value);
-        item.checked = value;
-      }
+      this.updateCheckedSet(item.value, value);
+      item.checked = value;
     });
     this.refreshCheckedStatus();
   }
 
   onItemChecked(id: string, checked: boolean): void {
     const day = this.weekDays.find((d) => d.value === id);
-    if (day && !day.disabled) {
+    if (day) {
       this.updateCheckedSet(id, checked);
       day.checked = checked;
       this.refreshCheckedStatus();
@@ -71,18 +69,18 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
 
   submit(): void {
     const request: CreateCylinder = {
-      sat: this.setOfCheckedId.has('sat') && !this.weekDays[0].disabled,
-      sun: this.setOfCheckedId.has('sun') && !this.weekDays[1].disabled,
-      mon: this.setOfCheckedId.has('mon') && !this.weekDays[2].disabled,
-      tue: this.setOfCheckedId.has('tue') && !this.weekDays[3].disabled,
-      wed: this.setOfCheckedId.has('wed') && !this.weekDays[4].disabled,
-      thu: this.setOfCheckedId.has('thu') && !this.weekDays[5].disabled,
-      fri: this.setOfCheckedId.has('fri') && !this.weekDays[6].disabled,
+      sat: this.setOfCheckedId.has('sat'),
+      sun: this.setOfCheckedId.has('sun'),
+      mon: this.setOfCheckedId.has('mon'),
+      tue: this.setOfCheckedId.has('tue'),
+      wed: this.setOfCheckedId.has('wed'),
+      thu: this.setOfCheckedId.has('thu'),
+      fri: this.setOfCheckedId.has('fri'),
     };
 
     const anyDaySelected = Object.values(request).some(Boolean);
     if (!anyDaySelected) {
-      this.messageService.warning(' لطفاً حداقل یک روز را انتخاب کنید.');
+      this.messageService.warning('لطفاً حداقل یک روز را انتخاب کنید.');
       return;
     }
 
@@ -99,23 +97,6 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateDisabledDays(): void {
-    this.weekDays.forEach((day) => {
-      if (this.selectedDays.includes(day.value)) {
-        day.disabled = true;
-        day.checked = true;
-        this.setOfCheckedId.add(day.value);
-      } else {
-        day.disabled = false;
-        if (this.setOfCheckedId.has(day.value) && !day.disabled) {
-          this.setOfCheckedId.delete(day.value);
-          day.checked = false;
-        }
-      }
-    });
-    this.refreshCheckedStatus();
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
@@ -130,24 +111,17 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
   }
 
   refreshCheckedStatus(): void {
-    const enabledWeekDays = this.weekDays.filter((item) => !item.disabled);
-    this.checked = enabledWeekDays.every((item) =>
+    this.checked = this.weekDays.every((item) =>
       this.setOfCheckedId.has(item.value),
     );
     this.indeterminate =
-      enabledWeekDays.some((item) => this.setOfCheckedId.has(item.value)) &&
+      this.weekDays.some((item) => this.setOfCheckedId.has(item.value)) &&
       !this.checked;
   }
 
   handleCancel(): void {
     this.modalService.closeModal();
-    this.setOfCheckedId.clear();
-    this.checked = false;
-    this.indeterminate = false;
-    this.weekDays.forEach((day) => {
-      day.checked = false;
-      day.disabled = false;
-    });
+    this.resetDaysSelection();
   }
 
   handleOk(): void {
@@ -155,17 +129,17 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.modalService.closeModal();
       this.isOkLoading = false;
-      this.setOfCheckedId.clear();
-      this.checked = false;
-      this.indeterminate = false;
-      this.weekDays.forEach((day) => {
-        day.checked = false;
-        day.disabled = false;
-      });
+      this.resetDaysSelection();
     }, 2000);
   }
 
-  get isAllWeekDaysDisabled(): boolean {
-    return this.weekDays.every((day) => day.disabled);
+  resetDaysSelection(): void {
+    this.setOfCheckedId.clear();
+    this.checked = false;
+    this.indeterminate = false;
+    this.weekDays.forEach((day) => {
+      day.checked = false;
+      day.disabled = false;
+    });
   }
 }

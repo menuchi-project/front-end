@@ -17,7 +17,7 @@
           [(nzChecked)]="checked"
           [nzIndeterminate]="indeterminate"
           (nzCheckedChange)="onAllChecked($event)"
-          [nzDisabled]="isAllWeekDaysDisabled"
+          [nzDisabled]="false"
         >
           انتخاب کل هفته
         </label>
@@ -28,10 +28,9 @@
       <div nz-col nzSpan="24" *ngFor="let day of weekDays">
         <label
           nz-checkbox
-          [nzChecked]="setOfCheckedId.has(day.value)"
+          [nzChecked]="day.checked"
           (nzCheckedChange)="onItemChecked(day.value, $event)"
-          [(ngModel)]="day.checked"
-          [nzDisabled]="day.disabled"
+          [nzDisabled]="false"
         >
           {{ day.name }}
         </label>
