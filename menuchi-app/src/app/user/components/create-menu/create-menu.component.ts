@@ -62,6 +62,7 @@ export class CreateMenuComponent implements OnInit {
 
     this.titleService.onPageChanged$.next('ایجاد منوی جدید');
 
+    this.menuService.getMenuById(this.menuId);
     this.menuService.currentMenuData$.subscribe({
       next: (response: Menu) => {
         this.menu = response;
@@ -97,17 +98,16 @@ export class CreateMenuComponent implements OnInit {
   onItemDropped($event: CdkDragDrop<any[]>) {}
 
   getWeekDaysString(cylinder: Cylinder): string {
-    let result = '';
+    console.log(100, cylinder);
+    let result: string[] = [];
     for (let i = 0; i < WeekDays.length; i++) {
       if (cylinder.days[i]) {
-        result += WeekDays[i].name + '، ';
+        result.push(WeekDays[i].name);
       }
     }
 
-    return result.substring(
-      0,
-      result.length > 2 ? result.length - 2 : result.length,
-    );
+    console.log(result);
+    return result.join('، ');
   }
 
   handleDrawerSubmit(event: { menuId: string; body: any }) {
