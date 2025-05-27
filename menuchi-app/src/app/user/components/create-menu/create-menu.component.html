@@ -1,6 +1,6 @@
 <div class="container">
-  <div class="search">
-    <nz-input-group [nzSuffix]="suffixIconSearch">
+  <div class="search-pre-container">
+    <nz-input-group class="search" [nzSuffix]="suffixIconSearch">
       <input
         id="search"
         type="text"
@@ -11,6 +11,21 @@
     <ng-template #suffixIconSearch>
       <nz-icon nzType="edit" />
     </ng-template>
+
+    <button
+      class="preview-btn"
+      nz-button
+      nzType="primary"
+      routerLink="/dashboard/preview"
+    >
+      پیش‌نمایش منو
+      <nz-icon>
+        <object
+          data="/assets/icons/Eye-white.svg"
+          type="image/svg+xml"
+        ></object>
+      </nz-icon>
+    </button>
   </div>
 
   <div
