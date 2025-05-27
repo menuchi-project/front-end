@@ -71,14 +71,20 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
 
   submit(): void {
     const request: CreateCylinder = {
-      sat: this.weekDays[0].checked,
-      sun: this.weekDays[1].checked,
-      mon: this.weekDays[2].checked,
-      tue: this.weekDays[3].checked,
-      wed: this.weekDays[4].checked,
-      thu: this.weekDays[5].checked,
-      fri: this.weekDays[6].checked,
+      sat: this.setOfCheckedId.has('sat') && !this.weekDays[0].disabled,
+      sun: this.setOfCheckedId.has('sun') && !this.weekDays[1].disabled,
+      mon: this.setOfCheckedId.has('mon') && !this.weekDays[2].disabled,
+      tue: this.setOfCheckedId.has('tue') && !this.weekDays[3].disabled,
+      wed: this.setOfCheckedId.has('wed') && !this.weekDays[4].disabled,
+      thu: this.setOfCheckedId.has('thu') && !this.weekDays[5].disabled,
+      fri: this.setOfCheckedId.has('fri') && !this.weekDays[6].disabled,
     };
+
+    const anyDaySelected = Object.values(request).some(Boolean);
+    if (!anyDaySelected) {
+      this.messageService.warning(' لطفاً حداقل یک روز را انتخاب کنید.');
+      return;
+    }
 
     this.menuService.createMenuCylinder(this.menuId, request).subscribe({
       next: (response) => {
@@ -101,7 +107,7 @@ export class SelectDaysModalComponent implements OnInit, OnDestroy {
         this.setOfCheckedId.add(day.value);
       } else {
         day.disabled = false;
-        if (this.setOfCheckedId.has(day.value)) {
+        if (this.setOfCheckedId.has(day.value) && !day.disabled) {
           this.setOfCheckedId.delete(day.value);
           day.checked = false;
         }
