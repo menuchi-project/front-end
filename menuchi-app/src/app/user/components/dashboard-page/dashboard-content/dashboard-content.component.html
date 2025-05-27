@@ -184,99 +184,31 @@
                 type="image/svg+xml"
               ></object>
             </nz-icon>
+          </div>
+        </div>
+        <img src="{{ item.picUrl }}" alt="item-image" />
+        <div class="info-row">
+          <span>نام</span>
+          <p>کباب کوبیده</p>
+        </div>
+        <div class="info-row">
+          <span>دسته بندی</span>
+          <p>ایرانی</p>
+        </div>
+        <div class="info-row">
+          <span>قیمت</span>
+          <p>2400000 تومان</p>
+        </div>
+        <div class="info-row">
+          <span>مواد اولیه</span>
+          <p>
+            ۳۰۰ گرم گوشت چرخ کرده٫ ۵ عدد پیاز ٫ فلفل٫ نمک٫فلفل قرمز٫ ادویه
+            مخصوص٫...
+          </p>
         </div>
 
-        <div class="menu-container">
-            <div nzAlign="middle" class="section-header">
-                <div class="header-left">
-                    <object data="/assets/icons/Menu2.svg" type="image/svg+xml"></object>
-                    <h3>منوهای ساخته شده</h3>
-                </div>
-                <div class="arrow-container">
-                    <img [ngClass]="{'disabled': currentIndex === 0}" (click)="scrollMenus('left')" src="/assets/icons/arrow-right.svg" class="arrow-icon" />
-                    <img [ngClass]="{'disabled': currentIndex + 2 >= menus.length}" (click)="scrollMenus('right')" src="/assets/icons/arrow-left.svg" class="arrow-icon" />
-                </div>
-            </div>
-
-            <div *ngIf="menus.length > 0; else noMenus" class="menus-carousel">
-                <div class="menus-container">
-                    <div *ngFor="let menu of visibleMenus" class="menu-card" nz-col [nzSpan]="12">
-                        <nz-card [nzHoverable]="true" (click)="viewMenuDetails(menu.id)" class="card">
-                            <nz-card-meta [nzTitle]="menu.name || 'بدون عنوان'">
-                            </nz-card-meta>
-                            <div class="card-actions">
-                                <button nz-button nzType="default" (click)="viewMenuDetails(menu.id)">جزئیات بیشتر منو</button>
-                            </div>
-                        </nz-card>
-                    </div>
-                </div>
-            </div>
-            <ng-template #noMenus>
-                <div class="no-menus-message">
-                    <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="'منویی برای نمایش وجود ندارد'"></nz-empty>
-                </div>
-            </ng-template>
-        </div>
-
-        <div class="branch-container">
-            <div nzAlign="middle" class="section-header">
-                <div class="header-left">
-                    <object data="/assets/icons/Shop2.svg" type="image/svg+xml"></object>
-                    <h3>شعب</h3>
-                </div>
-                <div class="arrow-container">
-                    <img [ngClass]="{'disabled': currentIndex === 0}" (click)="scrollMenus('left')" src="/assets/icons/arrow-right.svg" class="arrow-icon" />
-                    <img [ngClass]="{'disabled': currentIndex + 2 >= menus.length}" (click)="scrollMenus('right')" src="/assets/icons/arrow-left.svg" class="arrow-icon" />
-                </div>
-            </div>
-        </div>
+        <button nz-button nzType="primary">مشاهده همه آیتم‌ها</button>
+      </div>
     </div>
-    <div class="second-col">
-        <app-weekly-calendar class="card"></app-weekly-calendar>
-        <div class="card backlog-item">
-            <div class="header">
-                <div>
-                    <object data="/assets/icons/Backlog-blue.svg" type="image/svg+xml"></object>
-                    <h4>غذای امروز</h4>
-                </div>
-                <nz-icon>
-                    <object data="/assets/icons/More.svg" type="image/svg+xml"></object>
-                </nz-icon>
-            </div>
-            <div class="item-info">
-                <div class="item-name">
-                    <h3>کباب کوبیده مخصوص</h3>
-                    <div>
-                        <nz-icon>
-                            <object data="/assets/icons/arrow-right.svg" type="image/svg+xml"></object>
-                        </nz-icon>
-                        <nz-icon>
-                            <object data="/assets/icons/arrow-left.svg" type="image/svg+xml"></object>
-                        </nz-icon>
-                    </div>
-                </div>
-                <img src="{{ item.picUrl }}" alt="item-image" />
-                <div class="info-row">
-                    <span>نام</span>
-                    <p>کباب کوبیده</p>
-                </div>
-                <div class="info-row">
-                    <span>دسته بندی</span>
-                    <p>ایرانی</p>
-                </div>
-                <div class="info-row">
-                    <span>قیمت</span>
-                    <p>2400000 تومان</p>
-                </div>
-                <div class="info-row">
-                    <span>مواد اولیه</span>
-                    <p>
-                        ۳۰۰ گرم گوشت چرخ کرده٫ ۵ عدد پیاز ٫ فلفل٫ نمک٫فلفل قرمز٫ ادویه مخصوص٫...
-                    </p>
-                </div>
-
-                <button nz-button nzType="primary">مشاهده همه آیتم‌ها</button>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
