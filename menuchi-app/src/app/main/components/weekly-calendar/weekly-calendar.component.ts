@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { isSameDay } from 'date-fns';
 import moment from 'jalali-moment';
 
@@ -9,6 +9,8 @@ import moment from 'jalali-moment';
   styleUrls: ['./weekly-calendar.component.scss'],
 })
 export class WeeklyCalendarComponent {
+  @Output() daySelected = new EventEmitter<string>();
+
   viewDate: Date = new Date();
   locale: string = 'fa';
   selectedDate: Date | null = null;
@@ -49,6 +51,21 @@ export class WeeklyCalendarComponent {
 
   selectDate(date: Date): void {
     this.selectedDate = date;
+
+    const dayOfWeek = moment(date).day();
+    const persianWeekDaysMap: { [key: number]: string } = {
+      6: 'sat', // شنبه
+      0: 'sun', // یکشنبه
+      1: 'mon', // دوشنبه
+      2: 'tue', // سه‌شنبه
+      3: 'wed', // چهارشنبه
+      4: 'thu', // پنج‌شنبه
+      5: 'fri', // جمعه
+    };
+    const dayAbbreviation = persianWeekDaysMap[dayOfWeek];
+    if (dayAbbreviation) {
+      this.daySelected.emit(dayAbbreviation);
+    }
   }
 
   startOfPersianWeek(date: Date): Date {

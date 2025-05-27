@@ -13,9 +13,11 @@ import { MenuCategory, MenuPreview } from '../../../user/models/Menu';
 })
 export class MenuPreviewComponent implements OnInit {
   categories = CATEGORIES;
-  items: Item[] = [];
+  allItems: Item[] = []; // Stores all unique items from the menu preview
+  filteredItems: Item[] = []; // Items to display based on selected day
   menuId: string | null = null;
   menuPreviewData: MenuPreview | null = null;
+  selectedDay: string = 'sat'; // Default to Saturday or the current day
 
   constructor(
     private readonly menuService: MenuService,
@@ -31,7 +33,6 @@ export class MenuPreviewComponent implements OnInit {
         console.warn(
           'Menu ID not found in route parameters. Cannot display preview.',
         );
-        // Optionally, redirect or show an error message to the user
       }
     });
   }
@@ -42,8 +43,7 @@ export class MenuPreviewComponent implements OnInit {
         this.menuPreviewData = data;
         console.log('Menu Preview Data:', this.menuPreviewData);
 
-        this.items = [];
-
+        const collectedItems: Item[] = [];
         const days: (keyof MenuPreview)[] = [
           'sat',
           'sun',
@@ -53,7 +53,6 @@ export class MenuPreviewComponent implements OnInit {
           'thu',
           'fri',
         ];
-        const collectedItems: Item[] = [];
 
         days.forEach((day) => {
           const categoriesForDay = this.menuPreviewData?.[day] as
@@ -68,18 +67,53 @@ export class MenuPreviewComponent implements OnInit {
           }
         });
 
-        // Remove duplicates if an item can appear in multiple categories/days
+        // Get all unique items across all days
         const uniqueItemsMap = new Map<string, Item>();
         collectedItems.forEach((item) => uniqueItemsMap.set(item.id, item));
-        this.items = Array.from(uniqueItemsMap.values());
+        this.allItems = Array.from(uniqueItemsMap.values());
 
-        // اگر می‌خواهید فقط 5 آیتم اول را نمایش دهید، اینجا برش دهید:
-        // this.items = this.items.slice(0, 5); // اگر می‌خواهید فقط 5 آیتم نمایش داده شود
+        // Initially filter items for the default selected day (e.g., 'sat')
+        this.filterItemsByDay(this.selectedDay);
       },
       error: (error) => {
         console.error('Error fetching menu preview:', error);
-        // Handle error, e.g., show a message to the user
       },
     });
+  }
+
+  // New method to handle day selection from the calendar component
+  onDaySelected(day: string): void {
+    this.selectedDay = day;
+    this.filterItemsByDay(day);
+  }
+
+  // New method to filter items based on the selected day
+  private filterItemsByDay(day: string): void {
+    if (!this.menuPreviewData) {
+      this.filteredItems = [];
+      return;
+    }
+
+    const categoriesForSelectedDay = (this.menuPreviewData as any)[day] as
+      | MenuCategory[]
+      | undefined;
+    const itemsForSelectedDay: Item[] = [];
+
+    if (categoriesForSelectedDay && Array.isArray(categoriesForSelectedDay)) {
+      categoriesForSelectedDay.forEach((category) => {
+        if (category.items && Array.isArray(category.items)) {
+          itemsForSelectedDay.push(...category.items);
+        }
+      });
+    }
+
+    // Remove duplicates if items can appear in multiple categories within the same day
+    const uniqueFilteredItemsMap = new Map<string, Item>();
+    itemsForSelectedDay.forEach((item) =>
+      uniqueFilteredItemsMap.set(item.id, item),
+    );
+    this.filteredItems = Array.from(uniqueFilteredItemsMap.values());
+
+    console.log(`Items for ${day}:`, this.filteredItems);
   }
 }
