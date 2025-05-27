@@ -103,13 +103,13 @@
                   type="image/svg+xml"
                 ></object>
               </nz-icon>
-              <span>{{ panel.items[0].categoryName }}</span>
+              <span>{{ panel.categoryName }}</span>
             </div>
           </div>
         </ng-template>
 
         <div *cdkDragPreview style="padding: 1rem; width: 16rem">
-          {{ panel.items[0].categoryName }}
+          {{ panel.categoryName }}
         </div>
       </nz-collapse-panel>
     }
