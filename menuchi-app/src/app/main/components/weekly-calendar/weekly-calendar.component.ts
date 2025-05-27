@@ -54,13 +54,13 @@ export class WeeklyCalendarComponent {
 
     const dayOfWeek = moment(date).day();
     const persianWeekDaysMap: { [key: number]: string } = {
-      6: 'sat', // شنبه
-      0: 'sun', // یکشنبه
-      1: 'mon', // دوشنبه
-      2: 'tue', // سه‌شنبه
-      3: 'wed', // چهارشنبه
-      4: 'thu', // پنج‌شنبه
-      5: 'fri', // جمعه
+      6: 'sat',
+      0: 'sun',
+      1: 'mon',
+      2: 'tue',
+      3: 'wed',
+      4: 'thu',
+      5: 'fri',
     };
     const dayAbbreviation = persianWeekDaysMap[dayOfWeek];
     if (dayAbbreviation) {

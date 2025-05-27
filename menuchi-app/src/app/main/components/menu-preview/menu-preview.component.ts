@@ -4,6 +4,7 @@ import { MenuService } from '../../../user/services/menu/menu.service';
 import { ItemService } from '../../../user/services/item/item.service';
 import { ActivatedRoute } from '@angular/router';
 import { MenuCategory, MenuPreview } from '../../../user/models/Menu';
+import moment from 'jalali-moment'; // Import moment
 
 @Component({
   selector: 'app-menu-preview',
@@ -18,14 +19,16 @@ export class MenuPreviewComponent implements OnInit {
   finalFilteredItems: Item[] = [];
   menuId: string | null = null;
   menuPreviewData: MenuPreview | null = null;
-  selectedDay: string = 'sat';
+  selectedDay: string;
   selectedCategoryId: string | null = null;
 
   constructor(
     private readonly menuService: MenuService,
     private readonly itemService: ItemService,
     private readonly route: ActivatedRoute,
-  ) {}
+  ) {
+    this.selectedDay = this.getCurrentPersianDayAbbreviation();
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -49,6 +52,21 @@ export class MenuPreviewComponent implements OnInit {
       },
     });
     this.itemService.getBacklogCatNames();
+  }
+
+  private getCurrentPersianDayAbbreviation(): string {
+    const todayMoment = moment();
+    const dayOfWeek = todayMoment.day();
+    const persianWeekDaysMap: { [key: number]: string } = {
+      6: 'sat',
+      0: 'sun',
+      1: 'mon',
+      2: 'tue',
+      3: 'wed',
+      4: 'thu',
+      5: 'fri',
+    };
+    return persianWeekDaysMap[dayOfWeek] || 'sat';
   }
 
   private getAndDisplayMenuPreview(menuId: string): void {
