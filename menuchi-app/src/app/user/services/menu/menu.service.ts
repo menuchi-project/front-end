@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { forkJoin, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { environment } from '../../../../../api-config/environment';
