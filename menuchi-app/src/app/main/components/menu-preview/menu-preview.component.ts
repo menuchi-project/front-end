@@ -4,7 +4,7 @@ import { MenuService } from '../../../user/services/menu/menu.service';
 import { ItemService } from '../../../user/services/item/item.service';
 import { ActivatedRoute } from '@angular/router';
 import { MenuCategory, MenuPreview } from '../../../user/models/Menu';
-import moment from 'jalali-moment'; // Import moment
+import moment from 'jalali-moment';
 
 @Component({
   selector: 'app-menu-preview',
