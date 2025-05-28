@@ -24,6 +24,7 @@ describe('ItemCardComponent', () => {
     positionInCategory: 1,
     positionInItemsList: 1,
     updatedAt: '',
+    orderCount: 1,
   };
 
   beforeEach(async () => {

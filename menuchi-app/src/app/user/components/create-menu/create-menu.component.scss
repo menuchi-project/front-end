@@ -6,11 +6,23 @@
   min-height: 72vh;
   overflow-y: hidden;
 
-  .search {
+  .search-pre-container {
     display: flex;
     flex-direction: row;
     gap: 1rem;
-    width: 30rem;
+    justify-content: space-between;
+    width: 100%;
+
+    .search {
+      width: 30rem;
+    }
+
+    .preview-btn {
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 
   .all-menus-container {

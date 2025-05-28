@@ -15,7 +15,10 @@ export interface OpeningTimes {
 
 export interface Branch {
   id: string;
+<<<<<<< HEAD
   name?: string;
+=======
+>>>>>>> 60d8ec943c4d2377a25dde6dbc54d586c7b579dd
   address?: {
     country: string;
     region: string;

@@ -22,7 +22,6 @@
           (ngModelChange)="toggleAllItems()"
         ></label>
       </div>
-      <!-- todo id -->
       <nz-collapse
         nzAccordion
         nzExpandIconPosition="end"
@@ -90,17 +89,18 @@
                 <div style="display: flex; align-items: center; gap: 0.4rem">
                   <nz-icon>
                     <object
-                      data="/assets/icons/categories/Pizza.svg"
+                      style="height: 18px; width: 18px"
+                      [data]="getSafeResourceUrl(panel.icon)"
                       type="image/svg+xml"
                     ></object>
                   </nz-icon>
-                  <span>{{ panel.items[0].categoryName }}</span>
+                  <span>{{ panel.categoryName }}</span>
                 </div>
               </div>
             </ng-template>
 
             <div *cdkDragPreview style="padding: 1rem; width: 16rem">
-              {{ panel.items[0].categoryName }}
+              {{ panel.categoryName }}
             </div>
           </nz-collapse-panel>
         }

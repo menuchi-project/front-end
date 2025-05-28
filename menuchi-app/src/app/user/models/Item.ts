@@ -12,6 +12,7 @@ export interface Item {
   picUrl: string;
   positionInItemsList: number;
   positionInCategory: number;
+  orderCount: number;
 }
 
 export interface Category {
@@ -23,6 +24,7 @@ export interface Category {
   categoryName: string;
   positionInBacklog: number;
   items: Item[];
+  icon: string | undefined;
 }
 
 export interface CategoryName {
