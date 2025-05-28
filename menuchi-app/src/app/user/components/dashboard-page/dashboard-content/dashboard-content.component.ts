@@ -116,22 +116,11 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
               openingHours: 'نامشخص',
               openingHoursTooltip: 'داده‌های ساعت کاری در دسترس نیست',
             };
-
-            if (this.branchId) {
-              const branch = this.restaurant.branches.find((b: Branch) => b.id === this.branchId);
-              console.log('Selected Branch:', branch); // لاگ دیباگ
-              if (branch) console.log('Opening Times:', branch.openingTimes); // لاگ دیباگ
-              if (branch && branch.openingTimes) {
-                this.restaurant.openingHours = this.formatOpeningHours(branch.openingTimes);
-                this.restaurant.openingHoursTooltip = this.formatOpeningHoursTooltip(branch.openingTimes);
-              } else {
-                this.restaurant.openingHours = 'نامشخص';
-                this.restaurant.openingHoursTooltip = 'داده‌های ساعت کاری در دسترس نیست';
-              }
-            } else {
-              this.restaurant.openingHours = 'نامشخص';
-              this.restaurant.openingHoursTooltip = 'شناسه شعبه در دسترس نیست';
-            }
+            this.restaurant.branches = this.restaurant.branches.map((branch: Branch) => ({
+              ...branch,
+              openingHours: branch.openingTimes ? this.formatOpeningHours(branch.openingTimes) : 'نامشخص',
+              openingHoursTooltip: branch.openingTimes ? this.formatOpeningHoursTooltip(branch.openingTimes) : 'داده‌های ساعت کاری در دسترس نیست',
+            }));
           },
           error: (err) => {
             console.error('خطا در دریافت اطلاعات رستوران:', err);

@@ -58,8 +58,13 @@
                         <nz-card [nzHoverable]="true" class="card">
                             <img [src]="restaurant.imageUrl" (error)="onImageError($event)" alt="تصویر رستوران" class=" card branch-img" />
                             <h3 class="branch-title">{{ restaurant.name }}</h3>
-                            <p *ngIf="branch.address" class="branch-address">
-                                {{ [branch.address.country, branch.address.region, branch.address.city, branch.address.area, branch.address.street, branch.address.description] | joinNonEmpty: ', ' }}
+                            <p class="branch-address">
+                                <ng-container *ngIf="branch.address; else noAddress">
+                                    {{ [branch.address.country, branch.address.region, branch.address.city, branch.address.area, branch.address.street, branch.address.description] | joinNonEmpty: ', ' }}
+                                </ng-container>
+                                <ng-template #noAddress>
+                                    آدرس در دسترس نیست
+                                </ng-template>
                             </p>
                             <div class="working-hours">
                                 <object data="/assets/icons/CalendarMark.svg" type="image/svg+xml"></object>
