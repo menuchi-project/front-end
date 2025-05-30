@@ -1,0 +1,95 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-image: url("../../../../../public/assets/images/login-bg.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.otp-box {
+    background-color: white;
+    padding-left: 1.87rem;
+    padding-right: 1.87rem;
+    border-radius: 1.5rem;
+    padding-top: 1.56rem;
+    width: 45%;
+    max-width: 31.25rem;
+    min-width: 18.75rem;
+}
+
+.otp-form .ant-input {
+    background-color: white;
+    color: #333;
+    height: 2.3rem;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+    margin-top: 1.5rem;
+}
+
+.logo img {
+    width: 4.4rem;
+    height: 4.4rem;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.otp-form {
+    width: 100%;
+    padding: 0 1.25rem;
+}
+
+.otp-form-margin {
+    margin-bottom: 1rem;
+}
+
+.otp-form-forgot {
+    white-space: nowrap;
+    float: right;
+    margin-right: 0.9rem;
+    text-decoration: underline;
+    font-size: 0.7rem;
+    position: absolute;
+    font-weight: 450;
+}
+
+.otp-form-button {
+    width: 100%;
+    height: 2.8rem;
+    margin-top: 2rem;
+    margin-bottom: 2.25rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
+
+.otp-form-item {
+    margin-bottom: 0;
+}
+
+.otp-form-item nz-form-label {
+    margin-bottom: 1.1rem;
+}
+
+.rtl-text {
+    direction: rtl;
+    text-align: right;
+    font-weight: 400;
+}
+
+:host ::ng-deep .ant-form-item-label label {
+    color: #343434 !important;
+}
+
+h2 {
+    font-weight: 700;
+    color: #1c274c;
+    margin: 0 0 0;
+}
