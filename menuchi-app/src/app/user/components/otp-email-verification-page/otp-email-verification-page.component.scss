@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-image: url("../../../../../public/assets/images/login-bg.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.otp-box {
+    background-color: white;
+    padding-left: 1.87rem;
+    padding-right: 1.87rem;
+    border-radius: 1.5rem;
+    padding-top: 1.56rem;
+    width: 45%;
+    max-width: 31.25rem;
+    min-width: 18.75rem;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.logo img {
+    width: 4.4rem;
+    height: 4.4rem;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-weight: 700;
+    color: #1c274c;
+    margin: 0 0 0;
+}
+
+.label {
+    color: #343434;
+    margin-bottom: 0.5rem;
+}
+
+nz-input-otp {
+    display: flex;
+    justify-content: center;
+    direction: ltr;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 90vw;
+    margin-inline: auto;
+}
+
+::ng-deep nz-input-otp {
+    display: flex !important;
+    justify-content: center;
+    width: 100%;
+}
+
+::ng-deep nz-input-otp .ant-input {
+    height: clamp(2.5rem, 6vw, 5rem);
+    width: clamp(2rem, 4.5vw, 3.8rem);
+    font-size: clamp(1rem, 2vw, 1.6rem);
+    text-align: center;
+    border-radius: 0.5rem;
+    flex: 0 0 auto;
+    margin-inline: clamp(0.1rem, 0.3vw, 0.2rem);
+    box-sizing: border-box;
+}

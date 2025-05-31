@@ -1,1 +1,32 @@
-<p>otp-email-verification-page works!</p>
+<div class="container">
+    <div class="otp-box">
+        <div class="header">
+            <div class="logo">
+                <img ngSrc="/assets/logo-blue.svg" alt="منوچی" height="62" width="84" />
+            </div>
+            <h2>ورود با رمز یکبار مصرف</h2>
+        </div>
+
+        <p class="label">کد تأیید ارسال‌شده به آدرس {{ email }} را وارد کنید.</p>
+
+        <form #otpForm="ngForm" (ngSubmit)="onSubmit()">
+            <nz-flex nzVertical [nzGap]="16">
+                <nz-flex nzVertical>
+                    <nz-input-otp name="otpCode" [(ngModel)]="otpCodeValue" [nzLength]="6" [nzFormatter]="formatter" required></nz-input-otp>
+                    <div *ngIf="otpForm.submitted && otpCodeValue.length !== 6" class="error">
+                        لطفاً یک کد ۶ رقمی معتبر وارد کنید.
+                    </div>
+                </nz-flex>
+            </nz-flex>
+
+            <button type="submit" class="submit-button" [disabled]="otpCodeValue.length !== 6">
+        تأیید
+      </button>
+        </form>
+
+        <div class="resend">
+            <p>ایمیلی دریافت نکرده‌اید؟</p>
+            <p (click)="resendCode()">ارسال مجدد کد</p>
+        </div>
+    </div>
+</div>
