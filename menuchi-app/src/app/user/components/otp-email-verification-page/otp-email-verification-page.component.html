@@ -7,26 +7,32 @@
             <h2>ورود با رمز یکبار مصرف</h2>
         </div>
 
-        <p class="label">کد تأیید ارسال‌شده به آدرس {{ email }} را وارد کنید.</p>
+        <div class="label-container">
+            <p class="label">کد تأیید ارسال‌شده به آدرس {{ maskEmail(email) }} را وارد کنید.</p>
+            <span class="countdown" *ngIf="isResendDisabled">{{ formatTime(countdown) }}</span>
+        </div>
 
         <form #otpForm="ngForm" (ngSubmit)="onSubmit()">
             <nz-flex nzVertical [nzGap]="16">
                 <nz-flex nzVertical>
-                    <nz-input-otp name="otpCode" [(ngModel)]="otpCodeValue" [nzLength]="6" [nzFormatter]="formatter" required></nz-input-otp>
-                    <div *ngIf="otpForm.submitted && otpCodeValue.length !== 6" class="error">
+                    <nz-input-otp [(ngModel)]="otpCodeValue" [nzLength]="6" (ngModelChange)="onOtpInputChange($event)" name="otpCode" required>
+                    </nz-input-otp>
+                    <div *ngIf="otpForm.submitted && (!isOtpValid())" class="error">
                         لطفاً یک کد ۶ رقمی معتبر وارد کنید.
                     </div>
                 </nz-flex>
             </nz-flex>
 
-            <button type="submit" class="submit-button" [disabled]="otpCodeValue.length !== 6">
-        تأیید
-      </button>
+            <button type="submit" class="submit-button" [disabled]="!isOtpValid()">
+                ادامه
+            </button>
         </form>
 
         <div class="resend">
             <p>ایمیلی دریافت نکرده‌اید؟</p>
-            <p (click)="resendCode()">ارسال مجدد کد</p>
+            <p (click)="resendCode()" [class.disabled]="isResendDisabled">
+                ارسال مجدد
+            </p>
         </div>
     </div>
 </div>

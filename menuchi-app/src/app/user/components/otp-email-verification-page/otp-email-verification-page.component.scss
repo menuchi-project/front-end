@@ -42,9 +42,20 @@ h2 {
     margin: 0 0 0;
 }
 
-.label {
-    color: #343434;
-    margin-bottom: 0.5rem;
+.label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .countdown {
+        color: #243E62;
+        opacity: 80%;
+    }
+    .label {
+        color: #343434;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
 }
 
 nz-input-otp {
@@ -72,4 +83,45 @@ nz-input-otp {
     flex: 0 0 auto;
     margin-inline: clamp(0.1rem, 0.3vw, 0.2rem);
     box-sizing: border-box;
+}
+
+.error {
+    color: #ff4d4f;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+.submit-button {
+    width: 98%;
+    height: 3rem;
+    margin: 0 auto 0.7rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    justify-content: center;
+    display: block;
+    background-color: #243E62;
+    color: white;
+    cursor: pointer;
+}
+
+.resend {
+    text-align: center;
+}
+
+.resend p {
+    display: inline-block;
+    margin: 0 0.1rem 2rem;
+    font-size: 0.9rem;
+}
+
+.resend p:first-child {
+    color: #666666;
+    opacity: 80%;
+}
+
+.resend p:last-child {
+    color: #243E62;
+    text-decoration: underline;
+    cursor: pointer;
 }
