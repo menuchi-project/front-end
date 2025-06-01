@@ -1,7 +1,13 @@
 <div class="container">
   <div class="search-add-item">
     <nz-input-group [nzSuffix]="suffixIconSearch">
-      <input id="search" type="text" nz-input placeholder="جست‌و‌جو کنید" />
+      <input
+        id="search"
+        type="text"
+        nz-input
+        placeholder="جست‌و‌جو کنید"
+        [(ngModel)]="searchTerm"
+      />
     </nz-input-group>
     <ng-template #suffixIconSearch>
       <nz-icon nzType="search" />
@@ -23,28 +29,34 @@
         height="18"
         width="18"
       />
-      <!--      <nz-icon nzType="left-circle" nzTheme="outline" />-->
     </button>
   </div>
 
-  <div
-    class="cats-container"
-    cdkDropList
-    cdkScrollable
-    [cdkDropListAutoScrollStep]="25"
-    cdkDropListOrientation="horizontal"
-    [cdkDropListData]="lists"
-    (cdkDropListDropped)="onListDropped($event)"
+  <nz-spin
+    [nzSpinning]="isLoading"
+    nzSize="large"
+    nzTip="در حال بارگذاری..."
+    class="full-height-spin"
   >
-    <div *ngFor="let list of lists" cdkDrag class="cat-container">
-      <app-category
-        [list]="list"
-        [connectedLists]="allConnectedLists"
-        (itemDropped)="onItemDropped($event)"
-        (addItemWithCategory)="openModalForCategory($event)"
-      ></app-category>
+    <div
+      class="cats-container"
+      cdkDropList
+      cdkScrollable
+      [cdkDropListAutoScrollStep]="25"
+      cdkDropListOrientation="horizontal"
+      [cdkDropListData]="lists"
+      (cdkDropListDropped)="onListDropped($event)"
+    >
+      <div *ngFor="let list of filteredLists" cdkDrag class="cat-container">
+        <app-category
+          [list]="list"
+          [connectedLists]="allConnectedLists"
+          [searchTerm]="searchTerm"
+          (itemDropped)="onItemDropped($event)"
+        ></app-category>
+      </div>
     </div>
-  </div>
-</div>
+  </nz-spin>
 
-<app-add-item [categorySelected]="selectedCategoryForModal"></app-add-item>
+  <app-add-item></app-add-item>
+</div>

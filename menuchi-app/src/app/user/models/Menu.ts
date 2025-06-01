@@ -38,8 +38,10 @@ export interface Cylinder {
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
-  days: boolean[];
+  days: string[];
   menuCategories: MenuCategory[];
+  positionInMenu: string;
+  daysString: string;
 }
 
 export interface MenuCategory {
@@ -49,8 +51,10 @@ export interface MenuCategory {
   deletedAt: string | null;
   categoryId: string;
   cylinderId: string;
-  positionInMenu: string;
+  positionInCylinder: string;
+  categoryName: string;
   items: Item[];
+  icon: string | undefined;
 }
 
 export interface UpdateMenuRequest {
@@ -92,3 +96,22 @@ export const WeekDays = [
   { name: 'پنج شنبه', value: 'thu' },
   { name: 'جمعه', value: 'fri' },
 ];
+
+export interface MenuPreview {
+  sat?: MenuCategory[];
+  sun?: MenuCategory[];
+  mon?: MenuCategory[];
+  tue?: MenuCategory[];
+  wed?: MenuCategory[];
+  thu?: MenuCategory[];
+  fri?: MenuCategory[];
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  branchId: string;
+  name: string;
+  favicon: string;
+  isPublished: boolean;
+  restaurantId: string;
+}

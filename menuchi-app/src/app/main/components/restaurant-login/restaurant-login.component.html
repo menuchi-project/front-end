@@ -1,52 +1,69 @@
 <div class="container">
-  <form
-    nz-form
-    [formGroup]="validateForm"
-    class="login-form"
-    (ngSubmit)="submitForm()"
-  >
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your username!">
-        <nz-input-group nzPrefixIcon="user">
+  <div class="login-box">
+    <div class="header">
+      <div class="logo">
+        <img ngSrc="/assets/logo-blue.svg" alt="منوچی" height="62" width="84" />
+      </div>
+      <h2>ورود به حساب کاربری</h2>
+      <p class="subtitle">
+        حساب کاربری نساخته‌اید؟ <a href="/signup">ایجاد حساب کاربری</a>
+      </p>
+    </div>
+    <form
+      nz-form
+      [formGroup]="validateForm"
+      class="login-form"
+      (ngSubmit)="submitForm()"
+    >
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24" nzFor="phone" nzRequired class="rtl-text"
+          >شماره تماس خود را وارد کنید
+        </nz-form-label>
+        <nz-form-control nzErrorTip="شماره تماس خود را وارد کنید!">
           <input
             type="text"
             nz-input
             formControlName="username"
-            placeholder="Username"
+            placeholder="مثال:09131234567"
           />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control nzErrorTip="Please input your Password!">
-        <nz-input-group nzPrefixIcon="lock">
-          <input
-            type="password"
-            nz-input
-            formControlName="password"
-            placeholder="Password"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <div nz-row class="login-form-margin">
-      <div nz-col [nzSpan]="12">
-        <label nz-checkbox formControlName="remember">
-          <span>مرا به خاطر بسپار</span>
-        </label>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="login-form-item">
+        <nz-form-label
+          [nzSpan]="24"
+          nzFor="password"
+          nzRequired
+          class="rtl-text"
+          >رمز عبور خود را وارد کنید
+        </nz-form-label>
+      </nz-form-item>
+      <div nz-row class="password-input-row">
+        <div nz-col [nzSpan]="12">
+          <nz-form-control nzErrorTip="رمز عبور خود را وارد کنید!">
+            <div class="password-wrapper">
+              <input
+                [type]="passwordVisible ? 'text' : 'password'"
+                nz-input
+                formControlName="password"
+              />
+              <i class="eye-icon" (click)="togglePasswordVisibility()"></i>
+            </div>
+          </nz-form-control>
+        </div>
+        <div nz-row class="login-form-margin">
+          <div nz-col [nzSpan]="20">
+            <a class="login-form-forgot">رمز عبور خود را فراموش کرده‌اید؟</a>
+          </div>
+        </div>
       </div>
-      <div nz-col [nzSpan]="12">
-        <a class="login-form-forgot">فراموشی رمز عبور</a>
-      </div>
-    </div>
-    <button
-      nz-button
-      class="login-form-button login-form-margin"
-      [nzType]="'primary'"
-    >
-      ورود
-    </button>
-    یا
-    <a routerLink="/signup">ثبت نام کنید!</a>
-  </form>
+
+      <button
+        nz-button
+        class="login-form-button login-form-margin"
+        [nzType]="'primary'"
+      >
+        ورود به حساب کاربری
+      </button>
+    </form>
+  </div>
 </div>

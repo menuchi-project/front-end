@@ -6,6 +6,7 @@ import { NzIconDirective, NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzButtonComponent, NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import {
   NzInputDirective,
   NzInputGroupComponent,
@@ -24,7 +25,6 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 import { CategoriesPageComponent } from './components/categories-page/categories-page.component';
-import { ManagementPageComponent } from './components/management-page/management-page.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CategoryComponent } from './components/categories-page/category/category.component';
 import { NzSwitchComponent } from 'ng-zorro-antd/switch';
@@ -71,13 +71,19 @@ import {
 import { SelectDaysModalComponent } from './components/create-menu/select-days-modal/select-days-modal.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzImageService } from 'ng-zorro-antd/image';
+import { DashboardPageComponent } from './components/dashboard-page/dashboard-page.component';
+import { SettingsPageComponent } from './components/settings-page/settings-page.component';
+import { DashboardContentComponent } from './components/dashboard-page/dashboard-content/dashboard-content.component';
+import { MainModule } from '../main/main.module';
+import { JoinNonEmptyPipe} from './components/dashboard-page/dashboard-content/dashboard-content.component';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { HighlightPipe } from '../shared/pipes/highlight/highlight.pipe';
 
 @NgModule({
   declarations: [
     ItemsPageComponent,
     ItemsTableComponent,
     CategoriesPageComponent,
-    ManagementPageComponent,
     BacklogPageComponent,
     CategoryComponent,
     AddItemComponent,
@@ -87,6 +93,10 @@ import { NzImageService } from 'ng-zorro-antd/image';
     SelectDaysComponent,
     SelectItemsDrawerComponent,
     SelectDaysModalComponent,
+    DashboardPageComponent,
+    SettingsPageComponent,
+    DashboardContentComponent,
+    JoinNonEmptyPipe,
   ],
   imports: [
     CommonModule,
@@ -145,8 +155,12 @@ import { NzImageService } from 'ng-zorro-antd/image';
     NzButtonModule,
     NzDrawerModule,
     NzRadioModule,
+    MainModule,
+    NzToolTipModule,
+    NzSpinComponent,
+    HighlightPipe,
   ],
   providers: [NzModalService, NzImageService],
-  exports: [ItemsPageComponent, ManagementPageComponent],
+  exports: [ItemsPageComponent],
 })
 export class UserModule {}

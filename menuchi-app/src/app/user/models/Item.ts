@@ -12,6 +12,7 @@ export interface Item {
   picUrl: string;
   positionInItemsList: number;
   positionInCategory: number;
+  orderCount: number;
 }
 
 export interface Category {
@@ -23,10 +24,12 @@ export interface Category {
   categoryName: string;
   positionInBacklog: number;
   items: Item[];
+  icon: string | undefined;
 }
 
 export interface CategoryName {
   id: string;
+  categoryId: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
@@ -47,5 +50,14 @@ export interface CreateItemRequest {
   name: string;
   ingredients: string;
   price: number;
-  picKey: string;
+  picKey: string | null;
+}
+
+export interface UpdateItemRequest {
+  categoryId: string;
+  subCategoryId: string;
+  name: string;
+  ingredients: string;
+  price: number;
+  picKey: string | null;
 }

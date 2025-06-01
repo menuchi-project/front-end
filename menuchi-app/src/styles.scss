@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@use "sass:color";
+
 html,
 body {
   font-family: Peyda, Vazirmatn, sans-serif;
@@ -32,6 +34,7 @@ h1 {
 }
 
 /* Handle portion of the scrollbar */
+
 *::-webkit-scrollbar-thumb {
   background-color: #888;
   //border: 2px solid var(--color-background-900);
@@ -41,6 +44,7 @@ h1 {
 }
 
 /* Track (the area on which the handle moves) */
+
 *::-webkit-scrollbar-track {
   background-color: transparent;
 }
@@ -52,4 +56,125 @@ h1 {
 *:hover::-webkit-scrollbar {
   width: 5px;
   height: 6px;
+}
+
+.anticon.anticon-profile,
+.ant-menu-title-content,
+.ant-menu-submenu-arrow,
+.ant-menu-submenu-open:hover {
+  color: #f1eae1 !important;
+}
+
+.ant-menu-submenu-selected {
+  background-color: #1d385e !important;
+}
+
+// Remove conflicting overrides
+.ant-menu-submenu-selected {
+  background-color: transparent !important; // Remove solid background
+}
+
+// Ensure text colors
+.ant-menu-title-content,
+.ant-menu-submenu-title {
+  color: #f1eae1 !important;
+}
+
+//// Hover states
+//.ant-menu-item:hover,
+//.ant-menu-submenu:hover {
+//  .ant-menu-title-content,
+//  .ant-menu-submenu-arrow {
+//    color: #f1eae1 !important;
+//  }
+//}
+// Hover states
+.ant-menu-submenu:hover,
+.ant-menu-item:hover {
+  .ant-menu-title-content,
+  .ant-menu-submenu-arrow {
+    color: #f1eae1 !important;
+  }
+}
+
+.ant-menu-submenu {
+  color: #243e62 !important;
+}
+
+.ant-menu > .ant-menu-item-selected:not(.submenu),
+.ant-menu > .ant-menu-item-selected nz-icon:not(.submenu),
+.ant-menu > .ant-menu-item-selected span:not(.submenu),
+.ant-menu > .ant-menu-submenu-selected:not(.submenu) {
+  color: #243e62;
+  background-color: #f1eae1 !important;
+  border-radius: 4px;
+}
+
+// Add this at the bottom of the file
+.ant-menu-submenu-popup {
+  background-color: #1d385e !important;
+
+  .ant-menu {
+    background-color: #1d385e !important;
+
+    .ant-menu-item {
+      color: #f1eae1 !important;
+
+      &:hover {
+        background-color: color.adjust(#1d385e, $lightness: 10%) !important;
+      }
+    }
+  }
+}
+
+// Modify the existing ant-menu-submenu styles
+.ant-menu-submenu > .ant-menu {
+  background-color: #1d385e !important;
+}
+
+nz-sider:not(.ant-layout-sider-collapsed) {
+  .ant-menu-item-selected {
+    background-color: #f1eae1 !important;
+    border-radius: 4px !important;
+
+    span,
+    nz-icon {
+      color: #243e62 !important;
+    }
+  }
+
+  .ant-menu-submenu-title {
+    color: #f1eae1 !important;
+
+    &:hover {
+      color: #fff !important;
+    }
+  }
+}
+
+// Keep existing collapsed styles
+.ant-menu-submenu-popup .ant-menu-item-selected {
+  background-color: #f1eae1 !important;
+  border-radius: 4px !important;
+
+  span,
+  nz-icon {
+    color: #243e62 !important;
+  }
+}
+
+// Remove any parent coloring
+.ant-menu-submenu-selected {
+  background-color: transparent !important;
+}
+
+.ant-form-item-required::before {
+  display: none !important;
+}
+
+.highlight {
+  background-color: rgba(140, 140, 110, 0.5);
+  border-radius: 4px;
+  padding-inline: 2px;
+  font-weight: bold;
 }

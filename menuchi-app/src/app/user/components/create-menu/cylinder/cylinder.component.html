@@ -39,9 +39,7 @@
                     <h3>مواد اولیه:</h3>
                     <p>{{ data.ingredients | truncate: 35 }}</p>
                   </div>
-                  <div class="price">
-                    {{ data.price | persianNumber }} تومان
-                  </div>
+                  <div class="price">{{ data.price | persianPrice }} تومان</div>
                 </div>
 
                 <div class="item-image">
@@ -101,17 +99,18 @@
               <span style="font-size: 0.7rem; color: #aaaaaa">|</span>
               <nz-icon>
                 <object
-                  data="/assets/icons/categories/Pizza.svg"
+                  style="height: 18px; width: 18px"
+                  [data]="getSafeResourceUrl(panel.icon)"
                   type="image/svg+xml"
                 ></object>
               </nz-icon>
-              <span>{{ panel.items[0].categoryName }}</span>
+              <span>{{ panel.categoryName }}</span>
             </div>
           </div>
         </ng-template>
 
         <div *cdkDragPreview style="padding: 1rem; width: 16rem">
-          {{ panel.items[0].categoryName }}
+          {{ panel.categoryName }}
         </div>
       </nz-collapse-panel>
     }

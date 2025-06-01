@@ -1,8 +1,13 @@
 <nz-table
   (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+  (nzPageIndexChange)="onPageIndexChange($event)"
+  (nzPageSizeChange)="onPageSizeChange($event)"
   [nzData]="listOfData"
   [nzShowPagination]="true"
   [nzFrontPagination]="true"
+  [nzPageSize]="pageSize"
+  [nzPageSizeOptions]="pageSizeOptions"
+  [nzShowSizeChanger]="true"
   nzBordered
 >
   <thead>
@@ -21,7 +26,7 @@
     </tr>
   </thead>
   <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-    @for (data of listOfData; track data) {
+    @for (data of listOfCurrentPageData; track data.id) {
       <tr cdkDrag>
         <td
           [nzChecked]="setOfCheckedId.has(data.id)"
@@ -30,7 +35,7 @@
         @if (!editCache[data.id].edit) {
           <td>{{ data.name }}</td>
           <td>{{ data.categoryName }}</td>
-          <td>{{ data.price | persianNumber }}</td>
+          <td>{{ data.price | persianPrice }}</td>
           <td>{{ data.ingredients | truncate }}</td>
           <td type="flex" align="middle">
             <nz-icon
@@ -66,11 +71,18 @@
             />
           </td>
           <td>
-            <input
-              type="text"
-              nz-input
-              [(ngModel)]="editCache[data.id].data.categoryName"
-            />
+            <nz-select
+              [(ngModel)]="editCache[data.id].data.categoryId"
+              nzShowSearch
+              style="width: 100%"
+            >
+              @for (cat of categories; track cat.categoryId) {
+                <nz-option
+                  [nzLabel]="cat.name"
+                  [nzValue]="cat.categoryId"
+                ></nz-option>
+              }
+            </nz-select>
           </td>
           <td>
             <input

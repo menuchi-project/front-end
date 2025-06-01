@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
@@ -10,9 +10,17 @@ import { RestaurantSignupComponent } from './components/restaurant-signup/restau
 import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
 import { NzAlertComponent } from 'ng-zorro-antd/alert';
 import { RouterLink } from '@angular/router';
+import { WeeklyCalendarComponent } from './components/weekly-calendar/./weekly-calendar.component';
+import { SharedModule } from '../shared/shared.module';
+import { MenuPreviewComponent } from './components/menu-preview/menu-preview.component';
 
 @NgModule({
-  declarations: [RestaurantLoginComponent, RestaurantSignupComponent],
+  declarations: [
+    RestaurantLoginComponent,
+    RestaurantSignupComponent,
+    WeeklyCalendarComponent,
+    MenuPreviewComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -25,6 +33,9 @@ import { RouterLink } from '@angular/router';
     NzOptionComponent,
     NzAlertComponent,
     RouterLink,
+    NgOptimizedImage,
+    SharedModule,
   ],
+  exports: [WeeklyCalendarComponent],
 })
 export class MainModule {}

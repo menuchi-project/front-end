@@ -1,0 +1,55 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install Deps
+        run: cd menuchi-app ; npm ci
+
+      - name: Install ng
+        run: cd menuchi-app ; npm install -g @angular/cli
+
+      - name: Build 
+        run: cd menuchi-app ; npm run build
+        
+      - name: Test
+        run: cd menuchi-app ; ng test --no-watch --no-progress --watch=false --code-coverage --browsers=ChromeHeadless
+    
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v4
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: zahraam/menuchi-project:dev
+        target: runtime
