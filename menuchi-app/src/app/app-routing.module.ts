@@ -11,6 +11,7 @@ import { authGuard } from './main/guards/auth.guard';
 import { DashboardPageComponent } from './user/components/dashboard-page/dashboard-page.component';
 import { SettingsPageComponent } from './user/components/settings-page/settings-page.component';
 import { MenuPreviewComponent } from './main/components/menu-preview/menu-preview.component';
+import { CartPageComponent } from './user/components/cart-page/cart-page.component'; 
 
 const routes: Routes = [
   { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
@@ -72,6 +73,12 @@ const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'cart',
+    component: CartPageComponent,
+    title: 'منوچی | سبد خرید',
+    canActivate: [authGuard],
   },
   { path: '**', redirectTo: '/dashboard' },
 ];
