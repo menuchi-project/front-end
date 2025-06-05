@@ -72,13 +72,14 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'cart',
+        component: CartPageComponent,
+        data: { breadcrumb: 'سبد خرید' },
+        title: 'منوچی | سبد خرید',
+        canActivate: [authGuard],
+      },
     ],
-  },
-  {
-    path: 'cart',
-    component: CartPageComponent,
-    title: 'منوچی | سبد خرید',
-    canActivate: [authGuard],
   },
   { path: '**', redirectTo: '/dashboard' },
 ];

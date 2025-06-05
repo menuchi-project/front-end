@@ -78,8 +78,6 @@ import { MainModule } from '../main/main.module';
 import { JoinNonEmptyPipe} from './components/dashboard-page/dashboard-content/dashboard-content.component';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { HighlightPipe } from '../shared/pipes/highlight/highlight.pipe';
-import { CartPageComponent } from './components/cart-page/cart-page.component';
-import { CartContentComponent } from './components/cart-page/cart-content/cart-content/cart-content.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +97,6 @@ import { CartContentComponent } from './components/cart-page/cart-content/cart-c
     SettingsPageComponent,
     DashboardContentComponent,
     JoinNonEmptyPipe,
-    CartPageComponent,
   ],
   imports: [
     CommonModule,
