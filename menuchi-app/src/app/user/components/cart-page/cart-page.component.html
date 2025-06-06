@@ -1,1 +1,77 @@
-<p>cart-page works!</p>
+<div class="cart-content">
+    <nz-typography class="item-number">
+        <p nz-typography><i nz-icon nzType="shopping-cart" nzTheme="outline"></i> 3 محصول</p>
+    </nz-typography>
+    <div class="items-section">
+        <nz-list nzSize="small" class="items-list">
+            <nz-list-item>
+                <div class="item">
+                    <div class="item-details">
+                        <nz-typography>
+                            <h4 nz-typography>قورمه سبزی</h4>
+                            <p nz-typography>مواد لازم:</p>
+                            <p nz-typography>سبزی، لیمو امانی، لوبیا، برنج</p>
+                            <p nz-typography>75000 تومان</p>
+                        </nz-typography>
+                    </div>
+                    <div class="left-section">
+                        <div class="quantity-control">
+                            <img src="assets/icons/Minus-Square.svg" (click)="decreaseQuantity(0)" class="quantity-icon" alt="Decrease" />
+                            <span class="quantity">{{ quantities[0] }}</span>
+                            <img src="assets/icons/Add-Square.svg" (click)="increaseQuantity(0)" class="quantity-icon" alt="Increase" />
+                        </div>
+                        <img src="https://via.placeholder.com/100" alt="پیتزا مارگاریتا" height="100" width="100" class="item-image" />
+                    </div>
+                </div>
+            </nz-list-item>
+            <nz-list-item>
+                <div class="item">
+                    <div class="item-details">
+                        <nz-typography>
+                            <h4 nz-typography>نوشابه</h4>
+                            <p nz-typography>مواد لازم:</p>
+                            <p nz-typography>آب گازدار، شکر، طعم‌دهنده</p>
+                            <p nz-typography>15000 تومان</p>
+                        </nz-typography>
+                    </div>
+                    <div class="left-section">
+                        <div class="quantity-control">
+                            <img src="assets/icons/Minus-Square.svg" (click)="decreaseQuantity(1)" class="quantity-icon" alt="Decrease" />
+                            <span class="quantity">{{ quantities[1] }}</span>
+                            <img src="assets/icons/Add-Square.svg" (click)="increaseQuantity(1)" class="quantity-icon" alt="Increase" />
+                        </div>
+                        <img src="https://via.placeholder.com/100" alt="نوشابه" height="100" width="100" class="item-image" />
+                    </div>
+                </div>
+            </nz-list-item>
+            <nz-list-item>
+                <div class="item">
+                    <div class="item-details">
+                        <nz-typography>
+                            <h4 nz-typography>برگر </h4>
+                            <p nz-typography>مواد لازم:</p>
+                            <p nz-typography>گوشت، نان، کاهو، گوجه</p>
+                            <p nz-typography>60000 تومان</p>
+                        </nz-typography>
+                    </div>
+                    <div class="left-section">
+                        <div class="quantity-control">
+                            <img src="assets/icons/Minus-Square.svg" (click)="decreaseQuantity(2)" class="quantity-icon" alt="Decrease" />
+                            <span class="quantity">{{ quantities[2] }}</span>
+                            <img src="assets/icons/Add-Square.svg" (click)="increaseQuantity(2)" class="quantity-icon" alt="Increase" />
+                        </div>
+                        <img src="https://via.placeholder.com/100" alt="برگر" height="100" width="100" class="item-image" />
+                    </div>
+                </div>
+            </nz-list-item>
+        </nz-list>
+        <nz-card class="total-section">
+            <nz-typography>
+                <h3 nz-typography class="total-content">
+                    <p nz-typography class="total-label">مجموع</p>
+                    <p nz-typography class="total-amount">150000 تومان</p>
+                </h3>
+            </nz-typography>
+        </nz-card>
+    </div>
+</div>

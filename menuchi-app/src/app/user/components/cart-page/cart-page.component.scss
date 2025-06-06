@@ -1,0 +1,148 @@
+.cart-content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.items-section {
+    display: flex;
+    flex-direction: column;
+    width: 20rem;
+    justify-content: center;
+}
+
+.items-list {
+    .item {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+    }
+    .item-image {
+        border-radius: 0.25rem;
+        height: 5rem;
+        width: 5rem;
+    }
+    .left-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .item-details {
+        flex: 1;
+        padding-top: 0.2rem;
+        nz-typography {
+            h4[nz-typography] {
+                color: #243E62;
+                font-size: 1rem;
+                font-weight: 500;
+                margin: 0;
+            }
+            p[nz-typography] {
+                font-size: 0.9rem;
+                font-weight: 400;
+                margin: 0;
+                &:nth-child(2) {
+                    color: #243E62;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    margin-top: 0.25rem;
+                }
+                &:nth-child(3) {
+                    color: #1E293B;
+                    font-size: 0.7rem;
+                    margin-top: 0.1rem;
+                    opacity: 50%;
+                }
+                &:nth-child(4) {
+                    margin-top: 1.5rem;
+                    color: #1E293B;
+                }
+            }
+        }
+    }
+}
+
+.item-number {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(90deg, #2D507A, #4A6E9A);
+    border-radius: 0.25rem;
+    text-align: center;
+    width: 24rem;
+    margin-bottom: 1rem;
+    p {
+        color: #FFFFFF !important;
+        margin: 0;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+}
+
+.total-section {
+    text-align: right;
+    width: 100%;
+    border: none;
+}
+
+.total-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.total-label {
+    order: 0;
+    margin: 0;
+    color: #393939;
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-size: 1.3rem;
+    padding: 0.5rem 1rem;
+}
+
+.total-amount {
+    order: 1;
+    margin: 0;
+    color: #393939;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-size: 1.3rem;
+    padding: 0.5rem 1rem;
+}
+
+nz-list-item {
+    transition: transform 0.4s;
+    background-color: #F9FAFB;
+    padding-bottom: 0.5rem;
+    &:hover {
+        transform: scale(1.06);
+    }
+    &:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 1rem;
+}
+
+.quantity {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #243E62;
+}
+
+.quantity-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+    }
+}

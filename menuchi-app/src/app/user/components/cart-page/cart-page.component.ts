@@ -3,6 +3,13 @@ import { AuthService } from '../../../main/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../api-config/environment';
+import { Order } from '../../models/order';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzListModule } from 'ng-zorro-antd/list'; 
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-cart-page',
@@ -11,11 +18,18 @@ import { environment } from '../../../../../api-config/environment';
   styleUrl: './cart-page.component.scss',
   imports: [
     CommonModule,
+    NzCardModule,
+    NzListModule,
+    NzImageModule,
+    NzTypographyModule,
+    NzEmptyModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CartPageComponent {
   orders: any[] = [];
   email: string = '';
+  quantities: number[] = [1, 1, 1];
 
   constructor(
     private authService: AuthService,
@@ -25,7 +39,7 @@ export class CartPageComponent {
   }
 
   ngOnInit(): void {
-    this.fetchOrders();
+  //  this.fetchOrders();
   }
   
   fetchOrders(): void {
@@ -34,7 +48,7 @@ export class CartPageComponent {
       return;
     }
     const url = environment.API_URL + '/customer/orders';
-    this.http.get<any[]>(url).subscribe({
+    this.http.get<Order[]>(url).subscribe({
       next: (data) => {
         this.orders = data;
         if (this.orders.length === 0) {
@@ -47,5 +61,21 @@ export class CartPageComponent {
         console.error('خطا در دریافت سفارش‌ها:', err);
       }
     });
+  }
+
+  getTotalPrice(): number {
+    return this.orders.reduce((sum, order) => sum + (order.totalPrice || 0), 0);
+  }
+
+   increaseQuantity(index: number) {
+    if (this.quantities[index] < 10) {
+      this.quantities[index]++;
+    }
+  }
+
+  decreaseQuantity(index: number) {
+    if (this.quantities[index] > 1) {
+      this.quantities[index]--;
+    }
   }
 }
