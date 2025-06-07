@@ -1,19 +1,30 @@
-import { TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { CategoryName } from '../../models/Item';
+import { environment } from '../../../../../api-config/environment';
 
-import { CategoryService } from './category.service';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+@Injectable({
+  providedIn: 'root',
+})
+export class CategoryService {
+  private readonly apiUrl = environment.API_URL;
 
-describe('CategoryService', () => {
-  let service: CategoryService;
+  private getCategoryNamesData = new Subject<CategoryName[]>();
+  getCategoryNamesData$ = this.getCategoryNamesData.asObservable();
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [provideHttpClient(withFetch())],
-    });
-    service = TestBed.inject(CategoryService);
-  });
+  constructor(private httpClient: HttpClient) {}
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+  getCategoryNames() {
+    return this.httpClient
+      .get<CategoryName[]>(this.apiUrl + '/category-names')
+      .subscribe({
+        next: (cats) => {
+          this.getCategoryNamesData.next(cats);
+        },
+        error: (error) => {
+          console.error('Failed to get category names:', error);
+        },
+      });
+  }
+}
