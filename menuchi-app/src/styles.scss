@@ -69,12 +69,10 @@ h1 {
   background-color: #1d385e !important;
 }
 
-// Remove conflicting overrides
 .ant-menu-submenu-selected {
-  background-color: transparent !important; // Remove solid background
+  background-color: transparent !important;
 }
 
-// Ensure text colors
 .ant-menu-title-content,
 .ant-menu-submenu-title {
   color: #f1eae1 !important;

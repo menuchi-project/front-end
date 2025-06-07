@@ -17,8 +17,8 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrl: './dashboard-page.component.scss',
 })
 export class DashboardPageComponent implements OnDestroy {
-  isCollapsed = true; // منو به طور پیش‌فرض بسته است
-  isMobileView = false; // متغیر برای تشخیص حالت موبایل
+  isCollapsed = true;
+  isMobileView = false;
   pageTitle = 'مدیریت';
   onPageChangedSub: Subscription;
   showHeader = true;
@@ -30,12 +30,11 @@ export class DashboardPageComponent implements OnDestroy {
     private readonly messageService: NzMessageService,
     private readonly router: Router,
   ) {
-    this.checkScreenWidth(); // بررسی عرض صفحه در زمان بارگذاری اولیه
+    this.checkScreenWidth();
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showHeader = !(this.router.url === '/dashboard');
-        // بستن خودکار منو پس از ناوبری در حالت موبایل
         if (this.isMobileView) {
           this.isCollapsed = true;
         }
@@ -50,7 +49,6 @@ export class DashboardPageComponent implements OnDestroy {
     );
   }
 
-  // با تغییر سایز پنجره، وضعیت موبایل را چک می‌کنیم
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkScreenWidth();
@@ -58,11 +56,13 @@ export class DashboardPageComponent implements OnDestroy {
 
   private checkScreenWidth(): void {
     this.isMobileView = window.innerWidth < 768;
-    // در حالت دسکتاپ منو باز و در موبایل بسته باشد
-    this.isCollapsed = this.isMobileView;
+    if (!this.isMobileView) {
+      this.isCollapsed = false;
+    } else {
+      this.isCollapsed = true;
+    }
   }
 
-  // این متد باعث می‌شود با کلیک روی هر آیتم منو، در حالت موبایل منو بسته شود
   onMenuItemClick(): void {
     if (this.isMobileView) {
       this.isCollapsed = true;

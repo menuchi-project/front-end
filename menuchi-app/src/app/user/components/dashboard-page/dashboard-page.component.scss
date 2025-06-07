@@ -1,12 +1,10 @@
 @use "sass:color";
 
-// متغیرها
 $dark-blue: #1d385e;
 $beige: #f1eae1;
 $active-text: #243e62;
 $sidebar-bg: #1d385e;
 
-// استایل‌های اصلی و دسکتاپ
 :host {
   .container {
     display: flex;
@@ -17,10 +15,10 @@ $sidebar-bg: #1d385e;
     background-color: #f7f7f7 !important;
   }
 
-  // سایدبار در حالت دسکتاپ
   nz-sider:not(.mobile-drawer) {
     font-weight: 500;
     padding-inline: 1rem;
+
     &.expanded {
       min-width: 15rem !important;
     }
@@ -31,29 +29,36 @@ $sidebar-bg: #1d385e;
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
+
     ul {
       background-color: $sidebar-bg !important;
+
       .ant-menu-item,
       .ant-menu-submenu {
         color: $beige !important;
+
         span,
         nz-icon {
           color: inherit;
         }
       }
+
       .activebutton {
         background-color: $beige !important;
         border-radius: 4px;
+
         span,
         nz-icon {
           color: $active-text !important;
         }
       }
+
       .ant-menu-submenu-arrow::before,
       .ant-menu-submenu-arrow::after {
         background: $beige !important;
       }
     }
+
     .logo {
       margin: 0.4rem 1.4rem 1.4rem;
       display: flex;
@@ -72,20 +77,23 @@ $sidebar-bg: #1d385e;
     transition: color 0.3s;
     position: fixed;
     bottom: 0.2rem;
+
     &:hover {
       color: #fff;
     }
   }
 
-  // مخفی کردن عناصر مخصوص موبایل در دسکتاپ
   .mobile-menu-toggle,
   .sidebar-backdrop {
     display: none;
   }
 
-  // استایل‌های محتوا و هدر
   nz-content {
     margin-inline: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
     .inner-content {
       padding: 1.5rem 3rem;
       background: #fff;
@@ -95,36 +103,98 @@ $sidebar-bg: #1d385e;
   }
 
   nz-header {
-    // ... استایل‌های هدر شما
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-inline: 2rem;
+    padding-block: 2.6rem;
+    margin-block-end: 1.4rem;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-inline-end: 1rem;
+
+      h1 {
+        margin-block: 0;
+        color: #1c375e;
+        font-weight: bold;
+      }
+
+      .header-icons {
+        display: flex;
+        gap: 0.6rem;
+
+        img {
+          cursor: pointer;
+          border-radius: 50%;
+          transition: background-color 0.4s ease;
+
+          &:hover {
+            background-color: rgba(140, 140, 110, 0.1);
+          }
+        }
+      }
+    }
   }
 }
 
-// استایل‌های مخصوص موبایل (عرض کمتر از 768px)
+.ant-menu-vertical .ant-menu-item::after,
+.ant-menu-vertical-left .ant-menu-item::after,
+.ant-menu-vertical-right .ant-menu-item::after,
+.ant-menu-inline .ant-menu-item::after {
+  border-color: transparent;
+}
+
+.ant-menu-submenu-popup {
+  background-color: $sidebar-bg !important;
+
+  .ant-menu {
+    background-color: $sidebar-bg !important;
+
+    .ant-menu-item {
+      color: $beige !important;
+
+      &:hover {
+        background-color: color.adjust($sidebar-bg, $lightness: 10%) !important;
+      }
+
+      &-selected {
+        background-color: $beige !important;
+        color: $active-text !important;
+      }
+    }
+  }
+}
+
+.ant-menu-rtl.ant-menu-inline,
+.ant-menu-rtl.ant-menu-vertical {
+  border: none !important;
+}
+
 @media (max-width: 768px) {
   :host {
-    // سایدبار به یک Drawer تبدیل می‌شود
     .mobile-drawer {
       position: fixed;
       top: 0;
       right: 0;
       height: 100vh;
-      z-index: 1010; // بالاتر از همه چیز
+      z-index: 1010;
       background: $sidebar-bg;
       box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
-      transform: translateX(100%); // به طور پیش‌فرض بیرون از صفحه (سمت راست)
+      transform: translateX(100%);
       transition: transform 0.3s ease;
 
       &.expanded {
-        transform: translateX(0); // با اضافه شدن این کلاس، به داخل صفحه می‌آید
+        transform: translateX(0);
       }
     }
 
-    // دکمه trigger دسکتاپ در موبایل مخفی می‌شود
     .trigger {
       display: none;
     }
 
-    // استایل پس‌زمینه تیره
     .sidebar-backdrop {
       display: block;
       position: fixed;
@@ -133,11 +203,10 @@ $sidebar-bg: #1d385e;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
-      z-index: 1009; // زیر منو ولی روی محتوا
+      z-index: 1009;
       cursor: pointer;
     }
 
-    // دکمه همبرگری برای باز کردن منو
     .mobile-menu-toggle {
       display: flex;
       align-items: center;
@@ -156,14 +225,23 @@ $sidebar-bg: #1d385e;
       font-size: 20px;
     }
 
-    // محتوای اصلی تمام عرض را می‌گیرد
     .main-layout {
       width: 100%;
     }
+
     nz-content {
       margin-inline: 0.5rem;
+
       .inner-content {
         padding: 1rem;
+      }
+    }
+
+    nz-header {
+      padding-inline: 1rem;
+
+      .page-title {
+        padding-inline-start: 3rem;
       }
     }
   }

@@ -31,6 +31,7 @@
             routerLink="/dashboard"
             routerLinkActive="activebutton"
             [routerLinkActiveOptions]="{ exact: true }"
+            ariaCurrentWhenActive="page"
           >
             <nz-icon nzType="home" nzTheme="outline" />
             <span>صفحه اصلی</span>
@@ -42,7 +43,13 @@
             class="bg-color-prim submenu"
           >
             <ul>
-              <li nz-menu-item (click)="handleCreateNewMenu()">
+              <li
+                nz-menu-item
+                (click)="handleCreateNewMenu()"
+                [routerLinkActiveOptions]="{ exact: true }"
+                routerLinkActive="activebutton"
+                ariaCurrentWhenActive="page"
+              >
                 <nz-icon nzType="product" nzTheme="outline" />
                 <span>ایجاد منوی جدید</span>
               </li>
@@ -56,10 +63,23 @@
             nz-menu-item
             class="button"
             routerLink="/dashboard/cats"
+            [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="activebutton"
+            ariaCurrentWhenActive="page"
           >
             <nz-icon nzType="product" nzTheme="outline" />
             <span>بک‌لاگ</span>
+          </li>
+          <li
+            nz-menu-item
+            class="button"
+            routerLink="/dashboard/settings"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="activebutton"
+            ariaCurrentWhenActive="page"
+          >
+            <nz-icon nzType="setting" nzTheme="outline" />
+            <span>تنظیمات</span>
           </li>
           <li nz-menu-item class="button" (click)="logout()">
             <nz-icon nzType="logout" nzTheme="outline" />
@@ -93,9 +113,26 @@
     </div>
 
     @if (showHeader) {
-      <nz-header> </nz-header>
+      <nz-header>
+        <div class="header">
+          <h1 class="page-title">{{ pageTitle }}</h1>
+          <div class="header-icons">
+            <img
+              ngSrc="/assets/icons/Orders.svg"
+              alt="notif"
+              height="44"
+              width="44"
+            />
+            <img
+              ngSrc="/assets/icons/User.svg"
+              alt="user"
+              height="44"
+              width="44"
+            />
+          </div>
+        </div>
+      </nz-header>
     }
-
     <nz-content>
       @if (showHeader) {
         <app-breadcrumb></app-breadcrumb>
