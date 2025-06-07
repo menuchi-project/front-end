@@ -33,6 +33,22 @@ export class AuthService {
     return this.httpClient.post<SignupResponse>(this.apiUrl + '/res-signup', request);
   }
 
+  sendOtp(email: string): Observable<boolean> {
+    const url = `${this.apiUrl}/send-otp`;
+    return this.httpClient.post<boolean>(url, { email });
+  }
+
+  checkOtp(email: string, code: string): Observable<boolean> {
+    const url = `${this.apiUrl}/check-otp`;
+    return this.httpClient.post<boolean>(url, { email, code }).pipe(
+      tap((response) => {
+        if (response) {
+          this.fetchUserProfile().subscribe();
+        }
+      }),
+    );
+  }
+
   fetchUserProfile(): Observable<any> {
     return this.userService.fetchUserProfile().pipe(
       tap((user) => {

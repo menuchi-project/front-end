@@ -12,6 +12,8 @@ import { DashboardPageComponent } from './user/components/dashboard-page/dashboa
 import { SettingsPageComponent } from './user/components/settings-page/settings-page.component';
 import { MenuPreviewComponent } from './main/components/menu-preview/menu-preview.component';
 import { CartPageComponent } from './user/components/cart-page/cart-page.component'; 
+import { OtpEmailEntryComponent } from './user/components/otp-email-entry-page/otp-email-entry-page.component'; 
+import { OtpVerificationComponent } from './user/components/otp-email-verification-page/otp-email-verification-page.component'; 
 
 const routes: Routes = [
   { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
@@ -81,6 +83,8 @@ const routes: Routes = [
       },
     ],
   },
+  { path: 'otp-email-entry', component: OtpEmailEntryComponent, title: 'منوچی | ورود با OTP' },
+  { path: 'otp-verification', component: OtpVerificationComponent, title: 'منوچی | تأیید OTP' },
   { path: '**', redirectTo: '/dashboard' },
 ];
 
