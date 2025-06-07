@@ -1,18 +1,40 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { ActivatedRoute, provideRouter } from '@angular/router';
+import { of } from 'rxjs';
 
-import { OtpEmailVerificationPageComponent } from './otp-email-verification-page.component';
+import { OtpVerificationComponent } from './otp-email-verification-page.component';
+import { AuthService } from '../../../main/services/auth/auth.service';
 
-describe('OtpEmailVerificationPageComponent', () => {
-  let component: OtpEmailVerificationPageComponent;
-  let fixture: ComponentFixture<OtpEmailVerificationPageComponent>;
+describe('OtpVerificationComponent', () => {
+  let component: OtpVerificationComponent;
+  let fixture: ComponentFixture<OtpVerificationComponent>;
+  let authServiceMock: any;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [OtpEmailVerificationPageComponent]
-    })
-    .compileComponents();
+    authServiceMock = jasmine.createSpyObj('AuthService', [
+      'checkOtp',
+      'sendOtp',
+    ]);
 
-    fixture = TestBed.createComponent(OtpEmailVerificationPageComponent);
+    await TestBed.configureTestingModule({
+      imports: [OtpVerificationComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({ email: 'test@example.com' }),
+          },
+        },
+        { provide: AuthService, useValue: authServiceMock },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(OtpVerificationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

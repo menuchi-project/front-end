@@ -5,12 +5,87 @@ $beige: #f1eae1;
 $active-text: #243e62;
 $sidebar-bg: #1d385e;
 
-.container {
-  display: flex;
+:host {
+  .container {
+    display: flex;
+  }
 
   nz-layout,
   nz-footer {
     background-color: #f7f7f7 !important;
+  }
+
+  nz-sider:not(.mobile-drawer) {
+    font-weight: 500;
+    padding-inline: 1rem;
+
+    &.expanded {
+      min-width: 15rem !important;
+    }
+  }
+
+  .side-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+
+    ul {
+      background-color: $sidebar-bg !important;
+
+      .ant-menu-item,
+      .ant-menu-submenu {
+        color: $beige !important;
+
+        span,
+        nz-icon {
+          color: inherit;
+        }
+      }
+
+      .activebutton {
+        background-color: $beige !important;
+        border-radius: 4px;
+
+        span,
+        nz-icon {
+          color: $active-text !important;
+        }
+      }
+
+      .ant-menu-submenu-arrow::before,
+      .ant-menu-submenu-arrow::after {
+        background: $beige !important;
+      }
+    }
+
+    .logo {
+      margin: 0.4rem 1.4rem 1.4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .trigger {
+    align-self: center;
+    padding-block-end: 1rem;
+    color: $beige;
+    display: flex;
+    gap: 1rem;
+    cursor: pointer;
+    transition: color 0.3s;
+    position: fixed;
+    bottom: 0.2rem;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .mobile-menu-toggle,
+  .sidebar-backdrop {
+    display: none;
   }
 
   nz-content {
@@ -65,81 +140,6 @@ $sidebar-bg: #1d385e;
   }
 }
 
-nz-sider {
-  font-weight: 500;
-  padding-inline: 1rem;
-
-  &.expanded {
-    min-width: 15rem !important;
-  }
-
-  .side-menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100vh;
-
-    .menu-content {
-      ul {
-        background-color: $sidebar-bg !important;
-
-        // Menu items
-        .ant-menu-item,
-        .ant-menu-submenu {
-          color: $beige !important;
-
-          span,
-          nz-icon {
-            color: inherit;
-          }
-        }
-
-        // Active state
-        .activebutton {
-          background-color: $beige !important;
-          border-radius: 4px;
-
-          span,
-          nz-icon {
-            color: $active-text !important;
-          }
-        }
-
-        // Submenu arrows
-        .ant-menu-submenu-arrow::before,
-        .ant-menu-submenu-arrow::after {
-          background: $beige !important;
-        }
-      }
-
-      .logo {
-        margin: 0.4rem 1.4rem 1.4rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-
-    .trigger {
-      align-self: center;
-      padding-block-end: 1rem;
-      color: $beige;
-      display: flex;
-      gap: 1rem;
-      cursor: pointer;
-      transition: color 0.3s;
-      position: fixed;
-      bottom: 0.2rem;
-
-      &:hover {
-        color: #fff;
-      }
-    }
-  }
-}
-
-// Menu Behavior Overrides
-// Remove default borders
 .ant-menu-vertical .ant-menu-item::after,
 .ant-menu-vertical-left .ant-menu-item::after,
 .ant-menu-vertical-right .ant-menu-item::after,
@@ -147,7 +147,6 @@ nz-sider {
   border-color: transparent;
 }
 
-// Submenu popups
 .ant-menu-submenu-popup {
   background-color: $sidebar-bg !important;
 
@@ -169,8 +168,81 @@ nz-sider {
   }
 }
 
-// RTL menu fixes
 .ant-menu-rtl.ant-menu-inline,
 .ant-menu-rtl.ant-menu-vertical {
   border: none !important;
+}
+
+@media (max-width: 768px) {
+  :host {
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      z-index: 1010;
+      background: $sidebar-bg;
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+
+      &.expanded {
+        transform: translateX(0);
+      }
+    }
+
+    .trigger {
+      display: none;
+    }
+
+    .sidebar-backdrop {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1009;
+      cursor: pointer;
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      color: $dark-blue;
+      font-size: 20px;
+    }
+
+    .main-layout {
+      width: 100%;
+    }
+
+    nz-content {
+      margin-inline: 0.5rem;
+
+      .inner-content {
+        padding: 1rem;
+      }
+    }
+
+    nz-header {
+      padding-inline: 1rem;
+
+      .page-title {
+        padding-inline-start: 3rem;
+      }
+    }
+  }
 }
