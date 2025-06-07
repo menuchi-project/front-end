@@ -17,10 +17,11 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrl: './dashboard-page.component.scss',
 })
 export class DashboardPageComponent implements OnDestroy {
+  isCollapsed = true; // منو به طور پیش‌فرض بسته است
+  isMobileView = false; // متغیر برای تشخیص حالت موبایل
   pageTitle = 'مدیریت';
   onPageChangedSub: Subscription;
   showHeader = true;
-  isCollapsed = window.innerWidth < 768;
 
   constructor(
     private readonly titleService: TitleService,
@@ -29,9 +30,15 @@ export class DashboardPageComponent implements OnDestroy {
     private readonly messageService: NzMessageService,
     private readonly router: Router,
   ) {
+    this.checkScreenWidth(); // بررسی عرض صفحه در زمان بارگذاری اولیه
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showHeader = !(this.router.url === '/dashboard');
+        // بستن خودکار منو پس از ناوبری در حالت موبایل
+        if (this.isMobileView) {
+          this.isCollapsed = true;
+        }
         this.cdr.detectChanges();
       }
     });
@@ -43,9 +50,21 @@ export class DashboardPageComponent implements OnDestroy {
     );
   }
 
+  // با تغییر سایز پنجره، وضعیت موبایل را چک می‌کنیم
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    if (event.target.innerWidth < 768) {
+    this.checkScreenWidth();
+  }
+
+  private checkScreenWidth(): void {
+    this.isMobileView = window.innerWidth < 768;
+    // در حالت دسکتاپ منو باز و در موبایل بسته باشد
+    this.isCollapsed = this.isMobileView;
+  }
+
+  // این متد باعث می‌شود با کلیک روی هر آیتم منو، در حالت موبایل منو بسته شود
+  onMenuItemClick(): void {
+    if (this.isMobileView) {
       this.isCollapsed = true;
     }
   }
@@ -75,8 +94,6 @@ export class DashboardPageComponent implements OnDestroy {
 
   handleCreateNewMenu() {
     localStorage.removeItem('currentCreatingMenuId');
-    this.router.navigateByUrl('/dashboard').then(() => {
-      this.router.navigateByUrl('/dashboard/menu');
-    });
+    this.router.navigateByUrl('/dashboard/menu');
   }
 }

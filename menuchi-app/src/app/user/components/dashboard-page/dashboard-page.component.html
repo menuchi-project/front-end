@@ -1,140 +1,110 @@
 <div class="container">
-  <nz-layout>
-    <nz-sider
-      nzCollapsible
-      [(nzCollapsed)]="isCollapsed"
-      [nzTrigger]="null"
-      [class.expanded]="!isCollapsed"
-    >
-      <div class="side-menu">
-        <div class="menu-content">
-          <div class="logo">
-            <img
-              [src]="
-                isCollapsed
-                  ? '/assets/menuchi-logo-white.svg'
-                  : '/assets/logo-expand.svg'
-              "
-              alt="logo"
-              [height]="isCollapsed ? 80 : 60"
-              [width]="isCollapsed ? 50 : 180"
-            />
-          </div>
-          <ul class="menu-item" nz-menu nzMode="inline">
-            <li
-              nz-menu-item
-              routerLink="/dashboard"
-              routerLinkActive="activebutton"
-              [routerLinkActiveOptions]="{ exact: true }"
-              ariaCurrentWhenActive="page"
-            >
-              <nz-icon nzType="home" nzTheme="outline" />
-              <span>صفحه اصلی</span>
-            </li>
-            <li
-              nz-submenu
-              nzTitle="مدیریت منو"
-              nzIcon="profile"
-              class="bg-color-prim submenu"
-            >
-              <ul>
-                <li
-                  nz-menu-item
-                  (click)="handleCreateNewMenu()"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  routerLinkActive="activebutton"
-                  ariaCurrentWhenActive="page"
-                >
-                  <nz-icon nzType="product" nzTheme="outline" />
-                  <span>ایجاد منوی جدید</span>
-                </li>
-                <li nz-menu-item>
-                  <nz-icon nzType="product" nzTheme="outline" />
-                  <span> منوهای ساخته شده </span>
-                </li>
-              </ul>
-            </li>
-            <li
-              nz-menu-item
-              class="button"
-              routerLink="/dashboard/cats"
-              [routerLinkActiveOptions]="{ exact: true }"
-              routerLinkActive="activebutton"
-              ariaCurrentWhenActive="page"
-            >
-              <nz-icon nzType="product" nzTheme="outline" />
-              <span>بک‌لاگ</span>
-            </li>
-            <li
-              nz-menu-item
-              class="button"
-              routerLink="/dashboard/settings"
-              [routerLinkActiveOptions]="{ exact: true }"
-              routerLinkActive="activebutton"
-              ariaCurrentWhenActive="page"
-            >
-              <nz-icon nzType="setting" nzTheme="outline" />
-              <span>تنظیمات</span>
-            </li>
-            <li nz-menu-item class="button" (click)="logout()">
-              <nz-icon nzType="logout" nzTheme="outline" />
-              <span>خروج</span>
-            </li>
-          </ul>
+  <nz-sider
+    nzCollapsible
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+    class="mobile-drawer"
+    [class.expanded]="!isCollapsed"
+  >
+    <div class="side-menu">
+      <div class="menu-content">
+        <div class="logo">
+          <img
+            [src]="
+              isCollapsed
+                ? '/assets/menuchi-logo-white.svg'
+                : '/assets/logo-expand.svg'
+            "
+            alt="logo"
+            [height]="isCollapsed ? 80 : 60"
+            [width]="isCollapsed ? 50 : 180"
+          />
         </div>
-        <div class="trigger" (click)="isCollapsed = !isCollapsed">
-          <span
-            nz-icon
-            [nzType]="!isCollapsed ? 'double-right' : 'double-left'"
+        <ul
+          class="menu-item"
+          nz-menu
+          nzMode="inline"
+          (click)="onMenuItemClick()"
+        >
+          <li
+            nz-menu-item
+            routerLink="/dashboard"
+            routerLinkActive="activebutton"
+            [routerLinkActiveOptions]="{ exact: true }"
           >
-          </span>
-          @if (!isCollapsed) {
-            <span>بستن سایدبار</span>
-          }
-        </div>
+            <nz-icon nzType="home" nzTheme="outline" />
+            <span>صفحه اصلی</span>
+          </li>
+          <li
+            nz-submenu
+            nzTitle="مدیریت منو"
+            nzIcon="profile"
+            class="bg-color-prim submenu"
+          >
+            <ul>
+              <li nz-menu-item (click)="handleCreateNewMenu()">
+                <nz-icon nzType="product" nzTheme="outline" />
+                <span>ایجاد منوی جدید</span>
+              </li>
+              <li nz-menu-item>
+                <nz-icon nzType="product" nzTheme="outline" />
+                <span> منوهای ساخته شده </span>
+              </li>
+            </ul>
+          </li>
+          <li
+            nz-menu-item
+            class="button"
+            routerLink="/dashboard/cats"
+            routerLinkActive="activebutton"
+          >
+            <nz-icon nzType="product" nzTheme="outline" />
+            <span>بک‌لاگ</span>
+          </li>
+          <li nz-menu-item class="button" (click)="logout()">
+            <nz-icon nzType="logout" nzTheme="outline" />
+            <span>خروج</span>
+          </li>
+        </ul>
       </div>
-    </nz-sider>
-    <nz-layout>
-      @if (showHeader) {
-        <nz-header>
-          <div class="header">
-            <div class="header-left-items">
-              <span
-                nz-icon
-                nzType="menu"
-                class="menu-toggle-icon"
-                (click)="isCollapsed = !isCollapsed"
-              ></span>
-              <h1>{{ pageTitle }}</h1>
-            </div>
-            <div class="header-icons">
-              <img
-                ngSrc="/assets/icons/Orders.svg"
-                alt="notif"
-                height="44"
-                width="44"
-              />
-              <img
-                ngSrc="/assets/icons/User.svg"
-                alt="user"
-                height="44"
-                width="44"
-              />
-            </div>
-          </div>
-        </nz-header>
-      }
-      <nz-content>
-        @if (showHeader) {
-          <app-breadcrumb></app-breadcrumb>
-          <div class="inner-content">
-            <router-outlet />
-          </div>
-        } @else {
-          <app-dashboard-content></app-dashboard-content>
+      <div class="trigger" (click)="isCollapsed = !isCollapsed">
+        <span nz-icon [nzType]="!isCollapsed ? 'double-right' : 'double-left'">
+        </span>
+        @if (!isCollapsed) {
+          <span>بستن سایدبار</span>
         }
-      </nz-content>
-      <!--      <nz-footer>اینجا فوتره</nz-footer>-->
-    </nz-layout>
+      </div>
+    </div>
+  </nz-sider>
+
+  <div
+    class="sidebar-backdrop"
+    *ngIf="!isCollapsed && isMobileView"
+    (click)="isCollapsed = true"
+  ></div>
+
+  <nz-layout class="main-layout">
+    <div
+      *ngIf="isMobileView"
+      class="mobile-menu-toggle"
+      (click)="isCollapsed = false"
+    >
+      <span nz-icon nzType="menu"></span>
+    </div>
+
+    @if (showHeader) {
+      <nz-header> </nz-header>
+    }
+
+    <nz-content>
+      @if (showHeader) {
+        <app-breadcrumb></app-breadcrumb>
+        <div class="inner-content">
+          <router-outlet />
+        </div>
+      } @else {
+        <app-dashboard-content></app-dashboard-content>
+      }
+    </nz-content>
   </nz-layout>
 </div>
