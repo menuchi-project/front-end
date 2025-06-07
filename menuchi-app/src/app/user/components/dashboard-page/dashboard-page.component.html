@@ -98,7 +98,15 @@
       @if (showHeader) {
         <nz-header>
           <div class="header">
-            <h1>{{ pageTitle }}</h1>
+            <div class="header-left-items">
+              <span
+                nz-icon
+                nzType="menu"
+                class="menu-toggle-icon"
+                (click)="isCollapsed = !isCollapsed"
+              ></span>
+              <h1>{{ pageTitle }}</h1>
+            </div>
             <div class="header-icons">
               <img
                 ngSrc="/assets/icons/Orders.svg"

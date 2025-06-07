@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnDestroy,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { AuthService } from '../../../main/services/auth/auth.service';
@@ -12,10 +17,10 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrl: './dashboard-page.component.scss',
 })
 export class DashboardPageComponent implements OnDestroy {
-  isCollapsed = false;
   pageTitle = 'مدیریت';
   onPageChangedSub: Subscription;
   showHeader = true;
+  isCollapsed = window.innerWidth < 768;
 
   constructor(
     private readonly titleService: TitleService,
@@ -36,6 +41,13 @@ export class DashboardPageComponent implements OnDestroy {
         this.updateTitle($event);
       },
     );
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (event.target.innerWidth < 768) {
+      this.isCollapsed = true;
+    }
   }
 
   updateTitle(newTitle: string): void {

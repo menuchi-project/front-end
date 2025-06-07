@@ -174,3 +174,43 @@ nz-sider {
 .ant-menu-rtl.ant-menu-vertical {
   border: none !important;
 }
+
+// ... (کدهای قبلی)
+
+.header-left-items {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-toggle-icon {
+  display: none; // در دسکتاپ مخفی است
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #1c375e;
+}
+
+@media (max-width: 768px) {
+  // ... (کدهای مدیا کوئری قبلی)
+  .menu-toggle-icon {
+    display: block; // در موبایل نمایش داده می‌شود
+  }
+
+  // مخفی کردن دکمه بستن سایدبار که در پایین آن بود
+  .trigger {
+    display: none !important;
+  }
+
+  // استایل جدید برای nz-sider در مدیا کوئری
+  nz-sider {
+    // ...
+    &.expanded {
+      transform: translateX(0);
+    }
+
+    // این حالت یعنی وقتی سایدبار بسته است
+    &.ant-layout-sider-collapsed {
+      transform: translateX(100%); // از سمت راست خارج می‌شود
+    }
+  }
+}
