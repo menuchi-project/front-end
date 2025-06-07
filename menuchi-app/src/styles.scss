@@ -1,12 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
-
 @use "sass:color";
 
-html,
+:root {
+  --base-font-size: 87.5%;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --base-font-size: 100%;
+  }
+}
+
+html {
+  font-size: var(--base-font-size);
+}
+
 body {
   font-family: Peyda, Vazirmatn, sans-serif;
-  font-size: 16px;
   font-weight: 400;
+  margin: 0;
 }
 
 h1 {
@@ -27,23 +38,15 @@ h1 {
   padding-block: 0.8rem !important;
 }
 
-// scroll bar styling
 *::-webkit-scrollbar {
   width: 0;
   height: 4px;
 }
 
-/* Handle portion of the scrollbar */
-
 *::-webkit-scrollbar-thumb {
   background-color: #888;
-  //border: 2px solid var(--color-background-900);
   border-radius: 10px;
-  //border: 10px solid transparent;
-  //background-clip: padding-box;
 }
-
-/* Track (the area on which the handle moves) */
 
 *::-webkit-scrollbar-track {
   background-color: transparent;
@@ -66,10 +69,6 @@ h1 {
 }
 
 .ant-menu-submenu-selected {
-  background-color: #1d385e !important;
-}
-
-.ant-menu-submenu-selected {
   background-color: transparent !important;
 }
 
@@ -78,15 +77,6 @@ h1 {
   color: #f1eae1 !important;
 }
 
-//// Hover states
-//.ant-menu-item:hover,
-//.ant-menu-submenu:hover {
-//  .ant-menu-title-content,
-//  .ant-menu-submenu-arrow {
-//    color: #f1eae1 !important;
-//  }
-//}
-// Hover states
 .ant-menu-submenu:hover,
 .ant-menu-item:hover {
   .ant-menu-title-content,
@@ -108,7 +98,6 @@ h1 {
   border-radius: 4px;
 }
 
-// Add this at the bottom of the file
 .ant-menu-submenu-popup {
   background-color: #1d385e !important;
 
@@ -125,7 +114,6 @@ h1 {
   }
 }
 
-// Modify the existing ant-menu-submenu styles
 .ant-menu-submenu > .ant-menu {
   background-color: #1d385e !important;
 }
@@ -150,7 +138,6 @@ nz-sider:not(.ant-layout-sider-collapsed) {
   }
 }
 
-// Keep existing collapsed styles
 .ant-menu-submenu-popup .ant-menu-item-selected {
   background-color: #f1eae1 !important;
   border-radius: 4px !important;
@@ -159,11 +146,6 @@ nz-sider:not(.ant-layout-sider-collapsed) {
   nz-icon {
     color: #243e62 !important;
   }
-}
-
-// Remove any parent coloring
-.ant-menu-submenu-selected {
-  background-color: transparent !important;
 }
 
 .ant-form-item-required::before {
