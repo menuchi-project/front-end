@@ -14,6 +14,7 @@ import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import {
   HomeOutline,
   LogoutOutline,
+  MenuOutline,
   ProductOutline,
   ProfileOutline,
   SettingOutline,
@@ -53,6 +54,7 @@ describe('DashboardPageComponent', () => {
           SettingOutline,
           LogoutOutline,
           ProfileOutline,
+          MenuOutline,
         ]),
       ],
     }).compileComponents();
