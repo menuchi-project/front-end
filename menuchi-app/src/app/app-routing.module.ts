@@ -11,17 +11,36 @@ import { authGuard } from './main/guards/auth.guard';
 import { DashboardPageComponent } from './user/components/dashboard-page/dashboard-page.component';
 import { SettingsPageComponent } from './user/components/settings-page/settings-page.component';
 import { MenuPreviewComponent } from './main/components/menu-preview/menu-preview.component';
+import { CartPageComponent } from './user/components/cart-page/cart-page.component'; 
 import { OtpEmailEntryComponent } from './user/components/otp-email-entry-page/otp-email-entry-page.component'; 
 import { OtpVerificationComponent } from './user/components/otp-email-verification-page/otp-email-verification-page.component'; 
 
 const routes: Routes = [
-  { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
+  { 
+    path: 'login', 
+    component: RestaurantLoginComponent, 
+    title: 'منوچی | ورود'     
+  },
   {
     path: 'signup',
     component: RestaurantSignupComponent,
     title: 'منوچی | ثبت نام',
   },
-  { path: 'home', component: AppComponent, data: { breadcrumb: 'خانه' } },
+  { 
+    path: 'otp-email-entry',
+    component: OtpEmailEntryComponent, 
+    title: 'منوچی | ورود مشتری', 
+  },
+  { 
+    path: 'otp-verification',
+    component: OtpVerificationComponent, 
+    title: 'منوچی | تأیید ورود مشتری', 
+  },
+  { 
+    path: 'home', 
+    component: AppComponent, 
+    data: { breadcrumb: 'خانه' }
+  },
   {
     path: 'dashboard',
     component: DashboardPageComponent,
@@ -73,10 +92,15 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'cart',
+        component: CartPageComponent,
+        data: { breadcrumb: 'سبد خرید' },
+        title: 'منوچی | سبد خرید',
+        canActivate: [authGuard],
+      },
     ],
   },
-  { path: 'otp-email-entry', component: OtpEmailEntryComponent, title: 'منوچی | ورود با OTP' },
-  { path: 'otp-verification', component: OtpVerificationComponent, title: 'منوچی | تأیید OTP' },
   { path: '**', redirectTo: '/dashboard' },
 ];
 

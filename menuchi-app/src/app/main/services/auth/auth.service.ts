@@ -12,6 +12,7 @@ export class AuthService {
   private readonly apiUrl = environment.API_URL + '/auth';
   private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
+  private customerEmail: string | null = null;
 
   constructor(
     private httpClient: HttpClient,
@@ -89,7 +90,7 @@ export class AuthService {
     return this.userSubject.value?.username || 'کاربر ناشناس';
   }
 
- getAllBranchIds(): string[] {
+  getAllBranchIds(): string[] {
     const branches: string[] = [];
     const restaurants = this.userSubject.value?.restaurants;
 
@@ -102,5 +103,9 @@ export class AuthService {
     }
 
     return branches;
+  }
+
+  getCustomerEmail(): string | null {
+    return this.customerEmail;
   }
 }
