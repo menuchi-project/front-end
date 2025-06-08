@@ -138,7 +138,7 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 const branch = this.restaurant.branches.find(
                   (b: Branch) => b.id === this.branchId,
                 );
-                console.log('Selected Branch:', branch); // لاگ دیباگ
+                console.log('Selected Branch:', branch);
                 if (branch) console.log('Opening Times:', branch.openingTimes); // لاگ دیباگ
                 if (branch && branch.openingTimes) {
                   this.restaurant.openingHours = this.formatOpeningHours(

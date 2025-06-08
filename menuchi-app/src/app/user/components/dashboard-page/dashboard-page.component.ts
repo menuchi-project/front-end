@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnDestroy,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { AuthService } from '../../../main/services/auth/auth.service';
@@ -12,7 +17,8 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrl: './dashboard-page.component.scss',
 })
 export class DashboardPageComponent implements OnDestroy {
-  isCollapsed = false;
+  isCollapsed = true;
+  isMobileView = false;
   pageTitle = 'مدیریت';
   onPageChangedSub: Subscription;
   showHeader = true;
@@ -24,9 +30,14 @@ export class DashboardPageComponent implements OnDestroy {
     private readonly messageService: NzMessageService,
     private readonly router: Router,
   ) {
+    this.checkScreenWidth();
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.showHeader = !(this.router.url === '/dashboard');
+        if (this.isMobileView) {
+          this.isCollapsed = true;
+        }
         this.cdr.detectChanges();
       }
     });
@@ -36,6 +47,26 @@ export class DashboardPageComponent implements OnDestroy {
         this.updateTitle($event);
       },
     );
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenWidth();
+  }
+
+  private checkScreenWidth(): void {
+    this.isMobileView = window.innerWidth < 768;
+    if (!this.isMobileView) {
+      this.isCollapsed = false;
+    } else {
+      this.isCollapsed = true;
+    }
+  }
+
+  onMenuItemClick(): void {
+    if (this.isMobileView) {
+      this.isCollapsed = true;
+    }
   }
 
   updateTitle(newTitle: string): void {
@@ -63,8 +94,6 @@ export class DashboardPageComponent implements OnDestroy {
 
   handleCreateNewMenu() {
     localStorage.removeItem('currentCreatingMenuId');
-    this.router.navigateByUrl('/dashboard').then(() => {
-      this.router.navigateByUrl('/dashboard/menu');
-    });
+    this.router.navigateByUrl('/dashboard/menu');
   }
 }
