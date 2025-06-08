@@ -17,10 +17,11 @@
                     <div class="left-section">
                         <div class="quantity-control">
                             <img src="assets/icons/Minus-Square.svg" (click)="decreaseQuantity(0)" class="quantity-icon" alt="Decrease" />
-                            <span class="quantity">{{ quantities[0] }}</span>
+                            <span class="quantity">{{ quantities[0] | persianNumber }}</span>
                             <img src="assets/icons/Add-Square.svg" (click)="increaseQuantity(0)" class="quantity-icon" alt="Increase" />
                         </div>
-                        <img src="https://via.placeholder.com/100" alt="پیتزا مارگاریتا" height="100" width="100" class="item-image" />
+                        <div class="item-image"></div>
+                        <!-- جایگزین <img> -->
                     </div>
                 </div>
             </nz-list-item>
@@ -37,10 +38,11 @@
                     <div class="left-section">
                         <div class="quantity-control">
                             <img src="assets/icons/Minus-Square.svg" (click)="decreaseQuantity(1)" class="quantity-icon" alt="Decrease" />
-                            <span class="quantity">{{ quantities[1] }}</span>
+                            <span class="quantity">{{ quantities[1] | persianNumber }}</span>
                             <img src="assets/icons/Add-Square.svg" (click)="increaseQuantity(1)" class="quantity-icon" alt="Increase" />
                         </div>
-                        <img src="https://via.placeholder.com/100" alt="نوشابه" height="100" width="100" class="item-image" />
+                        <div class="item-image"></div>
+                        <!-- جایگزین <img> -->
                     </div>
                 </div>
             </nz-list-item>
@@ -48,7 +50,7 @@
                 <div class="item">
                     <div class="item-details">
                         <nz-typography>
-                            <h4 nz-typography>برگر </h4>
+                            <h4 nz-typography>برگر</h4>
                             <p nz-typography>مواد لازم:</p>
                             <p nz-typography>گوشت، نان، کاهو، گوجه</p>
                             <p nz-typography>60000 تومان</p>
@@ -57,10 +59,11 @@
                     <div class="left-section">
                         <div class="quantity-control">
                             <img src="assets/icons/Minus-Square.svg" (click)="decreaseQuantity(2)" class="quantity-icon" alt="Decrease" />
-                            <span class="quantity">{{ quantities[2] }}</span>
+                            <span class="quantity">{{ quantities[2] | persianNumber }}</span>
                             <img src="assets/icons/Add-Square.svg" (click)="increaseQuantity(2)" class="quantity-icon" alt="Increase" />
                         </div>
-                        <img src="https://via.placeholder.com/100" alt="برگر" height="100" width="100" class="item-image" />
+                        <div class="item-image"></div>
+                        <!-- جایگزین <img> -->
                     </div>
                 </div>
             </nz-list-item>
@@ -68,8 +71,8 @@
         <nz-card class="total-section">
             <nz-typography>
                 <h3 nz-typography class="total-content">
-                    <p nz-typography class="total-label">مجموع</p>
-                    <p nz-typography class="total-amount">150000 تومان</p>
+                    <span class="total-label">مجموع</span>
+                    <span class="total-amount">150000 تومان</span>
                 </h3>
             </nz-typography>
         </nz-card>

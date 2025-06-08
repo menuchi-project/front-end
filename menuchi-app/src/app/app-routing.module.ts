@@ -16,13 +16,31 @@ import { OtpEmailEntryComponent } from './user/components/otp-email-entry-page/o
 import { OtpVerificationComponent } from './user/components/otp-email-verification-page/otp-email-verification-page.component'; 
 
 const routes: Routes = [
-  { path: 'login', component: RestaurantLoginComponent, title: 'منوچی | ورود' },
+  { 
+    path: 'login', 
+    component: RestaurantLoginComponent, 
+    title: 'منوچی | ورود'     
+  },
   {
     path: 'signup',
     component: RestaurantSignupComponent,
     title: 'منوچی | ثبت نام',
   },
-  { path: 'home', component: AppComponent, data: { breadcrumb: 'خانه' } },
+  { 
+    path: 'otp-email-entry',
+    component: OtpEmailEntryComponent, 
+    title: 'منوچی | ورود مشتری', 
+  },
+  { 
+    path: 'otp-verification',
+    component: OtpVerificationComponent, 
+    title: 'منوچی | تأیید ورود مشتری', 
+  },
+  { 
+    path: 'home', 
+    component: AppComponent, 
+    data: { breadcrumb: 'خانه' }
+  },
   {
     path: 'dashboard',
     component: DashboardPageComponent,
@@ -83,8 +101,6 @@ const routes: Routes = [
       },
     ],
   },
-  { path: 'otp-email-entry', component: OtpEmailEntryComponent, title: 'منوچی | ورود با OTP' },
-  { path: 'otp-verification', component: OtpVerificationComponent, title: 'منوچی | تأیید OTP' },
   { path: '**', redirectTo: '/dashboard' },
 ];
 

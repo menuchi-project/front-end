@@ -10,6 +10,8 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { SharedModule } from "../../../shared/shared.module";
+import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-number.pipe';
 
 @Component({
   selector: 'app-cart-page',
@@ -23,13 +25,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     NzImageModule,
     NzTypographyModule,
     NzEmptyModule,
-  ],
+    SharedModule
+],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CartPageComponent {
   orders: any[] = [];
   email: string = '';
   quantities: number[] = [1, 1, 1];
+  persianNumberPipe = new PersianNumberPipe();
 
   constructor(
     private authService: AuthService,
@@ -71,11 +75,13 @@ export class CartPageComponent {
     if (this.quantities[index] < 10) {
       this.quantities[index]++;
     }
+    return this.persianNumberPipe.transform(this.quantities[index]);
   }
 
   decreaseQuantity(index: number) {
     if (this.quantities[index] > 1) {
       this.quantities[index]--;
     }
+    return this.persianNumberPipe.transform(this.quantities[index]);
   }
 }

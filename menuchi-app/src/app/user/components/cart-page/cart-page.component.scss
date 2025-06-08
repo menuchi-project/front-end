@@ -4,6 +4,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+    }
 }
 
 .items-section {
@@ -11,6 +14,10 @@
     flex-direction: column;
     width: 20rem;
     justify-content: center;
+    @media (max-width: 768px) {
+        width: 90%;
+        padding: 0 0.25rem;
+    }
 }
 
 .items-list {
@@ -18,27 +25,47 @@
         display: flex;
         align-items: center;
         gap: 4rem;
+        @media (max-width: 768px) {
+            flex-direction: row;
+            gap: 2.5em;
+        }
     }
     .item-image {
         border-radius: 0.25rem;
         height: 5rem;
         width: 5rem;
+        background-color: #D1D5DB;
+        border: 1px solid #E5E7EB;
+        @media (max-width: 768px) {
+            border-radius: 0.25rem;
+            height: 4rem;
+            width: 4rem;
+            background-color: #D1D5DB;
+            border: 1px solid #E5E7EB;
+        }
     }
     .left-section {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.5rem;
+        @media (max-width: 768px) {
+            width: auto;
+        }
     }
     .item-details {
         flex: 1;
         padding-top: 0.2rem;
+        width: 8.5rem;
         nz-typography {
             h4[nz-typography] {
                 color: #243E62;
                 font-size: 1rem;
                 font-weight: 500;
                 margin: 0;
+                @media (max-width: 768px) {
+                    font-size: 0.9rem;
+                }
             }
             p[nz-typography] {
                 font-size: 0.9rem;
@@ -49,18 +76,32 @@
                     font-size: 0.9rem;
                     font-weight: 500;
                     margin-top: 0.25rem;
+                    @media (max-width: 768px) {
+                        font-size: 0.8rem;
+                    }
                 }
                 &:nth-child(3) {
                     color: #1E293B;
                     font-size: 0.7rem;
                     margin-top: 0.1rem;
                     opacity: 50%;
+                    @media (max-width: 768px) {
+                        font-size: 0.7rem;
+                    }
                 }
                 &:nth-child(4) {
                     margin-top: 1.5rem;
                     color: #1E293B;
+                    @media (max-width: 768px) {
+                        margin-top: 0.75rem;
+                        font-size: 0.9rem;
+                    }
                 }
             }
+        }
+        @media (max-width: 768px) {
+            max-width: 100%;
+            width: 9rem;
         }
     }
 }
@@ -72,11 +113,17 @@
     text-align: center;
     width: 24rem;
     margin-bottom: 1rem;
+    @media (max-width: 768px) {
+        width: 100%;
+    }
     p {
         color: #FFFFFF !important;
         margin: 0;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
+        @media (max-width: 768px) {
+            font-size: 0.8rem;
+        }
     }
 }
 
@@ -91,26 +138,23 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-}
-
-.total-label {
-    order: 0;
-    margin: 0;
-    color: #393939;
-    font-size: 1.2rem;
-    font-weight: 400;
-    font-size: 1.3rem;
-    padding: 0.5rem 1rem;
-}
-
-.total-amount {
-    order: 1;
-    margin: 0;
-    color: #393939;
-    font-size: 1.2rem;
-    font-weight: 600;
-    font-size: 1.3rem;
-    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    .total-label {
+        color: #393939;
+        font-weight: 400;
+        font-size: 1.3rem;
+    }
+    .total-amount {
+        color: #393939;
+        font-weight: 600;
+        font-size: 1.3rem;
+    }
+    @media (max-width: 768px) {
+        .total-label,
+        .total-amount {
+            font-size: 1.1rem;
+        }
+    }
 }
 
 nz-list-item {
@@ -127,22 +171,31 @@ nz-list-item {
 
 .quantity-control {
     display: flex;
-    align-items: center;
     gap: 0.5rem;
     margin-right: 1rem;
+    @media (max-width: 768px) {
+        gap: 0.25rem;
+    }
 }
 
 .quantity {
     font-size: 1rem;
     font-weight: 500;
     color: #243E62;
+    @media (max-width: 768px) {
+        font-size: 0.7rem;
+    }
 }
 
 .quantity-icon {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     cursor: pointer;
     &:hover {
         opacity: 0.7;
+    }
+    @media (max-width: 768px) {
+        width: 1rem;
+        height: 1rem;
     }
 }
