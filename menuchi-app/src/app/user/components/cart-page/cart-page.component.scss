@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    @media (max-width: 768px) {
+    @media (min-width: 320px) and (max-width: 768px) {
         padding: 0.5rem;
     }
 }
@@ -14,9 +14,9 @@
     flex-direction: column;
     width: 20rem;
     justify-content: center;
-    @media (max-width: 768px) {
-        width: 90%;
-        padding: 0 0.25rem;
+    @media (min-width: 320px) and (max-width: 1024px) {
+        width: 19rem;
+        padding: 0 1rem;
     }
 }
 
@@ -25,9 +25,9 @@
         display: flex;
         align-items: center;
         gap: 4rem;
-        @media (max-width: 768px) {
+        @media (min-width: 320px) and (max-width: 1024px) {
             flex-direction: row;
-            gap: 2.5em;
+            gap: 2.5rem;
         }
     }
     .item-image {
@@ -36,7 +36,7 @@
         width: 5rem;
         background-color: #D1D5DB;
         border: 1px solid #E5E7EB;
-        @media (max-width: 768px) {
+        @media (min-width: 320px) and (max-width: 768px) {
             border-radius: 0.25rem;
             height: 4rem;
             width: 4rem;
@@ -49,7 +49,7 @@
         flex-direction: column;
         align-items: center;
         gap: 0.5rem;
-        @media (max-width: 768px) {
+        @media (min-width: 320px) and (max-width: 768px) {
             width: auto;
         }
     }
@@ -63,7 +63,7 @@
                 font-size: 1rem;
                 font-weight: 500;
                 margin: 0;
-                @media (max-width: 768px) {
+                @media (min-width: 320px) and (max-width: 768px) {
                     font-size: 0.9rem;
                 }
             }
@@ -76,7 +76,7 @@
                     font-size: 0.9rem;
                     font-weight: 500;
                     margin-top: 0.25rem;
-                    @media (max-width: 768px) {
+                    @media (min-width: 320px) and (max-width: 768px) {
                         font-size: 0.8rem;
                     }
                 }
@@ -85,23 +85,22 @@
                     font-size: 0.7rem;
                     margin-top: 0.1rem;
                     opacity: 50%;
-                    @media (max-width: 768px) {
+                    @media (min-width: 320px) and (max-width: 768px) {
                         font-size: 0.7rem;
                     }
                 }
                 &:nth-child(4) {
                     margin-top: 1.5rem;
                     color: #1E293B;
-                    @media (max-width: 768px) {
+                    @media (min-width: 320px) and (max-width: 768px) {
                         margin-top: 0.75rem;
                         font-size: 0.9rem;
                     }
                 }
             }
         }
-        @media (max-width: 768px) {
-            max-width: 100%;
-            width: 9rem;
+        @media (min-width: 320px) and (max-width: 768px) {
+            width: 8rem;
         }
     }
 }
@@ -113,15 +112,15 @@
     text-align: center;
     width: 24rem;
     margin-bottom: 1rem;
-    @media (max-width: 768px) {
-        width: 100%;
+    @media (min-width: 320px) and (max-width: 1024px) {
+        width: 20rem;
     }
     p {
         color: #FFFFFF !important;
         margin: 0;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
-        @media (max-width: 768px) {
+        @media (max-width: 320px) {
             font-size: 0.8rem;
         }
     }
@@ -149,10 +148,10 @@
         font-weight: 600;
         font-size: 1.3rem;
     }
-    @media (max-width: 768px) {
+    @media (min-width: 320px) and (max-width: 1024px) {
         .total-label,
         .total-amount {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
     }
 }
@@ -173,7 +172,7 @@ nz-list-item {
     display: flex;
     gap: 0.5rem;
     margin-right: 1rem;
-    @media (max-width: 768px) {
+    @media (min-width: 320px) and (max-width: 768px) {
         gap: 0.25rem;
     }
 }
@@ -182,7 +181,7 @@ nz-list-item {
     font-size: 1rem;
     font-weight: 500;
     color: #243E62;
-    @media (max-width: 768px) {
+    @media (min-width: 320px) and (max-width: 768px) {
         font-size: 0.7rem;
     }
 }
@@ -194,7 +193,7 @@ nz-list-item {
     &:hover {
         opacity: 0.7;
     }
-    @media (max-width: 768px) {
+    @media (min-width: 320px) and (max-width: 768px) {
         width: 1rem;
         height: 1rem;
     }
