@@ -1,10 +1,33 @@
 <div class="container">
-    <div class="menu-grid">
-        <div class="menu-card" *ngFor="let menu of menus">
-            <div class="menu-details">
-                <h3>{{ menu.name }}</h3>
-                <button class="view-button">پیش نمایش منو</button>
-            </div>
+    <div class="header-section">
+        <div class="search-container">
+            <input type="text" nz-input placeholder="نام منوی موردنظر خود را وارد کنید" [(ngModel)]="searchQuery" (ngModelChange)="filterMenus()" class="search-input" />
+            <img src="/assets/icons/Search.svg" alt="Search Menu" class="search-icon" />
         </div>
+        <div class="create-menu">
+            <img src="/assets/icons/Add.svg" alt="Create Menu" class="create-menu-icon" />
+            <button nz-button nzType="primary" [routerLink]="'/dashboard/menu'" class="create-menu-label">
+                ایجاد منوی جدید
+        </button>
+        </div>
+    </div>
+    <div class="menu-section">
+        <div *ngIf="menus.length > 0; else noMenus" class="menus-carousel">
+            <nz-row [nzGutter]="16">
+                <nz-col *ngFor="let menu of visibleMenus" [nzSpan]="12" class="menu-card">
+                    <nz-card [nzHoverable]="true">
+                        <nz-card-meta nzTitle="{{ menu.name || 'بدون نام' }}"></nz-card-meta>
+                        <div class="details">
+                            <button nz-button nzType="default" (click)="viewMenuDetails(menu.id)">
+                  پیش‌نمایش منو
+                </button>
+                        </div>
+                    </nz-card>
+                </nz-col>
+            </nz-row>
+        </div>
+        <ng-template #noMenus>
+            <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="'منویی برای نمایش وجود ندارد'"></nz-empty>
+        </ng-template>
     </div>
 </div>
