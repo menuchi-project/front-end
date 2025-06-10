@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { MenuService } from '../../services/menu/menu.service';
 import { Menu } from '../../models/Menu';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   standalone: false,
   templateUrl: './created-menus-page.component.html',
   styleUrl: './created-menus-page.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class CreatedMenusPageComponent {
   menus: Menu[] = [];
