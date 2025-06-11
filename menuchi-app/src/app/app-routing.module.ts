@@ -14,6 +14,7 @@ import { MenuPreviewComponent } from './main/components/menu-preview/menu-previe
 import { CartPageComponent } from './user/components/cart-page/cart-page.component'; 
 import { OtpEmailEntryComponent } from './user/components/otp-email-entry-page/otp-email-entry-page.component'; 
 import { OtpVerificationComponent } from './user/components/otp-email-verification-page/otp-email-verification-page.component'; 
+import { CreatedMenusPageComponent } from './user/components/created-menus-page/created-menus-page.component';
 
 const routes: Routes = [
   { 
@@ -66,6 +67,13 @@ const routes: Routes = [
         data: { breadcrumb: 'ایجاد منوی جدید' },
         title: 'منوچی | ایجاد منوی جدید',
       },
+      {
+        path: 'created-menus',
+        component: CreatedMenusPageComponent,
+        data: { breadcrumb: 'منوهای ساخته شده' },
+        title: 'منوچی | منوهای ساخته شده',
+        canActivate: [authGuard],
+      },  
       {
         path: 'settings',
         component: SettingsPageComponent,

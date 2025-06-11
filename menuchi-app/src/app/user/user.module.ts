@@ -78,6 +78,7 @@ import { MainModule } from '../main/main.module';
 import { JoinNonEmptyPipe} from './components/dashboard-page/dashboard-content/dashboard-content.component';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { HighlightPipe } from '../shared/pipes/highlight/highlight.pipe';
+import { CreatedMenusPageComponent } from './components/created-menus-page/created-menus-page.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { HighlightPipe } from '../shared/pipes/highlight/highlight.pipe';
     SettingsPageComponent,
     DashboardContentComponent,
     JoinNonEmptyPipe,
+    CreatedMenusPageComponent,
   ],
   imports: [
     CommonModule,

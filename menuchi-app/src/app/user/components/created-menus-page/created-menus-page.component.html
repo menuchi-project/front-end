@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="header-section">
+        <div class="search-container">
+            <input type="text" nz-input placeholder="نام منوی موردنظر خود را وارد کنید" [(ngModel)]="searchQuery" (ngModelChange)="filterMenus()" class="search-input" />
+            <img src="/assets/icons/Search.svg" alt="Search Menu" class="search-icon" />
+        </div>
+        <div class="create-menu">
+            <img src="/assets/icons/Add.svg" alt="Create Menu" class="create-menu-icon" />
+            <button nz-button nzType="primary" [routerLink]="'/dashboard/menu'" class="create-menu-label">
+                ایجاد منوی جدید
+        </button>
+        </div>
+    </div>
+    <div class="menu-section">
+        <div *ngIf="menus.length > 0; else noMenus" class="menus-carousel">
+            <nz-row [nzGutter]="16">
+                <nz-col *ngFor="let menu of visibleMenus" [nzSpan]="10" class="menu-card">
+                    <div class="menu-container">
+                        <div class="menu-header">
+                            <img src="/assets/icons/Menu2.svg" alt="Menu" class="menu-icon" />
+                            <nz-card-meta nzTitle="{{ menu.name || 'بدون نام' }}" class="menu-name"></nz-card-meta>
+                        </div>
+                        <div class="menu-details">
+                            <div class="cylinder-section">
+                                <div class="cylinder-label">تعداد سیلندر</div>
+                                <div class="cylinder-number">{{ menu.cylindersCount | persianNumber}}</div>
+                            </div>
+                            <div class="category-section">
+                                <div class="category-label">تعداد کتگوری</div>
+                                <div class="category-number">{{ menu.categoriesCount | persianNumber }}</div>
+                            </div>
+                            <div class="item-section">
+                                <div class="item-label">تعداد آیتم</div>
+                                <div class="item-number">{{ menu.itemsCount | persianNumber }}</div>
+                            </div>
+                        </div>
+                        <div class="menu-buttons">
+                            <button nz-button nzType="default" (click)="viewMenuDetails(menu.id)" class="viewMenuDetails">
+                پیش‌نمایش منو
+              </button>
+                            <button nz-button nzType="default" (click)="deleteMenu(menu.id)" class="deleteMenu">
+                حذف منو
+              </button>
+                        </div>
+                    </div>
+                </nz-col>
+            </nz-row>
+        </div>
+        <ng-template #noMenus>
+            <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="'منویی برای نمایش وجود ندارد'"></nz-empty>
+        </ng-template>
+    </div>
+</div>
