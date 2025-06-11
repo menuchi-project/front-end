@@ -52,7 +52,10 @@ nz-row {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+}
+
+nz-col {
+    padding-bottom: 1rem;
 }
 
 .menu-container {
@@ -99,7 +102,6 @@ nz-row {
 .item-label {
     color: #8C8C6E;
     flex: 1;
-    padding-top: 0.5rem;
     font-weight: 500;
 }
 

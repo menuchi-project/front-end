@@ -11,6 +11,9 @@ export interface Menu {
   deletedAt: string | null;
   restaurantId: string;
   cylinders: Cylinder[];
+  cylindersCount: number;
+  categoriesCount: number;
+  itemsCount: number;
 }
 
 export interface CreateMenuRequest {
