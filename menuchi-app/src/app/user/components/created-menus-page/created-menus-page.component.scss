@@ -136,4 +136,9 @@ nz-col {
     height: 3.2rem;
     width: 9rem;
     border-radius: 0.5rem;
+    &:hover {
+        background-color: #ec4646;
+        border-color: #ec4646;
+        color: #d9d9d9;
+    }
 }

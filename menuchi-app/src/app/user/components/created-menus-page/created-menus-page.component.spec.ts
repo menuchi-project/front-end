@@ -5,6 +5,8 @@ import { CreatedMenusPageComponent } from './created-menus-page.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 describe('CreatedMenusPageComponent', () => {
   let component: CreatedMenusPageComponent;
@@ -16,11 +18,13 @@ describe('CreatedMenusPageComponent', () => {
       imports: [
         FormsModule,
         RouterModule.forRoot([]),
-        NzEmptyModule
+        NzEmptyModule,
+        NzModalModule
       ],
       providers: [
         provideHttpClient(),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        NzModalService
       ]
     })
     .compileComponents();

@@ -95,4 +95,8 @@ export class MenuService implements OnInit {
   getMenuPreview(menuId: string): Observable<MenuPreview> {
     return this.httpClient.get<MenuPreview>(`${this.apiUrl}/${menuId}/preview`);
   }
+
+  deleteMenu(menuId: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/${menuId}`);
+  }
 }
