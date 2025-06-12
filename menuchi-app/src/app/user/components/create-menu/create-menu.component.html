@@ -6,6 +6,8 @@
         type="text"
         nz-input
         placeholder="نام منو را وارد کنید"
+        [(ngModel)]="menu.name"
+        (ngModelChange)="onNameChange()"
       />
     </nz-input-group>
     <ng-template #suffixIconSearch>

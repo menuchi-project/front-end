@@ -61,9 +61,9 @@ export interface MenuCategory {
 }
 
 export interface UpdateMenuRequest {
-  name: string;
-  favicon: string;
-  isPublished: boolean;
+  name?: string;
+  favicon?: string;
+  isPublished?: boolean;
 }
 
 export interface CreateCylinder {
