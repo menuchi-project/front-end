@@ -118,3 +118,22 @@ export interface MenuPreview {
   isPublished: boolean;
   restaurantId: string;
 }
+
+export interface DayMenuItem {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  categoryId: string;
+  categoryNameId: string;
+  categoryName: string;
+  name: string;
+  ingredients: string;
+  price: number;
+  picUrl: string;
+  positionInItemsList: number;
+  positionInCategory: number;
+  positionInMenuCategory: number;
+  isActive: boolean;
+  orderCount: number;
+}

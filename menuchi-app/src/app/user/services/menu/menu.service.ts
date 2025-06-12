@@ -8,6 +8,7 @@ import {
   CreateCylinderResponse,
   CreateMenuRequest,
   CreateMenuResponse,
+  DayMenuItem,
   Menu,
   MenuPreview,
   UpdateMenuRequest,
@@ -98,5 +99,11 @@ export class MenuService implements OnInit {
 
   deleteMenu(menuId: string): Observable<void> {
     return this.httpClient.delete<void>(`${this.apiUrl}/${menuId}`);
+  }
+
+  getTodayMenuItems(): Observable<DayMenuItem[]> {
+    return this.httpClient.get<DayMenuItem[]>(
+      `${this.apiUrl}/8c200d93-3aa2-4656-836f-ce87c9534186/day-items`,
+    );
   }
 }
