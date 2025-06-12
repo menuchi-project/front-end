@@ -425,6 +425,10 @@
             transition: all 0.3s;
             color: #1890ff;
 
+            object {
+              pointer-events: none;
+            }
+
             &:hover:not(.disabled) {
               color: #40a9ff;
               transform: scale(1.1);
