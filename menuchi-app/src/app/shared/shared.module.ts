@@ -30,6 +30,7 @@ import {
   NzDropdownMenuComponent,
 } from 'ng-zorro-antd/dropdown';
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
+import { JoinNonEmptyPipe } from './pipes/joinNonEmpty/join-non-empty.pipe';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
     PersianPricePipe,
     PersianNumberPipe,
     ItemCardComponent,
+    JoinNonEmptyPipe,
   ],
   imports: [
     CommonModule,
@@ -76,6 +78,7 @@ import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
     PersianPricePipe,
     PersianNumberPipe,
     ItemCardComponent,
+    JoinNonEmptyPipe,
   ],
 })
 export class SharedModule {}

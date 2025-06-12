@@ -75,7 +75,6 @@ import { DashboardPageComponent } from './components/dashboard-page/dashboard-pa
 import { SettingsPageComponent } from './components/settings-page/settings-page.component';
 import { DashboardContentComponent } from './components/dashboard-page/dashboard-content/dashboard-content.component';
 import { MainModule } from '../main/main.module';
-import { JoinNonEmptyPipe} from './components/dashboard-page/dashboard-content/dashboard-content.component';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { HighlightPipe } from '../shared/pipes/highlight/highlight.pipe';
 import { CreatedMenusPageComponent } from './components/created-menus-page/created-menus-page.component';
@@ -97,7 +96,6 @@ import { CreatedMenusPageComponent } from './components/created-menus-page/creat
     DashboardPageComponent,
     SettingsPageComponent,
     DashboardContentComponent,
-    JoinNonEmptyPipe,
     CreatedMenusPageComponent,
   ],
   imports: [

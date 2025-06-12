@@ -15,22 +15,6 @@ import { Branch, OpeningTimes, Restaurant } from '../../../models/restaurant';
 import { Router } from '@angular/router';
 import { PersianNumberPipe } from '../../../../shared/pipes/persian-number/persian-number.pipe';
 
-export
-@Pipe({
-  name: 'joinNonEmpty',
-  standalone: false,
-})
-class JoinNonEmptyPipe implements PipeTransform {
-  transform(
-    values: (string | null | undefined)[],
-    separator: string = ', ',
-  ): string {
-    return values
-      .filter((value) => value != null && value.trim() !== '')
-      .join(separator);
-  }
-}
-
 @Component({
   selector: 'app-dashboard-content',
   standalone: false,
@@ -42,7 +26,7 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   todaysItems: DayMenuItem[] = [];
   currentItemIndex = 0;
   menus: Menu[] = [];
-  userName: string = '';
+  userName: string = 'کاربر';
   visibleMenus: Menu[] = [];
   currentIndex = 0;
   visibleBranches: Branch[] = [];
