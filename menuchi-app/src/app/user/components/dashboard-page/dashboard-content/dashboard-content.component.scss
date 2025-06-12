@@ -469,6 +469,10 @@
           display: flex;
           align-items: start;
         }
+
+        .items-btn {
+          margin-block-start: 1rem;
+        }
       }
 
       .no-items-message {
