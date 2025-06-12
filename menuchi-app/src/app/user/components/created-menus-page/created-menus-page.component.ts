@@ -1,11 +1,10 @@
-import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { MenuService } from '../../services/menu/menu.service';
 import { Menu } from '../../models/Menu';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-number.pipe';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -15,13 +14,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrl: './created-menus-page.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class CreatedMenusPageComponent implements OnDestroy {
+export class CreatedMenusPageComponent implements OnInit, OnDestroy {
   menus: Menu[] = [];
   visibleMenus: Menu[] = [];
   branchId: string | null = null;
   private subscriptions: Subscription = new Subscription();
   searchQuery: string = '';
-  persianNumberPipe = new PersianNumberPipe();
 
   constructor(
     private authService: AuthService,
@@ -68,6 +66,11 @@ export class CreatedMenusPageComponent implements OnDestroy {
 
   viewMenuDetails(menuId: string) {
     this.router.navigate(['/dashboard/preview', menuId]);
+  }
+
+  editMenu(menuId: string) {
+    localStorage.setItem('currentCreatingMenuId', menuId);
+    this.router.navigate(['/dashboard/menu']);
   }
 
   deleteMenu(menuId: string) {

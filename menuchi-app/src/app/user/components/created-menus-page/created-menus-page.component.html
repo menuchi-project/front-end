@@ -48,6 +48,14 @@
                 nzTitle="{{ menu.name || 'بدون نام' }}"
                 class="menu-name"
               ></nz-card-meta>
+              <button
+                nz-button
+                nzType="text"
+                (click)="editMenu(menu.id)"
+                class="edit-menu-btn"
+              >
+                <nz-icon nzType="edit" nzTheme="outline" />
+              </button>
             </div>
             <div class="menu-details">
               <div class="cylinder-section">
