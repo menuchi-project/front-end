@@ -53,7 +53,7 @@ export class CreateMenuComponent implements OnInit {
     } else {
       this.menuService
         .createMenu({
-          name: '',
+          name: 'بدون نام',
           favicon: 'todo',
           isPublished: false,
           branchId: this.authService.getBranchId()!,
@@ -63,6 +63,7 @@ export class CreateMenuComponent implements OnInit {
             this.menuId = response.id;
             localStorage.setItem('currentCreatingMenuId', this.menuId);
             this.menuService.getMenuById(this.menuId);
+            this.messageService.success(' منوی جدید با موفقیت ایجاد شد!');
           },
           error: (error) => {
             console.log('error in create menu:', error);
