@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../api-config/environment';
 import { Order } from '../../models/order';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzListModule } from 'ng-zorro-antd/list'; 
+import { NzListModule } from 'ng-zorro-antd/list';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { SharedModule } from "../../../shared/shared.module";
+import { SharedModule } from '../../../shared/shared.module';
 import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-number.pipe';
+import { TitleService } from '../../../shared/services/title/title.service';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-cart-page',
@@ -25,11 +28,13 @@ import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-
     NzImageModule,
     NzTypographyModule,
     NzEmptyModule,
-    SharedModule
-],
+    SharedModule,
+    NzIconDirective,
+    NzButtonComponent,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class CartPageComponent {
+export class CartPageComponent implements OnInit {
   orders: any[] = [];
   email: string = '';
   quantities: number[] = [1, 1, 1];
@@ -37,15 +42,17 @@ export class CartPageComponent {
 
   constructor(
     private authService: AuthService,
-    private http: HttpClient
+    private titleService: TitleService,
+    private http: HttpClient,
   ) {
     this.email = this.authService.getCustomerEmail() || '';
   }
 
   ngOnInit(): void {
-  //  this.fetchOrders();
+    this.titleService.onPageChanged$.next('سبد خرید');
+    //  this.fetchOrders();
   }
-  
+
   fetchOrders(): void {
     if (!this.email) {
       console.log('هیچ ایمیلی پیدا نشد، مشتری لاگین نکرده است');
@@ -63,7 +70,7 @@ export class CartPageComponent {
       },
       error: (err) => {
         console.error('خطا در دریافت سفارش‌ها:', err);
-      }
+      },
     });
   }
 
@@ -71,7 +78,7 @@ export class CartPageComponent {
     return this.orders.reduce((sum, order) => sum + (order.totalPrice || 0), 0);
   }
 
-   increaseQuantity(index: number) {
+  increaseQuantity(index: number) {
     if (this.quantities[index] < 10) {
       this.quantities[index]++;
     }
