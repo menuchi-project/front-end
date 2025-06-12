@@ -5,6 +5,8 @@ import { Menu } from '../../models/Menu';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-number.pipe';
 
 @Component({
   selector: 'app-created-menus-page',
@@ -19,12 +21,14 @@ export class CreatedMenusPageComponent {
   branchId: string | null = null;
   private subscriptions: Subscription = new Subscription();
   searchQuery: string = '';
+  persianNumberPipe = new PersianNumberPipe();
 
   constructor(
     private authService: AuthService,
     private menuService: MenuService,
     private router: Router,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private notification: NzNotificationService
   ) {}
 
    ngOnInit() {
@@ -71,34 +75,50 @@ export class CreatedMenusPageComponent {
       nzOkText: 'تأیید',
       nzOkType: 'primary',
       nzCancelText: 'لغو',
-      nzNoAnimation: true, 
+      nzNoAnimation: true,
       nzStyle: {
         position: 'fixed',
-        top: '50%', 
+        top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%)'
+        transform: 'translate(-50%, -50%)',
+        display: 'block'
       },
       nzOnOk: () => {
         this.menuService.deleteMenu(menuId).subscribe({
           next: () => {
             this.menus = this.menus.filter(menu => menu.id !== menuId);
             this.filterMenus();
-            console.log('منو با موفقیت حذف شد');
+            this.notification.success('موفقیت', 'منو با موفقیت حذف شد' ,{
+              nzPlacement: 'top',
+              nzDuration: 3000
+            });
           },
           error: (error) => {
             if (error.status === 401) {
-              alert('کاربر غیرمجاز است. لطفاً وارد حساب خود شوید.');
+              this.notification.error('خطا', 'کاربر غیرمجاز است. لطفاً وارد حساب خود شوید.', {
+                nzPlacement: 'top',
+                nzDuration: 3000
+              }); 
             } else if (error.status === 403) {
-              alert('دسترسی رد شد. شما مجاز به انجام این عملیات نیستید.');
+              this.notification.error('خطا', 'دسترسی رد شد. شما مجاز به انجام این عملیات نیستید.', {
+                nzPlacement: 'top',
+                nzDuration: 3000
+              });
             } else {
               console.error('خطا در حذف منو:', error);
-              alert('خطایی رخ داده است. لطفاً دوباره تلاش کنید.');
+              this.notification.error('خطا', 'خطایی رخ داده است. لطفاً دوباره تلاش کنید.', {
+                nzPlacement: 'top',
+                nzDuration: 3000
+              });
             }
           }
         });
       },
       nzOnCancel: () => {
-        console.log('عملیات حذف لغو شد');
+        this.notification.info('لغو', 'عملیات حذف لغو شد', {
+          nzPlacement: 'top',
+          nzDuration: 3000
+        }); 
       }
     });
   }

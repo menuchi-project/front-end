@@ -142,3 +142,15 @@ nz-col {
         color: #d9d9d9;
     }
 }
+
+.ant-notification-notice {
+    padding: 1rem 1.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    .ant-notification-notice-close {
+        position: absolute !important;
+        top: 0.5rem !important;
+        right: 0.5rem !important;
+        margin: 0 !important;
+    }
+}
