@@ -1,12 +1,12 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { MenuService } from '../../services/menu/menu.service';
 import { Menu } from '../../models/Menu';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-number.pipe';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-created-menus-page',
@@ -15,7 +15,7 @@ import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-
   styleUrl: './created-menus-page.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class CreatedMenusPageComponent {
+export class CreatedMenusPageComponent implements OnDestroy {
   menus: Menu[] = [];
   visibleMenus: Menu[] = [];
   branchId: string | null = null;
@@ -28,28 +28,30 @@ export class CreatedMenusPageComponent {
     private menuService: MenuService,
     private router: Router,
     private modalService: NzModalService,
-    private notification: NzNotificationService
+    private messageService: NzMessageService,
   ) {}
 
-   ngOnInit() {
-   this.branchId = this.authService.getBranchId(); 
+  ngOnInit() {
+    this.branchId = this.authService.getBranchId();
 
     this.subscriptions.add(
       this.menuService.menusData$.subscribe({
         next: (menus: Menu[]) => {
-          this.menus = menus.filter(menu => 
-            this.authService.getAllBranchIds().includes(menu.branchId)
-          ).map(menu => ({
-            ...menu,
-            name: menu.name || 'بدون نام',
-          }));
+          this.menus = menus
+            .filter((menu) =>
+              this.authService.getAllBranchIds().includes(menu.branchId),
+            )
+            .map((menu) => ({
+              ...menu,
+              name: menu.name || 'بدون نام',
+            }));
           this.filterMenus();
         },
         error: (error) => {
           console.error('خطا در دریافت منوها:', error);
           this.menus = [];
         },
-      })
+      }),
     );
     this.menuService.getAllMenusForBranches();
   }
@@ -58,8 +60,8 @@ export class CreatedMenusPageComponent {
     if (!this.searchQuery || this.searchQuery.trim() === '') {
       this.visibleMenus = [...this.menus];
     } else {
-      this.visibleMenus = this.menus.filter(menu =>
-        menu.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      this.visibleMenus = this.menus.filter((menu) =>
+        menu.name.toLowerCase().includes(this.searchQuery.toLowerCase()),
       );
     }
   }
@@ -81,45 +83,36 @@ export class CreatedMenusPageComponent {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        display: 'block'
+        display: 'block',
       },
       nzOnOk: () => {
         this.menuService.deleteMenu(menuId).subscribe({
           next: () => {
-            this.menus = this.menus.filter(menu => menu.id !== menuId);
+            this.menus = this.menus.filter((menu) => menu.id !== menuId);
             this.filterMenus();
-            this.notification.success('موفقیت', 'منو با موفقیت حذف شد' ,{
-              nzPlacement: 'top',
-              nzDuration: 3000
-            });
+            this.messageService.success('منو با موفقیت حذف شد');
           },
           error: (error) => {
             if (error.status === 401) {
-              this.notification.error('خطا', 'کاربر غیرمجاز است. لطفاً وارد حساب خود شوید.', {
-                nzPlacement: 'top',
-                nzDuration: 3000
-              }); 
+              this.messageService.error(
+                'کاربر غیرمجاز است. لطفاً وارد حساب خود شوید.',
+              );
             } else if (error.status === 403) {
-              this.notification.error('خطا', 'دسترسی رد شد. شما مجاز به انجام این عملیات نیستید.', {
-                nzPlacement: 'top',
-                nzDuration: 3000
-              });
+              this.messageService.error(
+                'دسترسی رد شد. شما مجاز به انجام این عملیات نیستید.',
+              );
             } else {
               console.error('خطا در حذف منو:', error);
-              this.notification.error('خطا', 'خطایی رخ داده است. لطفاً دوباره تلاش کنید.', {
-                nzPlacement: 'top',
-                nzDuration: 3000
-              });
+              this.messageService.error(
+                'خطایی رخ داده است. لطفاً دوباره تلاش کنید.',
+              );
             }
-          }
+          },
         });
       },
       nzOnCancel: () => {
-        this.notification.info('لغو', 'عملیات حذف لغو شد', {
-          nzPlacement: 'top',
-          nzDuration: 3000
-        }); 
-      }
+        this.messageService.info('عملیات حذف لغو شد');
+      },
     });
   }
 
