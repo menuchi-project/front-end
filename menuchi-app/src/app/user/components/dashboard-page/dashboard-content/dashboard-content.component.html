@@ -197,7 +197,11 @@
                 </nz-icon>
               </div>
             </div>
-            <img [src]="currentItem.picUrl" alt="item-image" />
+            <img
+              [src]="currentItem.picUrl"
+              (error)="onImageError($event)"
+              alt="item-image"
+            />
             <div class="info-row">
               <span>نام</span>
               <p>{{ currentItem.name }}</p>
@@ -208,11 +212,11 @@
             </div>
             <div class="info-row">
               <span>قیمت</span>
-              <p>{{ currentItem.price | persianNumber }} تومان</p>
+              <p>{{ currentItem.price | persianPrice }} تومان</p>
             </div>
             <div class="info-row ingredients-row">
               <span>مواد اولیه</span>
-              <p>{{ currentItem.ingredients }}</p>
+              <p>{{ currentItem.ingredients | truncate }}</p>
             </div>
 
             <button
