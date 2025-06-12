@@ -5,9 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { Item } from '../../../models/Item';
-import { Menu } from '../../../models/Menu';
-import { ItemService } from '../../../services/item/item.service';
+import { DayMenuItem, Menu } from '../../../models/Menu';
 import { UserService } from '../../../services/user/user.service';
 import { MenuService } from '../../../services/menu/menu.service';
 import { Subscription } from 'rxjs';
@@ -41,9 +39,8 @@ class JoinNonEmptyPipe implements PipeTransform {
   providers: [PersianNumberPipe],
 })
 export class DashboardContentComponent implements OnInit, OnDestroy {
-  [x: string]: any;
-
-  item!: Item;
+  todaysItems: DayMenuItem[] = [];
+  currentItemIndex = 0;
   menus: Menu[] = [];
   userName: string = '';
   visibleMenus: Menu[] = [];
@@ -61,11 +58,9 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     openingHoursTooltip: 'شناسه رستوران در دسترس نیست',
   };
   private subscriptions: Subscription = new Subscription();
-  private itemsSubscription!: Subscription;
   private menusSubscription!: Subscription;
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly menuService: MenuService,
@@ -92,6 +87,10 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 name: menu.name || 'بدون نام',
               }));
               this.updateVisibleMenus();
+
+              if (menus.length > 0) {
+                this.getTodaysItems();
+              }
             },
             error: (error) => {
               console.error('خطا در دریافت منوها:', error);
@@ -104,17 +103,6 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
         }
       }),
     );
-
-    this.itemsSubscription = this.itemService.itemsData$.subscribe({
-      next: (response: Item[]) => {
-        this.item = response[0] || null;
-      },
-      error: (error) => {
-        console.error('خطا در دریافت آیتم‌ها: ', error);
-      },
-    });
-
-    this.itemService.geAllItems();
 
     if (this.restaurantId) {
       this.subscriptions.add(
@@ -142,8 +130,6 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 const branch = this.restaurant.branches.find(
                   (b: Branch) => b.id === this.branchId,
                 );
-                console.log('Selected Branch:', branch);
-                if (branch) console.log('Opening Times:', branch.openingTimes); // لاگ دیباگ
                 if (branch && branch.openingTimes) {
                   this.restaurant.openingHours = this.formatOpeningHours(
                     branch.openingTimes,
@@ -179,6 +165,31 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     }
   }
 
+  getTodaysItems() {
+    const todaysItemsSub = this.menuService.getTodayMenuItems().subscribe({
+      next: (items) => {
+        this.todaysItems = items;
+        this.currentItemIndex = 0;
+      },
+      error: (err) => {
+        console.error('خطا در دریافت آیتم‌های امروز:', err);
+        this.todaysItems = [];
+      },
+    });
+    this.subscriptions.add(todaysItemsSub);
+  }
+
+  changeTodaysItem(direction: 'prev' | 'next') {
+    if (
+      direction === 'next' &&
+      this.currentItemIndex < this.todaysItems.length - 1
+    ) {
+      this.currentItemIndex++;
+    } else if (direction === 'prev' && this.currentItemIndex > 0) {
+      this.currentItemIndex--;
+    }
+  }
+
   updateVisibleMenus() {
     this.visibleMenus = this.menus.slice(
       this.currentIndex,
@@ -208,12 +219,7 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.itemsSubscription) {
-      this.itemsSubscription.unsubscribe();
-    }
-    if (this.menusSubscription) {
-      this.menusSubscription.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 
   private formatOpeningHours(openingTimes: OpeningTimes): string {
