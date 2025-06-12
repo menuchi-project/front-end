@@ -48,6 +48,8 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   userName: string = '';
   visibleMenus: Menu[] = [];
   currentIndex = 0;
+  visibleBranches: Branch[] = [];
+  branchCurrentIndex = 0;
   private branchId: string | null;
   private restaurantId: string | null;
   restaurant: Restaurant = {
@@ -134,6 +136,8 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 openingHoursTooltip: 'داده‌های ساعت کاری در دسترس نیست',
               };
 
+              this.updateVisibleBranches();
+
               if (this.branchId) {
                 const branch = this.restaurant.branches.find(
                   (b: Branch) => b.id === this.branchId,
@@ -167,6 +171,8 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 openingHours: 'نامشخص',
                 openingHoursTooltip: 'اطلاعات ساعت کاری در دسترس نیست',
               };
+
+              this.updateVisibleBranches();
             },
           }),
       );
@@ -274,5 +280,25 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     });
 
     return hoursList.join(', ');
+  }
+
+  updateVisibleBranches() {
+    const branches = this.restaurant.branches || [];
+    this.visibleBranches = branches.slice(
+      this.branchCurrentIndex,
+      this.branchCurrentIndex + 2,
+    );
+  }
+
+  scrollBranches(direction: 'left' | 'right') {
+    if (direction === 'left' && this.branchCurrentIndex > 0) {
+      this.branchCurrentIndex--;
+    } else if (
+      direction === 'right' &&
+      this.branchCurrentIndex + 2 < this.restaurant.branches.length
+    ) {
+      this.branchCurrentIndex++;
+    }
+    this.updateVisibleBranches();
   }
 }

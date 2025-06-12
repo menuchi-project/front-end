@@ -77,14 +77,16 @@
         </div>
         <div class="arrow-container">
           <img
-            [ngClass]="{ disabled: currentIndex === 0 }"
-            (click)="scrollMenus('left')"
+            [ngClass]="{ disabled: branchCurrentIndex === 0 }"
+            (click)="scrollBranches('left')"
             src="/assets/icons/arrow-right.svg"
             class="arrow-icon"
           />
           <img
-            [ngClass]="{ disabled: currentIndex + 2 >= menus.length }"
-            (click)="scrollMenus('right')"
+            [ngClass]="{
+              disabled: branchCurrentIndex + 2 >= restaurant.branches.length,
+            }"
+            (click)="scrollBranches('right')"
             src="/assets/icons/arrow-left.svg"
             class="arrow-icon"
           />
@@ -96,7 +98,7 @@
       >
         <div class="branches-container">
           <div
-            *ngFor="let branch of restaurant.branches"
+            *ngFor="let branch of visibleBranches"
             class="branch-card"
             nz-col
             [nzSpan]="12"
