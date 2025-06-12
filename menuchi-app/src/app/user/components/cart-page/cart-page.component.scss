@@ -12,10 +12,10 @@
 .items-section {
   display: flex;
   flex-direction: column;
-  width: 20rem;
+  width: 100%;
+  max-width: 45rem;
   justify-content: center;
   @media (min-width: 320px) and (max-width: 1024px) {
-    width: 19rem;
     padding: 0 1rem;
   }
 }
@@ -25,6 +25,7 @@
     display: flex;
     align-items: center;
     gap: 4rem;
+    width: 100%;
     @media (min-width: 320px) and (max-width: 1024px) {
       flex-direction: row;
       gap: 2.5rem;
@@ -59,17 +60,14 @@
   .item-details {
     flex: 1;
     padding-top: 0.2rem;
-    width: 8.5rem;
+    width: 70%;
 
     nz-typography {
       h4[nz-typography] {
         color: #243e62;
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: 500;
         margin: 0;
-        @media (min-width: 320px) and (max-width: 768px) {
-          font-size: 0.9rem;
-        }
       }
 
       p[nz-typography] {
@@ -79,22 +77,14 @@
 
         &:nth-child(2) {
           color: #243e62;
-          font-size: 0.9rem;
           font-weight: 500;
           margin-top: 0.25rem;
-          @media (min-width: 320px) and (max-width: 768px) {
-            font-size: 0.8rem;
-          }
         }
 
         &:nth-child(3) {
           color: #1e293b;
-          font-size: 0.7rem;
           margin-top: 0.1rem;
           opacity: 50%;
-          @media (min-width: 320px) and (max-width: 768px) {
-            font-size: 0.7rem;
-          }
         }
 
         &:nth-child(4) {
@@ -102,7 +92,6 @@
           color: #1e293b;
           @media (min-width: 320px) and (max-width: 768px) {
             margin-top: 0.75rem;
-            font-size: 0.9rem;
           }
         }
       }
@@ -130,9 +119,6 @@
     margin: 0;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    @media (max-width: 320px) {
-      font-size: 0.8rem;
-    }
   }
 }
 
@@ -191,9 +177,6 @@ nz-list-item {
   font-size: 1rem;
   font-weight: 500;
   color: #243e62;
-  @media (min-width: 320px) and (max-width: 768px) {
-    font-size: 0.7rem;
-  }
 }
 
 .quantity-icon {
