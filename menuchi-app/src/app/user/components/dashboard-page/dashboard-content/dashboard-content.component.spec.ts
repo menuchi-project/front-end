@@ -11,7 +11,11 @@ import { UserService } from '../../../services/user/user.service';
 import { AuthService } from '../../../../main/services/auth/auth.service';
 import { RestaurantService } from '../../../services/restaurant/restaurant.service';
 import { Router } from '@angular/router';
-import { DayMenuItem } from '../../../models/Menu';
+import { DayMenuItem, Menu } from '../../../models/Menu';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { PersianPricePipe } from '../../../../shared/pipes/persian-price/persian-price.pipe';
+import { TruncatePipe } from '../../../../shared/pipes/truncate/truncate.pipe';
 
 describe('DashboardContentComponent', () => {
   let component: DashboardContentComponent;
@@ -43,6 +47,24 @@ describe('DashboardContentComponent', () => {
     },
   ];
 
+  const mockMenus: Menu[] = [
+    {
+      id: 'menu-1',
+      branchId: 'branch-1',
+      name: 'Mock Menu',
+      favicon: 'icon.ico',
+      isPublished: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      deletedAt: null,
+      restaurantId: 'restaurant-1',
+      cylinders: [],
+      cylindersCount: 1,
+      categoriesCount: 1,
+      itemsCount: 1,
+    },
+  ];
+
   beforeEach(async () => {
     mockUserService = jasmine.createSpyObj('UserService', ['getUserName']);
     mockAuthService = jasmine.createSpyObj(
@@ -53,7 +75,7 @@ describe('DashboardContentComponent', () => {
     mockMenuService = jasmine.createSpyObj(
       'MenuService',
       ['getAllMenusForBranches', 'getTodayMenuItems'],
-      { menusData$: of([]) },
+      { menusData$: of(mockMenus) },
     );
     mockRestaurantService = jasmine.createSpyObj('RestaurantService', [
       'getRestaurantDetails',
@@ -76,6 +98,8 @@ describe('DashboardContentComponent', () => {
         DashboardContentComponent,
         WeeklyCalendarComponent,
         PersianNumberPipe,
+        PersianPricePipe,
+        TruncatePipe,
       ],
       providers: [
         provideHttpClient(withFetch()),
@@ -85,7 +109,7 @@ describe('DashboardContentComponent', () => {
         { provide: RestaurantService, useValue: mockRestaurantService },
         { provide: Router, useValue: mockRouter },
       ],
-      imports: [NzIconModule, NzEmptyModule],
+      imports: [NzIconModule, NzEmptyModule, NzCardModule, NzGridModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardContentComponent);

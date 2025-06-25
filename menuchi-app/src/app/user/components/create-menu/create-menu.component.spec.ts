@@ -3,7 +3,6 @@ import { CreateMenuComponent } from './create-menu.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NzInputGroupComponent } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-// import { UserModule } from '../../user.module'; // <-- REMOVE this import
 import { PlusOutline } from '@ant-design/icons-angular/icons';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
@@ -15,10 +14,10 @@ import { AuthService } from '../../../main/services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ItemService } from '../../services/item/item.service';
 import { CreateMenuResponse, Menu } from '../../models/Menu';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'; // <-- IMPORT this
-import { FormsModule } from '@angular/forms'; // <-- IMPORT this
-import { DragDropModule } from '@angular/cdk/drag-drop'; // <-- IMPORT this
-import { RouterTestingModule } from '@angular/router/testing'; // <-- IMPORT this for routerLink
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CreateMenuComponent', () => {
   let component: CreateMenuComponent;
@@ -100,10 +99,9 @@ describe('CreateMenuComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CreateMenuComponent],
       imports: [
-        // UserModule, // <-- REMOVE this
-        FormsModule, // <-- ADD this
-        DragDropModule, // <-- ADD this
-        RouterTestingModule, // <-- ADD this
+        FormsModule,
+        DragDropModule,
+        RouterTestingModule,
         NzInputGroupComponent,
         NzIconModule.forChild([PlusOutline]),
       ],
@@ -125,7 +123,7 @@ describe('CreateMenuComponent', () => {
           },
         },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], // <-- ADD this line
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateMenuComponent);
