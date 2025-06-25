@@ -5,6 +5,7 @@ import { ItemService } from '../../../user/services/item/item.service';
 import { ActivatedRoute } from '@angular/router';
 import { MenuCategory, MenuPreview } from '../../../user/models/Menu';
 import moment from 'jalali-moment';
+import { TitleService } from '../../../shared/services/title/title.service';
 
 @Component({
   selector: 'app-menu-preview',
@@ -25,12 +26,15 @@ export class MenuPreviewComponent implements OnInit {
   constructor(
     private readonly menuService: MenuService,
     private readonly itemService: ItemService,
+    private readonly titleService: TitleService,
     private readonly route: ActivatedRoute,
   ) {
     this.selectedDay = this.getCurrentPersianDayAbbreviation();
   }
 
   ngOnInit(): void {
+    this.titleService.onPageChanged$.next('پیش‌نمایش منو');
+
     this.route.paramMap.subscribe((params) => {
       this.menuId = params.get('menuId');
       if (this.menuId) {

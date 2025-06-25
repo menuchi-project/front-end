@@ -5,9 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { Item } from '../../../models/Item';
-import { Menu } from '../../../models/Menu';
-import { ItemService } from '../../../services/item/item.service';
+import { DayMenuItem, Menu } from '../../../models/Menu';
 import { UserService } from '../../../services/user/user.service';
 import { MenuService } from '../../../services/menu/menu.service';
 import { Subscription } from 'rxjs';
@@ -17,22 +15,6 @@ import { Branch, OpeningTimes, Restaurant } from '../../../models/restaurant';
 import { Router } from '@angular/router';
 import { PersianNumberPipe } from '../../../../shared/pipes/persian-number/persian-number.pipe';
 
-export
-@Pipe({
-  name: 'joinNonEmpty',
-  standalone: false,
-})
-class JoinNonEmptyPipe implements PipeTransform {
-  transform(
-    values: (string | null | undefined)[],
-    separator: string = ', ',
-  ): string {
-    return values
-      .filter((value) => value != null && value.trim() !== '')
-      .join(separator);
-  }
-}
-
 @Component({
   selector: 'app-dashboard-content',
   standalone: false,
@@ -41,13 +23,14 @@ class JoinNonEmptyPipe implements PipeTransform {
   providers: [PersianNumberPipe],
 })
 export class DashboardContentComponent implements OnInit, OnDestroy {
-  [x: string]: any;
-
-  item!: Item;
+  todaysItems: DayMenuItem[] = [];
+  currentItemIndex = 0;
   menus: Menu[] = [];
-  userName: string = '';
+  userName: string = 'کاربر';
   visibleMenus: Menu[] = [];
   currentIndex = 0;
+  visibleBranches: Branch[] = [];
+  branchCurrentIndex = 0;
   private branchId: string | null;
   private restaurantId: string | null;
   restaurant: Restaurant = {
@@ -59,11 +42,9 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     openingHoursTooltip: 'شناسه رستوران در دسترس نیست',
   };
   private subscriptions: Subscription = new Subscription();
-  private itemsSubscription!: Subscription;
   private menusSubscription!: Subscription;
 
   constructor(
-    private readonly itemService: ItemService,
     private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly menuService: MenuService,
@@ -90,6 +71,10 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 name: menu.name || 'بدون نام',
               }));
               this.updateVisibleMenus();
+
+              if (menus.length > 0) {
+                this.getTodaysItems();
+              }
             },
             error: (error) => {
               console.error('خطا در دریافت منوها:', error);
@@ -102,17 +87,6 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
         }
       }),
     );
-
-    this.itemsSubscription = this.itemService.itemsData$.subscribe({
-      next: (response: Item[]) => {
-        this.item = response[0] || null;
-      },
-      error: (error) => {
-        console.error('خطا در دریافت آیتم‌ها: ', error);
-      },
-    });
-
-    this.itemService.geAllItems();
 
     if (this.restaurantId) {
       this.subscriptions.add(
@@ -134,12 +108,12 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 openingHoursTooltip: 'داده‌های ساعت کاری در دسترس نیست',
               };
 
+              this.updateVisibleBranches();
+
               if (this.branchId) {
                 const branch = this.restaurant.branches.find(
                   (b: Branch) => b.id === this.branchId,
                 );
-                console.log('Selected Branch:', branch);
-                if (branch) console.log('Opening Times:', branch.openingTimes); // لاگ دیباگ
                 if (branch && branch.openingTimes) {
                   this.restaurant.openingHours = this.formatOpeningHours(
                     branch.openingTimes,
@@ -167,9 +141,36 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
                 openingHours: 'نامشخص',
                 openingHoursTooltip: 'اطلاعات ساعت کاری در دسترس نیست',
               };
+
+              this.updateVisibleBranches();
             },
           }),
       );
+    }
+  }
+
+  getTodaysItems() {
+    const todaysItemsSub = this.menuService.getTodayMenuItems().subscribe({
+      next: (items) => {
+        this.todaysItems = items;
+        this.currentItemIndex = 0;
+      },
+      error: (err) => {
+        console.error('خطا در دریافت آیتم‌های امروز:', err);
+        this.todaysItems = [];
+      },
+    });
+    this.subscriptions.add(todaysItemsSub);
+  }
+
+  changeTodaysItem(direction: 'prev' | 'next') {
+    if (
+      direction === 'next' &&
+      this.currentItemIndex < this.todaysItems.length - 1
+    ) {
+      this.currentItemIndex++;
+    } else if (direction === 'prev' && this.currentItemIndex > 0) {
+      this.currentItemIndex--;
     }
   }
 
@@ -202,12 +203,7 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.itemsSubscription) {
-      this.itemsSubscription.unsubscribe();
-    }
-    if (this.menusSubscription) {
-      this.menusSubscription.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 
   private formatOpeningHours(openingTimes: OpeningTimes): string {
@@ -274,5 +270,25 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     });
 
     return hoursList.join(', ');
+  }
+
+  updateVisibleBranches() {
+    const branches = this.restaurant.branches || [];
+    this.visibleBranches = branches.slice(
+      this.branchCurrentIndex,
+      this.branchCurrentIndex + 2,
+    );
+  }
+
+  scrollBranches(direction: 'left' | 'right') {
+    if (direction === 'left' && this.branchCurrentIndex > 0) {
+      this.branchCurrentIndex--;
+    } else if (
+      direction === 'right' &&
+      this.branchCurrentIndex + 2 < this.restaurant.branches.length
+    ) {
+      this.branchCurrentIndex++;
+    }
+    this.updateVisibleBranches();
   }
 }
