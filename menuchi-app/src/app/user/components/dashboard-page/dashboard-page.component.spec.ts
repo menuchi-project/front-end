@@ -15,6 +15,7 @@ import {
   HomeOutline,
   LogoutOutline,
   MenuOutline,
+  PlusOutline,
   ProductOutline,
   ProfileOutline,
   SettingOutline,
@@ -55,6 +56,7 @@ describe('DashboardPageComponent', () => {
           LogoutOutline,
           ProfileOutline,
           MenuOutline,
+          PlusOutline,
         ]),
       ],
     }).compileComponents();
