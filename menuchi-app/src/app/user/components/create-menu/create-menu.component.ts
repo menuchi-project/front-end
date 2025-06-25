@@ -8,6 +8,8 @@ import { AuthService } from '../../../main/services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Cylinder, Menu, WeekDays } from '../../models/Menu';
 import { CATEGORIES } from '../../../main/models/CatNameIcons';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-menu',
@@ -23,6 +25,8 @@ export class CreateMenuComponent implements OnInit {
   selectedCylinderId: string = '';
   existingDays: string[] = [];
 
+  private nameUpdate = new Subject<string>();
+
   constructor(
     private readonly cdr: ChangeDetectorRef,
     private readonly titleService: TitleService,
@@ -31,7 +35,13 @@ export class CreateMenuComponent implements OnInit {
     private readonly menuService: MenuService,
     private readonly authService: AuthService,
     private readonly messageService: NzMessageService,
-  ) {}
+  ) {
+    this.nameUpdate
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((name) => {
+        this.updateMenuName(name);
+      });
+  }
 
   ngOnInit(): void {
     this.authService.fetchUserProfile();
@@ -53,6 +63,7 @@ export class CreateMenuComponent implements OnInit {
             this.menuId = response.id;
             localStorage.setItem('currentCreatingMenuId', this.menuId);
             this.menuService.getMenuById(this.menuId);
+            this.messageService.success(' منوی جدید با موفقیت ایجاد شد!');
           },
           error: (error) => {
             console.log('error in create menu:', error);
@@ -74,6 +85,27 @@ export class CreateMenuComponent implements OnInit {
       },
       error: (error) => {
         console.log('error in create menu page, line 47:', error);
+      },
+    });
+  }
+
+  onNameChange(): void {
+    if (this.menu && this.menu.name) {
+      this.nameUpdate.next(this.menu.name);
+    }
+  }
+
+  updateMenuName(name: string): void {
+    if (!this.menuId || !name) {
+      return;
+    }
+    this.menuService.updateMenu(this.menuId, { name }).subscribe({
+      next: () => {
+        this.messageService.success(' نام منو ذخیره شد');
+      },
+      error: (err) => {
+        console.error(' خطا در به‌روزرسانی نام منو:', err);
+        this.messageService.error(' خطا در ذخیره نام منو');
       },
     });
   }

@@ -13,6 +13,7 @@ $sidebar-bg: #1d385e;
   nz-layout,
   nz-footer {
     background-color: #f7f7f7 !important;
+    width: 80vw !important;
   }
 
   nz-sider:not(.mobile-drawer) {
@@ -219,14 +220,14 @@ $sidebar-bg: #1d385e;
       height: 44px;
       background: #fff;
       border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      //box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
       cursor: pointer;
       color: $dark-blue;
       font-size: 20px;
     }
 
     .main-layout {
-      width: 100%;
+      width: 100vw;
     }
 
     nz-content {
@@ -241,7 +242,8 @@ $sidebar-bg: #1d385e;
       padding-inline: 1rem;
 
       .page-title {
-        padding-inline-start: 3rem;
+        padding-inline-start: 3.5rem;
+        font-size: 1.6rem;
       }
     }
   }

@@ -2,7 +2,7 @@
   <div class="first-col">
     <div class="card header">
       <div class="header-right">
-        <span class="username">{{ userName }}</span>
+        <span class="username">خوش آمدید، {{ userName }} عزیز.</span>
       </div>
       <nz-icon class="header-left">
         <img
@@ -77,14 +77,16 @@
         </div>
         <div class="arrow-container">
           <img
-            [ngClass]="{ disabled: currentIndex === 0 }"
-            (click)="scrollMenus('left')"
+            [ngClass]="{ disabled: branchCurrentIndex === 0 }"
+            (click)="scrollBranches('left')"
             src="/assets/icons/arrow-right.svg"
             class="arrow-icon"
           />
           <img
-            [ngClass]="{ disabled: currentIndex + 2 >= menus.length }"
-            (click)="scrollMenus('right')"
+            [ngClass]="{
+              disabled: branchCurrentIndex + 2 >= restaurant.branches.length,
+            }"
+            (click)="scrollBranches('right')"
             src="/assets/icons/arrow-left.svg"
             class="arrow-icon"
           />
@@ -96,7 +98,7 @@
       >
         <div class="branches-container">
           <div
-            *ngFor="let branch of restaurant.branches"
+            *ngFor="let branch of visibleBranches"
             class="branch-card"
             nz-col
             [nzSpan]="12"
@@ -154,8 +156,9 @@
     </div>
   </div>
   <div class="second-col">
-    <app-weekly-calendar class="card"></app-weekly-calendar>
     <div class="card backlog-item">
+      <app-weekly-calendar></app-weekly-calendar>
+
       <div class="header">
         <div>
           <object
@@ -164,51 +167,78 @@
           ></object>
           <h4>غذای امروز</h4>
         </div>
-        <nz-icon>
-          <object data="/assets/icons/More.svg" type="image/svg+xml"></object>
-        </nz-icon>
       </div>
-      <div class="item-info">
-        <div class="item-name">
-          <h3>کباب کوبیده مخصوص</h3>
-          <div>
-            <nz-icon>
-              <object
-                data="/assets/icons/arrow-right.svg"
-                type="image/svg+xml"
-              ></object>
-            </nz-icon>
-            <nz-icon>
-              <object
-                data="/assets/icons/arrow-left.svg"
-                type="image/svg+xml"
-              ></object>
-            </nz-icon>
-          </div>
-        </div>
-        <img src="{{ item.picUrl }}" alt="item-image" />
-        <div class="info-row">
-          <span>نام</span>
-          <p>کباب کوبیده</p>
-        </div>
-        <div class="info-row">
-          <span>دسته بندی</span>
-          <p>ایرانی</p>
-        </div>
-        <div class="info-row">
-          <span>قیمت</span>
-          <p>2400000 تومان</p>
-        </div>
-        <div class="info-row">
-          <span>مواد اولیه</span>
-          <p>
-            ۳۰۰ گرم گوشت چرخ کرده٫ ۵ عدد پیاز ٫ فلفل٫ نمک٫فلفل قرمز٫ ادویه
-            مخصوص٫...
-          </p>
-        </div>
 
-        <button nz-button nzType="primary">مشاهده همه آیتم‌ها</button>
+      <div *ngIf="todaysItems.length > 0; else noItemsToday">
+        <ng-container *ngIf="todaysItems[currentItemIndex] as currentItem">
+          <div class="item-info">
+            <div class="item-name">
+              <h3>{{ currentItem.name }}</h3>
+              <div>
+                <nz-icon
+                  [ngClass]="{ disabled: currentItemIndex === 0 }"
+                  (click)="changeTodaysItem('prev')"
+                >
+                  <object
+                    data="/assets/icons/arrow-right.svg"
+                    type="image/svg+xml"
+                  ></object>
+                </nz-icon>
+                <nz-icon
+                  [ngClass]="{
+                    disabled: currentItemIndex >= todaysItems.length - 1,
+                  }"
+                  (click)="changeTodaysItem('next')"
+                >
+                  <object
+                    data="/assets/icons/arrow-left.svg"
+                    type="image/svg+xml"
+                  ></object>
+                </nz-icon>
+              </div>
+            </div>
+            <img
+              [src]="currentItem.picUrl"
+              (error)="onImageError($event)"
+              alt="item-image"
+            />
+            <div class="info-row">
+              <span>نام</span>
+              <p>{{ currentItem.name }}</p>
+            </div>
+            <div class="info-row">
+              <span>دسته بندی</span>
+              <p>{{ currentItem.categoryName }}</p>
+            </div>
+            <div class="info-row">
+              <span>قیمت</span>
+              <p>{{ currentItem.price | persianPrice }} تومان</p>
+            </div>
+            <div class="info-row ingredients-row">
+              <span>مواد اولیه</span>
+              <p>{{ currentItem.ingredients | truncate }}</p>
+            </div>
+
+            <button
+              nz-button
+              nzType="primary"
+              class="items-btn"
+              routerLink="/dashboard/items"
+            >
+              مشاهده همه آیتم‌ها
+            </button>
+          </div>
+        </ng-container>
       </div>
+
+      <ng-template #noItemsToday>
+        <div class="no-items-message">
+          <nz-empty
+            nzNotFoundImage="simple"
+            [nzNotFoundContent]="'غذایی برای نمایش در امروز وجود ندارد'"
+          ></nz-empty>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

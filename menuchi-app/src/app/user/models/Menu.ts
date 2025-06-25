@@ -61,9 +61,9 @@ export interface MenuCategory {
 }
 
 export interface UpdateMenuRequest {
-  name: string;
-  favicon: string;
-  isPublished: boolean;
+  name?: string;
+  favicon?: string;
+  isPublished?: boolean;
 }
 
 export interface CreateCylinder {
@@ -117,4 +117,23 @@ export interface MenuPreview {
   favicon: string;
   isPublished: boolean;
   restaurantId: string;
+}
+
+export interface DayMenuItem {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  categoryId: string;
+  categoryNameId: string;
+  categoryName: string;
+  name: string;
+  ingredients: string;
+  price: number;
+  picUrl: string;
+  positionInItemsList: number;
+  positionInCategory: number;
+  positionInMenuCategory: number;
+  isActive: boolean;
+  orderCount: number;
 }
