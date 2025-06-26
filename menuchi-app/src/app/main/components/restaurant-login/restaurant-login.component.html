@@ -28,6 +28,7 @@
           />
         </nz-form-control>
       </nz-form-item>
+
       <nz-form-item class="login-form-item">
         <nz-form-label
           [nzSpan]="24"
@@ -36,25 +37,20 @@
           class="rtl-text"
           >رمز عبور خود را وارد کنید
         </nz-form-label>
-      </nz-form-item>
-      <div nz-row class="password-input-row">
-        <div nz-col [nzSpan]="12">
-          <nz-form-control nzErrorTip="رمز عبور خود را وارد کنید!">
-            <div class="password-wrapper">
-              <input
-                [type]="passwordVisible ? 'text' : 'password'"
-                nz-input
-                formControlName="password"
-              />
-              <i class="eye-icon" (click)="togglePasswordVisibility()"></i>
-            </div>
-          </nz-form-control>
-        </div>
-        <div nz-row class="login-form-margin">
-          <div nz-col [nzSpan]="20">
-            <a class="login-form-forgot">رمز عبور خود را فراموش کرده‌اید؟</a>
+        <nz-form-control nzErrorTip="رمز عبور خود را وارد کنید!">
+          <div class="password-wrapper">
+            <input
+              [type]="passwordVisible ? 'text' : 'password'"
+              nz-input
+              formControlName="password"
+            />
+            <i class="eye-icon" (click)="togglePasswordVisibility()"></i>
           </div>
-        </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div class="forgot-password-link">
+        <a class="login-form-forgot">رمز عبور خود را فراموش کرده‌اید؟</a>
       </div>
 
       <button
