@@ -46,7 +46,6 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./user/user.module').then(m => m.UserModule),
     component: DashboardPageComponent,
     data: {breadcrumb: 'داشبورد'},
     title: 'منوچی | مدیریت',
