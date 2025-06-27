@@ -82,31 +82,40 @@ describe('Items Page E2E Tests', () => {
     it('باید یک آیتم را به صورت خطی (inline) با موفقیت ویرایش کند', () => {
       const itemToEdit = mockItems[0];
       const newPrice = '235000';
+      const itemRowSelector = `[data-testid="item-row-${itemToEdit.id}"]`;
 
-      cy.get(`tr:contains(${itemToEdit.name})`).find('nz-icon[nztype="edit"]').click();
-      cy.get(`tr:contains(${itemToEdit.name})`).find('input[nz-input]').should('be.visible');
-      cy.get(`tr:contains(${itemToEdit.name})`).find('td:nth-child(4) input').clear().type(newPrice);
-      cy.get(`tr:contains(${itemToEdit.name})`).find('nz-icon[nztype="check"]').click();
+      cy.get(itemRowSelector).find('nz-icon[nztype="edit"]').click();
 
-      cy.wait('@updateItem').its('request.body').should('deep.include', {price: Number(newPrice)});
+      cy.get(itemRowSelector).find('input[nz-input]').should('be.visible');
+      cy.get(itemRowSelector).find('td:nth-child(4) input').clear().type(newPrice);
+      cy.get(itemRowSelector).find('nz-icon[nztype="check"]').click();
+
+      cy.wait('@updateItem').its('request.body').should('deep.include', {price: newPrice});
       cy.get('.ant-message-success').should('contain.text', 'آیتم با موفقیت ویرایش شد.');
     });
 
     it('باید یک آیتم را از جدول حذف کند', () => {
       const itemToDelete = mockItems[1];
+      const itemRowSelector = `[data-testid="item-row-${itemToDelete.id}"]`;
+      const itemsAfterDelete = mockItems.filter(item => item.id !== itemToDelete.id);
 
-      cy.get(`tr:contains(${itemToDelete.name})`).find('nz-icon[nztype="delete"]').click();
-      cy.get('.ant-popover-buttons button').contains('Yes').click();
+      cy.get(itemRowSelector).find('nz-icon[nztype="delete"]').click();
+
+      cy.intercept('GET', '**/backlog/*/items', {body: itemsAfterDelete}).as('getItemsAfterDelete');
+
+      cy.get('.ant-popover-buttons button').contains('تایید').click();
 
       cy.wait('@deleteItems');
+      cy.wait('@getItemsAfterDelete');
+
       cy.get('.ant-message-info').should('contain.text', 'آیتم با موفقیت حذف شد.');
-      cy.get('app-items-table tbody').should('not.contain.text', itemToDelete.name);
+      cy.get(itemRowSelector).should('not.exist');
     });
 
     it('باید آیتم‌های انتخاب شده را به صورت گروهی حذف کند', () => {
       cy.get('thead th input[type="checkbox"]').check();
       cy.get('button').contains('حذف موارد انتخاب شده').first().click();
-      cy.get('.ant-popover-buttons button').contains('Yes').click();
+      cy.get('.ant-popover-buttons button').contains('تایید').click();
 
       cy.wait('@deleteItems');
       cy.get('.ant-message-info').should('contain.text', 'آیتم‌های انتخاب شده با موفقیت حذف شدند.');
