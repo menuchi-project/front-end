@@ -6,7 +6,7 @@ import {AuthService} from '../../services/auth/auth.service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
-import {ErrorMappingService} from '../../../core/services/error-mapping.service';
+import {ErrorMappingService} from '../../services/error-mapping/error-mapping.service';
 
 @Component({
   selector: 'app-restaurant-signup',
