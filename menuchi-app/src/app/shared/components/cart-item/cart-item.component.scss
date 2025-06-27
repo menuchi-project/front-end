@@ -1,0 +1,138 @@
+nz-card {
+  width: 20rem; /* From item-card.component.scss */
+  min-height: 11rem; /* From item-card.component.scss */
+  max-height: 11rem; /* From item-card.component.scss */
+  border-color: #d0d3d7; /* From item-card.component.scss */
+  border-radius: 0; /* From item-card.component.scss */
+  transition: transform 0.4s; /* Added from cart-page.component.scss nz-list-item hover */
+
+  &:hover {
+    transform: scale(
+      1.06
+    ); /* Added from cart-page.component.scss nz-list-item hover */
+  }
+
+  .header {
+    display: flex; /* From item-card.component.scss */
+    flex-direction: row; /* From item-card.component.scss */
+    justify-content: space-between; /* From item-card.component.scss */
+    align-items: center; /* Changed from start to center for quantity controls */
+
+    h4 {
+      color: #243e62; /* From item-card.component.scss */
+    }
+
+    > nz-icon {
+      font-size: 1.2rem; /* From item-card.component.scss */
+      font-weight: bolder; /* From item-card.component.scss */
+      cursor: pointer; /* From item-card.component.scss */
+      padding-inline: 2px; /* From item-card.component.scss */
+      padding-block: 1px; /* From item-card.component.scss */
+      border-radius: 50%; /* From item-card.component.scss */
+      transition: background-color 0.4s ease; /* From item-card.component.scss */
+
+      &:hover {
+        background-color: rgba(
+          28,
+          39,
+          76,
+          0.1
+        ); /* From item-card.component.scss */
+      }
+    }
+
+    nz-dropdown-menu {
+      ul {
+        border-radius: 4px; /* From item-card.component.scss */
+      }
+    }
+  }
+
+  .item-content {
+    display: flex; /* From item-card.component.scss */
+    flex-direction: row; /* From item-card.component.scss */
+    justify-content: space-between; /* From item-card.component.scss */
+    gap: 0.8rem; /* From item-card.component.scss */
+    min-height: 8rem; /* From item-card.component.scss */
+    padding-block-end: 1rem; /* From item-card.component.scss */
+
+    div {
+      display: flex; /* From item-card.component.scss */
+      flex-direction: column; /* From item-card.component.scss */
+      justify-content: space-between; /* From item-card.component.scss */
+
+      .ingredients {
+        h3 {
+          color: #243e62; /* From item-card.component.scss */
+          font-size: 0.9rem; /* From item-card.component.scss */
+        }
+
+        p {
+          color: rgba(30, 41, 59, 0.5); /* From item-card.component.scss */
+          font-size: 0.9rem; /* From item-card.component.scss */
+        }
+      }
+
+      .price {
+        color: #1e293b; /* From item-card.component.scss */
+        font-weight: 450; /* From item-card.component.scss */
+        font-size: 1rem; /* From item-card.component.scss */
+      }
+    }
+
+    .item-image {
+      background-color: rgba(
+        170,
+        170,
+        170,
+        0.5
+      ); /* From item-card.component.scss */
+      border-radius: 4px; /* From item-card.component.scss */
+      height: 80px; /* From item-card.component.scss */
+      min-height: 80px; /* From item-card.component.scss */
+      width: 80px; /* From item-card.component.scss */
+      min-width: 80px; /* From item-card.component.scss */
+      display: flex; /* From item-card.component.scss */
+      align-items: center; /* From item-card.component.scss */
+      justify-content: center; /* From item-card.component.scss */
+
+      img {
+        border-radius: 4px; /* From item-card.component.scss */
+        height: 80px; /* From item-card.component.scss */
+        min-height: 80px; /* From item-card.component.scss */
+        width: 80px; /* From item-card.component.scss */
+        min-width: 80px; /* From item-card.component.scss */
+      }
+    }
+  }
+}
+
+.quantity-control {
+  display: flex; /* From cart-page.component.scss */
+  gap: 0.5rem; /* From cart-page.component.scss */
+  // margin-right: 1rem; /* Removed as it's now inside the header and alignment will be different */
+  @media (min-width: 320px) and (max-width: 768px) {
+    gap: 0.25rem; /* From cart-page.component.scss */
+  }
+}
+
+.quantity {
+  font-size: 1rem; /* From cart-page.component.scss */
+  font-weight: 500; /* From cart-page.component.scss */
+  color: #243e62; /* From cart-page.component.scss */
+}
+
+.quantity-icon {
+  width: 1.5rem; /* From cart-page.component.scss */
+  height: 1.5rem; /* From cart-page.component.scss */
+  cursor: pointer; /* From cart-page.component.scss */
+
+  &:hover {
+    opacity: 0.7; /* From cart-page.component.scss */
+  }
+
+  @media (min-width: 320px) and (max-width: 768px) {
+    width: 1rem; /* From cart-page.component.scss */
+    height: 1rem; /* From cart-page.component.scss */
+  }
+}

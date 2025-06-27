@@ -10,15 +10,14 @@ import { RestaurantSignupComponent } from './components/restaurant-signup/restau
 import { NzOptionComponent, NzSelectComponent } from 'ng-zorro-antd/select';
 import { NzAlertComponent } from 'ng-zorro-antd/alert';
 import { RouterLink } from '@angular/router';
-import { WeeklyCalendarComponent } from './components/weekly-calendar/./weekly-calendar.component';
 import { SharedModule } from '../shared/shared.module';
 import { MenuPreviewComponent } from './components/menu-preview/menu-preview.component';
+import { UserModule } from '../user/user.module';
 
 @NgModule({
   declarations: [
     RestaurantLoginComponent,
     RestaurantSignupComponent,
-    WeeklyCalendarComponent,
     MenuPreviewComponent,
   ],
   imports: [
@@ -35,7 +34,7 @@ import { MenuPreviewComponent } from './components/menu-preview/menu-preview.com
     RouterLink,
     NgOptimizedImage,
     SharedModule,
+    UserModule,
   ],
-  exports: [WeeklyCalendarComponent],
 })
 export class MainModule {}
