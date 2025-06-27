@@ -1,15 +1,10 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  NonNullableFormBuilder,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
-import { SignupRequest, SignupResponse } from '../../models/Auth';
-import { AuthService } from '../../services/auth/auth.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { Router } from '@angular/router';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {AbstractControl, NonNullableFormBuilder, ValidationErrors, Validators,} from '@angular/forms';
+import {Subject, takeUntil} from 'rxjs';
+import {SignupRequest, SignupResponse} from '../../models/Auth';
+import {AuthService} from '../../services/auth/auth.service';
+import {NzMessageService} from 'ng-zorro-antd/message';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-restaurant-signup',
@@ -29,6 +24,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
         Validators.pattern(/^09\d{9}$/),
       ]),
       password: this.fb.control('', [
+        Validators.required,
         Validators.pattern(
           '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,64}$',
         ),
@@ -62,7 +58,8 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private message: NzMessageService,
     private router: Router,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.validateForm.controls.password.valueChanges
@@ -75,7 +72,8 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
 
     this.validateForm.controls.repeatPassword.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {});
+      .subscribe(() => {
+      });
   }
 
   ngOnDestroy(): void {
@@ -124,7 +122,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
+          control.updateValueAndValidity({onlySelf: true});
         }
       });
       this.message.error(' لطفاً فرم را به درستی پر کنید!');
@@ -132,11 +130,14 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
   }
 
   passwordsMatchValidator(group: AbstractControl): ValidationErrors | null {
-    const password = group.get('password')?.value;
-    const repeatPassword = group.get('repeatPassword')?.value;
+    const password = group.get('password');
+    const repeatPassword = group.get('repeatPassword');
 
-    if (password && repeatPassword && password !== repeatPassword) {
-      return { passwordMismatch: true };
+    if (password && repeatPassword && password.value !== repeatPassword.value) {
+      repeatPassword.setErrors({passwordMismatch: true});
+      return {passwordMismatch: true};
+    } else if (repeatPassword && repeatPassword.hasError('passwordMismatch')) {
+      repeatPassword.setErrors(null);
     }
     return null;
   }
