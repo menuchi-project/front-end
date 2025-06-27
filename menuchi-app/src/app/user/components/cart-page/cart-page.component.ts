@@ -1,38 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../api-config/environment';
 import { Order } from '../../models/order';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzImageModule } from 'ng-zorro-antd/image';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { SharedModule } from '../../../shared/shared.module';
 import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-number.pipe';
 import { TitleService } from '../../../shared/services/title/title.service';
-import { NzIconDirective } from 'ng-zorro-antd/icon';
-import { NzButtonComponent } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-cart-page',
-  standalone: true,
+  standalone: false,
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.scss',
-  imports: [
-    CommonModule,
-    NzCardModule,
-    NzListModule,
-    NzImageModule,
-    NzTypographyModule,
-    NzEmptyModule,
-    SharedModule,
-    NzIconDirective,
-    NzButtonComponent,
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CartPageComponent implements OnInit {
   orders: any[] = [];

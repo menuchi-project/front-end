@@ -11,7 +11,7 @@ import { Item } from '../../../user/models/Item';
 })
 export class CartItemComponent {
   @Input() item!: Item;
-  @Input() quantity: number = 1;
+  @Input() quantity: number = 0;
   @Input() index: number = 0;
   @Input() loading: boolean = false; // Add loading input from item-card
 
