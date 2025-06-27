@@ -1,11 +1,7 @@
-// cypress/e2e/create-menu-page.cy.ts
-
 describe('Create Menu Page E2E Tests', () => {
-  // --- داده‌های شبیه‌سازی شده (Mock Data) ---
   const mockNewMenuId = 'new-menu-id-123';
   const mockBranchId = 'branch-1';
 
-  // Mock data for an empty menu, based on Menu.ts interface
   const mockEmptyMenu = {
     id: mockNewMenuId,
     name: 'بدون نام',
@@ -22,7 +18,6 @@ describe('Create Menu Page E2E Tests', () => {
     restaurantId: 'res-1',
   };
 
-  // Mock data for the menu after a cylinder has been added
   const mockMenuAfterCylinder = {
     ...mockEmptyMenu,
     cylindersCount: 1,
@@ -40,7 +35,6 @@ describe('Create Menu Page E2E Tests', () => {
     ],
   };
 
-  // Mock data for the backlog, based on Item.ts interface
   const mockBacklogCategories = {
     id: 'backlog-1',
     branchId: mockBranchId,
@@ -80,17 +74,14 @@ describe('Create Menu Page E2E Tests', () => {
   };
 
   beforeEach(() => {
-    // پاک کردن localStorage قبل از هر تست تا از ایجاد منوی جدید مطمئن شویم
     cy.clearLocalStorage('currentCreatingMenuId');
 
-    // رهگیری و شبیه‌سازی درخواست‌های API
     cy.intercept('POST', '**/menus', {
       statusCode: 201,
       body: { id: mockNewMenuId, name: 'بدون نام', branchId: mockBranchId },
     }).as('createMenu');
 
     cy.intercept('GET', `**/menus/${mockNewMenuId}`, (req) => {
-      // بسته به اینکه سیلندر ایجاد شده یا نه، پاسخ متفاوتی می‌دهیم
       if (Cypress.env('menu_has_cylinder')) {
         req.reply({ statusCode: 200, body: mockMenuAfterCylinder });
       } else {
@@ -118,7 +109,6 @@ describe('Create Menu Page E2E Tests', () => {
 
     cy.login('your_real_username', 'your_real_password');
 
-    // تنظیم متغیر محیطی تست به حالت پیش‌فرض
     Cypress.env('menu_has_cylinder', false);
   });
 
@@ -142,8 +132,6 @@ describe('Create Menu Page E2E Tests', () => {
 
     const newMenuName = 'منوی تست من';
 
-    // ⬇️ تغییر کلیدی اینجاست ⬇️
-    // ابتدا فیلد را پاک کرده و سپس نام جدید را تایپ می‌کنیم.
     cy.get('input[placeholder="نام منو را وارد کنید"]')
       .clear()
       .type(newMenuName);
@@ -155,7 +143,6 @@ describe('Create Menu Page E2E Tests', () => {
   });
   context('Cylinder and Category Management', () => {
     beforeEach(() => {
-      // برای این تست‌ها، فرض می‌کنیم منو از قبل ایجاد شده است
       localStorage.setItem('currentCreatingMenuId', mockNewMenuId);
     });
 
@@ -169,11 +156,9 @@ describe('Create Menu Page E2E Tests', () => {
       cy.get('label.ant-checkbox-wrapper').contains('شنبه').click();
       cy.get('label.ant-checkbox-wrapper').contains('یکشنبه').click();
 
-      // تنظیم می‌کنیم که در درخواست بعدی getMenu، منو حاوی سیلندر باشد
       Cypress.env('menu_has_cylinder', true);
 
       cy.get('.ant-modal-body button').contains('ثبت').click();
-      // بر اساس اینترفیس CreateCylinder
       cy.wait('@createCylinder')
         .its('request.body')
         .should('deep.include', { sat: true, sun: true, mon: false });
@@ -184,36 +169,33 @@ describe('Create Menu Page E2E Tests', () => {
     });
 
     it('باید کشوی افزودن دسته‌بندی را باز کرده و یک دسته‌بندی با آیتم‌هایش اضافه کند', () => {
-      // برای این تست، منو باید از قبل یک سیلندر داشته باشد
       Cypress.env('menu_has_cylinder', true);
       cy.visit('/dashboard/menu');
       cy.wait('@getMenuById');
 
-      // ⬇️ دستور wait از اینجا حذف شد ⬇️
-      // cy.wait('@getBacklog');
-
-      // باز کردن کشو
       cy.get('.add-cat-btn').click();
 
-      // ✅ دستور wait به اینجا منتقل شد ✅
-      // حالا که کشو باز شده، منتظر دریافت اطلاعات آن می‌مانیم.
-      cy.wait('@getBacklog');
+      cy.get('.ant-drawer-content-wrapper')
+        .should('be.visible')
+        .within(() => {
+          cy.get('.ant-drawer-title').should(
+            'contain.text',
+            'انتخاب دسته بندی',
+          );
 
-      cy.get('nz-drawer .ant-drawer-title').should(
-        'contain.text',
-        'انتخاب دسته بندی',
-      );
+          cy.get('nz-collapse-panel')
+            .contains('کباب‌ها')
+            .should('be.visible')
+            .click();
 
-      // انتخاب یک آیتم از یک دسته‌بندی در کشو
-      cy.get('nz-drawer nz-collapse-panel').contains('کباب‌ها').click();
-      cy.get('nz-drawer nz-card')
-        .contains('کباب کوبیده')
-        .closest('nz-card')
-        .find('label.ant-checkbox-wrapper')
-        .click();
+          cy.get('nz-card')
+            .contains('کباب کوبیده')
+            .closest('nz-card')
+            .find('label.ant-checkbox-wrapper')
+            .click();
 
-      // کلیک روی دکمه ایجاد
-      cy.get('nz-drawer button').contains('ایجاد').click();
+          cy.get('button').contains('ایجاد').click();
+        });
 
       cy.wait('@addCategoryToMenu').then((interception) => {
         const { body } = interception.request;
@@ -221,7 +203,6 @@ describe('Create Menu Page E2E Tests', () => {
         expect(body.cylinderId).to.eq('cylinder-1');
         expect(body.items).to.deep.eq(['item-1']);
       });
-
       cy.get('.ant-message-success').should(
         'contain.text',
         'دسته‌بندی با موفقیت اضافه شد',
