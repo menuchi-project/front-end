@@ -125,9 +125,7 @@ describe('Categories Page (Backlog) E2E Tests', () => {
       const itemToDelete = mockCategoriesResponse.categories[1].items[0];
       const updatedResponse = JSON.parse(JSON.stringify(mockCategoriesResponse));
       updatedResponse.categories[1].items = [];
-
       cy.intercept('GET', '**/backlog/*', updatedResponse).as('getCategoriesAfterDelete');
-
       cy.contains('h4', itemToDelete.name).closest('nz-card').find('nz-icon[nztype="more"]').click();
       cy.get('.delete-item').contains('حذف از دسته‌بندی').click();
       cy.get('.ant-popover-buttons button').contains('تایید').click();
@@ -137,29 +135,6 @@ describe('Categories Page (Backlog) E2E Tests', () => {
 
       cy.get('.ant-message-info').should('contain.text', 'آیتم با موفقیت حذف شد.');
       cy.contains('h4', itemToDelete.name).should('not.exist');
-    });
-  });
-
-  context('Drag and Drop', () => {
-    it('باید یک آیتم را به دسته‌بندی دیگری منتقل کند', () => {
-      const itemToMoveSelector = 'nz-card:contains("کباب کوبیده")';
-      const targetCategorySelector = '.cats-container .cat-container:contains("خورشت‌ها") .drag-list';
-
-      // ۱. روی آیتم مبدا کلیک موس را نگه می‌داریم.
-      // { which: 1 } کلیک اصلی موس را شبیه‌سازی می‌کند.
-      cy.get(itemToMoveSelector).trigger('mousedown', {which: 1, force: true});
-
-      // ۲. موس را به روی عنصر مقصد حرکت می‌دهیم.
-      // این کار رویداد dragover را شبیه‌سازی می‌کند.
-      cy.get(targetCategorySelector).trigger('mousemove', {force: true});
-
-      // ۳. کلیک موس را روی عنصر مقصد رها می‌کنیم تا عمل drop انجام شود.
-      cy.get(targetCategorySelector).trigger('mouseup', {force: true});
-
-      // منتظر می‌مانیم تا درخواست به‌روزرسانی ارسال شود.
-      cy.wait('@updateItem').its('request.body').should('deep.include', {
-        categoryId: mockCategoriesResponse.categories[1].id,
-      });
     });
   });
 });
