@@ -1,0 +1,95 @@
+// cypress/e2e/menu-preview.cy.ts
+
+describe('Menu Preview Page E2E Tests', () => {
+  const mockMenuId = 'menu-preview-1';
+
+  const mockMenuPreviewData = {
+    id: mockMenuId,
+    name: 'منوی پیش‌نمایش',
+    sat: [
+      // شنبه
+      {
+        categoryId: 'cat-1',
+        categoryName: 'کباب‌ها',
+        items: [{ id: 'item-1', name: 'کباب کوبیده', categoryId: 'cat-1' }],
+      },
+      {
+        categoryId: 'cat-2',
+        categoryName: 'خورشت‌ها',
+        items: [{ id: 'item-3', name: 'قورمه سبزی', categoryId: 'cat-2' }],
+      },
+    ],
+    sun: [
+      // یکشنبه
+      {
+        categoryId: 'cat-1',
+        categoryName: 'کباب‌ها',
+        items: [{ id: 'item-1', name: 'کباب کوبیده', categoryId: 'cat-1' }],
+      },
+    ],
+    mon: [], // دوشنبه
+  };
+
+  const mockCategoryNames = [
+    { id: 'cat-name-1', categoryId: 'cat-1', name: 'کباب‌ها' },
+    { id: 'cat-name-2', categoryId: 'cat-2', name: 'خورشت‌ها' },
+  ];
+
+  beforeEach(() => {
+    // شبیه‌سازی API ها با آدرس‌های صحیح
+    cy.intercept('GET', `**/menus/${mockMenuId}/preview`, {
+      body: mockMenuPreviewData,
+    }).as('getMenuPreview');
+    cy.intercept('GET', '**/backlog/*/category-names', {
+      body: mockCategoryNames,
+    }).as('getCatNames');
+    cy.intercept('GET', '**/users/profile', {
+      body: {
+        restaurants: [
+          { branches: [{ id: 'branch-1', backlogId: 'mock-backlog-123' }] },
+        ],
+      },
+    }).as('getUserProfile');
+
+    cy.login('your_real_username', 'your_real_password');
+    cy.visit(`/dashboard/preview/${mockMenuId}`);
+
+    // منتظر می‌مانیم تا هر دو درخواست اولیه صفحه تمام شوند
+    cy.wait(['@getMenuPreview', '@getCatNames']);
+  });
+
+  context('Page Rendering and Filtering', () => {
+    it('باید در بارگذاری اولیه، آیتم‌های مربوط به روز پیش‌فرض را نمایش دهد', () => {
+      // با فرض اینکه روز پیش‌فرض شنبه است
+      cy.get('app-item-card').should('have.length', 2);
+      cy.get('app-item-card').contains('کباب کوبیده').should('be.visible');
+      cy.get('app-item-card').contains('قورمه سبزی').should('be.visible');
+    });
+
+    it('باید با کلیک روی یک روز دیگر، آیتم‌های آن روز را نمایش دهد', () => {
+      // فرض می‌کنیم کامپوننت app-weekly-calendar دکمه‌هایی با این متن دارد
+      cy.get('app-weekly-calendar').contains('یکشنبه').click();
+      cy.get('app-item-card').should('have.length', 1);
+      cy.get('app-item-card').contains('کباب کوبیده').should('be.visible');
+      cy.get('app-item-card').contains('قورمه سبزی').should('not.exist');
+    });
+
+    it('باید با کلیک روی یک دسته‌بندی، آیتم‌ها را فیلتر کند', () => {
+      cy.get('app-weekly-calendar').contains('شنبه').click();
+      cy.get('app-item-card').should('have.length', 2);
+
+      // استفاده از سلکتور صحیح بر اساس فایل horizontal-scroller.component.html
+      cy.get('app-horizontal-scroller .menu-item').contains('خورشت‌ها').click();
+
+      cy.get('app-item-card').should('have.length', 1);
+      cy.get('app-item-card').contains('قورمه سبزی').should('be.visible');
+      cy.get('app-item-card').contains('کباب کوبیده').should('not.exist');
+    });
+
+    it('باید در صورتی که آیتمی برای نمایش وجود ندارد، پیام مناسب را نمایش دهد', () => {
+      cy.get('app-weekly-calendar').contains('دوشنبه').click();
+      cy.get('app-item-card').should('not.exist');
+      cy.get('.no-items-message').should('be.visible');
+    });
+  });
+});

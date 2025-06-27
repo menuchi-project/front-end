@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import {
@@ -14,8 +14,8 @@ import { environment } from '../../../../../api-config/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class ItemService implements OnInit {
-  private readonly apiUrl!: string;
+export class ItemService {
+  private apiUrl: string | null = null;
 
   private categoriesData = new BehaviorSubject<CategoryWithItemsResponse>({
     id: '',
@@ -34,13 +34,21 @@ export class ItemService implements OnInit {
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService,
-  ) {
-    const backlogId = this.authService.getBacklogId();
-    if (backlogId) this.apiUrl = environment.API_URL + '/backlog/' + backlogId;
-    this.loadInitialCategories();
-  }
+  ) {}
 
-  ngOnInit() {}
+  public initialize(): void {
+    if (!this.apiUrl) {
+      const backlogId = this.authService.getBacklogId();
+      if (backlogId) {
+        this.apiUrl = environment.API_URL + '/backlog/' + backlogId;
+        this.loadInitialCategories();
+      } else {
+        console.error(
+          'Backlog ID not found, ItemService could not be initialized.',
+        );
+      }
+    }
+  }
 
   private loadInitialCategories(): void {
     if (this.apiUrl) {
@@ -52,52 +60,46 @@ export class ItemService implements OnInit {
   }
 
   getCategoriesWithItems(): Observable<CategoryWithItemsResponse> {
-    return this.httpClient.get<CategoryWithItemsResponse>(this.apiUrl).pipe(
-      tap((cats) => {
-        this.categoriesData.next(cats);
-      }),
-    );
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
+    return this.httpClient
+      .get<CategoryWithItemsResponse>(this.apiUrl)
+      .pipe(tap((cats) => this.categoriesData.next(cats)));
+  }
+
+  getBacklogCatNames() {
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
+    return this.httpClient
+      .get<CategoryName[]>(this.apiUrl + '/category-names')
+      .subscribe((cats) => this.catNamesData.next(cats));
   }
 
   geAllItems() {
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
     return this.httpClient
       .get<Item[]>(this.apiUrl + '/items')
-      .subscribe((items) => {
-        this.itemsData.next(items);
-      });
+      .subscribe((items) => this.itemsData.next(items));
   }
 
   createItem(newItem: CreateItemRequest): Observable<any> {
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
     return this.httpClient.post(this.apiUrl + '/items', newItem);
   }
 
   deleteItems(itemIds: string[]): Observable<any> {
-    const options = {
-      body: itemIds,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    return this.httpClient.delete(this.apiUrl + '/items', options);
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
+    return this.httpClient.delete(this.apiUrl + '/items', { body: itemIds });
   }
 
   updateItem(itemId: string, newItem: UpdateItemRequest): Observable<void> {
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
     return this.httpClient.patch<void>(
       `${this.apiUrl}/items/${itemId}`,
       newItem,
     );
   }
 
-  getBacklogCatNames() {
-    return this.httpClient
-      .get<CategoryName[]>(this.apiUrl + '/category-names')
-      .subscribe((cats) => {
-        this.catNamesData.next(cats);
-      });
-  }
-
   reorderInCategory(itemIds: string[]): Observable<any> {
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
     return this.httpClient.patch(
       this.apiUrl + '/reorder-items/in-category',
       itemIds,
@@ -105,6 +107,7 @@ export class ItemService implements OnInit {
   }
 
   reorderInItemsList(itemIds: string[]): Observable<any> {
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
     return this.httpClient.patch(
       this.apiUrl + '/reorder-items/in-list',
       itemIds,
@@ -112,6 +115,7 @@ export class ItemService implements OnInit {
   }
 
   reorderCategories(catIds: string[]): Observable<any> {
+    if (!this.apiUrl) throw new Error('ItemService not initialized.');
     return this.httpClient.patch(this.apiUrl + '/reorder-categories', catIds);
   }
 }

@@ -3,12 +3,14 @@ import {
   Component,
   HostListener,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { TitleService } from '../../../shared/services/title/title.service';
-import { AuthService } from '../../../main/services/auth/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NavigationEnd, Router } from '@angular/router';
+import { TitleService } from '../../../shared/services/title/title.service';
+import { AuthService } from '../../../main/services/auth/auth.service';
+import { ItemService } from '../../services/item/item.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -16,7 +18,7 @@ import { NavigationEnd, Router } from '@angular/router';
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',
 })
-export class DashboardPageComponent implements OnDestroy {
+export class DashboardPageComponent implements OnDestroy, OnInit {
   isCollapsed = true;
   isMobileView = false;
   pageTitle = 'مدیریت';
@@ -29,6 +31,7 @@ export class DashboardPageComponent implements OnDestroy {
     private readonly authService: AuthService,
     private readonly messageService: NzMessageService,
     private readonly router: Router,
+    private readonly itemService: ItemService,
   ) {
     this.checkScreenWidth();
 
@@ -47,6 +50,14 @@ export class DashboardPageComponent implements OnDestroy {
         this.updateTitle($event);
       },
     );
+  }
+
+  ngOnInit(): void {
+    this.authService.user$.subscribe((user) => {
+      if (user && this.authService.getBacklogId()) {
+        this.itemService.initialize();
+      }
+    });
   }
 
   @HostListener('window:resize', ['$event'])
