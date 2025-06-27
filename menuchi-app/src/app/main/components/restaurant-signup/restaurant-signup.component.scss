@@ -139,13 +139,13 @@ nz-form-control {
 }
 
 :host ::ng-deep {
-  [nzFor="nickname"] + .ant-form-item-control .ant-form-item-explain-error,
+  [nzFor="username"] + .ant-form-item-control .ant-form-item-explain-error,
   [nzFor="phoneNumber"] + .ant-form-item-control .ant-form-item-explain-error,
   [nzFor="email"] + .ant-form-item-control .ant-form-item-explain-error,
   [nzFor="password"] + .ant-form-item-control .ant-form-item-explain-error,
   [nzFor="repeatPassword"]
-    + .ant-form-item-control
-    .ant-form-item-explain-error {
+  + .ant-form-item-control
+  .ant-form-item-explain-error {
     font-size: 0.75rem;
     font-weight: 500;
     margin-top: 0.2rem;

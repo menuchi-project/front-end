@@ -30,7 +30,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
         ),
       ]),
       repeatPassword: this.fb.control('', [Validators.required]),
-      nickname: this.fb.control('', [
+      username: this.fb.control('', [
         Validators.required,
         Validators.minLength(3),
         Validators.pattern('^[a-zA-Z0-9_-]{3,30}$'),
@@ -87,7 +87,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
       const signupData: SignupRequest = {
         phoneNumber: this.validateForm.controls.phoneNumber.value,
         password: this.validateForm.controls.password.value,
-        username: this.validateForm.controls.nickname.value,
+        username: this.validateForm.controls.username.value,
         email: this.validateForm.controls.email.value,
       };
 

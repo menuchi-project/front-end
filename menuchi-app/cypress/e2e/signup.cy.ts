@@ -2,7 +2,7 @@
 
 describe('Restaurant Signup Page E2E Tests', () => {
   const selectors = {
-    nickname: '#nickname',
+    username: '#username',
     phoneNumber: '#phoneNumber',
     email: '#email',
     password: '#password',
@@ -38,8 +38,8 @@ describe('Restaurant Signup Page E2E Tests', () => {
 
     it('should show specific validation errors for invalid inputs', () => {
       // نام کاربری کوتاه
-      cy.get(selectors.nickname).type('ab');
-      cy.get(selectors.nickname).blur(); // برای فعال شدن اعتبارسنجی
+      cy.get(selectors.username).type('ab');
+      cy.get(selectors.username).blur(); // برای فعال شدن اعتبارسنجی
       cy.contains('لطفا نام کاربری معتبر وارد کنید!').should('be.visible');
 
       // شماره تلفن نامعتبر
@@ -80,7 +80,7 @@ describe('Restaurant Signup Page E2E Tests', () => {
   context('API Call Scenarios', () => {
     // یک کاربر تست برای استفاده در سناریوهای مختلف
     const testUser = {
-      nickname: 'testuser123',
+      username: 'testuser123',
       phoneNumber: '09123456789',
       email: 'test@example.com',
       password: 'StrongPassword123!',
@@ -94,7 +94,7 @@ describe('Restaurant Signup Page E2E Tests', () => {
         body: {message: 'Signup successful'},
       }).as('signupRequest');
 
-      cy.get(selectors.nickname).type(testUser.nickname);
+      cy.get(selectors.username).type(testUser.username);
       cy.get(selectors.phoneNumber).type(testUser.phoneNumber);
       cy.get(selectors.email).type(testUser.email);
       cy.get(selectors.password).type(testUser.password);
@@ -119,7 +119,7 @@ describe('Restaurant Signup Page E2E Tests', () => {
         body: {message: 'User already exists'},
       }).as('signupConflict');
 
-      cy.get(selectors.nickname).type(testUser.nickname);
+      cy.get(selectors.username).type(testUser.username);
       cy.get(selectors.phoneNumber).type(testUser.phoneNumber);
       cy.get(selectors.email).type(testUser.email);
       cy.get(selectors.password).type(testUser.password);
@@ -141,7 +141,7 @@ describe('Restaurant Signup Page E2E Tests', () => {
         statusCode: 500,
       }).as('serverError');
 
-      cy.get(selectors.nickname).type(testUser.nickname);
+      cy.get(selectors.username).type(testUser.username);
       cy.get(selectors.phoneNumber).type(testUser.phoneNumber);
       cy.get(selectors.email).type(testUser.email);
       cy.get(selectors.password).type(testUser.password);
