@@ -55,7 +55,7 @@ export class DashboardPageComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
       if (user && this.authService.getBacklogId()) {
-        this.itemService.initialize();
+        // this.itemService.initialize();
       }
     });
   }
