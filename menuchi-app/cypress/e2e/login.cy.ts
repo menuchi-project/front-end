@@ -86,7 +86,7 @@ describe('Login Page', () => {
   });
 
   it('should login successfully and redirect to dashboard', () => {
-    cy.intercept('GET', '**/users/profile', {
+    cy.intercept('GET', '**/dashboard/profile', {
       statusCode: 200,
       body: {
         username: testUser.username,

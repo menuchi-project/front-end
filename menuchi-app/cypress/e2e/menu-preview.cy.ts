@@ -62,7 +62,7 @@ describe('Menu Preview Page E2E Tests', () => {
     cy.intercept('GET', '**/backlog/mock-backlog-123', {
       body: { categories: [] },
     }).as('getCategoriesWithItems');
-    cy.intercept('GET', '**/users/profile', {
+    cy.intercept('GET', '**/dashboard/profile', {
       body: {
         restaurants: [
           { branches: [{ id: 'branch-1', backlogId: 'mock-backlog-123' }] },

@@ -18,7 +18,7 @@ describe('Categories Page (Backlog) E2E Tests', () => {
             price: 220000,
             ingredients: 'گوشت، پیاز',
             picUrl: '/assets/placeholder.jpg',
-            subCategoryId: 'sub-cat-1'
+            subCategoryId: 'sub-cat-1',
           },
           {
             id: 'item-2',
@@ -27,7 +27,7 @@ describe('Categories Page (Backlog) E2E Tests', () => {
             price: 250000,
             ingredients: 'مرغ، زعفران',
             picUrl: '/assets/placeholder.jpg',
-            subCategoryId: 'sub-cat-2'
+            subCategoryId: 'sub-cat-2',
           },
         ],
       },
@@ -43,7 +43,7 @@ describe('Categories Page (Backlog) E2E Tests', () => {
             price: 180000,
             ingredients: 'سبزی، لوبیا',
             picUrl: '/assets/placeholder.jpg',
-            subCategoryId: 'sub-cat-3'
+            subCategoryId: 'sub-cat-3',
           },
         ],
       },
@@ -51,19 +51,29 @@ describe('Categories Page (Backlog) E2E Tests', () => {
   };
 
   const mockCategoryNames = [
-    {id: 'cat-name-1', name: 'کباب‌ها', categoryId: 'cat-1'},
-    {id: 'cat-name-2', name: 'خورشت‌ها', categoryId: 'cat-2'},
-    {id: 'cat-name-3', name: 'نوشیدنی', categoryId: 'cat-3'},
+    { id: 'cat-name-1', name: 'کباب‌ها', categoryId: 'cat-1' },
+    { id: 'cat-name-2', name: 'خورشت‌ها', categoryId: 'cat-2' },
+    { id: 'cat-name-3', name: 'نوشیدنی', categoryId: 'cat-3' },
   ];
 
   beforeEach(() => {
-    cy.intercept('GET', '**/backlog/*', mockCategoriesResponse).as('getCategoriesWithItems');
-    cy.intercept('GET', '**/category-names', mockCategoryNames).as('getCategoryNames');
-    cy.intercept('POST', '**/backlog/*/items', {statusCode: 201}).as('createItem');
-    cy.intercept('PATCH', '**/backlog/*/items/*', {statusCode: 200}).as('updateItem');
-    cy.intercept('DELETE', '**/backlog/*/items', {statusCode: 200}).as('deleteItems');
-    cy.intercept('GET', '**/users/profile', {
-      body: {restaurants: [{branches: [{backlogId: 'any-id'}]}]},
+    cy.intercept('GET', '**/backlog/*', mockCategoriesResponse).as(
+      'getCategoriesWithItems',
+    );
+    cy.intercept('GET', '**/category-names', mockCategoryNames).as(
+      'getCategoryNames',
+    );
+    cy.intercept('POST', '**/backlog/*/items', { statusCode: 201 }).as(
+      'createItem',
+    );
+    cy.intercept('PATCH', '**/backlog/*/items/*', { statusCode: 200 }).as(
+      'updateItem',
+    );
+    cy.intercept('DELETE', '**/backlog/*/items', { statusCode: 200 }).as(
+      'deleteItems',
+    );
+    cy.intercept('GET', '**/dashboard/profile', {
+      body: { restaurants: [{ branches: [{ backlogId: 'any-id' }] }] },
     }).as('getUserProfile');
 
     cy.login('9331112233', 'jleU%*5kvn!t');
@@ -100,14 +110,19 @@ describe('Categories Page (Backlog) E2E Tests', () => {
     it('باید با کلیک روی دکمه داخل یک دسته‌بندی، مودال افزودن آیتم را با دسته‌بندی انتخاب شده باز کند', () => {
       cy.contains('.cat-header', 'کباب‌ها').find('.add-item-icon').click();
       cy.get('.ant-modal-title').should('contain.text', 'ایجاد آیتم جدید');
-      cy.get('#category').find('.ant-select-selection-item').should('contain.text', 'کباب‌ها');
+      cy.get('#category')
+        .find('.ant-select-selection-item')
+        .should('contain.text', 'کباب‌ها');
       cy.get('#category').should('have.class', 'ant-select-disabled');
       cy.get('.ant-modal-close').click();
     });
 
     it('باید یک آیتم را ویرایش کند', () => {
       const itemToEdit = mockCategoriesResponse.categories[0].items[0];
-      cy.contains('h4', itemToEdit.name).closest('nz-card').find('nz-icon[nztype="more"]').click();
+      cy.contains('h4', itemToEdit.name)
+        .closest('nz-card')
+        .find('nz-icon[nztype="more"]')
+        .click();
       cy.get('.ant-dropdown-menu-item').contains('ویرایش آیتم').click();
 
       cy.get('.ant-modal-title').should('contain.text', 'ویرایش آیتم');
@@ -123,17 +138,27 @@ describe('Categories Page (Backlog) E2E Tests', () => {
 
     it('باید یک آیتم را از دسته‌بندی حذف کند', () => {
       const itemToDelete = mockCategoriesResponse.categories[1].items[0];
-      const updatedResponse = JSON.parse(JSON.stringify(mockCategoriesResponse));
+      const updatedResponse = JSON.parse(
+        JSON.stringify(mockCategoriesResponse),
+      );
       updatedResponse.categories[1].items = [];
-      cy.intercept('GET', '**/backlog/*', updatedResponse).as('getCategoriesAfterDelete');
-      cy.contains('h4', itemToDelete.name).closest('nz-card').find('nz-icon[nztype="more"]').click();
+      cy.intercept('GET', '**/backlog/*', updatedResponse).as(
+        'getCategoriesAfterDelete',
+      );
+      cy.contains('h4', itemToDelete.name)
+        .closest('nz-card')
+        .find('nz-icon[nztype="more"]')
+        .click();
       cy.get('.delete-item').contains('حذف از دسته‌بندی').click();
       cy.get('.ant-popover-buttons button').contains('تایید').click();
 
       cy.wait('@deleteItems');
       cy.wait('@getCategoriesAfterDelete');
 
-      cy.get('.ant-message-info').should('contain.text', 'آیتم با موفقیت حذف شد.');
+      cy.get('.ant-message-info').should(
+        'contain.text',
+        'آیتم با موفقیت حذف شد.',
+      );
       cy.contains('h4', itemToDelete.name).should('not.exist');
     });
   });

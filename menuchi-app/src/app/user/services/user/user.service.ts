@@ -14,7 +14,7 @@ export class UserService {
   constructor(private httpClient: HttpClient) {}
 
   fetchUserProfile(): Observable<any> {
-    return this.httpClient.get(`${this.apiUrl}/users/profile`).pipe(
+    return this.httpClient.get(`${this.apiUrl}/dashboard/profile`).pipe(
       tap((user: any) => {
         this.userSubject.next(user);
       }),
@@ -42,7 +42,9 @@ export class UserService {
   }
 
   getBacklogId(): string | null {
-    return this.userSubject.value?.restaurants?.[0]?.branches?.[0]?.backlogId ?? null;
+    return (
+      this.userSubject.value?.restaurants?.[0]?.branches?.[0]?.backlogId ?? null
+    );
   }
 
   clearUser() {

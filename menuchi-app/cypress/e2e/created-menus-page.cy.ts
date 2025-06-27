@@ -28,13 +28,13 @@ describe('Created Menus Page E2E Tests', () => {
 
   beforeEach(() => {
     cy.intercept('GET', '**/menus/branch/*', {
-      body: mockMenus.filter(m => m.branchId === 'branch-1'),
+      body: mockMenus.filter((m) => m.branchId === 'branch-1'),
     }).as('getAllMenus');
 
-    cy.intercept('DELETE', '**/menus/*', {statusCode: 200}).as('deleteMenu');
-    cy.intercept('GET', '**/users/profile', {
+    cy.intercept('DELETE', '**/menus/*', { statusCode: 200 }).as('deleteMenu');
+    cy.intercept('GET', '**/dashboard/profile', {
       body: {
-        restaurants: [{branches: [{id: 'branch-1'}]}],
+        restaurants: [{ branches: [{ id: 'branch-1' }] }],
       },
     }).as('getUserProfile');
 
@@ -81,7 +81,9 @@ describe('Created Menus Page E2E Tests', () => {
         .find('.edit-menu-btn')
         .click()
         .then(() => {
-          expect(localStorage.getItem('currentCreatingMenuId')).to.eq(menuToEdit.id);
+          expect(localStorage.getItem('currentCreatingMenuId')).to.eq(
+            menuToEdit.id,
+          );
         });
       cy.url().should('include', '/dashboard/menu');
     });
@@ -106,7 +108,10 @@ describe('Created Menus Page E2E Tests', () => {
       cy.get('.ant-modal-confirm-btns button').contains('تأیید').click();
 
       cy.wait('@deleteMenu');
-      cy.get('.ant-message-success').should('contain.text', 'منو با موفقیت حذف شد');
+      cy.get('.ant-message-success').should(
+        'contain.text',
+        'منو با موفقیت حذف شد',
+      );
       cy.contains('.menu-name', menuToDelete.name).should('not.exist');
       cy.get('.menu-card').should('have.length', 1);
     });

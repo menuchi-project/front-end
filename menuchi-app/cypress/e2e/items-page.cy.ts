@@ -52,7 +52,7 @@ describe('Items Page E2E Tests', () => {
     cy.intercept('GET', '**/backlog/*', { body: { categories: [] } }).as(
       'getCategoriesWithItems',
     );
-    cy.intercept('GET', '**/users/profile', {
+    cy.intercept('GET', '**/dashboard/profile', {
       body: {
         restaurants: [
           {
