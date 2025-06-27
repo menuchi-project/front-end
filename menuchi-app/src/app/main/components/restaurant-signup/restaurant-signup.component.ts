@@ -5,6 +5,8 @@ import {SignupRequest, SignupResponse} from '../../models/Auth';
 import {AuthService} from '../../services/auth/auth.service';
 import {NzMessageService} from 'ng-zorro-antd/message';
 import {Router} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
+import {ErrorMappingService} from '../../../core/services/error-mapping.service';
 
 @Component({
   selector: 'app-restaurant-signup',
@@ -58,6 +60,7 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private message: NzMessageService,
     private router: Router,
+    private errorMapper: ErrorMappingService
   ) {
   }
 
@@ -99,23 +102,13 @@ export class RestaurantSignupComponent implements OnInit, OnDestroy {
             this.router.navigate(['/login']);
           }, 1000);
         },
-        error: (error) => {
+        error: (err: HttpErrorResponse) => {
           this.isLoading = false;
-          if (error.status === 409) {
-            this.message.error(' این شماره تلفن یا ایمیل قبلاً ثبت شده است!');
-          } else if (error.status === 422) {
-            this.message.error(' اطلاعات وارد شده صحیح نمی‌باشند.');
-            if (error.error && error.error.details) {
-              error.error.details.forEach((detail: any) => {
-                this.message.error(' خطا در ثبت‌نام: ' + detail.message);
-              });
-            }
-          } else {
-            this.message.error(
-              ' مشکلی در ثبت نام پیش آمد! لطفاً دوباره تلاش کنید.',
-            );
+          if (err.status === 409 || err.status === 422) {
+            const friendlyMessage = this.errorMapper.getFriendlyMessage(err.error);
+            this.message.error(friendlyMessage);
           }
-          console.log('خطا :', error);
+          console.log('خطا :', err);
         },
       });
     } else {
