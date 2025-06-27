@@ -118,7 +118,7 @@
 
 <nz-modal
   [(nzVisible)]="isQrModalVisible"
-  nzTitle="QR کد منو"
+  nzTitle="کیو-آر کد منو"
   (nzOnCancel)="handleQrModalCancel()"
   [nzFooter]="qrModalFooter"
 >
@@ -138,10 +138,11 @@
           nzNotFoundContent="لینک منو در دسترس نیست."
         ></nz-empty>
       </div>
-      <p *ngIf="publicMenuUrl" class="public-link">
-        لینک عمومی:
-        <a [href]="publicMenuUrl" target="_blank">{{ publicMenuUrl }}</a>
-      </p>
+      <div *ngIf="publicMenuUrl" class="public-link-container">
+        <button nz-button nzSize="small" (click)="copyLinkToClipboard()">
+          <span nz-icon nzType="copy" nzTheme="outline"></span> کپی لینک عمومی
+        </button>
+      </div>
     </div>
   </ng-container>
 </nz-modal>
