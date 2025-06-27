@@ -2,7 +2,7 @@
   <div class="signup-box">
     <div class="header">
       <div class="logo">
-        <img ngSrc="/assets/logo-blue.svg" alt="منوچی" height="62" width="84"/>
+        <img ngSrc="/assets/logo-blue.svg" alt="منوچی" height="62" width="84" />
       </div>
       <h2>ایجاد حساب کاربری</h2>
       <p class="subtitle">
@@ -37,7 +37,7 @@
           nzFor="phoneNumber"
           nzRequired
           class="rtl-text"
-        >شماره تماس خود را وارد کنید
+          >شماره تماس خود را وارد کنید
         </nz-form-label>
         <nz-form-control
           [nzSpan]="24"
@@ -80,6 +80,7 @@
         >
           <div class="password-wrapper">
             <input
+              id="password"
               [type]="passwordVisible ? 'text' : 'password'"
               nz-input
               formControlName="password"
@@ -107,6 +108,7 @@
         >
           <div class="password-wrapper">
             <input
+              id="repeatPassword"
               [type]="repeatPasswordVisible ? 'text' : 'password'"
               nz-input
               formControlName="repeatPassword"
