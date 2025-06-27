@@ -81,6 +81,7 @@ import { CartItemComponent } from '../shared/components/cart-item/cart-item.comp
 import { CartPageComponent } from './components/cart-page/cart-page.component';
 import { NzTypographyComponent } from 'ng-zorro-antd/typography';
 import { NzListComponent, NzListItemComponent } from 'ng-zorro-antd/list';
+import { NzQRCodeComponent } from 'ng-zorro-antd/qr-code';
 
 @NgModule({
   declarations: [
@@ -165,6 +166,7 @@ import { NzListComponent, NzListItemComponent } from 'ng-zorro-antd/list';
     NzTypographyComponent,
     NzListItemComponent,
     NzListComponent,
+    NzQRCodeComponent,
   ],
   providers: [NzModalService, NzImageService],
   exports: [ItemsPageComponent],

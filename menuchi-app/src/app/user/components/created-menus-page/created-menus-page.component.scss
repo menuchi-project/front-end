@@ -227,3 +227,54 @@ nz-col {
     font-size: 1.1rem;
   }
 }
+
+.publish-qr-btn {
+  background-color: #52c41a; // A distinct color for publish button
+  color: #fff;
+  height: 3.2rem;
+  width: 9rem;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background-color: darken(#52c41a, 10%);
+    border-color: darken(#52c41a, 10%);
+    color: #d9d9d9;
+  }
+}
+
+.qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+
+  h3 {
+    margin-bottom: 1rem;
+    color: #243e62;
+  }
+
+  #qrcode {
+    margin-bottom: 1rem;
+    border: 1px solid #e8e8e8; // Optional: add a subtle border
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+  }
+
+  .public-link {
+    word-break: break-all;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+
+    a {
+      color: #1890ff;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
