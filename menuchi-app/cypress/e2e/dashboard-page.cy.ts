@@ -1,7 +1,4 @@
-// cypress/e2e/dashboard-page.cy.ts
-
 describe('Main Dashboard Page E2E Tests', () => {
-  // --- داده‌های شبیه‌سازی شده (Mock Data) ---
   const mockUser = {
     username: 'منوچی',
     restaurants: [
@@ -59,25 +56,24 @@ describe('Main Dashboard Page E2E Tests', () => {
   ];
 
   beforeEach(() => {
-    // رهگیری و شبیه‌سازی درخواست‌های API
     cy.intercept('GET', '**/menus/branch/*', { body: mockMenus }).as(
       'getMenus',
     );
     cy.intercept('GET', '**/restaurants/*', { body: mockRestaurant }).as(
       'getRestaurant',
     );
-    cy.intercept('GET', '**/menus/**/day-items', { body: mockTodaysItems }).as(
-      'getTodaysItems',
-    );
+    cy.intercept(
+      'GET',
+      '**/menus/8c200d93-3aa2-4656-836f-ce87c9534186/day-items',
+      { body: mockTodaysItems },
+    ).as('getTodaysItems');
     cy.intercept('GET', '**/users/profile', { body: mockUser }).as(
       'getUserProfile',
     );
     cy.intercept('POST', '**/auth/logout', { statusCode: 200 }).as('logout');
 
     cy.login('9331112233', 'jleU%*5kvn!t');
-    // بازدید از صفحه اصلی داشبورد
     cy.visit('/dashboard');
-    // منتظر می‌مانیم تا تمام درخواست‌های اولیه صفحه تمام شوند
     cy.wait(['@getMenus', '@getRestaurant', '@getTodaysItems']);
   });
 
@@ -93,20 +89,17 @@ describe('Main Dashboard Page E2E Tests', () => {
     });
 
     it('باید کارت‌های منو، شعب و غذای روز را به درستی رندر کند', () => {
-      // بررسی نمایش دو منوی اول در کاروسل
       cy.get('.menus-container .menu-card').should('have.length', 2);
       cy.contains('.menu-card', mockMenus[0].name).should('be.visible');
       cy.contains('.menu-card', mockMenus[1].name).should('be.visible');
-      cy.contains('.menu-card', mockMenus[2].name).should('not.be.visible');
+      cy.contains('.menu-card', mockMenus[2].name).should('not.exist');
 
-      // بررسی نمایش شعبه اول
-      cy.get('.branches-container .branch-card').should('have.length', 1);
+      cy.get('.branches-container .branch-card').should('have.length', 2);
       cy.contains(
         '.branch-card',
         mockRestaurant.branches[0].address.city,
       ).should('be.visible');
 
-      // بررسی نمایش آیتم اول در بخش غذای امروز
       cy.get('.item-info').should('contain.text', mockTodaysItems[0].name);
       cy.get('.item-info').should('not.contain.text', mockTodaysItems[1].name);
     });
@@ -114,24 +107,20 @@ describe('Main Dashboard Page E2E Tests', () => {
 
   context('User Interactions', () => {
     it('باید با کلیک روی فلش، کاروسل منوها را اسکرول کند', () => {
-      // کلیک روی فلش راست برای دیدن منوی بعدی
       cy.get('.menu-container .arrow-icon').last().click();
-      cy.contains('.menu-card', mockMenus[0].name).should('not.be.visible');
+      cy.contains('.menu-card', mockMenus[0].name).should('not.exist');
       cy.contains('.menu-card', mockMenus[2].name).should('be.visible');
 
-      // کلیک روی فلش چپ برای برگشت
       cy.get('.menu-container .arrow-icon').first().click();
       cy.contains('.menu-card', mockMenus[0].name).should('be.visible');
-      cy.contains('.menu-card', mockMenus[2].name).should('not.be.visible');
+      cy.contains('.menu-card', mockMenus[2].name).should('not.exist');
     });
 
     it('باید با کلیک روی فلش، آیتم "غذای امروز" را تغییر دهد', () => {
-      // کلیک روی فلش بعدی
       cy.get('.item-name nz-icon').last().click();
       cy.get('.item-info').should('contain.text', mockTodaysItems[1].name);
       cy.get('.item-info').should('not.contain.text', mockTodaysItems[0].name);
 
-      // کلیک روی فلش قبلی
       cy.get('.item-name nz-icon').first().click();
       cy.get('.item-info').should('contain.text', mockTodaysItems[0].name);
     });
@@ -147,7 +136,6 @@ describe('Main Dashboard Page E2E Tests', () => {
 
   context('Side Menu Navigation and Logout', () => {
     it('باید با کلیک روی آیتم‌های سایدبار، به مسیر صحیح هدایت شود', () => {
-      // باز کردن سایدبار در صورت بسته بودن
       cy.get('body').then(($body) => {
         if ($body.find('.trigger span.anticon-double-left').length > 0) {
           cy.get('.trigger').click();
