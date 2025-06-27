@@ -1,6 +1,42 @@
 describe('Login Page', () => {
   const backendUrl = 'http://localhost:8000';
 
+  let testUser = {
+    username: '',
+    phoneNumber: '',
+    email: '',
+    password: 'StrongPassword123!',
+  };
+
+  before(() => {
+    const uniqueId = Date.now();
+    testUser.username = `testuser_${uniqueId}`;
+    testUser.phoneNumber = `09${(uniqueId % 1000000000).toString().padStart(9, '0')}`;
+    testUser.email = `testuser_${uniqueId}@example.com`;
+
+    cy.intercept('POST', `${backendUrl}/auth/res-signup`, {
+      statusCode: 201,
+      body: { message: 'Signup successful' },
+    }).as('signupRequest');
+
+    cy.visit('/signup');
+
+    cy.get('#username').type(testUser.username);
+    cy.get('#phoneNumber').type(testUser.phoneNumber);
+    cy.get('#email').type(testUser.email);
+    cy.get('#password').type(testUser.password);
+    cy.get('#repeatPassword').type(testUser.password);
+
+    cy.get('button[type="submit"]').click();
+
+    cy.wait('@signupRequest');
+    cy.get('.ant-message-success').should(
+      'contain.text',
+      'ثبت نام با موفقیت انجام شد!',
+    );
+    cy.url().should('include', '/login');
+  });
+
   beforeEach(() => {
     cy.visit(`/login`);
   });
@@ -19,35 +55,58 @@ describe('Login Page', () => {
   });
 
   it('should toggle password visibility', () => {
-    cy.get('input[formControlName="password"]').type('7uL0t5*cJEG@tZOvEp3s1cUuG7KC2hBSVzud&G12dOTdbK');
+    cy.get('input[formControlName="password"]').type(
+      '7uL0t5*cJEG@tZOvEp3s1cUuG7KC2hBSVzud&G12dOTdbK',
+    );
     cy.get('.eye-icon').click();
-    cy.get('input[formControlName="password"]').should('have.attr', 'type', 'text');
+    cy.get('input[formControlName="password"]').should(
+      'have.attr',
+      'type',
+      'text',
+    );
     cy.get('.eye-icon').click();
-    cy.get('input[formControlName="password"]').should('have.attr', 'type', 'password');
+    cy.get('input[formControlName="password"]').should(
+      'have.attr',
+      'type',
+      'password',
+    );
   });
 
   it('should show error message on failed login', () => {
-    cy.intercept('POST', `${backendUrl}/auth/res-signin`).as('loginRequest');
+    cy.intercept('POST', `${backendUrl}/auth/res-signin`, {
+      statusCode: 401,
+    }).as('loginRequestFailed');
 
-    cy.get('input[formControlName="username"]').type('9660086615');
+    cy.get('input[formControlName="username"]').type(testUser.phoneNumber);
     cy.get('input[formControlName="password"]').type('WrongPassword');
     cy.get('.login-form-button').click();
 
-    cy.wait('@loginRequest');
+    cy.wait('@loginRequestFailed');
     cy.contains('اطلاعات وارد شده صحیح نمی‌باشند.').should('exist');
   });
 
   it('should login successfully and redirect to dashboard', () => {
-    cy.intercept('POST', `${backendUrl}/auth/res-signin`).as('loginRequest');
+    cy.intercept('GET', '**/users/profile', {
+      statusCode: 200,
+      body: {
+        username: testUser.username,
+        restaurants: [
+          { branches: [{ id: 'branch-test', backlogId: 'backlog-test' }] },
+        ],
+      },
+    }).as('fetchUserProfile');
 
-    cy.get('input[formControlName="username"]').type('9660086615');
-    cy.get('input[formControlName="password"]').type('TDbGsqpIh$9MdU'); // رمز صحیح را وارد کن
+    cy.intercept('POST', `${backendUrl}/auth/res-signin`, {
+      statusCode: 200,
+      body: true,
+    }).as('loginRequestSuccess');
+
+    cy.get('input[formControlName="username"]').type(testUser.phoneNumber);
+    cy.get('input[formControlName="password"]').type(testUser.password);
     cy.get('.login-form-button').click();
 
-    cy.wait('@loginRequest').then(({ response }) => {
-  console.log('Login response status:', response?.statusCode);
-  console.log('Login response body:', response?.body);
-});
+    cy.wait('@loginRequestSuccess');
+    cy.wait('@fetchUserProfile');
 
     cy.url().should('include', '/dashboard');
     cy.contains('شما با موفقیت وارد شدید.').should('exist');
