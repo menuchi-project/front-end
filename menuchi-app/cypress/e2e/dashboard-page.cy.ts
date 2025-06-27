@@ -1,165 +1,137 @@
-describe('Main Dashboard Page E2E Tests', () => {
-  const mockUser = {
-    username: 'منوچی',
-    restaurants: [
-      {
-        id: 'res-1',
-        branches: [
-          { id: 'branch-1', name: 'شعبه مرکزی', backlogId: 'backlog-1' },
-        ],
-      },
-    ],
-  };
-
-  const mockMenus = [
-    { id: 'menu-1', name: 'منوی تابستانه' },
-    { id: 'menu-2', name: 'منوی زمستانه' },
-    { id: 'menu-3', name: 'منوی ویژه' },
+describe('Items Page E2E Tests', () => {
+  const mockCategories = [
+    { id: 'cat-1', name: 'کباب‌ها', categoryId: 'cat-1' },
+    {
+      id: 'cat-2',
+      name: 'خورشت‌ها',
+      categoryId: 'cat-2',
+    },
   ];
-
-  const mockRestaurant = {
-    id: 'res-1',
-    name: 'رستوران نمونه',
-    displayName: 'رستوران نمونه',
-    avatarUrl: '/assets/placeholder.jpg',
-    branches: [
-      {
-        id: 'branch-1',
-        address: { city: 'تهران' },
-        openingTimes: { sat: '10:00-22:00' },
-      },
-      {
-        id: 'branch-2',
-        address: { city: 'اصفهان' },
-        openingTimes: { sat: '11:00-23:00' },
-      },
-    ],
-  };
-
-  const mockTodaysItems = [
+  const mockItems = [
     {
       id: 'item-1',
       name: 'کباب کوبیده',
+      categoryId: 'cat-1',
       categoryName: 'کباب‌ها',
+      subCategoryId: 'sub-cat-1',
       price: 220000,
-      ingredients: 'گوشت تازه',
+      ingredients: 'گوشت، پیاز، زعفران',
       picUrl: '',
     },
     {
       id: 'item-2',
-      name: 'جوجه کباب',
-      categoryName: 'کباب‌ها',
-      price: 250000,
-      ingredients: 'سینه مرغ',
+      name: 'قورمه سبزی',
+      categoryId: 'cat-2',
+      categoryName: 'خورشت‌ها',
+      subCategoryId: 'sub-cat-2',
+      price: 180000,
+      ingredients: 'سبزی، لوبیا، گوشت',
       picUrl: '',
     },
   ];
 
   beforeEach(() => {
-    cy.intercept('GET', '**/menus/branch/*', { body: mockMenus }).as(
-      'getMenus',
+    cy.intercept('GET', '**/backlog/*/items', { body: mockItems }).as(
+      'getAllItems',
     );
-    cy.intercept('GET', '**/restaurants/*', { body: mockRestaurant }).as(
-      'getRestaurant',
+    cy.intercept('GET', '**/backlog/*/category-names', {
+      body: mockCategories,
+    }).as('getBacklogCatNames');
+    cy.intercept('GET', '**/category-names', { body: mockCategories }).as(
+      'getCategoryNames',
     );
-    cy.intercept(
-      'GET',
-      '**/menus/8c200d93-3aa2-4656-836f-ce87c9534186/day-items',
-      { body: mockTodaysItems },
-    ).as('getTodaysItems');
-    cy.intercept('GET', '**/users/profile', { body: mockUser }).as(
-      'getUserProfile',
+    cy.intercept('POST', '**/backlog/*/items', { statusCode: 201 }).as(
+      'createItem',
     );
-    cy.intercept('POST', '**/auth/logout', { statusCode: 200 }).as('logout');
+    cy.intercept('PATCH', '**/backlog/*/items/*', { statusCode: 200 }).as(
+      'updateItem',
+    );
+    cy.intercept('DELETE', '**/backlog/*/items', { statusCode: 200 }).as(
+      'deleteItems',
+    );
+    cy.intercept('GET', '**/backlog/*', { body: { categories: [] } }).as(
+      'getCategoriesWithItems',
+    );
+    cy.intercept('GET', '**/users/profile', {
+      body: {
+        restaurants: [
+          {
+            branches: [
+              {
+                id: 'branch-1',
+                backlogId: 'mock-backlog-123',
+              },
+            ],
+          },
+        ],
+      },
+    }).as('getUserProfile');
 
     cy.login('9331112233', 'jleU%*5kvn!t');
-    cy.visit('/dashboard');
-    cy.wait(['@getMenus', '@getRestaurant', '@getTodaysItems']);
+
+    cy.visit('/dashboard/items');
+    cy.wait('@getAllItems');
   });
 
-  context('Initial Page Load and Content Display', () => {
-    it('باید پیام خوش‌آمدگویی و اطلاعات اولیه را به درستی نمایش دهد', () => {
-      cy.get('.username').should(
-        'contain.text',
-        `خوش آمدید، ${mockUser.username} عزیز.`,
-      );
-      cy.get('.menu-container').should('contain.text', 'منوهای ساخته شده');
-      cy.get('.branch-container').should('contain.text', 'شعب');
-      cy.get('.backlog-item').should('contain.text', 'غذای امروز');
-    });
-
-    it('باید کارت‌های منو، شعب و غذای روز را به درستی رندر کند', () => {
-      cy.get('.menus-container .menu-card').should('have.length', 2);
-      cy.contains('.menu-card', mockMenus[0].name).should('be.visible');
-      cy.contains('.menu-card', mockMenus[1].name).should('be.visible');
-      cy.contains('.menu-card', mockMenus[2].name).should('not.exist');
-
-      cy.get('.branches-container .branch-card').should('have.length', 2);
-      cy.contains(
-        '.branch-card',
-        mockRestaurant.branches[0].address.city,
-      ).should('be.visible');
-
-      cy.get('.item-info').should('contain.text', mockTodaysItems[0].name);
-      cy.get('.item-info').should('not.contain.text', mockTodaysItems[1].name);
-    });
-  });
-
-  context('User Interactions', () => {
-    it('باید با کلیک روی فلش، کاروسل منوها را اسکرول کند', () => {
-      cy.get('.menu-container .arrow-icon').last().click();
-      cy.contains('.menu-card', mockMenus[0].name).should('not.exist');
-      cy.contains('.menu-card', mockMenus[2].name).should('be.visible');
-
-      cy.get('.menu-container .arrow-icon').first().click();
-      cy.contains('.menu-card', mockMenus[0].name).should('be.visible');
-      cy.contains('.menu-card', mockMenus[2].name).should('not.exist');
-    });
-
-    it('باید با کلیک روی فلش، آیتم "غذای امروز" را تغییر دهد', () => {
-      cy.get('.item-name nz-icon').last().click();
-      cy.get('.item-info').should('contain.text', mockTodaysItems[1].name);
-      cy.get('.item-info').should('not.contain.text', mockTodaysItems[0].name);
-
-      cy.get('.item-name nz-icon').first().click();
-      cy.get('.item-info').should('contain.text', mockTodaysItems[0].name);
-    });
-
-    it('باید با کلیک روی "جزئیات بیشتر منو"، به صفحه پیش‌نمایش هدایت شود', () => {
-      cy.contains('.menu-card', mockMenus[0].name)
-        .find('button')
-        .contains('جزئیات بیشتر منو')
-        .click();
-      cy.url().should('include', `/dashboard/preview/${mockMenus[0].id}`);
-    });
-  });
-
-  context('Side Menu Navigation and Logout', () => {
-    it('باید با کلیک روی آیتم‌های سایدبار، به مسیر صحیح هدایت شود', () => {
-      cy.get('body').then(($body) => {
-        if ($body.find('.trigger span.anticon-double-left').length > 0) {
-          cy.get('.trigger').click();
-        }
-      });
-
-      cy.get('li.button[routerlink="/dashboard/cats"]').click();
-      cy.url().should('include', '/dashboard/cats');
-    });
-
-    it('باید با کلیک روی خروج، کاربر را از سیستم خارج کند', () => {
-      cy.get('body').then(($body) => {
-        if ($body.find('.trigger span.anticon-double-left').length > 0) {
-          cy.get('.trigger').click();
-        }
-      });
-
-      cy.get('li.button').contains('خروج').click();
-      cy.wait('@logout');
+  context('Add Item Modal', () => {
+    it('باید مودال را باز کرده و یک آیتم جدید ایجاد کند', () => {
+      cy.get('button').contains('افزودن آیتم جدید').click();
+      cy.wait('@getBacklogCatNames');
+      cy.wait('@getCategoryNames');
+      cy.get('.ant-modal-title').should('contain.text', 'ایجاد آیتم جدید');
+      cy.get('#itemName').type('جوجه کباب');
+      cy.get('#category').click();
+      cy.get('.ant-select-item-option-content').contains('کباب‌ها').click();
+      cy.get('#price').type('250000');
+      cy.get('#ingredients').type('سینه مرغ، زعفران');
+      cy.get('.ant-modal-body button').contains('ایجاد').click();
+      cy.wait('@createItem');
       cy.get('.ant-message-success').should(
         'contain.text',
-        'با موفقیت خارج شدید.',
+        'آیتم با موفقیت ایجاد شد.',
       );
-      cy.url().should('include', '/login');
+      cy.get('app-add-item nz-modal').should('not.be.visible');
+    });
+  });
+
+  context('Items Table Operations', () => {
+    it('باید یک آیتم را به صورت خطی (inline) ویرایش کند', () => {
+      const itemToEdit = mockItems[0];
+      const newPrice = '235000';
+      const itemRowSelector = `[data-testid="item-row-${itemToEdit.id}"]`;
+      cy.get(itemRowSelector).find('nz-icon[nztype="edit"]').click();
+      cy.get(itemRowSelector)
+        .find('td:nth-child(4) input')
+        .clear()
+        .type(newPrice);
+      cy.get(itemRowSelector).find('nz-icon[nztype="check"]').click();
+      cy.wait('@updateItem')
+        .its('request.body')
+        .should('deep.include', { price: newPrice });
+      cy.get('.ant-message-success').should(
+        'contain.text',
+        'آیتم با موفقیت ویرایش شد.',
+      );
+    });
+
+    it('باید یک آیتم را از جدول حذف کند', () => {
+      const itemToDelete = mockItems[1];
+      const itemRowSelector = `[data-testid="item-row-${itemToDelete.id}"]`;
+      const itemsAfterDelete = mockItems.filter(
+        (item) => item.id !== itemToDelete.id,
+      );
+      cy.get(itemRowSelector).find('nz-icon[nztype="delete"]').click();
+      cy.intercept('GET', '**/backlog/*/items', { body: itemsAfterDelete }).as(
+        'getItemsAfterDelete',
+      );
+      cy.get('.ant-popover-buttons button').contains('تایید').click();
+      cy.wait('@deleteItems');
+      cy.wait('@getItemsAfterDelete');
+      cy.get('.ant-message-info').should(
+        'contain.text',
+        'آیتم با موفقیت حذف شد.',
+      );
+      cy.get(itemRowSelector).should('not.exist');
     });
   });
 });
