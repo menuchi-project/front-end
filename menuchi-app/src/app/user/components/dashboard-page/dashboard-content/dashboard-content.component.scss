@@ -360,6 +360,7 @@
     height: 100%;
 
     .backlog-item {
+      min-height: 103vh;
       display: flex;
       flex-direction: column;
       padding-inline: 1rem;
