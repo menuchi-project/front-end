@@ -1,11 +1,20 @@
-import {TestBed} from '@angular/core/testing';
-import {HttpErrorResponse, provideHttpClient} from '@angular/common/http';
-import {HttpTestingController, provideHttpClientTesting,} from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 
-import {MenuService} from './menu.service';
-import {AuthService} from '../../../main/services/auth/auth.service';
-import {CreateMenuRequest, CreateMenuResponse, Menu, MenuPreview, UpdateMenuRequest,} from '../../models/Menu';
-import {environment} from '../../../../../api-config/environment';
+import { MenuService } from './menu.service';
+import { AuthService } from '../../../main/services/auth/auth.service';
+import {
+  CreateMenuRequest,
+  CreateMenuResponse,
+  Menu,
+  MenuPreview,
+  UpdateMenuRequest,
+} from '../../models/Menu';
+import { environment } from '../../../../../api-config/environment';
 
 describe('MenuService', () => {
   let service: MenuService;
@@ -26,7 +35,7 @@ describe('MenuService', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         MenuService,
-        {provide: AuthService, useValue: authServiceMock},
+        { provide: AuthService, useValue: authServiceMock },
       ],
     });
 
@@ -45,10 +54,10 @@ describe('MenuService', () => {
   describe('getAllMenusForBranches', () => {
     it('should fetch menus for all branches and update menusData$', (done) => {
       const mockMenusBranch1: Menu[] = [
-        {id: 'menu1', name: 'Menu 1'} as Menu,
+        { id: 'menu1', name: 'Menu 1' } as Menu,
       ];
       const mockMenusBranch2: Menu[] = [
-        {id: 'menu2', name: 'Menu 2'} as Menu,
+        { id: 'menu2', name: 'Menu 2' } as Menu,
       ];
 
       // Subscribe first
@@ -84,7 +93,12 @@ describe('MenuService', () => {
         name: 'New Menu',
         isPublished: true,
         favicon: 'ico',
-        branchId: 'branch-1'
+        branchId: 'branch-1',
+        branch: 'b',
+        restaurantId: '11',
+        deletedAt: '1',
+        createdAt: '1',
+        updatedAt: '1',
       };
 
       service.createMenu(newMenu).subscribe((response) => {
@@ -112,14 +126,14 @@ describe('MenuService', () => {
       });
 
       const req = httpMock.expectOne(apiUrl);
-      req.flush('Error', {status: 500, statusText: 'Internal Server Error'});
+      req.flush('Error', { status: 500, statusText: 'Internal Server Error' });
     });
   });
 
   describe('getMenuById', () => {
     it('should fetch a single menu and update currentMenuData$', (done) => {
       const testMenuId = 'menu-1';
-      const mockMenu: Menu = {id: testMenuId, name: 'Test Menu'} as Menu;
+      const mockMenu: Menu = { id: testMenuId, name: 'Test Menu' } as Menu;
 
       // Subscribe first
       service.currentMenuData$.subscribe((menu) => {
@@ -185,7 +199,7 @@ describe('MenuService', () => {
       });
 
       const req = httpMock.expectOne(`${apiUrl}/${testMenuId}/preview`);
-      req.flush('Not Found', {status: 404, statusText: 'Not Found'});
+      req.flush('Not Found', { status: 404, statusText: 'Not Found' });
     });
   });
 });
