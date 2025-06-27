@@ -1,8 +1,8 @@
-import { Injectable, OnInit } from '@angular/core';
-import { forkJoin, Observable, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../../main/services/auth/auth.service';
-import { environment } from '../../../../../api-config/environment';
+import {Injectable, OnInit} from '@angular/core';
+import {forkJoin, Observable, Subject, tap} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {AuthService} from '../../../main/services/auth/auth.service';
+import {environment} from '../../../../../api-config/environment';
 import {
   CreateCylinder,
   CreateCylinderResponse,
@@ -36,7 +36,8 @@ export class MenuService implements OnInit {
     this.branchIds = this.authService.getAllBranchIds();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   getAllMenusForBranches() {
     const branchIds = this.authService.getAllBranchIds();
@@ -55,12 +56,12 @@ export class MenuService implements OnInit {
     });
   }
 
-  getAllMenus() {
-    return this.httpClient
-      .get<Menu[]>(this.apiUrl + '/backlog/' + this.backlogId)
-      .subscribe((menus) => {
+  getAllMenus(): Observable<Menu[]> {
+    return this.httpClient.get<Menu[]>(`${this.apiUrl}/backlog/${this.backlogId}`).pipe(
+      tap(menus => {
         this.menusData.next(menus);
-      });
+      })
+    );
   }
 
   createMenu(request: CreateMenuRequest) {

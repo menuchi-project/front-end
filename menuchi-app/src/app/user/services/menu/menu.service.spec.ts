@@ -21,10 +21,6 @@ describe('MenuService', () => {
   let httpMock: HttpTestingController;
   let authServiceMock: any;
   const apiUrl = environment.API_URL + '/menus';
-  const testError = new HttpErrorResponse({
-    status: 500,
-    statusText: 'Internal Server Error',
-  });
 
   beforeEach(() => {
     authServiceMock = jasmine.createSpyObj('AuthService', [
@@ -64,21 +60,23 @@ describe('MenuService', () => {
         { id: 'menu2', name: 'Menu 2' } as Menu,
       ];
 
+      // Subscribe first
       service.menusData$.subscribe((menus) => {
         expect(menus.length).toBe(2);
         expect(menus).toEqual([...mockMenusBranch1, ...mockMenusBranch2]);
         done();
       });
 
+      // Then call the method
       service.getAllMenusForBranches();
 
-      const reqs = httpMock.match(`${apiUrl}/branch/branch-1`);
-      expect(reqs[0].request.method).toBe('GET');
-      reqs[0].flush(mockMenusBranch1);
+      const reqBranch1 = httpMock.expectOne(`${apiUrl}/branch/branch-1`);
+      expect(reqBranch1.request.method).toBe('GET');
+      reqBranch1.flush(mockMenusBranch1);
 
-      const reqs2 = httpMock.match(`${apiUrl}/branch/branch-2`);
-      expect(reqs2[0].request.method).toBe('GET');
-      reqs2[0].flush(mockMenusBranch2);
+      const reqBranch2 = httpMock.expectOne(`${apiUrl}/branch/branch-2`);
+      expect(reqBranch2.request.method).toBe('GET');
+      reqBranch2.flush(mockMenusBranch2);
     });
   });
 
@@ -90,7 +88,18 @@ describe('MenuService', () => {
         favicon: 'ico',
         isPublished: true,
       };
-      const mockResponse = { id: 'new-id' } as CreateMenuResponse;
+      const mockResponse: CreateMenuResponse = {
+        id: 'new-id',
+        name: 'New Menu',
+        isPublished: true,
+        favicon: 'ico',
+        branchId: 'branch-1',
+        branch: 'b',
+        restaurantId: '11',
+        deletedAt: '1',
+        createdAt: '1',
+        updatedAt: '1',
+      };
 
       service.createMenu(newMenu).subscribe((response) => {
         expect(response).toEqual(mockResponse);
@@ -124,13 +133,15 @@ describe('MenuService', () => {
   describe('getMenuById', () => {
     it('should fetch a single menu and update currentMenuData$', (done) => {
       const testMenuId = 'menu-1';
-      const mockMenu = { id: testMenuId, name: 'Test Menu' } as Menu;
+      const mockMenu: Menu = { id: testMenuId, name: 'Test Menu' } as Menu;
 
+      // Subscribe first
       service.currentMenuData$.subscribe((menu) => {
         expect(menu).toEqual(mockMenu);
         done();
       });
 
+      // Then call the method
       service.getMenuById(testMenuId);
 
       const req = httpMock.expectOne(`${apiUrl}/${testMenuId}`);
@@ -147,22 +158,23 @@ describe('MenuService', () => {
         isPublished: true,
         favicon: 'new.ico',
       };
+      const mockResponse = {}; // Assuming the backend returns an empty object on success
 
       service.updateMenu(testMenuId, updateRequest).subscribe((response) => {
-        expect(response).toBeTruthy();
+        expect(response).toEqual(mockResponse); // Check against the mocked response
       });
 
       const req = httpMock.expectOne(`${apiUrl}/${testMenuId}`);
       expect(req.request.method).toBe('PATCH');
       expect(req.request.body).toEqual(updateRequest);
-      req.flush({});
+      req.flush(mockResponse); // Flush the mock response
     });
   });
 
   describe('getMenuPreview', () => {
     it('should fetch menu preview successfully', () => {
       const testMenuId = 'testMenuId';
-      const mockPreview = {
+      const mockPreview: MenuPreview = {
         id: 'preview-id',
         name: 'Test Preview',
       } as MenuPreview;
