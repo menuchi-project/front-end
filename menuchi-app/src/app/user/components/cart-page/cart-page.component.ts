@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Order, OrderItem } from '../../models/order';
-import { PersianNumberPipe } from '../../../shared/pipes/persian-number/persian-number.pipe';
 import { TitleService } from '../../../shared/services/title/title.service';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../services/order/order.service';
@@ -17,17 +16,15 @@ import { Item } from '../../models/Item';
 export class CartPageComponent implements OnInit {
   orders: Order[] = [];
   email: string = '';
-  // quantities: number[] = [1, 1, 1]; // This will be replaced by itemQuantities
-  itemQuantities: { [itemId: string]: number } = {}; // To store quantities of items in the cart
-  persianNumberPipe = new PersianNumberPipe();
-  menuId: string | null = null; // To get menuId from route
+  itemQuantities: { [itemId: string]: number } = {};
+  menuId: string | null = null;
 
   constructor(
     private authService: AuthService,
     private titleService: TitleService,
     private http: HttpClient,
-    private route: ActivatedRoute, // Inject ActivatedRoute
-    private orderService: OrderService, // Inject OrderService
+    private route: ActivatedRoute,
+    private orderService: OrderService,
   ) {
     this.email = this.authService.getCustomerEmail() || '';
   }
@@ -37,7 +34,7 @@ export class CartPageComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.menuId = params.get('menuId');
       if (this.menuId) {
-        this.fetchOrders(); // Fetch orders only if menuId is available
+        this.fetchOrders();
       } else {
         console.warn(
           'Menu ID not found in route parameters. Cannot fetch orders.',
@@ -51,12 +48,9 @@ export class CartPageComponent implements OnInit {
       console.log('هیچ ایمیلی پیدا نشد، مشتری لاگین نکرده است');
       return;
     }
-    // You should use the getPublicMenu or a specific order fetching API if available for the customer directly
-    // based on the backend API, you might need to adjust this.
-    // For now, let's assume we can fetch orders for a specific menu.
+
     if (this.menuId) {
       this.orderService.getMenuOrders(this.menuId).subscribe({
-        // Use orderService to fetch orders for the menuId
         next: (data: any) => {
           this.orders = data;
           if (this.orders.length === 0) {
@@ -77,10 +71,9 @@ export class CartPageComponent implements OnInit {
     this.itemQuantities = {};
     this.orders.forEach((order) => {
       order.orderItems.forEach((orderItem) => {
-        // Assuming orderItem.id is the itemId and orderItem.amount is the quantity
         this.itemQuantities[orderItem.id] =
           (this.itemQuantities[orderItem.id] || 0) +
-          parseInt(orderItem.amount as string); // Ensure amount is number
+          parseInt(orderItem.amount as string);
       });
     });
   }
@@ -89,7 +82,7 @@ export class CartPageComponent implements OnInit {
     let totalPrice = 0;
     this.orders.forEach((order) => {
       order.orderItems.forEach((orderItem) => {
-        totalPrice += orderItem.price * parseInt(orderItem.amount as string); // Calculate total price based on individual item price and amount
+        totalPrice += orderItem.price * parseInt(orderItem.amount as string);
       });
     });
     return totalPrice;
@@ -124,17 +117,13 @@ export class CartPageComponent implements OnInit {
 
     if (orderItems.length === 0) {
       console.log('No items in cart to update order.');
-      // You might want to send an empty order or delete the existing one if all items are removed
       return;
     }
 
-    // Assuming you have an API to update an existing order or create a new one with updated items
-    // For simplicity, we'll use the createOrder endpoint. In a real application, you'd likely
-    // have a PATCH or PUT endpoint for updating an existing order.
     this.orderService.createOrder(this.menuId, orderItems).subscribe({
       next: (response) => {
         console.log('Order updated successfully:', response);
-        this.fetchOrders(); // Refresh orders after update
+        this.fetchOrders();
       },
       error: (error) => {
         console.error('Error updating order:', error);
@@ -148,16 +137,16 @@ export class CartPageComponent implements OnInit {
       createdAt: orderItem.createdAt,
       updatedAt: orderItem.updatedAt,
       deletedAt: orderItem.deletedAt,
-      categoryId: '', // You might need to fetch this or handle it differently if not available in OrderItem
-      subCategoryId: '', // Same as above
-      categoryName: '', // Same as above
+      categoryId: '',
+      subCategoryId: '',
+      categoryName: '',
       name: orderItem.name,
       ingredients: orderItem.ingredients,
       price: orderItem.price,
-      picUrl: orderItem.pikUrl, // Correcting the typo from API to match Item interface
-      positionInItemsList: 0, // Placeholder
-      positionInCategory: 0, // Placeholder
-      orderCount: 0, // Placeholder
+      picUrl: orderItem.pikUrl,
+      positionInItemsList: 0,
+      positionInCategory: 0,
+      orderCount: 0,
     };
   }
 
