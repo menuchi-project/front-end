@@ -35,7 +35,6 @@ export class PublicMenuViewerComponent implements OnInit {
         this.getAndDisplayMenuPreview(this.menuId);
       } else {
         console.error('Menu ID not found in route parameters.');
-        // Handle error, e.g., redirect to a 404 page or show a message
       }
     });
   }

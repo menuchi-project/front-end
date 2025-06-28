@@ -100,6 +100,25 @@ export const WeekDays = [
   { name: 'جمعه', value: 'fri' },
 ];
 
+export interface BranchPreview {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  restaurantId: string;
+  name: string;
+  displayName: string;
+  iOpen: string;
+  status: string;
+  rating: number;
+  showRating: string;
+  instagram: string;
+  telegram: string;
+  twitter: string;
+  youtube: string;
+  eitaa: string;
+}
+
 export interface MenuPreview {
   sat?: MenuCategory[];
   sun?: MenuCategory[];
@@ -117,6 +136,9 @@ export interface MenuPreview {
   favicon: string;
   isPublished: boolean;
   restaurantId: string;
+  currentDay?: string;
+  branch?: BranchPreview;
+  menuCategories?: MenuCategory[];
 }
 
 export interface DayMenuItem {

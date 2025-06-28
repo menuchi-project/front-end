@@ -96,10 +96,7 @@ export class MenuService implements OnInit {
   }
 
   getMenuPreview(menuId: string): Observable<MenuPreview> {
-    const headers = new HttpHeaders().set('Skip-Auth', 'true');
-    return this.httpClient.get<MenuPreview>(`${this.apiUrl}/${menuId}/view`, {
-      headers,
-    });
+    return this.httpClient.get<MenuPreview>(`${this.apiUrl}/${menuId}/preview`);
   }
 
   deleteMenu(menuId: string): Observable<void> {
@@ -110,5 +107,12 @@ export class MenuService implements OnInit {
     return this.httpClient.get<DayMenuItem[]>(
       `${environment.API_URL}/dashboard/day-items`,
     );
+  }
+
+  getPublicMenu(menuId: string): Observable<MenuPreview> {
+    const headers = new HttpHeaders().set('Skip-Auth', 'true');
+    return this.httpClient.get<MenuPreview>(`${this.apiUrl}/${menuId}/view`, {
+      headers,
+    });
   }
 }
