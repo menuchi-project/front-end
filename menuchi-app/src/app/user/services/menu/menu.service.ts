@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { forkJoin, Observable, Subject, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { environment } from '../../../../../api-config/environment';
 import {
@@ -96,7 +96,10 @@ export class MenuService implements OnInit {
   }
 
   getMenuPreview(menuId: string): Observable<MenuPreview> {
-    return this.httpClient.get<MenuPreview>(`${this.apiUrl}/${menuId}/preview`);
+    const headers = new HttpHeaders().set('Skip-Auth', 'true');
+    return this.httpClient.get<MenuPreview>(`${this.apiUrl}/${menuId}/view`, {
+      headers,
+    });
   }
 
   deleteMenu(menuId: string): Observable<void> {
