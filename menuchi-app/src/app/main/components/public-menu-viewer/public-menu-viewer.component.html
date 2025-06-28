@@ -1,0 +1,20 @@
+<div class="container">
+  <app-weekly-calendar
+    class="calendar"
+    (daySelected)="onDaySelected($event)"
+  ></app-weekly-calendar>
+  <app-horizontal-scroller
+    [items]="categories"
+    class="cat-names"
+    (categorySelected)="onCategorySelected($event)"
+  ></app-horizontal-scroller>
+  <div class="items-container">
+    @for (item of finalFilteredItems; track item.id) {
+      <app-cart-item [item]="item" [quantity]="1"></app-cart-item>
+    } @empty {
+      <p class="no-items-message">
+        آیتمی برای روز و دسته‌بندی انتخاب شده موجود نیست.
+      </p>
+    }
+  </div>
+</div>

@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { environment } from '../../../../../api-config/environment';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -81,7 +80,7 @@ export class CreatedMenusPageComponent implements OnInit, OnDestroy {
 
   publishAndGetQr(menuId: string, menuName: string) {
     this.currentMenuName = menuName;
-    this.publicMenuUrl = `${environment.API_URL}/menus/${menuId}/view`;
+    this.publicMenuUrl = `${window.location.origin}/menu/${menuId}`;
     this.isQrModalVisible = true;
   }
 

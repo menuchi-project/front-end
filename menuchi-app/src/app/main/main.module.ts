@@ -13,12 +13,14 @@ import { RouterLink } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { MenuPreviewComponent } from './components/menu-preview/menu-preview.component';
 import { UserModule } from '../user/user.module';
+import { PublicMenuViewerComponent } from './components/public-menu-viewer/public-menu-viewer.component';
 
 @NgModule({
   declarations: [
     RestaurantLoginComponent,
     RestaurantSignupComponent,
     MenuPreviewComponent,
+    PublicMenuViewerComponent,
   ],
   imports: [
     CommonModule,
