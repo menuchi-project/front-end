@@ -77,8 +77,6 @@ export class MenuPreviewComponent implements OnInit {
     this.menuService.getMenuPreview(menuId).subscribe({
       next: (data: MenuPreview) => {
         this.menuPreviewData = data;
-        console.log('Menu Preview Data:', this.menuPreviewData);
-
         const collectedItems: Item[] = [];
         const days: (keyof MenuPreview)[] = [
           'sat',
@@ -153,6 +151,5 @@ export class MenuPreviewComponent implements OnInit {
     } else {
       this.finalFilteredItems = this.itemsFilteredByDay;
     }
-    console.log('Final Filtered Items:', this.finalFilteredItems);
   }
 }

@@ -14,11 +14,12 @@ import { MenuService } from '../../../user/services/menu/menu.service';
 export class PublicMenuViewerComponent implements OnInit {
   menuId: string | null = null;
   menuPreviewData: MenuPreview | null = null;
-  categories: any[] = []; // CategoryName[] but simplified for public view
+  categories: any[] = [];
   allItems: Item[] = [];
   itemsFilteredByDay: Item[] = [];
   finalFilteredItems: Item[] = [];
   selectedDay: string;
+
   selectedCategoryId: string | null = null;
 
   constructor(
@@ -55,78 +56,91 @@ export class PublicMenuViewerComponent implements OnInit {
   }
 
   private getAndDisplayMenuPreview(menuId: string): void {
-    this.menuService.getMenuPreview(menuId).subscribe({
+    this.menuService.getPublicMenu(menuId).subscribe({
       next: (data: MenuPreview) => {
         this.menuPreviewData = data;
-        console.log('Public Menu Preview Data:', this.menuPreviewData);
+
+        this.categories = [];
+        this.allItems = [];
 
         const collectedItems: Item[] = [];
-        const days: (keyof MenuPreview)[] = [
-          'sat',
-          'sun',
-          'mon',
-          'tue',
-          'wed',
-          'thu',
-          'fri',
-        ];
-
-        days.forEach((day) => {
-          const categoriesForDay = (this.menuPreviewData as any)?.[day] as
-            | MenuCategory[]
-            | undefined;
-          if (categoriesForDay && Array.isArray(categoriesForDay)) {
-            categoriesForDay.forEach((category) => {
-              if (category.items && Array.isArray(category.items)) {
-                collectedItems.push(...category.items);
-              }
-            });
-          }
-        });
-
-        const uniqueItemsMap = new Map<string, Item>();
-        collectedItems.forEach((item) => uniqueItemsMap.set(item.id, item));
-        this.allItems = Array.from(uniqueItemsMap.values());
-
-        // Extract unique categories from menuPreviewData across all days
         const uniqueCategoriesMap = new Map<
           string,
           { id: string; name: string; icon?: string }
         >();
-        days.forEach((day) => {
-          const categoriesForDay = (this.menuPreviewData as any)?.[day] as
-            | MenuCategory[]
-            | undefined;
-          if (categoriesForDay && Array.isArray(categoriesForDay)) {
-            categoriesForDay.forEach((cat) => {
-              if (!uniqueCategoriesMap.has(cat.categoryId)) {
-                uniqueCategoriesMap.set(cat.categoryId, {
-                  id: cat.categoryId,
-                  name: cat.categoryName,
-                  icon: cat.icon,
-                });
-              }
-            });
-          }
-        });
+
+        if (
+          data.currentDay &&
+          data.menuCategories &&
+          Array.isArray(data.menuCategories)
+        ) {
+          this.selectedDay = data.currentDay;
+
+          data.menuCategories.forEach((category) => {
+            if (category.items && Array.isArray(category.items)) {
+              collectedItems.push(...category.items);
+            }
+            if (!uniqueCategoriesMap.has(category.categoryId)) {
+              uniqueCategoriesMap.set(category.categoryId, {
+                id: category.categoryId,
+                name: category.categoryName,
+                icon: category.icon,
+              });
+            }
+          });
+        } else {
+          const days: (keyof MenuPreview)[] = [
+            'sat',
+            'sun',
+            'mon',
+            'tue',
+            'wed',
+            'thu',
+            'fri',
+          ];
+          days.forEach((day) => {
+            const categoriesForDay = (this.menuPreviewData as any)?.[day] as
+              | MenuCategory[]
+              | undefined;
+            if (categoriesForDay && Array.isArray(categoriesForDay)) {
+              categoriesForDay.forEach((category) => {
+                if (category.items && Array.isArray(category.items)) {
+                  collectedItems.push(...category.items);
+                }
+                if (!uniqueCategoriesMap.has(category.categoryId)) {
+                  uniqueCategoriesMap.set(category.categoryId, {
+                    id: category.categoryId,
+                    name: category.categoryName,
+                    icon: category.icon,
+                  });
+                }
+              });
+            }
+          });
+        }
+
+        const uniqueItemsMap = new Map<string, Item>();
+        collectedItems.forEach((item) => uniqueItemsMap.set(item.id, item));
+        this.allItems = Array.from(uniqueItemsMap.values());
         this.categories = Array.from(uniqueCategoriesMap.values());
+        console.log('Categories for scroller:', this.categories); // Add this log
 
         this.applyFilters();
       },
       error: (error: any) => {
         console.error('Error fetching public menu preview:', error);
-        // Handle API error, e.g., display a user-friendly message
       },
     });
   }
 
   onDaySelected(day: string): void {
     this.selectedDay = day;
-    this.selectedCategoryId = null; // Reset category filter on day change
+    this.selectedCategoryId = null;
     this.applyFilters();
   }
 
   onCategorySelected(categoryId: string): void {
+    console.log('Category selected event received:', categoryId); // Add this log
     this.selectedCategoryId = categoryId;
     this.applyFilters();
   }
@@ -156,9 +170,7 @@ export class PublicMenuViewerComponent implements OnInit {
         (item) => item.categoryId === this.selectedCategoryId,
       );
     } else {
-      // If no category is selected, show all items for the selected day
       this.finalFilteredItems = this.itemsFilteredByDay;
     }
-    console.log('Public Final Filtered Items:', this.finalFilteredItems);
   }
 }
