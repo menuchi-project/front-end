@@ -1,3 +1,4 @@
+// src/app/features/menu/components/menu-preview/menu-preview.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CategoryName, Item } from '../../../user/models/Item';
 import { MenuService } from '../../../user/services/menu/menu.service';
@@ -6,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MenuCategory, MenuPreview } from '../../../user/models/Menu';
 import moment from 'jalali-moment';
 import { TitleService } from '../../../shared/services/title/title.service';
+import { OrderService } from '../../../user/services/order/order.service';
 
 @Component({
   selector: 'app-menu-preview',
@@ -22,12 +24,14 @@ export class MenuPreviewComponent implements OnInit {
   menuPreviewData: MenuPreview | null = null;
   selectedDay: string;
   selectedCategoryId: string | null = null;
+  itemQuantities: { [itemId: string]: number } = {};
 
   constructor(
     private readonly menuService: MenuService,
     private readonly itemService: ItemService,
     private readonly titleService: TitleService,
     private readonly route: ActivatedRoute,
+    private readonly orderService: OrderService,
   ) {
     this.selectedDay = this.getCurrentPersianDayAbbreviation();
   }
@@ -151,5 +155,55 @@ export class MenuPreviewComponent implements OnInit {
     } else {
       this.finalFilteredItems = this.itemsFilteredByDay;
     }
+  }
+
+  getItemQuantity(itemId: string): number {
+    return this.itemQuantities[itemId] || 0;
+  }
+
+  onQuantityChange(event: { item: Item; newQuantity: number }) {
+    const { item, newQuantity } = event;
+
+    if (newQuantity < 1) {
+      delete this.itemQuantities[item.id]; // Remove item if quantity is 0 or less
+    } else if (newQuantity > 10) {
+      // Optional: Prevent quantity from exceeding 10 if you want to enforce a max
+      console.warn('Quantity cannot exceed 10.');
+      return;
+    } else {
+      this.itemQuantities[item.id] = newQuantity;
+    }
+
+    this.sendOrderToBackend();
+  }
+
+  private sendOrderToBackend(): void {
+    if (!this.menuId) {
+      console.error('Cannot send order: menuId is not available.');
+      return;
+    }
+
+    const orderItems = Object.entries(this.itemQuantities).map(
+      ([itemId, amount]) => ({
+        itemId: itemId,
+        amount: amount,
+      }),
+    );
+
+    if (orderItems.length === 0) {
+      console.log('No items in cart to order.');
+      return;
+    }
+
+    this.orderService.createOrder(this.menuId, orderItems).subscribe({
+      next: (response: any) => {
+        console.log('Order created successfully:', response);
+        // Optionally, you might want to fetch and update the cart display here
+        // this.fetchOrders();
+      },
+      error: (error: any) => {
+        console.error('Error creating order:', error);
+      },
+    });
   }
 }

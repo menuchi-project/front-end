@@ -19,4 +19,5 @@ export interface OrderItem {
   pikUrl: string;
   price: number;
   amount: string;
+  ingredients: string;
 }

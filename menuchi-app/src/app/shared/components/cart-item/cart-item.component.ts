@@ -1,4 +1,3 @@
-// src/app/features/cart/components/cart-item/cart-item.component.ts
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PersianNumberPipe } from '../../pipes/persian-number/persian-number.pipe';
 import { Item } from '../../../user/models/Item';
@@ -12,33 +11,26 @@ import { Item } from '../../../user/models/Item';
 export class CartItemComponent {
   @Input() item!: Item;
   @Input() quantity: number = 0;
-  @Input() index: number = 0;
   @Input() loading: boolean = false; // Add loading input from item-card
 
   @Output() quantityChange = new EventEmitter<{
-    index: number;
+    item: Item;
     newQuantity: number;
   }>();
 
   persianNumberPipe = new PersianNumberPipe();
 
   increaseQuantity() {
-    if (this.quantity < 10) {
-      this.quantity++;
-      this.quantityChange.emit({
-        index: this.index,
-        newQuantity: this.quantity,
-      });
-    }
+    this.quantityChange.emit({
+      item: this.item,
+      newQuantity: this.quantity + 1,
+    });
   }
 
   decreaseQuantity() {
-    if (this.quantity > 1) {
-      this.quantity--;
-      this.quantityChange.emit({
-        index: this.index,
-        newQuantity: this.quantity,
-      });
-    }
+    this.quantityChange.emit({
+      item: this.item,
+      newQuantity: this.quantity - 1,
+    });
   }
 }
