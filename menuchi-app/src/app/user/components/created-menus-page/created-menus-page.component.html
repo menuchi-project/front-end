@@ -88,6 +88,14 @@
               </button>
               <button
                 nz-button
+                nzType="primary"
+                (click)="publishAndGetQr(menu.id, menu.name)"
+                class="publish-qr-btn"
+              >
+                انتشار و دریافت QR
+              </button>
+              <button
+                nz-button
                 nzType="default"
                 (click)="deleteMenu(menu.id)"
                 class="deleteMenu"
@@ -107,3 +115,44 @@
     </ng-template>
   </div>
 </div>
+
+<nz-modal
+  [(nzVisible)]="isQrModalVisible"
+  nzTitle="کیو-آر کد منو"
+  (nzOnCancel)="handleQrModalCancel()"
+  [nzFooter]="qrModalFooter"
+>
+  <ng-container *nzModalContent>
+    <div class="qr-code-container">
+      <h3 *ngIf="currentMenuName">منو: {{ currentMenuName }}</h3>
+      <div id="qrcode">
+        <nz-qrcode
+          *ngIf="publicMenuUrl"
+          [nzValue]="publicMenuUrl"
+          nzSize="250"
+          nzIcon="https://i.ibb.co/3yBsKQbx/logo-blue.png"
+          nzLevel="Q"
+        ></nz-qrcode>
+        <nz-empty
+          *ngIf="!publicMenuUrl"
+          nzNotFoundImage="simple"
+          nzNotFoundContent="لینک منو در دسترس نیست."
+        ></nz-empty>
+      </div>
+      <div *ngIf="publicMenuUrl" class="public-link-container">
+        <button nz-button nzSize="small" (click)="copyLinkToClipboard()">
+          <span nz-icon nzType="copy" nzTheme="outline"></span> کپی لینک عمومی
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<ng-template #qrModalFooter>
+  <button nz-button nzType="default" (click)="handleQrModalCancel()">
+    بستن
+  </button>
+  <button nz-button nzType="primary" (click)="downloadQrCode()">
+    دانلود QR
+  </button>
+</ng-template>

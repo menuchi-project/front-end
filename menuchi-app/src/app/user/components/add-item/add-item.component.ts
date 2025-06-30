@@ -195,7 +195,7 @@ export class AddItemComponent implements OnInit, OnDestroy, OnChanges {
           name: formValues.itemName!,
           ingredients: formValues.ingredients!,
           price: parseFloat(formValues.price!.toString()),
-          picKey: null, //todo
+          picKey: formValues.image, //todo
         };
 
         console.log(197, newItem);

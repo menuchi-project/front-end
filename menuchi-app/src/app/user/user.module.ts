@@ -74,10 +74,14 @@ import { NzImageService } from 'ng-zorro-antd/image';
 import { DashboardPageComponent } from './components/dashboard-page/dashboard-page.component';
 import { SettingsPageComponent } from './components/settings-page/settings-page.component';
 import { DashboardContentComponent } from './components/dashboard-page/dashboard-content/dashboard-content.component';
-import { MainModule } from '../main/main.module';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
 import { HighlightPipe } from '../shared/pipes/highlight/highlight.pipe';
 import { CreatedMenusPageComponent } from './components/created-menus-page/created-menus-page.component';
+import { CartItemComponent } from '../shared/components/cart-item/cart-item.component';
+import { CartPageComponent } from './components/cart-page/cart-page.component';
+import { NzTypographyComponent } from 'ng-zorro-antd/typography';
+import { NzListComponent, NzListItemComponent } from 'ng-zorro-antd/list';
+import { NzQRCodeComponent } from 'ng-zorro-antd/qr-code';
 
 @NgModule({
   declarations: [
@@ -97,6 +101,7 @@ import { CreatedMenusPageComponent } from './components/created-menus-page/creat
     SettingsPageComponent,
     DashboardContentComponent,
     CreatedMenusPageComponent,
+    CartPageComponent,
   ],
   imports: [
     CommonModule,
@@ -155,10 +160,13 @@ import { CreatedMenusPageComponent } from './components/created-menus-page/creat
     NzButtonModule,
     NzDrawerModule,
     NzRadioModule,
-    MainModule,
     NzToolTipModule,
     NzSpinComponent,
     HighlightPipe,
+    NzTypographyComponent,
+    NzListItemComponent,
+    NzListComponent,
+    NzQRCodeComponent,
   ],
   providers: [NzModalService, NzImageService],
   exports: [ItemsPageComponent],

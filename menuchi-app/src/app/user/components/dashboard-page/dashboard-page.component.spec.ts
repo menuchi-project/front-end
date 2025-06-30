@@ -4,7 +4,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { WeeklyCalendarComponent } from '../../../main/components/weekly-calendar/weekly-calendar.component';
+import { WeeklyCalendarComponent } from '../../../shared/components/weekly-calendar/weekly-calendar.component';
 import { provideRouter, RouterLink, RouterLinkActive } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';

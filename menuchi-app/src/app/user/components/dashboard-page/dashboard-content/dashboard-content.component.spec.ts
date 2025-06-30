@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardContentComponent } from './dashboard-content.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { WeeklyCalendarComponent } from '../../../../main/components/weekly-calendar/weekly-calendar.component';
+import { WeeklyCalendarComponent } from '../../../../shared/components/weekly-calendar/weekly-calendar.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { of } from 'rxjs';
 import { PersianNumberPipe } from '../../../../shared/pipes/persian-number/persian-number.pipe';

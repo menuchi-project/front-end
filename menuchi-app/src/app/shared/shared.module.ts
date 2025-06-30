@@ -32,6 +32,8 @@ import {
 import { NzPopconfirmDirective } from 'ng-zorro-antd/popconfirm';
 import { JoinNonEmptyPipe } from './pipes/joinNonEmpty/join-non-empty.pipe';
 import { CategoryIconPipe } from './pipes/category-icon/category-icon.pipe';
+import { WeeklyCalendarComponent } from './components/weekly-calendar/weekly-calendar.component';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { CategoryIconPipe } from './pipes/category-icon/category-icon.pipe';
     ItemCardComponent,
     JoinNonEmptyPipe,
     CategoryIconPipe,
+    WeeklyCalendarComponent,
+    CartItemComponent,
   ],
   imports: [
     CommonModule,
@@ -80,6 +84,8 @@ import { CategoryIconPipe } from './pipes/category-icon/category-icon.pipe';
     PersianPricePipe,
     ItemCardComponent,
     JoinNonEmptyPipe,
+    WeeklyCalendarComponent,
+    CartItemComponent,
   ],
 })
 export class SharedModule {}

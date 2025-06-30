@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { forkJoin, Observable, Subject, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { environment } from '../../../../../api-config/environment';
 import {
@@ -107,5 +107,12 @@ export class MenuService implements OnInit {
     return this.httpClient.get<DayMenuItem[]>(
       `${environment.API_URL}/dashboard/day-items`,
     );
+  }
+
+  getPublicMenu(menuId: string): Observable<MenuPreview> {
+    const headers = new HttpHeaders().set('Skip-Auth', 'true');
+    return this.httpClient.get<MenuPreview>(`${this.apiUrl}/${menuId}/view`, {
+      headers,
+    });
   }
 }

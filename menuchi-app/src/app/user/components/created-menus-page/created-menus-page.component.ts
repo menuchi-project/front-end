@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../../main/services/auth/auth.service';
 import { MenuService } from '../../services/menu/menu.service';
 import { Menu } from '../../models/Menu';
@@ -6,13 +6,13 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-created-menus-page',
   standalone: false,
   templateUrl: './created-menus-page.component.html',
   styleUrl: './created-menus-page.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class CreatedMenusPageComponent implements OnInit, OnDestroy {
   menus: Menu[] = [];
@@ -21,12 +21,17 @@ export class CreatedMenusPageComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   searchQuery: string = '';
 
+  isQrModalVisible = false;
+  publicMenuUrl: string | null = null;
+  currentMenuName: string | null = null;
+
   constructor(
     private authService: AuthService,
     private menuService: MenuService,
     private router: Router,
     private modalService: NzModalService,
     private messageService: NzMessageService,
+    private http: HttpClient,
   ) {}
 
   ngOnInit() {
@@ -71,6 +76,49 @@ export class CreatedMenusPageComponent implements OnInit, OnDestroy {
   editMenu(menuId: string) {
     localStorage.setItem('currentCreatingMenuId', menuId);
     this.router.navigate(['/dashboard/menu']);
+  }
+
+  publishAndGetQr(menuId: string, menuName: string) {
+    this.currentMenuName = menuName;
+    this.publicMenuUrl = `${window.location.origin}/menu/${menuId}`;
+    this.isQrModalVisible = true;
+  }
+
+  handleQrModalCancel(): void {
+    this.isQrModalVisible = false;
+    this.publicMenuUrl = null;
+    this.currentMenuName = null;
+  }
+
+  downloadQrCode(): void {
+    const qrcodeElement = document.getElementById('qrcode');
+    if (qrcodeElement) {
+      const canvas = qrcodeElement.querySelector('canvas');
+      if (canvas) {
+        const link = document.createElement('a');
+        link.download = `${this.currentMenuName || 'menu'}-qr-code.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } else {
+        this.messageService.error('خطا در یافتن QR کد برای دانلود.');
+      }
+    } else {
+      this.messageService.error('عنصر QR کد پیدا نشد.');
+    }
+  }
+
+  copyLinkToClipboard(): void {
+    if (this.publicMenuUrl) {
+      navigator.clipboard
+        .writeText(this.publicMenuUrl)
+        .then(() => {
+          this.messageService.success('لینک کپی شد!');
+        })
+        .catch((err) => {
+          console.error('Failed to copy text: ', err);
+          this.messageService.error('خطا در کپی لینک.');
+        });
+    }
   }
 
   deleteMenu(menuId: string) {
